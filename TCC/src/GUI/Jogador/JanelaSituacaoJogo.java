@@ -7,11 +7,11 @@ package GUI.Jogador;
 
 import Modelo.Situacao;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
@@ -29,14 +29,16 @@ public class JanelaSituacaoJogo extends javax.swing.JFrame {
     private ImageIcon imagemBalao;
 
     private JTextArea textoBalao;
+    
+    private JPanel painelBotoes;
 
-    private ArrayList<JButton> bts;
+    private ArrayList<JButton> saidas;
 
     private JButton btn;
     
     public JanelaSituacaoJogo(Situacao situacao) {
         initComponents();
-        bts = new ArrayList<JButton>();
+        saidas = new ArrayList<JButton>();
         
         setLocationRelativeTo(null);
 
@@ -94,17 +96,42 @@ public class JanelaSituacaoJogo extends javax.swing.JFrame {
         textoBalao.setWrapStyleWord(true);
         textoBalao.setForeground(Color.black);
         
-        imgBalao.setLayout(new FlowLayout());
+        //imgBalao.setLayout(new FlowLayout());
         imgFundo.add(textoBalao);        
         
-        imgFundo.add(imgBalao);       
+        imgFundo.add(imgBalao);
         
-//        btn = new JButton("Teste");
-//        btn.setLocation(0, 0);
-//        btn.setSize(20, 30);
-//        painelPrincipal.add(btn);
+        painelBotoes = new JPanel();
+        painelBotoes.setOpaque(false);
+        //painelBotoes.setT
+        painelBotoes.setSize(500, 100);
+        painelBotoes.setLocation(100, 600);
         
-//        Graphics g = null;
+        imgFundo.add(painelBotoes);
+        
+        btn = new JButton("Saída 1");
+        btn.setLocation(0, 0);
+        btn.setSize(20, 30);
+        saidas.add(btn);
+        painelBotoes.add(btn);
+        
+        btn = new JButton("Saída 2");
+        btn.setLocation(0, 0);
+        btn.setSize(20, 30);
+        saidas.add(btn);
+        painelBotoes.add(btn);
+        
+        btn = new JButton("Saída 3");
+        btn.setLocation(0, 0);
+        btn.setSize(20, 30);
+        saidas.add(btn);
+        painelBotoes.add(btn);
+        
+        btn = new JButton("Saída 4");
+        btn.setLocation(0, 0);
+        btn.setSize(20, 30);
+        saidas.add(btn);
+        painelBotoes.add(btn);
 
     }
 
