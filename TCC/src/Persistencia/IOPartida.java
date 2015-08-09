@@ -7,9 +7,7 @@ package Persistencia;
 
 import Modelo.Situacao;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 /**
  *
@@ -18,26 +16,26 @@ import java.io.ObjectOutputStream;
 public class IOPartida {
 
     public void SalvaSituacao(Situacao situacao) {
-        try {
-            FileOutputStream arquivoGrav = new FileOutputStream("./Arquivos/situacao.fje", true);
-            
-            ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
-
-            objGravar.writeObject(situacao);
-
-            objGravar.flush();
-
-            objGravar.close();
-
-            arquivoGrav.flush();
-
-            arquivoGrav.close();
-
-
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            FileOutputStream arquivoGrav = new FileOutputStream("./Arquivos/situacao.fje", true);
+//            
+//            ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
+//
+//            objGravar.writeObject(situacao);
+//
+//            objGravar.flush();
+//
+//            objGravar.close();
+//
+//            arquivoGrav.flush();
+//
+//            arquivoGrav.close();
+//
+//
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
     
