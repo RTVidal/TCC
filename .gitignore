@@ -44,3 +44,4 @@ Temporary Items
 /TCC/nbproject/private/
 /TCC/build/
 *.properties
+/TCC/dist/
