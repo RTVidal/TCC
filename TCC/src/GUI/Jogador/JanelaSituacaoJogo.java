@@ -5,10 +5,13 @@
  */
 package GUI.Jogador;
 
+import Modelo.Assistente;
+import Modelo.Saida;
 import Modelo.Situacao;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -18,51 +21,52 @@ import javax.swing.JTextArea;
  *
  * @author Rafael
  */
-public class JanelaSituacaoJogo extends javax.swing.JFrame {
+public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
-    private PainelImagem imgFundo;
-    private PainelImagem imgAvatar;
-    private PainelImagem imgBalao;
+    private final JPanel imgFundo;
+    private final JPanel imgAvatar;
+    private final JPanel imgBalao;
 
-    private ImageIcon imagemFundo;
-    private ImageIcon imagemAvatar;
-    private ImageIcon imagemBalao;
+    private final ImageIcon imagemAvatar;
+    private final ImageIcon imagemBalao;
 
-    private JTextArea textoBalao;
-    
-    private JPanel painelBotoes;
+    private final JTextArea textoBalao;
 
-    private ArrayList<JButton> saidas;
+    private final JPanel painelBotoes;
+
+    private final ArrayList<JButton> botoesSaidas;
 
     private JButton btn;
-    
-    public JanelaSituacaoJogo(Situacao situacao) {
+
+    public JanelaSituacaoJogo(Situacao situacao, Assistente assistente) {
         initComponents();
-        saidas = new ArrayList<JButton>();
-        
+
+        botoesSaidas = new ArrayList<>();
+
         setLocationRelativeTo(null);
 
-        imagemAvatar = new ImageIcon("./Recursos/avatar.gif");
+        //Obtem o avatar do assistente
+        imagemAvatar = new ImageIcon("./Recursos/" + assistente.getAvatarAssistente() + ".gif");
+
+        //Obtem a imagem do balão
         imagemBalao = new ImageIcon("./Recursos/balao.gif");
 
-        imgFundo = new PainelImagem(situacao.getFundoSituacao().getImage());
-
-        imgFundo.setLayout(null);
-
-        imgFundo.setSize(1024, 768);
-
+        //Ajusta o tamanho da tela
         painelPrincipal.setSize(1024, 768);
 
+        //Desenha a imagem de fundo
+        imgFundo = new PainelImagem(situacao.getFundoSituacao().getImage());
+        imgFundo.setLayout(null);
+        imgFundo.setSize(1024, 768);
+
+        //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
 
-        
-        
         //Exibe o avatar
         imgAvatar = new PainelImagem(imagemAvatar.getImage());
-
-        imgAvatar.setSize(300, 300);
         imgAvatar.setLocation(700, 500);
 
+        //Adiciona o avatar à imagem de fundo
         imgFundo.add(imgAvatar);
 
         //Exibe o balão
@@ -73,20 +77,11 @@ public class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         //Exibe o texto do balão
         textoBalao = new JTextArea();
-        String texto = "No menu está uma variedade de sanduíches com preparos, "
-                + "apresentações e acompanhamentos criativos. Há hambúrguer de "
-                + "kafta, joelho de porco, falafel, feijoada, barreado, "
-                + "couve-flor e diversos cortes de carnes, inclusive premium. "
-                + "Nos pães também há grande variedade. Tem pão folha, "
-                + "integral, de aveia, batata, milho, brioche e de aipim, "
-                + "apenas para citar alguns. Os acompanhamentos são outras "
-                + "atrações. Além da tradicional batata frita, há guacamole, "
-                + "nuggets de banana, palmito assado, minipastel de geleia de "
-                + "pimenta, babaganoush e chips de banana.";
+        String texto = situacao.getFalaAssistente();
 
         textoBalao.setText(texto);
         textoBalao.setSize(660, 230);
-        textoBalao.setLocation(315, 230);
+        textoBalao.setLocation(50, 50);
         textoBalao.setEditable(false);
         textoBalao.setAutoscrolls(true);
         textoBalao.setDragEnabled(false);
@@ -95,45 +90,48 @@ public class JanelaSituacaoJogo extends javax.swing.JFrame {
         textoBalao.setLineWrap(true);
         textoBalao.setWrapStyleWord(true);
         textoBalao.setForeground(Color.black);
-        
-        //imgBalao.setLayout(new FlowLayout());
-        imgFundo.add(textoBalao);        
-        
+
+        //Adiciona o texto ao balão
+        imgBalao.add(textoBalao);
+
+        //Adiciona o balao à imagem de fundo
         imgFundo.add(imgBalao);
-        
+
         painelBotoes = new JPanel();
+        GerarSaidas(situacao.getSaidas());
+    }
+
+    /**
+     * Gerar dinâmicamente os botões da saída
+     * @param saidas 
+     */
+    public void GerarSaidas(ArrayList<Saida> saidas) {
+
         painelBotoes.setOpaque(false);
         //painelBotoes.setT
         painelBotoes.setSize(500, 100);
         painelBotoes.setLocation(100, 600);
-        
-        imgFundo.add(painelBotoes);
-        
-        btn = new JButton("Saída 1");
-        btn.setLocation(0, 0);
-        btn.setSize(20, 30);
-        saidas.add(btn);
-        painelBotoes.add(btn);
-        
-        btn = new JButton("Saída 2");
-        btn.setLocation(0, 0);
-        btn.setSize(20, 30);
-        saidas.add(btn);
-        painelBotoes.add(btn);
-        
-        btn = new JButton("Saída 3");
-        btn.setLocation(0, 0);
-        btn.setSize(20, 30);
-        saidas.add(btn);
-        painelBotoes.add(btn);
-        
-        btn = new JButton("Saída 4");
-        btn.setLocation(0, 0);
-        btn.setSize(20, 30);
-        saidas.add(btn);
-        painelBotoes.add(btn);
 
+        imgFundo.add(painelBotoes);
+
+        for (Saida s : saidas) {
+            btn = new JButton(s.getNome());
+            btn.setLocation(0, 0);
+            btn.setSize(20, 30);
+            btn.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getTextoSaida());
+                    jcs.setVisible(true);
+                }
+            });
+            botoesSaidas.add(btn);
+            painelBotoes.add(btn);
+        }
     }
+    
+    private void acaoBotaoSaida(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+    }     
 
     /**
      * This method is called from within the constructor to initialize the form.
