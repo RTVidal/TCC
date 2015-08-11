@@ -5,6 +5,8 @@
  */
 package GUI.Jogador;
 
+import GUI.Desenvolvedor.JanelaDesenvolvimentoPartida;
+
 /**
  *
  * @author Rafael
@@ -66,7 +68,10 @@ public class JanelaInicial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoJogoActionPerformed
-        // TODO add your handling code here:
+        
+        JanelaDesenvolvimentoPartida jdp = new JanelaDesenvolvimentoPartida();
+        jdp.setVisible(true);
+        
     }//GEN-LAST:event_btnNovoJogoActionPerformed
 
     

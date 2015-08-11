@@ -11,7 +11,6 @@ import Modelo.Situacao;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
-import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -44,6 +43,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         botoesSaidas = new ArrayList<>();
 
         setLocationRelativeTo(null);
+        setResizable(false);
 
         //Obtem o avatar do assistente
         imagemAvatar = new ImageIcon("./Recursos/" + assistente.getAvatarAssistente() + ".gif");
@@ -55,7 +55,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         painelPrincipal.setSize(1024, 768);
 
         //Desenha a imagem de fundo
-        imgFundo = new PainelImagem(situacao.getFundoSituacao().getImage());
+        imgFundo = new PainelImagem(situacao.getFundoSituacao());
         imgFundo.setLayout(null);
         imgFundo.setSize(1024, 768);
 

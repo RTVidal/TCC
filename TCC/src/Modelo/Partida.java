@@ -18,4 +18,52 @@ public class Partida {
     private ArrayList<Situacao> situacoes;
     private ArrayList<Variavel> variaveis;
     
+    private static Partida instancia;
+
+    public Situacao getSituacaoInicial() {
+        return situacaoInicial;
+    }
+
+    public void setSituacaoInicial(Situacao situacaoInicial) {
+        this.situacaoInicial = situacaoInicial;
+    }
+
+    public Assistente getAssistente() {
+        return assistente;
+    }
+
+    public void setAssistente(Assistente assistente) {
+        this.assistente = assistente;
+    }
+
+    public ArrayList<Situacao> getSituacoes() {
+        return situacoes;
+    }
+
+    public void setSituacoes(ArrayList<Situacao> situacoes) {
+        this.situacoes = situacoes;
+    }
+
+    public ArrayList<Variavel> getVariaveis() {
+        return variaveis;
+    }
+
+    public void setVariaveis(ArrayList<Variavel> variaveis) {
+        this.variaveis = variaveis;
+    }
+
+    public static Partida getInstancia() {
+        
+        if(instancia == null)
+        {
+            instancia = new Partida();
+        }
+        
+        return instancia;
+    }
+
+    public static void setInstancia(Partida instancia) {
+        Partida.instancia = instancia;
+    }
+    
 }

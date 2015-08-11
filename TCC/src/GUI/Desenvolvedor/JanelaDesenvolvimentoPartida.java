@@ -5,17 +5,59 @@
  */
 package GUI.Desenvolvedor;
 
+import Modelo.Partida;
+import Modelo.Situacao;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author Rafael
  */
 public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
+    Partida partidaDesenvolvimento;
+
     /**
      * Creates new form JanelaAdministrarJogo
      */
     public JanelaDesenvolvimentoPartida() {
         initComponents();
+
+        partidaDesenvolvimento = Partida.getInstancia();
+        
+        PreencheListaSituacoes();
+
+    }
+
+    public void PreencheListaSituacoes() {
+        
+        ArrayList<Situacao> situacoes = new ArrayList<>();
+        
+        for(int i = 0; i < 5; i++)
+        {
+            Situacao sit = new Situacao();
+            sit.setNome("Situacao " + i);        
+            situacoes.add(sit);
+        }
+        
+        partidaDesenvolvimento.setSituacoes(situacoes);
+        
+        DefaultListModel itens = new DefaultListModel();
+        
+        for(Situacao s : partidaDesenvolvimento.getSituacoes())
+        {
+            itens.addElement(s.getNome());
+        }
+        
+        //meuModel.copyInto(partidaDesenvolvimento.getSituacoes().toArray());
+        
+        //JList meuList = new JList(meuModel);
+
+       lstSituacoes.setModel(itens);
+       
+       
+       
     }
 
     /**
@@ -33,9 +75,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        lstSituacoes = new javax.swing.JList();
         btnNovaSituacao = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnEditarSituacao = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -59,12 +101,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         jLabel2.setText("jLabel2");
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        lstSituacoes.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(lstSituacoes);
 
         btnNovaSituacao.setText("Nova Situação");
         btnNovaSituacao.addActionListener(new java.awt.event.ActionListener() {
@@ -73,7 +115,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Editar");
+        btnEditarSituacao.setText("Editar");
+        btnEditarSituacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarSituacaoActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Excluir");
 
@@ -85,7 +132,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEditarSituacao, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -102,7 +149,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
+                    .addComponent(btnEditarSituacao)
                     .addComponent(jButton4))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
@@ -182,21 +229,33 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNovaSituacaoActionPerformed
 
+    private void btnEditarSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSituacaoActionPerformed
+        
+        //Recuperar o item selecionado
+        int index = lstSituacoes.getSelectedIndex();
+        System.out.println("Index " + index);
+        
+        Situacao situacao = partidaDesenvolvimento.getSituacoes().get(index);
+        
+        System.out.println(situacao.getNome());
+        
+    }//GEN-LAST:event_btnEditarSituacaoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEditarSituacao;
     private javax.swing.JButton btnNovaSituacao;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JList lstSituacoes;
     // End of variables declaration//GEN-END:variables
 }
