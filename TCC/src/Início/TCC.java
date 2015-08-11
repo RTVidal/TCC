@@ -28,8 +28,8 @@ public class TCC {
     public static void main(String[] args) {
 
         try {
-            PainelTeste pt = new PainelTeste();
-            pt.setVisible(true);
+//            PainelTeste pt = new PainelTeste();
+//            pt.setVisible(true);
             
             JanelaInicial ji = new JanelaInicial();
             ji.setVisible(true);

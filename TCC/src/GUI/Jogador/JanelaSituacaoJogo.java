@@ -98,12 +98,20 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         imgFundo.add(imgBalao);
 
         painelBotoes = new JPanel();
-        GerarSaidas(situacao.getSaidas());
+
+        if (situacao.getSaidas() != null) {
+            
+            GerarSaidas(situacao.getSaidas());
+
+        }
+
+        
     }
 
     /**
      * Gerar dinâmicamente os botões da saída
-     * @param saidas 
+     *
+     * @param saidas
      */
     public void GerarSaidas(ArrayList<Saida> saidas) {
 
@@ -128,10 +136,10 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
             painelBotoes.add(btn);
         }
     }
-    
-    private void acaoBotaoSaida(java.awt.event.ActionEvent evt) {                                         
+
+    private void acaoBotaoSaida(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }     
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
