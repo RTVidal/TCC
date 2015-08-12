@@ -7,7 +7,6 @@ package Início;
 
 import GUI.Jogador.JanelaInicial;
 import GUI.Jogador.JanelaSituacaoJogo;
-import GUI.Teste.PainelTeste;
 import Modelo.Assistente;
 import Modelo.Saida;
 import Modelo.Situacao;
@@ -62,19 +61,19 @@ public class TCC {
 
             Saida saida1 = new Saida();
             saida1.setNome("Saida 1");
-            saida1.setTextoSaida("Você escolheu saida 1");
+            saida1.setFalaAssistente("Você escolheu saida 1");
 
             Saida saida2 = new Saida();
             saida2.setNome("Saida 2");
-            saida2.setTextoSaida("É a saída 2 que você escolheu");
+            saida2.setFalaAssistente("É a saída 2 que você escolheu");
 
             Saida saida3 = new Saida();
             saida3.setNome("Saída 3");
-            saida3.setTextoSaida("Você quer a saída 3?");
+            saida3.setFalaAssistente("Você quer a saída 3?");
 
             Saida saida4 = new Saida();
             saida4.setNome("Saida 4");
-            saida4.setTextoSaida("Saída 4 então");
+            saida4.setFalaAssistente("Saída 4 então");
 
             ArrayList<Saida> saidas = new ArrayList<>();
 

@@ -74,13 +74,13 @@ public class JanelaInicial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoJogoActionPerformed
+
+        //Cria uma instancia da janela de desenvolvimento de partida
+        JanelaDesenvolvimentoPartida jdp = JanelaDesenvolvimentoPartida.getInstancia();
         
-        JanelaDesenvolvimentoPartida jdp = new JanelaDesenvolvimentoPartida();
         jdp.setVisible(true);
         
     }//GEN-LAST:event_btnNovoJogoActionPerformed
-
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrirJogo;

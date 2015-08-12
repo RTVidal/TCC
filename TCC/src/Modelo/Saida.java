@@ -13,7 +13,7 @@ public class Saida {
     
     private Situacao situacaoOrigem;
     private Situacao situacaoDestino;
-    private String textoSaida;
+    private String falaAssistente;
     private String nome;
 
     public Situacao getSituacaoOrigem() {
@@ -32,12 +32,12 @@ public class Saida {
         this.situacaoDestino = situacaoDestino;
     }
 
-    public String getTextoSaida() {
-        return textoSaida;
+    public String getFalaAssistente() {
+        return falaAssistente;
     }
 
-    public void setTextoSaida(String textoSaida) {
-        this.textoSaida = textoSaida;
+    public void setFalaAssistente(String falaAssistente) {
+        this.falaAssistente = falaAssistente;
     }
 
     public String getNome() {

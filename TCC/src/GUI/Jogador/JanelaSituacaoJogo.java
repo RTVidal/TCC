@@ -128,7 +128,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
             btn.setSize(20, 30);
             btn.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
-                    JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getTextoSaida());
+                    JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getFalaAssistente());
                     jcs.setVisible(true);
                 }
             });

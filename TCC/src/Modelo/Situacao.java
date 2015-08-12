@@ -22,6 +22,12 @@ public class Situacao implements Serializable{
     private String falaAssistente;
     private String nome;
 
+    public Situacao() {
+        
+        saidas = new ArrayList<>();
+        
+    }    
+
     public ArrayList<Saida> getSaidas() {
         return saidas;
     }

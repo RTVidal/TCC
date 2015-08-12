@@ -9,7 +9,6 @@ import GUI.Jogador.JanelaSituacaoJogo;
 import Modelo.Assistente;
 import Modelo.Partida;
 import Modelo.Situacao;
-import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
 /**
@@ -18,7 +17,9 @@ import javax.swing.DefaultListModel;
  */
 public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
-    Partida partidaDesenvolvimento;
+    private Partida partidaDesenvolvimento;
+
+    private static JanelaDesenvolvimentoPartida instancia;
 
     /**
      * Creates new form JanelaAdministrarJogo
@@ -37,28 +38,27 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      */
     public void PreencheListaSituacoes() {
 
-        ArrayList<Situacao> situacoes = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            Situacao sit = new Situacao();
-            sit.setNome("Situacao " + i);
-            situacoes.add(sit);
-        }
-
-        if (partidaDesenvolvimento.getSituacoes() == null)
-        {
-            partidaDesenvolvimento.setSituacoes(situacoes);
-            //partidaDesenvolvimento.getSituacoes().addAll(situacoes);
-        }
-        
-
+//        ArrayList<Situacao> situacoes = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            Situacao sit = new Situacao();
+//            sit.setNome("Situacao " + i);
+//            situacoes.add(sit);
+//        }
+//
+//        if (partidaDesenvolvimento.getSituacoes() == null)
+//        {
+//            partidaDesenvolvimento.setSituacoes(situacoes);
+//            //partidaDesenvolvimento.getSituacoes().addAll(situacoes);
+//        }
         DefaultListModel itens = new DefaultListModel();
 
-        for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
-            itens.addElement(s.getNome());
-        }
+        if (!(partidaDesenvolvimento.getSituacoes() == null)) {
+            for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
+                itens.addElement(s.getNome());
+            }
 
-        lstSituacoes.setModel(itens);
+            lstSituacoes.setModel(itens);
+        }
 
     }
 
@@ -81,7 +81,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnNovaSituacao = new javax.swing.JButton();
         btnEditarSituacao = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         btnPrevia = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -128,13 +127,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         jButton4.setText("Excluir");
 
-        jButton3.setText("Atualizar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         btnPrevia.setText("Prévia");
         btnPrevia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,10 +150,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnNovaSituacao, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3)
-                            .addComponent(btnPrevia))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(btnPrevia)
+                        .addGap(0, 121, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -171,8 +161,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnNovaSituacao)
-                        .addGap(120, 120, 120)
-                        .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnPrevia))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -273,24 +261,33 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEditarSituacaoActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        PreencheListaSituacoes();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void btnPreviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviaActionPerformed
-       
+
         //Recuperar o item selecionado
         int index = lstSituacoes.getSelectedIndex();
         System.out.println("Index " + index);
 
         Situacao situacao = partidaDesenvolvimento.getSituacoes().get(index);
-        
+
         Assistente assistente = Assistente.getInstancia();
-        
+
         JanelaSituacaoJogo jsj = new JanelaSituacaoJogo(situacao, assistente);
         jsj.setVisible(true);
-        
+
     }//GEN-LAST:event_btnPreviaActionPerformed
+
+    public static JanelaDesenvolvimentoPartida getInstancia() {
+
+        if (instancia == null) {
+            instancia = new JanelaDesenvolvimentoPartida();
+        }
+
+        return instancia;
+    }
+
+    public static void setInstancia(JanelaDesenvolvimentoPartida instancia) {
+        JanelaDesenvolvimentoPartida.instancia = instancia;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -299,7 +296,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JButton btnPrevia;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;

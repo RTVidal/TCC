@@ -20,6 +20,13 @@ public class Partida {
     
     private static Partida instancia;
 
+    public Partida() {
+        
+        situacoes = new ArrayList<>();
+        variaveis = new ArrayList<>();
+        
+    }
+    
     public Situacao getSituacaoInicial() {
         return situacaoInicial;
     }
