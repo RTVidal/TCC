@@ -5,6 +5,12 @@
  */
 package GUI.Desenvolvedor;
 
+import Modelo.Partida;
+import Modelo.Saida;
+import Modelo.Situacao;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author Rafael
@@ -14,7 +20,13 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     /**
      * Creates new form JanelaDesenvolvimentoSaida
      */
-    JanelaDesenvolvimentoPartida jdp;
+    private final JanelaDesenvolvimentoPartida jdp;
+    private final Partida partidaDesenvolvimento;
+    private final Saida saida;
+    private Situacao situacaoOrigem;
+    private Situacao situacaoDestino;
+    
+    private static JanelaDesenvolvimentoSaida instancia;
     
     public JanelaDesenvolvimentoSaida() {
         initComponents();
@@ -22,6 +34,45 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         jdp = JanelaDesenvolvimentoPartida.getInstancia();        
         
         setLocationRelativeTo(jdp);
+        
+        partidaDesenvolvimento = Partida.getInstancia();
+        
+        saida = new Saida();
+        
+        situacaoOrigem = new Situacao();
+        situacaoDestino = new Situacao();
+        
+        PreencheListaSituacoes();
+    }
+    
+    public final void PreencheListaSituacoes() {
+
+//        ArrayList<Situacao> situacoes = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            Situacao sit = new Situacao();
+//            sit.setNome("Situacao " + i);
+//            situacoes.add(sit);
+//        }
+//
+//        if (partidaDesenvolvimento.getSituacoes() == null)
+//        {
+//            partidaDesenvolvimento.setSituacoes(situacoes);
+//            //partidaDesenvolvimento.getSituacoes().addAll(situacoes);
+//        }
+        Vector comboBoxItems = new Vector();
+        
+        final DefaultComboBoxModel modelDestino = new DefaultComboBoxModel(comboBoxItems);
+        final DefaultComboBoxModel modelOrigem = new DefaultComboBoxModel(comboBoxItems);
+
+        if (!(partidaDesenvolvimento.getSituacoes() == null)) {
+            for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
+                comboBoxItems.add(s.getNome());
+            }
+
+            cbxSituacaoDestino.setModel(modelDestino);
+            cbxSituacaoOrigem.setModel(modelOrigem);
+        }
+
     }
 
     /**
@@ -40,8 +91,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
+        cbxSituacaoOrigem = new javax.swing.JComboBox();
+        cbxSituacaoDestino = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -65,9 +116,19 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSituacaoOrigem.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSituacaoOrigem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSituacaoOrigemActionPerformed(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSituacaoDestino.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSituacaoDestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSituacaoDestinoActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Confirmar");
 
@@ -99,12 +160,12 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cbxSituacaoOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -125,10 +186,10 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxSituacaoOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -148,12 +209,47 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void cbxSituacaoOrigemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSituacaoOrigemActionPerformed
+        
+        //Recupera o index do item
+        int index = cbxSituacaoOrigem.getSelectedIndex();
+                
+        //Recupera o item na lista e associa a saída
+        situacaoOrigem = partidaDesenvolvimento.getSituacoes().get(index);
+        System.out.println(situacaoOrigem.getNome());
+        
+    }//GEN-LAST:event_cbxSituacaoOrigemActionPerformed
+
+    private void cbxSituacaoDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSituacaoDestinoActionPerformed
+        
+        //Recupera o index do item
+        int index = cbxSituacaoDestino.getSelectedIndex();
+                
+        //Recupera o item na lista e associa a saída
+        situacaoDestino = partidaDesenvolvimento.getSituacoes().get(index);
+        System.out.println(situacaoDestino.getNome());
+        
+    }//GEN-LAST:event_cbxSituacaoDestinoActionPerformed
+
+    public static JanelaDesenvolvimentoSaida getInstancia() {
+        
+        if(instancia == null)
+        {
+            instancia = new JanelaDesenvolvimentoSaida();
+        }
+        
+        return instancia;
+    }
+
+    public static void setInstancia(JanelaDesenvolvimentoSaida instancia) {
+        JanelaDesenvolvimentoSaida.instancia = instancia;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cbxSituacaoDestino;
+    private javax.swing.JComboBox cbxSituacaoOrigem;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

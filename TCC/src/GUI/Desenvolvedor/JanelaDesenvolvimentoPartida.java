@@ -26,6 +26,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      */
     public JanelaDesenvolvimentoPartida() {
         initComponents();
+        setLocationRelativeTo(null);
 
         partidaDesenvolvimento = Partida.getInstancia();
 

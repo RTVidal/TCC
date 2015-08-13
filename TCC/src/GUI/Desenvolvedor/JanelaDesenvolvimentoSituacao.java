@@ -34,9 +34,11 @@ class MyCustomFilter extends javax.swing.filechooser.FileFilter {
  */
 public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
-    private JFileChooser fileChooser;
-    Situacao situacao;
-    Partida partidaDesenvolvimento;
+    private final JFileChooser fileChooser;
+    private final Situacao situacao;
+    private final Partida partidaDesenvolvimento;
+    
+    private static JanelaDesenvolvimentoSituacao instancia;
     
     JanelaDesenvolvimentoPartida jdp;
     
@@ -44,7 +46,13 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
      * Creates new form JanelaNovaSituacao
      */
     public JanelaDesenvolvimentoSituacao() {
+        
         initComponents();
+        
+        jdp = JanelaDesenvolvimentoPartida.getInstancia();
+        
+        setLocationRelativeTo(jdp);
+        
         fileChooser = new javax.swing.JFileChooser();
 
         fileChooser.setDialogTitle("Selecionar imagem");
@@ -53,7 +61,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         
         partidaDesenvolvimento = Partida.getInstancia();
         
-        jdp = JanelaDesenvolvimentoPartida.getInstancia();
+        
     }
 
     /**
@@ -79,10 +87,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         btnVisualizarImagem = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstSaidas = new javax.swing.JList();
-        jButton1 = new javax.swing.JButton();
+        btnNovaSaida = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Nome:");
 
@@ -133,7 +141,12 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(lstSaidas);
 
-        jButton1.setText("Nova Saída");
+        btnNovaSaida.setText("Nova Saída");
+        btnNovaSaida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovaSaidaActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Editar Saída");
 
@@ -173,7 +186,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButton1)
+                            .addComponent(btnNovaSaida)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton2)))
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -194,7 +207,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
+                            .addComponent(btnNovaSaida)
                             .addComponent(jButton2))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -268,14 +281,34 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_chbSituacaoInicialActionPerformed
 
+    private void btnNovaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSaidaActionPerformed
+        
+        JanelaDesenvolvimentoSaida jds = JanelaDesenvolvimentoSaida.getInstancia();
+        jds.setVisible(true);
+        
+    }//GEN-LAST:event_btnNovaSaidaActionPerformed
+
+    public static JanelaDesenvolvimentoSituacao getInstancia() {
+        
+        if(instancia == null)
+        {
+            instancia = new JanelaDesenvolvimentoSituacao();
+        }
+        
+        return instancia;
+    }
+
+    public static void setInstancia(JanelaDesenvolvimentoSituacao instancia) {
+        JanelaDesenvolvimentoSituacao.instancia = instancia;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
+    private javax.swing.JButton btnNovaSaida;
     private javax.swing.JButton btnSelImagem;
     private javax.swing.JButton btnVisualizarImagem;
     private javax.swing.JCheckBox chbSituacaoInicial;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
