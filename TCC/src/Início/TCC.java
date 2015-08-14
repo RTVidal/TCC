@@ -5,15 +5,8 @@
  */
 package Início;
 
+import GUI.Desenvolvedor.JanelaDesenvolvimentoAssistente;
 import GUI.Jogador.JanelaInicial;
-import GUI.Jogador.JanelaSituacaoJogo;
-import Modelo.Assistente;
-import Modelo.Saida;
-import Modelo.Situacao;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -33,6 +26,8 @@ public class TCC {
             JanelaInicial ji = new JanelaInicial();
             ji.setVisible(true);
 
+//            JanelaDesenvolvimentoAssistente jda = new JanelaDesenvolvimentoAssistente();
+//            jda.setVisible(true);
             
         } catch (Exception e) {
             e.printStackTrace();

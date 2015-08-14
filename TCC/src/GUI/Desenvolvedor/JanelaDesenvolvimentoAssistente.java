@@ -5,17 +5,76 @@
  */
 package GUI.Desenvolvedor;
 
+import Modelo.Assistente;
+import Modelo.Partida;
+import java.io.File;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Rafael
  */
 public class JanelaDesenvolvimentoAssistente extends javax.swing.JFrame {
 
+    private ArrayList<ImageIcon> avatares;
+    
+    private Assistente assistente;
+    
+    private Partida partida;
+    
+    private ImageIcon avatarSelecionado;
+    
+    private JanelaDesenvolvimentoPartida jdp;
+    
+    private static JanelaDesenvolvimentoAssistente instancia;
+
     /**
      * Creates new form JanelaDesenvolvimentoAssistente
      */
     public JanelaDesenvolvimentoAssistente() {
         initComponents();
+
+        CarregaAvatares();
+        
+        partida = Partida.getInstancia();
+        
+        jdp = JanelaDesenvolvimentoPartida.getInstancia();
+        
+        setLocationRelativeTo(jdp);
+        
+        avatarSelecionado = new ImageIcon();
+        
+    }
+
+    /**
+     * Carrega os avatares disponíveis para o assistente
+     */
+    public final void CarregaAvatares() {
+
+        lblImgAvatar.setText("Selecione um avatar");
+        
+        avatares = new ArrayList<>();
+        //Recupera a quantidade de avatares disponiveis
+        File file = new File("./Recursos/Avatar");
+        int quantidadeArquivos = file.listFiles().length;
+
+        DefaultListModel itens = new DefaultListModel();
+        
+        itens.addElement("Selecione");
+        
+        //Recupera os avatares
+        for (int i = 1; i <= quantidadeArquivos; i++) {
+            ImageIcon avatar = new ImageIcon("./Recursos/Avatar/avatar" + i + ".gif");
+            avatar.setDescription("./Recursos/Avatar/avatar" + i + ".gif");
+            avatares.add(avatar);
+            
+            //Adiciona o avatar à lista
+            itens.addElement("Avatar " + i);
+        }
+
+        lstAvatares.setModel(itens);
     }
 
     /**
@@ -27,16 +86,23 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNomeAssistente = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        txaApresentacao = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstAvatares = new javax.swing.JList();
+        lblAvatar = new javax.swing.JLabel();
+        btnConfirmar = new javax.swing.JButton();
+        lblImgAvatar = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jButton3.setText("jButton2");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         jLabel1.setText("Nome:");
 
@@ -44,36 +110,70 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JFrame {
 
         jLabel3.setText("Avatar:");
 
-        jTextField1.setText("jTextField1");
+        txtNomeAssistente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeAssistenteActionPerformed(evt);
+            }
+        });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txaApresentacao.setColumns(20);
+        txaApresentacao.setRows(5);
+        jScrollPane1.setViewportView(txaApresentacao);
 
-        jLabel4.setText("imgAvatar");
+        lstAvatares.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        lstAvatares.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstAvataresValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(lstAvatares);
 
-        jButton1.setText("Selecionar Avatar");
+        lblAvatar.setToolTipText("");
+
+        btnConfirmar.setText("Confirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
+
+        lblImgAvatar.setText("imgAvatar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblAvatar)
+                        .addContainerGap(487, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblImgAvatar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(240, 240, 240)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
-                        .addComponent(jTextField1)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNomeAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(242, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,37 +181,80 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNomeAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(142, 142, 142))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(137, 137, 137))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblAvatar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblImgAvatar)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnConfirmar)
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lstAvataresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAvataresValueChanged
+                
+        int index = lstAvatares.getSelectedIndex();
+        
+        if (index != 0)
+        {
+            ImageIcon icone = new ImageIcon();
+            icone.setImage(avatares.get(index - 1).getImage().getScaledInstance(150, 150, 150));
+            
+            lblImgAvatar.setText(null);
+            lblImgAvatar.setIcon(icone);
+            
+            avatarSelecionado = avatares.get(index - 1);
+        }
+        
+    }//GEN-LAST:event_lstAvataresValueChanged
+
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        
+        assistente = new Assistente();
+        
+        assistente.setNome(txtNomeAssistente.getText());
+        assistente.setAvatarAssistente(avatarSelecionado.getDescription());
+        assistente.setApresentacao(txaApresentacao.getText());
+        
+        partida.setAssistente(assistente);
+        
+        jdp.AtualizaAssistente();
+        
+        dispose();
+        
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void txtNomeAssistenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeAssistenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeAssistenteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnConfirmar;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblAvatar;
+    private javax.swing.JLabel lblImgAvatar;
+    private javax.swing.JList lstAvatares;
+    private javax.swing.JTextArea txaApresentacao;
+    private javax.swing.JTextField txtNomeAssistente;
     // End of variables declaration//GEN-END:variables
 }

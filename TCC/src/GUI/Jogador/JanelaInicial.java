@@ -158,14 +158,7 @@ public class JanelaInicial extends javax.swing.JFrame {
             saidas.add(saida4);
 
             situacao.setSaidas(saidas);
-
-        //Grava a situação
-//        IOPartida iop = new IOPartida();
-//        iop.SalvaSituacao(situacao);
-//        
-//        //Recupera a situação
-//        //IOPartida iop = new IOPartida();
-//        Situacao situacao2 = iop.LeSituacao();
+            
             JanelaSituacaoJogo jsj = new JanelaSituacaoJogo(situacao, assistente);
 
             jsj.setVisible(true);

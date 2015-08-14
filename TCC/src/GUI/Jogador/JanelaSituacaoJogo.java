@@ -46,7 +46,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         setResizable(false);
 
         //Obtem o avatar do assistente
-        imagemAvatar = new ImageIcon("./Recursos/" + assistente.getAvatarAssistente() + ".gif");
+        imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
 
         //Obtem a imagem do balão
         imagemBalao = new ImageIcon("./Recursos/balao.gif");

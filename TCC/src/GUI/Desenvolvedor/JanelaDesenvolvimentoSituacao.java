@@ -271,7 +271,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         //Adiciona a situação à lista de situações da partida
         partidaDesenvolvimento.getSituacoes().add(situacao);
         
-        jdp.PreencheListaSituacoes();
+        jdp.AtualizaSituacoes();
         dispose();
         
         
