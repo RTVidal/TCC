@@ -22,7 +22,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
      */
     private final JanelaDesenvolvimentoPartida jdp;
     private final Partida partidaDesenvolvimento;
-    private final Saida saida;
+    private Saida saida;
     private Situacao situacaoOrigem;
     private Situacao situacaoDestino;
     
@@ -88,12 +88,12 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txaFalaAssistente = new javax.swing.JTextArea();
         cbxSituacaoOrigem = new javax.swing.JComboBox();
         cbxSituacaoDestino = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        btnConfirmar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -106,15 +106,15 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
         jLabel4.setText("Situação Destino:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtNomeActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txaFalaAssistente.setColumns(20);
+        txaFalaAssistente.setRows(5);
+        jScrollPane1.setViewportView(txaFalaAssistente);
 
         cbxSituacaoOrigem.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxSituacaoOrigem.addActionListener(new java.awt.event.ActionListener() {
@@ -130,7 +130,12 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Confirmar");
+        btnConfirmar.setText("Confirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -152,7 +157,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -167,7 +172,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(48, Short.MAX_VALUE))
@@ -178,7 +183,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -193,7 +198,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnConfirmar)
                     .addComponent(jButton2))
                 .addGap(40, 40, 40))
         );
@@ -205,9 +210,9 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtNomeActionPerformed
 
     private void cbxSituacaoOrigemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSituacaoOrigemActionPerformed
         
@@ -231,6 +236,24 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cbxSituacaoDestinoActionPerformed
 
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        
+        saida = new Saida();
+        
+        saida.setFalaAssistente(txaFalaAssistente.getText());
+        saida.setNome(txtNome.getText());
+        saida.setSituacaoDestino(situacaoDestino);
+        saida.setSituacaoOrigem(situacaoOrigem);
+        
+        //Adiciona a saída na situação origem
+        situacaoOrigem.getSaidas().add(saida);
+        
+        jdp.AtualizaSaidas();
+        
+        dispose();
+        
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
     public static JanelaDesenvolvimentoSaida getInstancia() {
         
         if(instancia == null)
@@ -246,16 +269,16 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConfirmar;
     private javax.swing.JComboBox cbxSituacaoDestino;
     private javax.swing.JComboBox cbxSituacaoOrigem;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextArea txaFalaAssistente;
+    private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 }

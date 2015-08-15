@@ -113,23 +113,20 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnEditarSituacao" min="-2" pref="159" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButton4" min="-2" pref="168" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="btnEditarSituacao" min="-2" pref="170" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="142" max="-2" attributes="0"/>
+                              <Component id="jButton4" min="-2" pref="170" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" min="-2" pref="482" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="1" min="-2" pref="482" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnNovaSituacao" pref="184" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="btnPrevia" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="121" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="btnPrevia" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnNovaSituacao" min="-2" pref="170" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace pref="24" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -221,6 +218,94 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jButton1" min="-2" pref="170" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                              <Component id="jButton3" min="-2" pref="170" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPane2" min="-2" pref="481" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnNovaSaida" min="-2" pref="170" max="-2" attributes="0"/>
+                      <EmptySpace pref="47" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane2" min="-2" pref="297" max="-2" attributes="0"/>
+                          <Component id="btnNovaSaida" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="21" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTable" name="tblSaidas">
+                  <Properties>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="4" rowCount="4">
+                        <Column editable="true" title="Descri&#xe7;&#xe3;o" type="java.lang.Object"/>
+                        <Column editable="true" title="Situa&#xe7;&#xe3;o origem" type="java.lang.Object"/>
+                        <Column editable="true" title="Situa&#xe7;&#xe3;o destino" type="java.lang.Object"/>
+                        <Column editable="true" title="Tipo" type="java.lang.Object"/>
+                      </Table>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JButton" name="jButton1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Editar"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Excluir"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnNovaSaida">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Nova sa&#xed;da"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNovaSaidaActionPerformed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel3">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Parametrizador">
+                <Property name="tabTitle" type="java.lang.String" value="Parametrizador"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <EmptySpace min="0" pref="714" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
@@ -231,11 +316,11 @@
             </DimensionLayout>
           </Layout>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel3">
+        <Container class="javax.swing.JPanel" name="jPanel4">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Parametrizador">
-                <Property name="tabTitle" type="java.lang.String" value="Parametrizador"/>
+              <JTabbedPaneConstraints tabName="Vari&#xe1;veis">
+                <Property name="tabTitle" type="java.lang.String" value="Vari&#xe1;veis"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
