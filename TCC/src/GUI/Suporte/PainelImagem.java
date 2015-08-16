@@ -1,4 +1,4 @@
-package GUI.Jogador;
+package GUI.Suporte;
 
 import java.awt.Graphics;
 import java.awt.Image;

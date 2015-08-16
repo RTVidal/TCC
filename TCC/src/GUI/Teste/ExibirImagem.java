@@ -5,7 +5,7 @@
  */
 package GUI.Teste;
 
-import GUI.Jogador.PainelImagem;
+import GUI.Suporte.PainelImagem;
 import java.awt.Image;
 import javax.swing.JPanel;
 

@@ -5,6 +5,7 @@
  */
 package GUI.Jogador;
 
+import GUI.Suporte.PainelImagem;
 import Modelo.Assistente;
 import Modelo.Saida;
 import Modelo.Situacao;

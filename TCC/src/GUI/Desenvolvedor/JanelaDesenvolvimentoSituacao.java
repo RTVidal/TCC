@@ -39,16 +39,23 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private final Situacao situacao;
     private final Partida partidaDesenvolvimento;
     
-    private static JanelaDesenvolvimentoSituacao instancia;
+    //1. Inserir, 2. Editar
+    private final int acao;
+    
+    //private static JanelaDesenvolvimentoSituacao instancia;
     
     JanelaDesenvolvimentoPartida jdp;
     
     /**
      * Creates new form JanelaNovaSituacao
+     * @param acao
+     * @param situacao
      */
-    public JanelaDesenvolvimentoSituacao() {
+    public JanelaDesenvolvimentoSituacao(int acao, Situacao situacao) {
         
         initComponents();
+        
+        this.acao = acao;
         
         jdp = JanelaDesenvolvimentoPartida.getInstancia();
         
@@ -58,10 +65,26 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         fileChooser.setDialogTitle("Selecionar imagem");
         fileChooser.setFileFilter(new MyCustomFilter());
-        situacao = new Situacao();
+        
+        
+        if (acao == 2)
+        {
+            this.situacao = situacao;
+            CarregarSituacao();
+        }else
+        {
+            this.situacao = new Situacao();
+        }
         
         partidaDesenvolvimento = Partida.getInstancia();
         
+    }
+    
+    public final void CarregarSituacao()
+    {
+        txtNomeSituacao.setText(situacao.getNome());
+        txaFalaAssistente.setText(situacao.getFalaAssistente());
+        txtArquivo.setText(situacao.getFundoSituacao().getDescription());
         
     }
 
@@ -246,6 +269,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 Image image = ImageIO.read(file);
                 ImageIcon imagec = new ImageIcon();
                 imagec.setImage(image);
+                imagec.setDescription(file.getName());
                 
                 situacao.setFundoSituacao(imagec);
                 
@@ -260,19 +284,20 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSelImagemActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        
-        
+                
         situacao.setFalaAssistente(txaFalaAssistente.getText());
         situacao.setNome(txtNomeSituacao.getText());
         situacao.setSituacaoInicial(chbSituacaoInicial.isSelected());
         
-        //Adiciona a situação à lista de situações da partida
-        partidaDesenvolvimento.getSituacoes().add(situacao);
+        //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
+        if(acao == 1)
+        {
+            partidaDesenvolvimento.getSituacoes().add(situacao);
+        }
         
         jdp.AtualizaSituacoes();
         dispose();
-        
-        
+                
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void chbSituacaoInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbSituacaoInicialActionPerformed
@@ -281,24 +306,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     private void btnNovaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSaidaActionPerformed
         
-        JanelaDesenvolvimentoSaida jds = JanelaDesenvolvimentoSaida.getInstancia();
+        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(1, null);
         jds.setVisible(true);
         
     }//GEN-LAST:event_btnNovaSaidaActionPerformed
-
-    public static JanelaDesenvolvimentoSituacao getInstancia() {
-        
-        if(instancia == null)
-        {
-            instancia = new JanelaDesenvolvimentoSituacao();
-        }
-        
-        return instancia;
-    }
-
-    public static void setInstancia(JanelaDesenvolvimentoSituacao instancia) {
-        JanelaDesenvolvimentoSituacao.instancia = instancia;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

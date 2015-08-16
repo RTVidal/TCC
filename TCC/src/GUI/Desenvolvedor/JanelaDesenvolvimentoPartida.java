@@ -6,6 +6,7 @@
 package GUI.Desenvolvedor;
 
 import GUI.Jogador.JanelaSituacaoJogo;
+import GUI.Suporte.SaidasTableModel;
 import Modelo.Partida;
 import Modelo.Saida;
 import Modelo.Situacao;
@@ -16,7 +17,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -42,7 +42,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         if (partidaDesenvolvimento.getAssistente() != null) {
             AtualizaAssistente();
         }
-        
+
         AtualizaSaidas();
 
     }
@@ -50,7 +50,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     /**
      * Preenche a lista de situaçãoes com a situação da partida
      */
-    public void AtualizaSituacoes() {
+    public final void AtualizaSituacoes() {
 
         DefaultListModel itens = new DefaultListModel();
 
@@ -67,7 +67,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     /**
      * Atualiza as informações do assiste
      */
-    public void AtualizaAssistente() {
+    public final void AtualizaAssistente() {
         lblNomeAssistente.setText(partidaDesenvolvimento.getAssistente().getNome());
 
         lblImgAssistente.setSize(100, 100);
@@ -84,15 +84,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     /**
      * Atualiza a tabela de saídas
      */
-    public void AtualizaSaidas() {
-
-//        tblSaidas.getColumnModel().getColumn(0).setPreferredWidth(100);
-//        tblSaidas.getColumnModel().getColumn(1).setPreferredWidth(100);
-//        tblSaidas.getColumnModel().getColumn(2).setPreferredWidth(100);
-//        tblSaidas.getColumnModel().getColumn(2).setPreferredWidth(100);
-        DefaultTableModel modelo = (DefaultTableModel) tblSaidas.getModel();
-        modelo.setNumRows(0);
-
+    public final void AtualizaSaidas() {
+        
         ArrayList<Situacao> situacoes = partidaDesenvolvimento.getSituacoes();
         ArrayList<Saida> saidas = new ArrayList<>();
 
@@ -105,15 +98,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             }
         }
 
-        if (saidas.size() > 0) {
-            for (Saida s : saidas) {
-                
-                modelo.addRow(new Object[]
-                {s.getNome(), s.getSituacaoOrigem().getNome(), s.getSituacaoDestino().getNome()});
-                System.out.println("Saida: " + s.getNome() + " " + s.getSituacaoOrigem().getNome() + " " + s.getSituacaoDestino().getNome());
-                    
-            }
-        }
+        tblSaidas.setModel(new SaidasTableModel(saidas));
+
+        //Esconder a coluna contendo o objeto da saída
+        tblSaidas.getColumnModel().getColumn(0).setMinWidth(0);
+        tblSaidas.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblSaidas.getColumnModel().getColumn(0).setPreferredWidth(0);
 
     }
 
@@ -140,7 +130,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSaidas = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnEditarSaida = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         btnNovaSaida = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -235,18 +225,31 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         tblSaidas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Descrição", "Situação origem", "Situação destino", "Tipo"
+                "Descrição", "Situação origem", "Situação destino", "Tipo", "Ind. Sit.", "Ind. Sai."
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tblSaidas);
 
-        jButton1.setText("Editar");
+        btnEditarSaida.setText("Editar");
+        btnEditarSaida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarSaidaActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Excluir");
 
@@ -265,7 +268,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEditarSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(112, 112, 112)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -282,7 +285,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                     .addComponent(btnNovaSaida))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnEditarSaida)
                     .addComponent(jButton3))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -375,7 +378,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     private void btnNovaSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSituacaoActionPerformed
 
-        JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao();
+        JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao(1, null);
         jds.setVisible(true);
 
     }//GEN-LAST:event_btnNovaSituacaoActionPerformed
@@ -384,11 +387,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         //Recuperar o item selecionado
         int index = lstSituacoes.getSelectedIndex();
-        System.out.println("Index " + index);
 
-        Situacao situacao = partidaDesenvolvimento.getSituacoes().get(index);
-
-        System.out.println(situacao.getNome());
+        JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao(2, partidaDesenvolvimento.getSituacoes().get(index));
+        jds.setVisible(true);
 
     }//GEN-LAST:event_btnEditarSituacaoActionPerformed
 
@@ -398,7 +399,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         int index = lstSituacoes.getSelectedIndex();
 
         Situacao situacao = partidaDesenvolvimento.getSituacoes().get(index);
-    
+
         JanelaSituacaoJogo jsj = new JanelaSituacaoJogo(situacao, partidaDesenvolvimento.getAssistente());
         jsj.setVisible(true);
 
@@ -413,13 +414,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     private void btnNovaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSaidaActionPerformed
 
-        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida();
+        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(1, null);
         jds.setVisible(true);
 
     }//GEN-LAST:event_btnNovaSaidaActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        
+
         JFileChooser jFileChooser = new JFileChooser();
 
         //Selecionar apenas arquivos
@@ -449,17 +450,30 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             //escolheu arquivo
             System.out.println(jFileChooser.getSelectedFile().getAbsolutePath());
             String diretorio = jFileChooser.getSelectedFile().getAbsolutePath();
-            
+
             IOPartida iop = new IOPartida();
             iop.SalvaPartida(diretorio);
-            
+
         } else if (acao == JFileChooser.CANCEL_OPTION) {
             //apertou botao cancelar
         } else if (acao == JFileChooser.ERROR_OPTION) {
             //outra opcao
         }
-        
+
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnEditarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSaidaActionPerformed
+
+        //Recuperar da tabela o item selecionado
+        int index = tblSaidas.getSelectedRow();
+
+        //Recuperar a saída
+        Saida saida = (Saida) tblSaidas.getValueAt(index, 0);
+        
+        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(2, saida);
+        jds.setVisible(true);
+        
+    }//GEN-LAST:event_btnEditarSaidaActionPerformed
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
 
@@ -477,12 +491,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditarAssistente;
+    private javax.swing.JButton btnEditarSaida;
     private javax.swing.JButton btnEditarSituacao;
     private javax.swing.JButton btnNovaSaida;
     private javax.swing.JButton btnNovaSituacao;
     private javax.swing.JButton btnPrevia;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JFrame jFrame1;

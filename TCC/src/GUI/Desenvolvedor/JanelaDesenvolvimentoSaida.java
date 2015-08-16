@@ -20,15 +20,14 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     /**
      * Creates new form JanelaDesenvolvimentoSaida
      */
+    private int acao;
     private final JanelaDesenvolvimentoPartida jdp;
     private final Partida partidaDesenvolvimento;
     private Saida saida;
     private Situacao situacaoOrigem;
     private Situacao situacaoDestino;
     
-    private static JanelaDesenvolvimentoSaida instancia;
-    
-    public JanelaDesenvolvimentoSaida() {
+    public JanelaDesenvolvimentoSaida(int acao, Saida saida) {
         initComponents();
         
         jdp = JanelaDesenvolvimentoPartida.getInstancia();        
@@ -37,7 +36,16 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         
         partidaDesenvolvimento = Partida.getInstancia();
         
-        saida = new Saida();
+        this.acao = acao;
+        
+        if(acao == 1)
+        {
+            this.saida = new Saida();
+        } else
+        {
+            this.saida = saida;
+            CarregaSaida();
+        }
         
         situacaoOrigem = new Situacao();
         situacaoDestino = new Situacao();
@@ -45,32 +53,47 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         PreencheListaSituacoes();
     }
     
+    public final void CarregaSaida()
+    {
+        txtNome.setText(saida.getNome());
+        txaFalaAssistente.setText(saida.getFalaAssistente());
+    }
+    
     public final void PreencheListaSituacoes() {
 
-//        ArrayList<Situacao> situacoes = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//            Situacao sit = new Situacao();
-//            sit.setNome("Situacao " + i);
-//            situacoes.add(sit);
-//        }
-//
-//        if (partidaDesenvolvimento.getSituacoes() == null)
-//        {
-//            partidaDesenvolvimento.setSituacoes(situacoes);
-//            //partidaDesenvolvimento.getSituacoes().addAll(situacoes);
-//        }
         Vector comboBoxItems = new Vector();
         
         final DefaultComboBoxModel modelDestino = new DefaultComboBoxModel(comboBoxItems);
         final DefaultComboBoxModel modelOrigem = new DefaultComboBoxModel(comboBoxItems);
 
+        int itemSelecionadoOrigem = 0;
+        int itemSelecionadoDestino = 0;
+        int cont = 0;
+        
         if (!(partidaDesenvolvimento.getSituacoes() == null)) {
             for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
+                
+                if(s == saida.getSituacaoOrigem())
+                {
+                    itemSelecionadoOrigem = cont;
+                }
+                
+                if(s == saida.getSituacaoDestino())
+                {
+                    itemSelecionadoDestino = cont;
+                }
+                
                 comboBoxItems.add(s.getNome());
+                
+                cont++;
             }
 
             cbxSituacaoDestino.setModel(modelDestino);
             cbxSituacaoOrigem.setModel(modelOrigem);
+            
+            cbxSituacaoDestino.setSelectedIndex(itemSelecionadoDestino);
+            cbxSituacaoOrigem.setSelectedIndex(itemSelecionadoOrigem);
+            
         }
 
     }
@@ -238,35 +261,22 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         
-        saida = new Saida();
-        
         saida.setFalaAssistente(txaFalaAssistente.getText());
         saida.setNome(txtNome.getText());
         saida.setSituacaoDestino(situacaoDestino);
         saida.setSituacaoOrigem(situacaoOrigem);
         
-        //Adiciona a saída na situação origem
-        situacaoOrigem.getSaidas().add(saida);
+        //Adiciona a saída na situação origem caso a ação seja inserir
+        if(acao == 1)
+        {
+            situacaoOrigem.getSaidas().add(saida);
+        }
         
         jdp.AtualizaSaidas();
         
         dispose();
         
     }//GEN-LAST:event_btnConfirmarActionPerformed
-
-    public static JanelaDesenvolvimentoSaida getInstancia() {
-        
-        if(instancia == null)
-        {
-            instancia = new JanelaDesenvolvimentoSaida();
-        }
-        
-        return instancia;
-    }
-
-    public static void setInstancia(JanelaDesenvolvimentoSaida instancia) {
-        JanelaDesenvolvimentoSaida.instancia = instancia;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmar;
