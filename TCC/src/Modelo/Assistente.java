@@ -20,6 +20,11 @@ public class Assistente implements Serializable {
     
     private static Assistente instancia;
 
+    public Assistente()
+    {
+        avatarAssistente = "";
+    }
+    
     public String getNome() {
         return nome;
     }

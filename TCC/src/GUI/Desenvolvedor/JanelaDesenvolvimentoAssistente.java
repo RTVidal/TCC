@@ -19,15 +19,15 @@ import javax.swing.ImageIcon;
 public class JanelaDesenvolvimentoAssistente extends javax.swing.JFrame {
 
     private ArrayList<ImageIcon> avatares;
-    
+
     private Assistente assistente;
-    
+
     private Partida partida;
-    
+
     private ImageIcon avatarSelecionado;
-    
+
     private JanelaDesenvolvimentoPartida jdp;
-    
+
     private static JanelaDesenvolvimentoAssistente instancia;
 
     /**
@@ -36,16 +36,31 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JFrame {
     public JanelaDesenvolvimentoAssistente() {
         initComponents();
 
-        CarregaAvatares();
-        
         partida = Partida.getInstancia();
+
+        assistente = partida.getAssistente();
+
+        if (assistente != null) {
+            CarregaAssistente();
+        } else
+        {
+            assistente = new Assistente();
+        }
         
+        CarregaAvatares();
+
         jdp = JanelaDesenvolvimentoPartida.getInstancia();
-        
+
         setLocationRelativeTo(jdp);
-        
+
         avatarSelecionado = new ImageIcon();
-        
+
+    }
+
+    public final void CarregaAssistente() {
+        txtNomeAssistente.setText(assistente.getNome());
+        txaApresentacao.setText(assistente.getApresentacao());
+
     }
 
     /**
@@ -53,28 +68,38 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JFrame {
      */
     public final void CarregaAvatares() {
 
+        int itemSelecionado = 0;
+
         lblImgAvatar.setText("Selecione um avatar");
-        
+
         avatares = new ArrayList<>();
         //Recupera a quantidade de avatares disponiveis
         File file = new File("./Recursos/Avatar");
         int quantidadeArquivos = file.listFiles().length;
 
         DefaultListModel itens = new DefaultListModel();
-        
+
         itens.addElement("Selecione");
-        
+
         //Recupera os avatares
         for (int i = 1; i <= quantidadeArquivos; i++) {
             ImageIcon avatar = new ImageIcon("./Recursos/Avatar/avatar" + i + ".gif");
+
             avatar.setDescription("./Recursos/Avatar/avatar" + i + ".gif");
             avatares.add(avatar);
-            
+
+            //Caso o assistente já tenha sido criado, seleciona o avatar utilizado
+            if (assistente.getAvatarAssistente().equals(avatar.getDescription())) {
+                itemSelecionado = i;
+            }
+
             //Adiciona o avatar à lista
             itens.addElement("Avatar " + i);
         }
 
         lstAvatares.setModel(itens);
+
+        lstAvatares.setSelectedIndex(itemSelecionado);
     }
 
     /**
@@ -206,36 +231,35 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lstAvataresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAvataresValueChanged
-                
+
         int index = lstAvatares.getSelectedIndex();
-        
-        if (index != 0)
-        {
+
+        if (index != 0) {
             ImageIcon icone = new ImageIcon();
             icone.setImage(avatares.get(index - 1).getImage().getScaledInstance(150, 150, 150));
-            
+
             lblImgAvatar.setText(null);
             lblImgAvatar.setIcon(icone);
-            
+
             avatarSelecionado = avatares.get(index - 1);
         }
-        
+
     }//GEN-LAST:event_lstAvataresValueChanged
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        
-        assistente = new Assistente();
-        
+
+        //assistente = new Assistente();
+
         assistente.setNome(txtNomeAssistente.getText());
         assistente.setAvatarAssistente(avatarSelecionado.getDescription());
         assistente.setApresentacao(txaApresentacao.getText());
-        
+
         partida.setAssistente(assistente);
-        
+
         jdp.AtualizaAssistente();
-        
+
         dispose();
-        
+
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void txtNomeAssistenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeAssistenteActionPerformed

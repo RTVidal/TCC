@@ -71,6 +71,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         lblNomeAssistente.setText(partidaDesenvolvimento.getAssistente().getNome());
 
         lblImgAssistente.setSize(100, 100);
+        lblImgAssistente.setText(null);
 
         ImageIcon imgAssistente = new ImageIcon(partidaDesenvolvimento.getAssistente().getAvatarAssistente());
 
