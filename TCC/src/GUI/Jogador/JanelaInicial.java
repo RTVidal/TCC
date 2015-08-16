@@ -7,12 +7,15 @@ package GUI.Jogador;
 
 import GUI.Desenvolvedor.JanelaDesenvolvimentoPartida;
 import Modelo.Assistente;
+import Modelo.Partida;
 import Modelo.Saida;
 import Modelo.Situacao;
-import java.awt.image.BufferedImage;
+import Persistencia.IOPartida;
+import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -20,6 +23,7 @@ import javax.imageio.ImageIO;
  */
 public class JanelaInicial extends javax.swing.JFrame {
 
+    JanelaDesenvolvimentoPartida jdp;
     /**
      * Creates new form JanelaInicial
      */
@@ -39,7 +43,7 @@ public class JanelaInicial extends javax.swing.JFrame {
 
         btnAbrirJogo = new javax.swing.JButton();
         btnNovoJogo = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnEditarJogo = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -53,7 +57,12 @@ public class JanelaInicial extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Editar Jogo");
+        btnEditarJogo.setText("Editar Jogo");
+        btnEditarJogo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarJogoActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Situação exemplo");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -71,7 +80,7 @@ public class JanelaInicial extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnAbrirJogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNovoJogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditarJogo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(79, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -84,7 +93,7 @@ public class JanelaInicial extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(btnAbrirJogo)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnEditarJogo)
                 .addGap(18, 18, 18)
                 .addComponent(btnNovoJogo)
                 .addGap(18, 18, 18)
@@ -98,7 +107,7 @@ public class JanelaInicial extends javax.swing.JFrame {
     private void btnNovoJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoJogoActionPerformed
 
         //Cria uma instancia da janela de desenvolvimento de partida
-        JanelaDesenvolvimentoPartida jdp = JanelaDesenvolvimentoPartida.getInstancia();
+        jdp = JanelaDesenvolvimentoPartida.getInstancia();
         
         jdp.setVisible(true);
         
@@ -120,9 +129,11 @@ public class JanelaInicial extends javax.swing.JFrame {
             Situacao situacao = new Situacao();
 
             File file = new File("./recursos/teste.jpg");
-            BufferedImage img = ImageIO.read(file);
+            Image img = ImageIO.read(file);
+            
+            ImageIcon image = new ImageIcon("./recursos/teste.jpg");
 
-            situacao.setFundoSituacao(img);
+            situacao.setFundoSituacao(image);
             situacao.setFalaAssistente("No menu está uma variedade de sanduíches com preparos, "
                     + "apresentações e acompanhamentos criativos. Há hambúrguer de "
                     + "kafta, joelho de porco, falafel, feijoada, barreado, "
@@ -170,10 +181,24 @@ public class JanelaInicial extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btnEditarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarJogoActionPerformed
+        
+        IOPartida iop = new IOPartida();
+        
+        Partida partidaDesenvolvimento = iop.LePartida();
+        
+        Partida.setInstancia(partidaDesenvolvimento);
+        
+        jdp = JanelaDesenvolvimentoPartida.getInstancia();
+        
+        jdp.setVisible(true);
+        
+    }//GEN-LAST:event_btnEditarJogoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrirJogo;
+    private javax.swing.JButton btnEditarJogo;
     private javax.swing.JButton btnNovoJogo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,13 +5,14 @@
  */
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Rafael
  */
-public class Partida {
+public class Partida implements Serializable{
     
     private Situacao situacaoInicial;
     private Assistente assistente;
@@ -24,6 +25,8 @@ public class Partida {
         
         situacoes = new ArrayList<>();
         variaveis = new ArrayList<>();
+        
+        assistente = new Assistente();
         
     }
     

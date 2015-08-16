@@ -7,9 +7,10 @@ package GUI.Desenvolvedor;
 
 import Modelo.Partida;
 import Modelo.Situacao;
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
 class MyCustomFilter extends javax.swing.filechooser.FileFilter {
@@ -242,12 +243,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 //txtArquivo.read(new FileReader(file.getAbsolutePath()), null);
                 txtArquivo.setText(file.getName());
 
-                BufferedImage image = ImageIO.read(file);
+                Image image = ImageIO.read(file);
+                ImageIcon imagec = new ImageIcon();
+                imagec.setImage(image);
                 
-//                ExibirImagem ei = new ExibirImagem(image);
-//                ei.setVisible(true);
-                
-                situacao.setFundoSituacao(image);
+                situacao.setFundoSituacao(imagec);
                 
             } catch (Exception ex) {
                 System.out.println("problem accessing file" + file.getAbsolutePath());
@@ -256,8 +256,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             System.out.println("File access cancelled by user.");
 
         }
-
-        //Converte a imagem selecionada para Image icon
 
     }//GEN-LAST:event_btnSelImagemActionPerformed
 

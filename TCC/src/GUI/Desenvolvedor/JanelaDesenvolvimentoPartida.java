@@ -9,9 +9,13 @@ import GUI.Jogador.JanelaSituacaoJogo;
 import Modelo.Partida;
 import Modelo.Saida;
 import Modelo.Situacao;
+import Persistencia.IOPartida;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -38,6 +42,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         if (partidaDesenvolvimento.getAssistente() != null) {
             AtualizaAssistente();
         }
+        
+        AtualizaSaidas();
 
     }
 
@@ -84,7 +90,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 //        tblSaidas.getColumnModel().getColumn(2).setPreferredWidth(100);
 //        tblSaidas.getColumnModel().getColumn(2).setPreferredWidth(100);
         DefaultTableModel modelo = (DefaultTableModel) tblSaidas.getModel();
-        //modelo.setNumRows(0);
+        modelo.setNumRows(0);
 
         ArrayList<Situacao> situacoes = partidaDesenvolvimento.getSituacoes();
         ArrayList<Saida> saidas = new ArrayList<>();
@@ -139,7 +145,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnEditarAssistente = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
         lblImgAssistente = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -315,7 +321,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Salvar");
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         lblImgAssistente.setText("imgAssistente");
 
@@ -329,9 +340,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -339,7 +347,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addComponent(lblImgAssistente)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEditarAssistente)))
+                        .addComponent(btnEditarAssistente))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -354,7 +365,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnSalvar)
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
@@ -384,10 +395,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         //Recuperar o item selecionado
         int index = lstSituacoes.getSelectedIndex();
-        System.out.println("Index " + index);
 
         Situacao situacao = partidaDesenvolvimento.getSituacoes().get(index);
-
+    
         JanelaSituacaoJogo jsj = new JanelaSituacaoJogo(situacao, partidaDesenvolvimento.getAssistente());
         jsj.setVisible(true);
 
@@ -406,6 +416,49 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jds.setVisible(true);
 
     }//GEN-LAST:event_btnNovaSaidaActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        
+        JFileChooser jFileChooser = new JFileChooser();
+
+        //Selecionar apenas arquivos
+        jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        //desabilita todos os tipos de arquivos
+        jFileChooser.setAcceptAllFileFilterUsed(false);
+
+        //filtra por extensao
+        jFileChooser.setFileFilter(new FileFilter() {
+            @Override
+            public String getDescription() {
+                return "tcc";
+            }
+
+            @Override
+            public boolean accept(File f) {
+                return f.getName().toLowerCase().endsWith("tcc");
+            }
+        });
+
+        //mostra janela para salvar
+        int acao = jFileChooser.showSaveDialog(null);
+
+        //executa acao conforme opcao selecionada
+        if (acao == JFileChooser.APPROVE_OPTION) {
+            //escolheu arquivo
+            System.out.println(jFileChooser.getSelectedFile().getAbsolutePath());
+            String diretorio = jFileChooser.getSelectedFile().getAbsolutePath();
+            
+            IOPartida iop = new IOPartida();
+            iop.SalvaPartida(diretorio);
+            
+        } else if (acao == JFileChooser.CANCEL_OPTION) {
+            //apertou botao cancelar
+        } else if (acao == JFileChooser.ERROR_OPTION) {
+            //outra opcao
+        }
+        
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
 
@@ -427,8 +480,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JButton btnNovaSaida;
     private javax.swing.JButton btnNovaSituacao;
     private javax.swing.JButton btnPrevia;
+    private javax.swing.JButton btnSalvar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JFrame jFrame1;

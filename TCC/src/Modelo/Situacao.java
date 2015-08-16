@@ -8,6 +8,7 @@ package Modelo;
 import java.awt.Image;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -18,7 +19,7 @@ public class Situacao implements Serializable{
     private ArrayList<Saida> saidas;
     private boolean situacaoInicial;
     private boolean situacaoFinal;
-    private Image fundoSituacao;
+    private ImageIcon fundoSituacao;
     private String falaAssistente;
     private String nome;
 
@@ -52,11 +53,11 @@ public class Situacao implements Serializable{
         this.situacaoFinal = situacaoFinal;
     }
 
-    public Image getFundoSituacao() {
+    public ImageIcon getFundoSituacao() {
         return fundoSituacao;
     }
 
-    public void setFundoSituacao(Image fundoSituacao) {
+    public void setFundoSituacao(ImageIcon fundoSituacao) {
         this.fundoSituacao = fundoSituacao;
     }
 

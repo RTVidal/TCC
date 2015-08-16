@@ -45,8 +45,14 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        //Obtem o avatar do assistente
-        imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
+        //Obtem o avatar do assistente (caso não haja assistente, preenche com um avatar genérico)
+        if(assistente.getAvatarAssistente() != null)
+        {
+            imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
+        } else
+        {
+            imagemAvatar = new ImageIcon("./Recursos/avatar1.gif");
+        }
 
         //Obtem a imagem do balão
         imagemBalao = new ImageIcon("./Recursos/balao.gif");
@@ -54,8 +60,17 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         //Ajusta o tamanho da tela
         painelPrincipal.setSize(1024, 768);
 
-        //Desenha a imagem de fundo
-        imgFundo = new PainelImagem(situacao.getFundoSituacao());
+        //Caso não haja imagem de fundo, adiciona uma imagem genérica
+        if(situacao.getFundoSituacao() == null)
+        {
+            ImageIcon fundoGenerico = new ImageIcon("./Recursos/fundo.jpg");
+            imgFundo = new PainelImagem(fundoGenerico.getImage());
+        } else
+        {
+            //Desenha a imagem de fundo
+            imgFundo = new PainelImagem(situacao.getFundoSituacao().getImage());
+        }
+        
         imgFundo.setLayout(null);
         imgFundo.setSize(1024, 768);
 
@@ -104,7 +119,6 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
             GerarSaidas(situacao.getSaidas());
 
         }
-
         
     }
 

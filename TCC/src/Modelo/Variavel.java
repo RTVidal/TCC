@@ -5,10 +5,15 @@
  */
 package Modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Rafael
  */
-public class Variavel {
+public class Variavel implements Serializable{
+    
+    private String nome;
+    private double valorInicial;
     
 }

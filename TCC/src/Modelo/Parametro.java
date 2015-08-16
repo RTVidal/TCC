@@ -5,11 +5,13 @@
  */
 package Modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Rafael
  */
-public class Parametro {
+public class Parametro implements Serializable{
     
     private double valorInicial;
     private double valorFinal;
