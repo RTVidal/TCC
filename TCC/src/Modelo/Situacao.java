@@ -5,7 +5,6 @@
  */
 package Modelo;
 
-import java.awt.Image;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -26,6 +25,8 @@ public class Situacao implements Serializable{
     public Situacao() {
         
         saidas = new ArrayList<>();
+        fundoSituacao = new ImageIcon();
+        fundoSituacao.setDescription("");
         
     }    
 

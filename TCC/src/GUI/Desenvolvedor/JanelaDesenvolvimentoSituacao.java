@@ -12,6 +12,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 class MyCustomFilter extends javax.swing.filechooser.FileFilter {
 
@@ -23,7 +24,7 @@ class MyCustomFilter extends javax.swing.filechooser.FileFilter {
 
     @Override
     public String getDescription() {
-            // This description will be displayed in the dialog,
+        // This description will be displayed in the dialog,
         // hard-coded = ugly, should be done via I18N
         return "Image (*.jpg)";
     }
@@ -38,54 +39,50 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private final JFileChooser fileChooser;
     private final Situacao situacao;
     private final Partida partidaDesenvolvimento;
-    
+
     //1. Inserir, 2. Editar
     private final int acao;
-    
+
     //private static JanelaDesenvolvimentoSituacao instancia;
-    
     JanelaDesenvolvimentoPartida jdp;
-    
+
     /**
      * Creates new form JanelaNovaSituacao
+     *
      * @param acao
      * @param situacao
      */
     public JanelaDesenvolvimentoSituacao(int acao, Situacao situacao) {
-        
+
         initComponents();
-        
+
         this.acao = acao;
-        
+
         jdp = JanelaDesenvolvimentoPartida.getInstancia();
-        
+
         setLocationRelativeTo(jdp);
-        
+
         fileChooser = new javax.swing.JFileChooser();
 
         fileChooser.setDialogTitle("Selecionar imagem");
         fileChooser.setFileFilter(new MyCustomFilter());
-        
-        
-        if (acao == 2)
-        {
+
+        if (acao == 2) {
             this.situacao = situacao;
             CarregarSituacao();
-        }else
-        {
+        } else {
             this.situacao = new Situacao();
         }
-        
+
         partidaDesenvolvimento = Partida.getInstancia();
-        
+
     }
-    
-    public final void CarregarSituacao()
-    {
+
+    public final void CarregarSituacao() {
         txtNomeSituacao.setText(situacao.getNome());
         txaFalaAssistente.setText(situacao.getFalaAssistente());
         txtArquivo.setText(situacao.getFundoSituacao().getDescription());
-        
+
     }
 
     /**
@@ -270,9 +267,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 ImageIcon imagec = new ImageIcon();
                 imagec.setImage(image);
                 imagec.setDescription(file.getName());
-                
+
                 situacao.setFundoSituacao(imagec);
-                
+
             } catch (Exception ex) {
                 System.out.println("problem accessing file" + file.getAbsolutePath());
             }
@@ -284,20 +281,49 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSelImagemActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-                
+
         situacao.setFalaAssistente(txaFalaAssistente.getText());
         situacao.setNome(txtNomeSituacao.getText());
-        situacao.setSituacaoInicial(chbSituacaoInicial.isSelected());
-        
+
+        if (chbSituacaoInicial.isSelected()) {
+
+            boolean continuar = true;
+            
+            if (partidaDesenvolvimento.getSituacaoInicial() != null) {
+                
+                int opcao = JOptionPane.showConfirmDialog(null, "Já existe uma situação inicial. Deseja substituir a situação inicial atual?", 
+                        "Aviso", JOptionPane.YES_NO_OPTION);
+
+                System.out.println(opcao);
+                if (opcao == 1) { 
+                    
+                    continuar = false;
+                    
+                } 
+            }
+
+            if(continuar)
+            {
+                System.out.println("continuou");
+                //Marca todas as situações como não inicial
+                for(Situacao s : partidaDesenvolvimento.getSituacoes())
+                {
+                    s.setSituacaoInicial(false);
+                }
+                
+                partidaDesenvolvimento.setSituacaoInicial(situacao);
+                situacao.setSituacaoInicial(true);
+            }
+        }
+
         //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
-        if(acao == 1)
-        {
+        if (acao == 1) {
             partidaDesenvolvimento.getSituacoes().add(situacao);
         }
-        
+
         jdp.AtualizaSituacoes();
         dispose();
-                
+
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void chbSituacaoInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbSituacaoInicialActionPerformed
@@ -305,10 +331,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }//GEN-LAST:event_chbSituacaoInicialActionPerformed
 
     private void btnNovaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSaidaActionPerformed
-        
+
         JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(1, null);
         jds.setVisible(true);
-        
+
     }//GEN-LAST:event_btnNovaSaidaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

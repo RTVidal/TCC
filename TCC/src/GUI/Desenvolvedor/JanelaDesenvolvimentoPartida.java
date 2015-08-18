@@ -5,6 +5,7 @@
  */
 package GUI.Desenvolvedor;
 
+import Controle.ControladoraIdioma;
 import GUI.Jogador.JanelaSituacaoJogo;
 import GUI.Suporte.SaidasTableModel;
 import Modelo.Partida;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 /**
@@ -27,6 +29,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private Partida partidaDesenvolvimento;
 
     private static JanelaDesenvolvimentoPartida instancia;
+    
+    private ControladoraIdioma idioma;
 
     /**
      * Creates new form JanelaAdministrarJogo
@@ -35,6 +39,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
+        idioma = ControladoraIdioma.getInstancia();
+        
+        PreencheComponentes();
+        
         partidaDesenvolvimento = Partida.getInstancia();
 
         AtualizaSituacoes();
@@ -46,6 +54,19 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         AtualizaSaidas();
 
     }
+    
+    /**
+     * Preenche os componentes da tela de acordo com o idioma selecionado
+     */
+    public final void PreencheComponentes()
+    {
+        //Labels
+        
+        
+        //Botões        
+        btnNovaSituacao.setText(idioma.Valor("NOVA SITUAÇÃO"));
+        btnEditarAssistente.setText(idioma.Valor("EDITAR ASSISTENTE"));
+    }
 
     /**
      * Preenche a lista de situaçãoes com a situação da partida
@@ -56,7 +77,17 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         if (!(partidaDesenvolvimento.getSituacoes() == null)) {
             for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
-                itens.addElement(s.getNome());
+
+                if (s.isSituacaoInicial()) {
+
+                    itens.addElement(s.getNome() + " - " + idioma.Valor("Inicial"));
+
+                } else {
+
+                    itens.addElement(s.getNome());
+
+                }
+
             }
 
             lstSituacoes.setModel(itens);
@@ -85,7 +116,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      * Atualiza a tabela de saídas
      */
     public final void AtualizaSaidas() {
-        
+
         ArrayList<Situacao> situacoes = partidaDesenvolvimento.getSituacoes();
         ArrayList<Saida> saidas = new ArrayList<>();
 
@@ -421,44 +452,60 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-        JFileChooser jFileChooser = new JFileChooser();
+        boolean continuar = true;
+        String mensagem = "";
 
-        //Selecionar apenas arquivos
-        jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-        //desabilita todos os tipos de arquivos
-        jFileChooser.setAcceptAllFileFilterUsed(false);
-
-        //filtra por extensao
-        jFileChooser.setFileFilter(new FileFilter() {
-            @Override
-            public String getDescription() {
-                return "tcc";
-            }
-
-            @Override
-            public boolean accept(File f) {
-                return f.getName().toLowerCase().endsWith("tcc");
-            }
-        });
-
-        //mostra janela para salvar
-        int acao = jFileChooser.showSaveDialog(null);
-
-        //executa acao conforme opcao selecionada
-        if (acao == JFileChooser.APPROVE_OPTION) {
-            //escolheu arquivo
-            System.out.println(jFileChooser.getSelectedFile().getAbsolutePath());
-            String diretorio = jFileChooser.getSelectedFile().getAbsolutePath();
-
-            IOPartida iop = new IOPartida();
-            iop.SalvaPartida(diretorio);
-
-        } else if (acao == JFileChooser.CANCEL_OPTION) {
-            //apertou botao cancelar
-        } else if (acao == JFileChooser.ERROR_OPTION) {
-            //outra opcao
+        if(!partidaDesenvolvimento.getAssistente().isCriado())
+        {
+            continuar = false;
+            mensagem = idioma.Valor("mensagemSemAssistente");
         }
+        
+        
+        if (continuar) {
+            JFileChooser jFileChooser = new JFileChooser();
+
+            //Selecionar apenas arquivos
+            jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+            //desabilita todos os tipos de arquivos
+            jFileChooser.setAcceptAllFileFilterUsed(false);
+
+            //filtra por extensao
+            jFileChooser.setFileFilter(new FileFilter() {
+                @Override
+                public String getDescription() {
+                    return "tcc";
+                }
+
+                @Override
+                public boolean accept(File f) {
+                    return f.getName().toLowerCase().endsWith("tcc");
+                }
+            });
+
+            //mostra janela para salvar
+            int acao = jFileChooser.showSaveDialog(null);
+
+            //executa acao conforme opcao selecionada
+            if (acao == JFileChooser.APPROVE_OPTION) {
+                //escolheu arquivo
+                System.out.println(jFileChooser.getSelectedFile().getAbsolutePath());
+                String diretorio = jFileChooser.getSelectedFile().getAbsolutePath();
+
+                IOPartida iop = new IOPartida();
+                iop.SalvaPartida(diretorio);
+
+            } else if (acao == JFileChooser.CANCEL_OPTION) {
+                //apertou botao cancelar
+            } else if (acao == JFileChooser.ERROR_OPTION) {
+                //outra opcao
+            }
+        } else
+        {
+            JOptionPane.showMessageDialog(this, mensagem);
+        }
+
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -469,10 +516,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         //Recuperar a saída
         Saida saida = (Saida) tblSaidas.getValueAt(index, 0);
-        
+
         JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(2, saida);
         jds.setVisible(true);
-        
+
     }//GEN-LAST:event_btnEditarSaidaActionPerformed
 
     public static JanelaDesenvolvimentoPartida getInstancia() {

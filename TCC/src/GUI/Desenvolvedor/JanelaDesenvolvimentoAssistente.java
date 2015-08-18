@@ -256,6 +256,8 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JFrame {
 
         partida.setAssistente(assistente);
 
+        assistente.setCriado(true);
+        
         jdp.AtualizaAssistente();
 
         dispose();

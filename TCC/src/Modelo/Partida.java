@@ -75,5 +75,4 @@ public class Partida implements Serializable{
     public static void setInstancia(Partida instancia) {
         Partida.instancia = instancia;
     }
-    
 }
