@@ -62,7 +62,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         painelPrincipal.setSize(1024, 768);
 
         //Caso não haja imagem de fundo, adiciona uma imagem genérica
-        if(situacao.getFundoSituacao() == null)
+        if(situacao.getFundoSituacao().getDescription() == null)
         {
             ImageIcon fundoGenerico = new ImageIcon("./Recursos/fundo.jpg");
             imgFundo = new PainelImagem(fundoGenerico.getImage());

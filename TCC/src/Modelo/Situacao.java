@@ -23,11 +23,9 @@ public class Situacao implements Serializable{
     private String nome;
 
     public Situacao() {
-        
         saidas = new ArrayList<>();
         fundoSituacao = new ImageIcon();
         fundoSituacao.setDescription("");
-        
     }    
 
     public ArrayList<Saida> getSaidas() {

@@ -45,3 +45,6 @@ Temporary Items
 /TCC/build/
 *.properties
 /TCC/dist/
+!/TCC/src/Internacionalizacao/english.properties
+!/TCC/src/Internacionalizacao/espanol.properties
+!/TCC/src/Internacionalizacao/portugues.properties

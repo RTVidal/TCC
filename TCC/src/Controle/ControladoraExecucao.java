@@ -5,8 +5,8 @@
  */
 package Controle;
 
-import GUI.Jogador.JanelaSituacaoJogo;
 import Modelo.Partida;
+import Modelo.Saida;
 
 /**
  *
@@ -30,6 +30,11 @@ public class ControladoraExecucao {
 //        //1. Carrega a situação inicial contendo primeiramente a apresentação do jogo e do assistente
         
         
+    }
+    
+    public void AtualizarSituacao(Saida saida)
+    {
+                 
     }
     
 }

@@ -16,6 +16,7 @@ import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
 /**
@@ -24,8 +25,11 @@ import javax.swing.ImageIcon;
  */
 public class JanelaInicial extends javax.swing.JFrame {
 
-    JanelaDesenvolvimentoPartida jdp;
-    ControladoraIdioma ci;
+    private JanelaDesenvolvimentoPartida jdp;
+    private ControladoraIdioma ci;
+    private String idiomaSelecionado;
+    
+    private final ControladoraIdioma idioma;
     /**
      * Creates new form JanelaInicial
      */
@@ -33,14 +37,51 @@ public class JanelaInicial extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         
+        idioma = ControladoraIdioma.getInstancia();
+        
+        PreencheComboIdiomas();
+        
+        idiomaSelecionado = "Português";
+        
         DefineIdioma();
     }
     
-    public final void DefineIdioma()
+    public void CarregaRecursos()
     {
-        ci = ControladoraIdioma.getInstancia();
+        btnAbrirJogo.setText(idioma.Valor("novaSituacao"));
+        btnEditarJogo.setText(idioma.Valor("btnEditarJogo"));
+        btnNovoJogo.setText(idioma.Valor("btnNovoJogo"));
         
-        ci.DefineIdioma(2);
+        lblIdioma.setText(idioma.Valor("lblIdioma"));
+    }
+    
+    public final void PreencheComboIdiomas()
+    {
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        
+        model.addElement("Português");
+        model.addElement("English");
+        model.addElement("Español");
+        
+        cbxIdiomas.setModel(model);
+    }
+    
+    public void DefineIdioma()
+    {
+        switch(idiomaSelecionado)
+        {
+            case "Português":
+                idioma.DefineIdioma(1);
+                break;
+            case "English":
+                idioma.DefineIdioma(2);
+                break;
+            case "Español":
+                idioma.DefineIdioma(3);
+                break;
+        }
+        
+        CarregaRecursos();
     }
 
     /**
@@ -57,8 +98,8 @@ public class JanelaInicial extends javax.swing.JFrame {
         btnNovoJogo = new javax.swing.JButton();
         btnEditarJogo = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
+        cbxIdiomas = new javax.swing.JComboBox();
+        lblIdioma = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,14 +126,14 @@ public class JanelaInicial extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbxIdiomas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxIdiomas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                cbxIdiomasActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Idioma");
+        lblIdioma.setText("Idioma");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,9 +155,9 @@ public class JanelaInicial extends javax.swing.JFrame {
                                 .addComponent(jButton2)))
                         .addGap(32, 32, 32))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblIdioma)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxIdiomas, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -124,8 +165,8 @@ public class JanelaInicial extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(cbxIdiomas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblIdioma))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(btnAbrirJogo)
                 .addGap(18, 18, 18)
@@ -231,17 +272,21 @@ public class JanelaInicial extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnEditarJogoActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void cbxIdiomasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxIdiomasActionPerformed
+        
+        idiomaSelecionado = (String)cbxIdiomas.getSelectedItem();
+        DefineIdioma();
+        System.out.println("idioma selecionado " + idiomaSelecionado);
+        
+    }//GEN-LAST:event_cbxIdiomasActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrirJogo;
     private javax.swing.JButton btnEditarJogo;
     private javax.swing.JButton btnNovoJogo;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox cbxIdiomas;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblIdioma;
     // End of variables declaration//GEN-END:variables
 }

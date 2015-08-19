@@ -13,6 +13,8 @@ public class Acao {
     
     private Variavel variavel;
     
+    private boolean abortarJogoSeNegativo;
+    
     //1. adição, 2. subtração, 3. multiplicação, 4. divisão
     private int operacao;
     
@@ -41,5 +43,4 @@ public class Acao {
     public void setNumero(double numero) {
         this.numero = numero;
     }
-        
 }

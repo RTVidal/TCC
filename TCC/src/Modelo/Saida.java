@@ -6,6 +6,7 @@
 package Modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +18,8 @@ public class Saida implements Serializable{
     private Situacao situacaoDestino;
     private String falaAssistente;
     private String nome;
+    
+    private ArrayList<Acao> acoes;
 
     public Situacao getSituacaoOrigem() {
         return situacaoOrigem;

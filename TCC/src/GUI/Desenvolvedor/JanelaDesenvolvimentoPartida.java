@@ -64,8 +64,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         
         
         //Botões        
-        btnNovaSituacao.setText(idioma.Valor("NOVA SITUAÇÃO"));
-        btnEditarAssistente.setText(idioma.Valor("EDITAR ASSISTENTE"));
+        btnNovaSituacao.setText(idioma.Valor("novaSituacao"));
+        btnEditarAssistente.setText(idioma.Valor("editarAssistente"));
     }
 
     /**
@@ -80,7 +80,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
                 if (s.isSituacaoInicial()) {
 
-                    itens.addElement(s.getNome() + " - " + idioma.Valor("Inicial"));
+                    itens.addElement(s.getNome() + " - " + idioma.Valor("inicial"));
 
                 } else {
 
@@ -455,11 +455,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         boolean continuar = true;
         String mensagem = "";
 
-        if(!partidaDesenvolvimento.getAssistente().isCriado())
-        {
-            continuar = false;
-            mensagem = idioma.Valor("mensagemSemAssistente");
-        }
+//        if(!partidaDesenvolvimento.getAssistente().isCriado())
+//        {
+//            continuar = false;
+//            mensagem = idioma.Valor("mensagemSemAssistente");
+//        }
         
         
         if (continuar) {

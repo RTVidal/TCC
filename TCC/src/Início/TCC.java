@@ -5,7 +5,6 @@
  */
 package Início;
 
-import GUI.Desenvolvedor.JanelaDesenvolvimentoAssistente;
 import GUI.Jogador.JanelaInicial;
 
 /**

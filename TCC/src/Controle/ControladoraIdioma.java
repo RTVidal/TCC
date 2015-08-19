@@ -5,8 +5,6 @@
  */
 package Controle;
 
-import java.util.Enumeration;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -22,13 +20,15 @@ public class ControladoraIdioma {
         switch (idioma) {
             case 1:
                 //Por
+                resourceBundle = ResourceBundle.getBundle("Internacionalizacao/portugues");
                 break;
             case 2:
                 //Eng
-                resourceBundle = ResourceBundle.getBundle("Idioma/english");
+                resourceBundle = ResourceBundle.getBundle("Internacionalizacao/english");
                 break;
             case 3:
                 //Esp
+                resourceBundle = ResourceBundle.getBundle("Internacionalizacao/espanol");
                 break;
         }
     }
