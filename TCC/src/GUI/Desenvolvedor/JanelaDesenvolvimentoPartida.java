@@ -9,7 +9,7 @@ import Controle.ControladoraIdioma;
 import GUI.Jogador.JanelaSituacaoJogo;
 import GUI.Suporte.SaidasTableModel;
 import Modelo.Partida;
-import Modelo.Saida;
+import Modelo.SaidaOpcao;
 import Modelo.Situacao;
 import Persistencia.IOPartida;
 import java.io.File;
@@ -118,12 +118,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     public final void AtualizaSaidas() {
 
         ArrayList<Situacao> situacoes = partidaDesenvolvimento.getSituacoes();
-        ArrayList<Saida> saidas = new ArrayList<>();
+        ArrayList<SaidaOpcao> saidas = new ArrayList<>();
 
         //Obtem as saídas de cada situacao
         for (Situacao st : situacoes) {
             if (st.getSaidas() != null) {
-                for (Saida sd : st.getSaidas()) {
+                for (SaidaOpcao sd : st.getSaidas()) {
                     saidas.add(sd);
                 }
             }
@@ -515,7 +515,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         int index = tblSaidas.getSelectedRow();
 
         //Recuperar a saída
-        Saida saida = (Saida) tblSaidas.getValueAt(index, 0);
+        SaidaOpcao saida = (SaidaOpcao) tblSaidas.getValueAt(index, 0);
 
         JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(2, saida);
         jds.setVisible(true);

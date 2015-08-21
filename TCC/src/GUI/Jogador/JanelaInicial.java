@@ -9,7 +9,7 @@ import Controle.ControladoraIdioma;
 import GUI.Desenvolvedor.JanelaDesenvolvimentoPartida;
 import Modelo.Assistente;
 import Modelo.Partida;
-import Modelo.Saida;
+import Modelo.SaidaOpcao;
 import Modelo.Situacao;
 import Persistencia.IOPartida;
 import java.awt.Image;
@@ -48,7 +48,7 @@ public class JanelaInicial extends javax.swing.JFrame {
     
     public void CarregaRecursos()
     {
-        btnAbrirJogo.setText(idioma.Valor("novaSituacao"));
+        btnAbrirJogo.setText(idioma.Valor("btnAbrirJogo"));
         btnEditarJogo.setText(idioma.Valor("btnEditarJogo"));
         btnNovoJogo.setText(idioma.Valor("btnNovoJogo"));
         
@@ -222,23 +222,23 @@ public class JanelaInicial extends javax.swing.JFrame {
                     + "nuggets de banana, palmito assado, minipastel de geleia de "
                     + "pimenta, babaganoush e chips de banana.");
 
-            Saida saida1 = new Saida();
+            SaidaOpcao saida1 = new SaidaOpcao();
             saida1.setNome("Saida 1");
             saida1.setFalaAssistente("Você escolheu saida 1");
 
-            Saida saida2 = new Saida();
+            SaidaOpcao saida2 = new SaidaOpcao();
             saida2.setNome("Saida 2");
             saida2.setFalaAssistente("É a saída 2 que você escolheu");
 
-            Saida saida3 = new Saida();
+            SaidaOpcao saida3 = new SaidaOpcao();
             saida3.setNome("Saída 3");
             saida3.setFalaAssistente("Você quer a saída 3?");
 
-            Saida saida4 = new Saida();
+            SaidaOpcao saida4 = new SaidaOpcao();
             saida4.setNome("Saida 4");
             saida4.setFalaAssistente("Saída 4 então");
 
-            ArrayList<Saida> saidas = new ArrayList<>();
+            ArrayList<SaidaOpcao> saidas = new ArrayList<>();
 
             saidas.add(saida1);
             saidas.add(saida2);

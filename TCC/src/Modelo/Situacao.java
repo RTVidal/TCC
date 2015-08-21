@@ -15,7 +15,8 @@ import javax.swing.ImageIcon;
  */
 public class Situacao implements Serializable{
 
-    private ArrayList<Saida> saidas;
+    private ArrayList<SaidaOpcao> saidasOpcao;
+    private SaidaNumerica saidaNumerica;
     private boolean situacaoInicial;
     private boolean situacaoFinal;
     private ImageIcon fundoSituacao;
@@ -23,17 +24,17 @@ public class Situacao implements Serializable{
     private String nome;
 
     public Situacao() {
-        saidas = new ArrayList<>();
+        saidasOpcao = new ArrayList<>();
         fundoSituacao = new ImageIcon();
         fundoSituacao.setDescription("");
     }    
 
-    public ArrayList<Saida> getSaidas() {
-        return saidas;
+    public ArrayList<SaidaOpcao> getSaidas() {
+        return saidasOpcao;
     }
 
-    public void setSaidas(ArrayList<Saida> saidas) {
-        this.saidas = saidas;
+    public void setSaidas(ArrayList<SaidaOpcao> saidas) {
+        this.saidasOpcao = saidas;
     }
 
     public boolean isSituacaoInicial() {
@@ -74,6 +75,22 @@ public class Situacao implements Serializable{
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public ArrayList<SaidaOpcao> getSaidasOpcao() {
+        return saidasOpcao;
+    }
+
+    public void setSaidasOpcao(ArrayList<SaidaOpcao> saidasOpcao) {
+        this.saidasOpcao = saidasOpcao;
+    }
+
+    public SaidaNumerica getSaidaNumerica() {
+        return saidaNumerica;
+    }
+
+    public void setSaidaNumerica(SaidaNumerica saidaNumerica) {
+        this.saidaNumerica = saidaNumerica;
     }
 
 }

@@ -12,13 +12,13 @@ import java.util.ArrayList;
  *
  * @author Rafael
  */
-public class Saida implements Serializable{
+public class SaidaOpcao implements Serializable{
     
     private Situacao situacaoOrigem;
     private Situacao situacaoDestino;
     private String falaAssistente;
     private String nome;
-    
+        
     private ArrayList<Acao> acoes;
 
     public Situacao getSituacaoOrigem() {
@@ -52,6 +52,12 @@ public class Saida implements Serializable{
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    
+
+    public ArrayList<Acao> getAcoes() {
+        return acoes;
+    }
+
+    public void setAcoes(ArrayList<Acao> acoes) {
+        this.acoes = acoes;
+    }    
 }
