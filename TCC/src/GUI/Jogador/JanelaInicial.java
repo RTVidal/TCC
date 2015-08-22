@@ -29,8 +29,9 @@ public class JanelaInicial extends javax.swing.JFrame {
     private JanelaDesenvolvimentoPartida jdp;
     private ControladoraIdioma ci;
     private String idiomaSelecionado;
-    
+
     private final ControladoraIdioma idioma;
+
     /**
      * Creates new form JanelaInicial
      */
@@ -42,31 +43,27 @@ public class JanelaInicial extends javax.swing.JFrame {
         idiomaSelecionado = "Português";
         DefineIdioma();
     }
-    
-    public void CarregaRecursos()
-    {
+
+    public void CarregaRecursos() {
         btnAbrirJogo.setText(idioma.Valor("principalBtnAbrirJogo"));
         btnEditarJogo.setText(idioma.Valor("principalBtnEditarJogo"));
         btnNovoJogo.setText(idioma.Valor("principalBtnNovoJogo"));
         lblTituloPrincipal.setText(idioma.Valor("tituloTelaPrincipal"));
         lblIdioma.setText(idioma.Valor("principalLblIdioma"));
     }
-    
-    public final void PreencheComboIdiomas()
-    {
+
+    public final void PreencheComboIdiomas() {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        
+
         model.addElement("Português");
         model.addElement("English");
         model.addElement("Español");
-        
+
         cbxIdiomas.setModel(model);
     }
-    
-    public void DefineIdioma()
-    {
-        switch(idiomaSelecionado)
-        {
+
+    public void DefineIdioma() {
+        switch (idiomaSelecionado) {
             case "Português":
                 idioma.DefineIdioma(1);
                 break;
@@ -77,7 +74,7 @@ public class JanelaInicial extends javax.swing.JFrame {
                 idioma.DefineIdioma(3);
                 break;
         }
-        
+
         CarregaRecursos();
     }
 
@@ -178,18 +175,14 @@ public class JanelaInicial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoJogoActionPerformed
-
         //Cria uma instancia da janela de desenvolvimento de partida
         jdp = JanelaDesenvolvimentoPartida.getInstancia();
-        
         jdp.setVisible(true);
-        
     }//GEN-LAST:event_btnNovoJogoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        try
-        {
+
+        try {
             //Preenche a instancia do assistente
             Assistente assistente = new Assistente();
 
@@ -203,7 +196,7 @@ public class JanelaInicial extends javax.swing.JFrame {
 
             File file = new File("./recursos/teste.jpg");
             Image img = ImageIO.read(file);
-            
+
             ImageIcon image = new ImageIcon("./recursos/teste.jpg");
 
             situacao.setFundoSituacao(image);
@@ -244,40 +237,35 @@ public class JanelaInicial extends javax.swing.JFrame {
             Saida saida = new Saida();
             saida.setTipoSaida(1);
             saida.setsaidasOpcao(saidasOpcao);
-            
+
             situacao.setSaida(saida);
-            
+
             JanelaSituacaoJogo jsj = new JanelaSituacaoJogo(situacao, assistente);
 
             jsj.setVisible(true);
             jsj.setSize(1024, 768);
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnEditarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarJogoActionPerformed
-        
         IOPartida iop = new IOPartida();
-        
         Partida partidaDesenvolvimento = iop.LePartida();
-        
-        Partida.setInstancia(partidaDesenvolvimento);
-        
-        jdp = JanelaDesenvolvimentoPartida.getInstancia();
-        
-        jdp.setVisible(true);
-        
+        if (partidaDesenvolvimento != null) {
+            Partida.setInstancia(partidaDesenvolvimento);
+            jdp = JanelaDesenvolvimentoPartida.getInstancia();
+            jdp.setVisible(true);
+        }
     }//GEN-LAST:event_btnEditarJogoActionPerformed
 
     private void cbxIdiomasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxIdiomasActionPerformed
-        
-        idiomaSelecionado = (String)cbxIdiomas.getSelectedItem();
+
+        idiomaSelecionado = (String) cbxIdiomas.getSelectedItem();
         DefineIdioma();
         System.out.println("idioma selecionado " + idiomaSelecionado);
-        
+
     }//GEN-LAST:event_cbxIdiomasActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

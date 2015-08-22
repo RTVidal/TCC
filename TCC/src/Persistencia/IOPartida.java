@@ -112,8 +112,10 @@ public class IOPartida {
 
             } else if (acao == JFileChooser.CANCEL_OPTION) {
                 //apertou botao cancelar
+                return null;
             } else if (acao == JFileChooser.ERROR_OPTION) {
                 //outra opcao
+                return null;
             }
 
         } catch (Exception e) {
