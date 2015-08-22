@@ -36,23 +36,19 @@ public class JanelaInicial extends javax.swing.JFrame {
     public JanelaInicial() {
         initComponents();
         setLocationRelativeTo(null);
-        
         idioma = ControladoraIdioma.getInstancia();
-        
         PreencheComboIdiomas();
-        
         idiomaSelecionado = "Português";
-        
         DefineIdioma();
     }
     
     public void CarregaRecursos()
     {
-        btnAbrirJogo.setText(idioma.Valor("btnAbrirJogo"));
-        btnEditarJogo.setText(idioma.Valor("btnEditarJogo"));
-        btnNovoJogo.setText(idioma.Valor("btnNovoJogo"));
+        btnAbrirJogo.setText(idioma.Valor("principalBtnAbrirJogo"));
+        btnEditarJogo.setText(idioma.Valor("principalBtnEditarJogo"));
+        btnNovoJogo.setText(idioma.Valor("principalBtnNovoJogo"));
         
-        lblIdioma.setText(idioma.Valor("lblIdioma"));
+        lblIdioma.setText(idioma.Valor("principalLblIdioma"));
     }
     
     public final void PreencheComboIdiomas()

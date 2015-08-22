@@ -64,8 +64,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         
         
         //Botões        
-        btnNovaSituacao.setText(idioma.Valor("novaSituacao"));
-        btnEditarAssistente.setText(idioma.Valor("editarAssistente"));
+        btnNovaSituacao.setText(idioma.Valor("desPartidaBtnNovaSituacao"));
+        btnEditarAssistente.setText(idioma.Valor("desPartidaBtnEditarAssistente"));
     }
 
     /**
