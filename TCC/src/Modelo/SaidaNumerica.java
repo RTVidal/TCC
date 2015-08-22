@@ -13,7 +13,33 @@ import java.util.ArrayList;
  */
 public class SaidaNumerica {
     
-    private Situacao saidaDefault;
+    private AcaoSaidaNumerica acaoSNDefaultInferior;
     
-    private ArrayList<Acao> acaoSaidaNumerica;
+    private AcaoSaidaNumerica acaoSNDefaultSuperior;
+    
+    private ArrayList<AcaoSaidaNumerica> acaoSaidaNumerica;
+
+    public AcaoSaidaNumerica getAcaoSNDefaultInferior() {
+        return acaoSNDefaultInferior;
+    }
+
+    public void setAcaoSNDefaultInferior(AcaoSaidaNumerica acaoSNDefaultInferior) {
+        this.acaoSNDefaultInferior = acaoSNDefaultInferior;
+    }
+
+    public AcaoSaidaNumerica getAcaoSNDefaultSuperior() {
+        return acaoSNDefaultSuperior;
+    }
+
+    public void setAcaoSNDefaultSuperior(AcaoSaidaNumerica acaoSNDefaultSuperior) {
+        this.acaoSNDefaultSuperior = acaoSNDefaultSuperior;
+    }
+
+    public ArrayList<AcaoSaidaNumerica> getAcaoSaidaNumerica() {
+        return acaoSaidaNumerica;
+    }
+
+    public void setAcaoSaidaNumerica(ArrayList<AcaoSaidaNumerica> acaoSaidaNumerica) {
+        this.acaoSaidaNumerica = acaoSaidaNumerica;
+    }
 }

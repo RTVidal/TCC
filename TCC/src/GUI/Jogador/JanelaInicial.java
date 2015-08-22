@@ -9,6 +9,7 @@ import Controle.ControladoraIdioma;
 import GUI.Desenvolvedor.JanelaDesenvolvimentoPartida;
 import Modelo.Assistente;
 import Modelo.Partida;
+import Modelo.Saida;
 import Modelo.SaidaOpcao;
 import Modelo.Situacao;
 import Persistencia.IOPartida;
@@ -234,14 +235,18 @@ public class JanelaInicial extends javax.swing.JFrame {
             saida4.setNome("Saida 4");
             saida4.setFalaAssistente("Saída 4 então");
 
-            ArrayList<SaidaOpcao> saidas = new ArrayList<>();
+            ArrayList<SaidaOpcao> saidasOpcao = new ArrayList<>();
 
-            saidas.add(saida1);
-            saidas.add(saida2);
-            saidas.add(saida3);
-            saidas.add(saida4);
+            saidasOpcao.add(saida1);
+            saidasOpcao.add(saida2);
+            saidasOpcao.add(saida3);
+            saidasOpcao.add(saida4);
 
-            situacao.setSaidas(saidas);
+            Saida saida = new Saida();
+            saida.setTipoSaida(1);
+            saida.setsaidasOpcao(saidasOpcao);
+            
+            situacao.setSaida(saida);
             
             JanelaSituacaoJogo jsj = new JanelaSituacaoJogo(situacao, assistente);
 

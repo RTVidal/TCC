@@ -6,7 +6,6 @@
 package Modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /**
@@ -15,27 +14,30 @@ import javax.swing.ImageIcon;
  */
 public class Situacao implements Serializable{
 
-    private ArrayList<SaidaOpcao> saidasOpcao;
-    private SaidaNumerica saidaNumerica;
+//    private ArrayList<SaidaOpcao> saidasOpcao;
+//    private SaidaNumerica saidaNumerica;
     private boolean situacaoInicial;
     private boolean situacaoFinal;
     private ImageIcon fundoSituacao;
     private String falaAssistente;
     private String nome;
+    
+    private Saida saida;
 
     public Situacao() {
-        saidasOpcao = new ArrayList<>();
+        //saidasOpcao = new ArrayList<>();
+        saida = new Saida();
         fundoSituacao = new ImageIcon();
         fundoSituacao.setDescription("");
     }    
 
-    public ArrayList<SaidaOpcao> getSaidas() {
-        return saidasOpcao;
-    }
-
-    public void setSaidas(ArrayList<SaidaOpcao> saidas) {
-        this.saidasOpcao = saidas;
-    }
+//    public ArrayList<SaidaOpcao> getSaidas() {
+//        return saidasOpcao;
+//    }
+//
+//    public void setSaidas(ArrayList<SaidaOpcao> saidas) {
+//        this.saidasOpcao = saidas;
+//    }
 
     public boolean isSituacaoInicial() {
         return situacaoInicial;
@@ -76,21 +78,31 @@ public class Situacao implements Serializable{
     public void setNome(String nome) {
         this.nome = nome;
     }
+    
+    
 
-    public ArrayList<SaidaOpcao> getSaidasOpcao() {
-        return saidasOpcao;
+//    public ArrayList<SaidaOpcao> getSaidasOpcao() {
+//        return saidasOpcao;
+//    }
+//
+//    public void setSaidasOpcao(ArrayList<SaidaOpcao> saidasOpcao) {
+//        this.saidasOpcao = saidasOpcao;
+//    }
+//
+//    public SaidaNumerica getSaidaNumerica() {
+//        return saidaNumerica;
+//    }
+//
+//    public void setSaidaNumerica(SaidaNumerica saidaNumerica) {
+//        this.saidaNumerica = saidaNumerica;
+//    }
+
+    public Saida getSaida() {
+        return saida;
     }
 
-    public void setSaidasOpcao(ArrayList<SaidaOpcao> saidasOpcao) {
-        this.saidasOpcao = saidasOpcao;
-    }
-
-    public SaidaNumerica getSaidaNumerica() {
-        return saidaNumerica;
-    }
-
-    public void setSaidaNumerica(SaidaNumerica saidaNumerica) {
-        this.saidaNumerica = saidaNumerica;
+    public void setSaida(Saida saida) {
+        this.saida = saida;
     }
 
 }

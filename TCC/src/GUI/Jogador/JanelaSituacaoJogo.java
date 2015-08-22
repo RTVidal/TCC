@@ -115,9 +115,9 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         painelBotoes = new JPanel();
 
-        if (situacao.getSaidas() != null) {
+        if (situacao.getSaida().getsaidasOpcao() != null) {
             
-            GerarSaidas(situacao.getSaidas());
+            GerarSaidas(situacao.getSaida().getsaidasOpcao());
 
         }
         

@@ -80,7 +80,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
                 if (s.isSituacaoInicial()) {
 
-                    itens.addElement(s.getNome() + " - " + idioma.Valor("inicial"));
+                    itens.addElement(s.getNome() + " - " + idioma.Valor("desPartidaBtnInicial"));
 
                 } else {
 
@@ -122,8 +122,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         //Obtem as saídas de cada situacao
         for (Situacao st : situacoes) {
-            if (st.getSaidas() != null) {
-                for (SaidaOpcao sd : st.getSaidas()) {
+            if ((st.getSaida().getsaidasOpcao() != null)) {
+                for (SaidaOpcao sd : st.getSaida().getsaidasOpcao()) {
                     saidas.add(sd);
                 }
             }
