@@ -13,14 +13,24 @@ import java.util.ArrayList;
  */
 public class AcaoSaidaNumerica {
     
+    private String Descricao;
     private String falaAssistente;
     
     private Faixa faixa;
         
     private Situacao situacaoDestino;
     
+    private boolean acaoSNDefault;
+    
     private ArrayList<Acao> acoes;
 
+    public AcaoSaidaNumerica()
+    {
+        acaoSNDefault = false;
+        
+        situacaoDestino = new Situacao();
+    }
+    
     public String getFalaAssistente() {
         return falaAssistente;
     }
@@ -52,4 +62,21 @@ public class AcaoSaidaNumerica {
     public void setAcoes(ArrayList<Acao> acoes) {
         this.acoes = acoes;
     }
+
+    public boolean isAcaoSNDefault() {
+        return acaoSNDefault;
+    }
+
+    public void setAcaoSNDefault(boolean acaoSNDefault) {
+        this.acaoSNDefault = acaoSNDefault;
+    }
+
+    public String getDescricao() {
+        return Descricao;
+    }
+
+    public void setDescricao(String Descricao) {
+        this.Descricao = Descricao;
+    }
+   
 }

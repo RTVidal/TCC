@@ -5,7 +5,7 @@
  */
 package GUI.Suporte;
 
-import Modelo.SaidaOpcao;
+import Modelo.AcaoSaidaNumerica;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
@@ -13,24 +13,24 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Rafael
  */
-public class SaidaNumericaTableModel extends AbstractTableModel{
+public class AcoesSNTbModel extends AbstractTableModel{
     
     private static final int COL_SAIDANUMERICA = 0;
-    private static final int COL_VALORINICIAL = 1;  
+    private static final int COL_VALORINICIAL = 1;
     private static final int COL_VALORFINAL = 2;
     private static final int COL_DESTINO = 3;
     
     
-    private ArrayList<SaidaOpcao> saidas;
+    private ArrayList<AcaoSaidaNumerica> acoesSaidaNumerica;
     
-    public SaidaNumericaTableModel(ArrayList<SaidaOpcao> saidas)
+    public AcoesSNTbModel(ArrayList<AcaoSaidaNumerica> saidas)
     {
-        this.saidas = new ArrayList<SaidaOpcao>(saidas);
+        this.acoesSaidaNumerica = new ArrayList<AcaoSaidaNumerica>(saidas);
     }
     
     @Override
     public int getRowCount() {
-        return saidas.size();
+        return acoesSaidaNumerica.size();
     }
 
     @Override
@@ -49,10 +49,10 @@ public class SaidaNumericaTableModel extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int column) {
         
-        if (column == COL_SAIDANUMERICA) return saidas.get(rowIndex);
-        if (column == COL_VALORINICIAL) return saidas.get(rowIndex).getNome();
-        if (column == COL_VALORFINAL) return saidas.get(rowIndex).getSituacaoOrigem().getNome();
-        if (column == COL_DESTINO) return saidas.get(rowIndex).getSituacaoDestino().getNome();
+        if (column == COL_SAIDANUMERICA) return acoesSaidaNumerica.get(rowIndex);
+        if (column == COL_VALORINICIAL) return acoesSaidaNumerica.get(rowIndex).getFaixa().getLimiteInferior();
+        if (column == COL_VALORFINAL) return acoesSaidaNumerica.get(rowIndex).getFaixa().getLimiteSuperior();
+        if (column == COL_DESTINO) return acoesSaidaNumerica.get(rowIndex).getSituacaoDestino().getNome();
         return "";
         
     }

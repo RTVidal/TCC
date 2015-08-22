@@ -12,12 +12,17 @@ import java.util.ArrayList;
  * @author Rafael
  */
 public class SaidaNumerica {
-    
+            
     private AcaoSaidaNumerica acaoSNDefaultInferior;
     
     private AcaoSaidaNumerica acaoSNDefaultSuperior;
     
     private ArrayList<AcaoSaidaNumerica> acaoSaidaNumerica;
+    
+    private int valorMinimo;
+    
+    private int valorMaximo;
+    
 
     public AcaoSaidaNumerica getAcaoSNDefaultInferior() {
         return acaoSNDefaultInferior;
@@ -42,4 +47,20 @@ public class SaidaNumerica {
     public void setAcaoSaidaNumerica(ArrayList<AcaoSaidaNumerica> acaoSaidaNumerica) {
         this.acaoSaidaNumerica = acaoSaidaNumerica;
     }
+
+    public int getValorMinimo() {
+        return valorMinimo;
+    }
+
+    public void setValorMinimo(int valorMinimo) {
+        this.valorMinimo = valorMinimo;
+    }
+
+    public int getValorMaximo() {
+        return valorMaximo;
+    }
+
+    public void setValorMaximo(int valorMaximo) {
+        this.valorMaximo = valorMaximo;
+    }    
 }

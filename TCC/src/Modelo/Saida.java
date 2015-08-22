@@ -25,6 +25,7 @@ public class Saida {
     public Saida()
     {
         saidasOpcao = new ArrayList<>();
+        saidaNumerica = new SaidaNumerica();
     }
     
     public int getTipoSaida() {

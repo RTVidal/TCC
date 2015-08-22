@@ -7,7 +7,7 @@ package GUI.Desenvolvedor;
 
 import Controle.ControladoraIdioma;
 import GUI.Jogador.JanelaSituacaoJogo;
-import GUI.Suporte.SaidasTableModel;
+import GUI.Suporte.SaidasTbModel;
 import Modelo.Partida;
 import Modelo.SaidaOpcao;
 import Modelo.Situacao;
@@ -129,7 +129,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             }
         }
 
-        tblSaidas.setModel(new SaidasTableModel(saidas));
+        tblSaidas.setModel(new SaidasTbModel(saidas));
 
         //Esconder a coluna contendo o objeto da saída
         tblSaidas.getColumnModel().getColumn(0).setMinWidth(0);
@@ -511,14 +511,14 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     private void btnEditarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSaidaActionPerformed
 
-        //Recuperar da tabela o item selecionado
-        int index = tblSaidas.getSelectedRow();
-
-        //Recuperar a saída
-        SaidaOpcao saida = (SaidaOpcao) tblSaidas.getValueAt(index, 0);
-
-        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(2, saida);
-        jds.setVisible(true);
+//        //Recuperar da tabela o item selecionado
+//        int index = tblSaidas.getSelectedRow();
+//
+//        //Recuperar a saída
+//        SaidaOpcao saida = (SaidaOpcao) tblSaidas.getValueAt(index, 0);
+//
+//        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(2, saida);
+//        jds.setVisible(true);
 
     }//GEN-LAST:event_btnEditarSaidaActionPerformed
 

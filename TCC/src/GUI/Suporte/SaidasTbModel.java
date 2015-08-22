@@ -13,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Rafael
  */
-public class SaidasTableModel extends AbstractTableModel{
+public class SaidasTbModel extends AbstractTableModel{
     
     private static final int COL_SAIDA = 0;
     private static final int COL_NOME = 1;  
@@ -24,7 +24,7 @@ public class SaidasTableModel extends AbstractTableModel{
     
     private ArrayList<SaidaOpcao> saidas;
     
-    public SaidasTableModel(ArrayList<SaidaOpcao> saidas)
+    public SaidasTbModel(ArrayList<SaidaOpcao> saidas)
     {
         this.saidas = new ArrayList<SaidaOpcao>(saidas);
     }

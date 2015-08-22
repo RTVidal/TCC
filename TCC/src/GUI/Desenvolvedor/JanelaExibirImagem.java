@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI.Teste;
+package GUI.Desenvolvedor;
 
 import GUI.Suporte.PainelImagem;
 import java.awt.Image;
@@ -13,13 +13,13 @@ import javax.swing.JPanel;
  *
  * @author Rafael
  */
-public class ExibirImagem extends javax.swing.JFrame {
+public class JanelaExibirImagem extends javax.swing.JFrame {
 
     private final JPanel imgFundo;
     /**
      * Creates new form ExibirImagem
      */
-    public ExibirImagem(Image imagem) {
+    public JanelaExibirImagem(Image imagem) {
         initComponents();
         
         imgFundo = new PainelImagem(imagem);
