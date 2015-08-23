@@ -47,7 +47,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         setResizable(false);
 
         //Obtem o avatar do assistente (caso não haja assistente, preenche com um avatar genérico)
-        if(assistente.getAvatarAssistente() != null)
+        if(assistente.getAvatarAssistente().equals(""))
         {
             imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
         } else
@@ -62,7 +62,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         painelPrincipal.setSize(1024, 768);
 
         //Caso não haja imagem de fundo, adiciona uma imagem genérica
-        if(situacao.getFundoSituacao().getDescription() == null)
+        if(situacao.getFundoSituacao().getDescription().equals(""))
         {
             ImageIcon fundoGenerico = new ImageIcon("./Recursos/fundo.jpg");
             imgFundo = new PainelImagem(fundoGenerico.getImage());

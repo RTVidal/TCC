@@ -113,6 +113,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     
     public final void AtualizaTabelaSaidas()
     {
+        System.out.println("Tipo saida " + saida.getTipoSaida());
         //Atualiza a tabela conforme o tipo de saída
         switch(saida.getTipoSaida())
         {
@@ -295,8 +296,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnVisualizarImagem))
                                     .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(chbSituacaoInicial, javax.swing.GroupLayout.Alignment.LEADING))))
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(chbSituacaoInicial, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -311,7 +312,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                         .addComponent(cbxTipoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton1)
@@ -355,11 +356,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                     .addComponent(btnVisualizarImagem))
                 .addGap(30, 30, 30)
                 .addComponent(chbSituacaoInicial)
-                .addGap(18, 18, 18)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmar)
                     .addComponent(btnCancelar))
-                .addGap(30, 30, 30))
+                .addGap(37, 37, 37))
         );
 
         pack();
@@ -461,11 +462,14 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     private void cbxTipoSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoSaidaActionPerformed
         
-        if(cbxTipoSaida.getSelectedItem().equals("Opcional"))
+        System.out.println(cbxTipoSaida.getSelectedItem());
+        if(cbxTipoSaida.getSelectedItem().equals(idioma.Valor("lblOpcional")))
         {
+            System.out.println("saida opcional");
             saida.setTipoSaida(1);
         }else
         {
+            System.out.println("saida numerica");
             saida.setTipoSaida(2);
         }
         

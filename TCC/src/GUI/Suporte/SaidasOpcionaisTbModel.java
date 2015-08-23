@@ -39,7 +39,7 @@ public class SaidasOpcionaisTbModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 3;
     }
 
     public String getColumnName(int column) {

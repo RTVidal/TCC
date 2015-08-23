@@ -52,22 +52,32 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
         this.saida = saida;
         this.modo = modo;
-        
+
         situacaoOrigem = situacao;
-        
+
         txtSituacaoOrigem.setText(situacaoOrigem.getNome());
-        
-        if(modo == 1)
-        {
+
+        if (modo == 1) {
             saidaOpcao = new SaidaOpcional();
             saidaNumerica = new SaidaNumerica();
-        } else
-        {
+
+            switch (saida.getTipoSaida()) {
+                case 1:
+                    
+                    opcaoSaida.setSelectedComponent(pnlSaidaOpcao);
+
+                    break;
+                case 2:
+                    
+                    opcaoSaida.setSelectedComponent(pnlSaidaNumerica);
+
+                    break;
+            }
+        } else {
             CarregarSaida();
         }
 
         opcaoSaida.setEnabled(false);
-        
 
         PreencheListaSituacoes();
     }
@@ -158,11 +168,10 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         pnlSaidaOpcaoLayout.setHorizontalGroup(
             pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSaidaOpcaoLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(23, 23, 23)
                 .addComponent(lblDescricao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtDescricaoSO, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addComponent(txtDescricaoSO, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE))
         );
         pnlSaidaOpcaoLayout.setVerticalGroup(
             pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,9 +282,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                                     .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(cbxSituacaoDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(0, 0, 0))
-                        .addGap(94, 94, 94))
+                                .addComponent(cbxSituacaoDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jLabel2)
@@ -338,8 +345,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
                 if (modo == 1) {
 
-                    saida.getSaidasOpcao().add(saidaOpcao);                    
-                    
+                    saida.getSaidasOpcao().add(saidaOpcao);
+
                 }
 
                 break;
@@ -352,17 +359,18 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 faixa.setLimiteSuperior((Integer) spnValorMaximo.getValue());
 
                 saidaNumerica.setFaixa(faixa);
-                
+
                 if (modo == 1) {
 
                     saida.getSaidasNumerica().add(saidaNumerica);
-                    
+
                 }
-                
+
                 break;
         }
 
-        situacaoOrigem.setSaida(saida);        
+        situacaoOrigem.setSaida(saida);
+        janelaDevSituacao.AtualizaTabelaSaidas();
         dispose();
 
     }//GEN-LAST:event_btnConfirmarActionPerformed
