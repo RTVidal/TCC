@@ -24,9 +24,7 @@ import javax.swing.filechooser.FileFilter;
 public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     private Partida partidaDesenvolvimento;
-
     private static JanelaDesenvolvimentoPartida instancia;
-    
     private ControladoraIdioma idioma;
 
     /**
@@ -35,30 +33,21 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     public JanelaDesenvolvimentoPartida() {
         initComponents();
         setLocationRelativeTo(null);
-
         idioma = ControladoraIdioma.getInstancia();
-        
         PreencheComponentes();
-        
         partidaDesenvolvimento = Partida.getInstancia();
-
         AtualizaSituacoes();
-
         if (partidaDesenvolvimento.getAssistente() != null) {
             AtualizaAssistente();
         }
-
-        //AtualizaSaidas();
-
     }
     
     /**
      * Preenche os componentes da tela de acordo com o idioma selecionado
      */
-    public final void PreencheComponentes()
-    {
+    public final void PreencheComponentes() {
         //Labels
-        
+        lblTitulo.setText(idioma.Valor("tituloDesenvPartidaNova"));
         
         //Botões        
         btnNovaSituacao.setText(idioma.Valor("desPartidaBtnNovaSituacao"));
@@ -166,6 +155,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnEditarAssistente = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         lblImgAssistente = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -178,11 +168,14 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Assistente:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("GUI/Desenvolvedor/Bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("ASSISTENTE:")); // NOI18N
 
-        lblNomeAssistente.setText("nomeAssistente");
+        lblNomeAssistente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("Idioma/english"); // NOI18N
+        lblNomeAssistente.setText(bundle1.getString("NOMEASSISTENTE")); // NOI18N
 
         lstSituacoes.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -191,23 +184,23 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(lstSituacoes);
 
-        btnNovaSituacao.setText("Nova Situação");
+        btnNovaSituacao.setText(bundle1.getString("NOVA SITUAÇÃO")); // NOI18N
         btnNovaSituacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNovaSituacaoActionPerformed(evt);
             }
         });
 
-        btnEditarSituacao.setText("Editar");
+        btnEditarSituacao.setText(bundle1.getString("EDITAR")); // NOI18N
         btnEditarSituacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarSituacaoActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Excluir");
+        jButton4.setText(bundle1.getString("EXCLUIR")); // NOI18N
 
-        btnPrevia.setText("Prévia");
+        btnPrevia.setText(bundle1.getString("PRÉVIA")); // NOI18N
         btnPrevia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPreviaActionPerformed(evt);
@@ -219,34 +212,32 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnEditarSituacao, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(142, 142, 142)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPrevia)
-                    .addComponent(btnNovaSituacao, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnNovaSituacao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarSituacao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPrevia)
+                        .addGap(0, 65, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnNovaSituacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPrevia))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNovaSituacao)
                     .addComponent(btnEditarSituacao)
-                    .addComponent(jButton4))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(jButton4)
+                    .addComponent(btnPrevia))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Situações", jPanel1);
@@ -272,16 +263,16 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblSaidas);
 
-        btnEditarSaida.setText("Editar");
+        btnEditarSaida.setText(bundle1.getString("EDITAR")); // NOI18N
         btnEditarSaida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarSaidaActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Excluir");
+        jButton3.setText(bundle1.getString("EXCLUIR")); // NOI18N
 
-        btnNovaSaida.setText("Nova saída");
+        btnNovaSaida.setText(bundle1.getString("NOVA SAÍDA")); // NOI18N
         btnNovaSaida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNovaSaidaActionPerformed(evt);
@@ -295,27 +286,27 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnEditarSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(112, 112, 112)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNovaSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                        .addComponent(btnNovaSaida)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarSaida)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNovaSaida))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEditarSaida)
-                    .addComponent(jButton3))
-                .addContainerGap(21, Short.MAX_VALUE))
+                    .addComponent(btnNovaSaida)
+                    .addComponent(jButton3)
+                    .addComponent(btnEditarSaida))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Saídas", jPanel2);
@@ -324,81 +315,85 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 714, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 358, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Parametrizador", jPanel3);
+        jTabbedPane1.addTab(bundle1.getString("PARAMETRIZADOR"), jPanel3); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 714, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 358, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Variáveis", jPanel4);
+        jTabbedPane1.addTab(bundle1.getString("VARIÁVEIS"), jPanel4); // NOI18N
 
-        btnEditarAssistente.setText("Editar Assistente");
+        btnEditarAssistente.setText(bundle1.getString("EDITAR ASSISTENTE")); // NOI18N
         btnEditarAssistente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarAssistenteActionPerformed(evt);
             }
         });
 
-        btnSalvar.setText("Salvar");
+        btnSalvar.setText(bundle1.getString("SALVAR")); // NOI18N
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
             }
         });
 
-        lblImgAssistente.setText("imgAssistente");
+        lblImgAssistente.setText(bundle1.getString("IMGASSISTENTE")); // NOI18N
+
+        lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblTitulo.setText("lblTitulo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNomeAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(lblImgAssistente)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditarAssistente))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(lblTitulo)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblImgAssistente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNomeAssistente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditarAssistente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(lblNomeAssistente)
-                    .addComponent(btnEditarAssistente)
-                    .addComponent(lblImgAssistente))
-                .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSalvar)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTitulo)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTabbedPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNomeAssistente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarAssistente)
+                        .addGap(177, 177, 177)
+                        .addComponent(btnSalvar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -554,6 +549,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblImgAssistente;
     private javax.swing.JLabel lblNomeAssistente;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JList lstSituacoes;
     private javax.swing.JTable tblSaidas;
     // End of variables declaration//GEN-END:variables
