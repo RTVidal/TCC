@@ -5,7 +5,7 @@
  */
 package GUI.Suporte;
 
-import Modelo.AcaoSaidaNumerica;
+import Modelo.SaidaNumerica;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
@@ -13,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Rafael
  */
-public class AcoesSNTbModel extends AbstractTableModel{
+public class SaidasNumericasTbModel extends AbstractTableModel{
     
     private static final int COL_SAIDANUMERICA = 0;
     private static final int COL_VALORINICIAL = 1;
@@ -21,21 +21,21 @@ public class AcoesSNTbModel extends AbstractTableModel{
     private static final int COL_DESTINO = 3;
     
     
-    private ArrayList<AcaoSaidaNumerica> acoesSaidaNumerica;
+    private ArrayList<SaidaNumerica> saidasNumericas;
     
-    public AcoesSNTbModel(ArrayList<AcaoSaidaNumerica> saidas)
+    public SaidasNumericasTbModel(ArrayList<SaidaNumerica> saidas)
     {
-        this.acoesSaidaNumerica = new ArrayList<AcaoSaidaNumerica>(saidas);
+        this.saidasNumericas = new ArrayList<SaidaNumerica>(saidas);
     }
     
     @Override
     public int getRowCount() {
-        return acoesSaidaNumerica.size();
+        return saidasNumericas.size();
     }
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 4;
     }
     
     public String getColumnName(int column) {  
@@ -49,10 +49,10 @@ public class AcoesSNTbModel extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int column) {
         
-        if (column == COL_SAIDANUMERICA) return acoesSaidaNumerica.get(rowIndex);
-        if (column == COL_VALORINICIAL) return acoesSaidaNumerica.get(rowIndex).getFaixa().getLimiteInferior();
-        if (column == COL_VALORFINAL) return acoesSaidaNumerica.get(rowIndex).getFaixa().getLimiteSuperior();
-        if (column == COL_DESTINO) return acoesSaidaNumerica.get(rowIndex).getSituacaoDestino().getNome();
+        if (column == COL_SAIDANUMERICA) return saidasNumericas.get(rowIndex);
+        if (column == COL_VALORINICIAL) return saidasNumericas.get(rowIndex).getFaixa().getLimiteInferior();
+        if (column == COL_VALORFINAL) return saidasNumericas.get(rowIndex).getFaixa().getLimiteSuperior();
+        if (column == COL_DESTINO) return saidasNumericas.get(rowIndex).getSituacaoDestino().getNome();
         return "";
         
     }

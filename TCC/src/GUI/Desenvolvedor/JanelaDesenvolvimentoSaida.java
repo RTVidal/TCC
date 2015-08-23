@@ -6,15 +6,12 @@
 package GUI.Desenvolvedor;
 
 import Controle.ControladoraIdioma;
-import GUI.Suporte.AcoesDefaultSNTbModel;
-import GUI.Suporte.AcoesSNTbModel;
-import Modelo.AcaoSaidaNumerica;
+import Modelo.Faixa;
 import Modelo.Partida;
 import Modelo.Saida;
 import Modelo.SaidaNumerica;
-import Modelo.SaidaOpcao;
+import Modelo.SaidaOpcional;
 import Modelo.Situacao;
-import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -26,133 +23,96 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     /**
      * Creates new form JanelaDesenvolvimentoSaida
      */
-    private int acao;
-    private int tipoSaida;
-    
-    private final JanelaDesenvolvimentoPartida jdp;
-    
+    private final int modo;
+
     private final Partida partidaDesenvolvimento;
-    
-    private Saida saida;
-    
-    private SaidaOpcao saidaOpcao;
-    
+
+    private final Saida saida;
+
+    private SaidaOpcional saidaOpcao;
+
     private SaidaNumerica saidaNumerica;
-    
-    private Situacao situacaoOrigem;
+
+    private final Situacao situacaoOrigem;
     private Situacao situacaoDestino;
-    
-    private ControladoraIdioma idioma;
-    
-    public JanelaDesenvolvimentoSaida(int acao, Saida saida) {
+
+    private final ControladoraIdioma idioma;
+
+    private final JanelaDesenvolvimentoSituacao janelaDevSituacao;
+
+    public JanelaDesenvolvimentoSaida(JanelaDesenvolvimentoSituacao jds, int modo, Saida saida, Situacao situacao) {
         initComponents();
-        
-        jdp = JanelaDesenvolvimentoPartida.getInstancia();        
-        
-        setLocationRelativeTo(jdp);
-        
+
+        setLocationRelativeTo(jds);
+
+        janelaDevSituacao = jds;
+
         partidaDesenvolvimento = Partida.getInstancia();
         idioma = ControladoraIdioma.getInstancia();
+
+        this.saida = saida;
+        this.modo = modo;
         
-        this.acao = acao;
+        situacaoOrigem = situacao;
         
-        if (acao == 1) {
-            this.saida = new Saida();
-            this.saidaOpcao = new SaidaOpcao();
-            this.saidaNumerica = new SaidaNumerica();
-        } else {
-            this.saida = saida;
-            CarregaSaida();
-            tipoSaida = 1;
+        txtSituacaoOrigem.setText(situacaoOrigem.getNome());
+        
+        if(modo == 1)
+        {
+            saidaOpcao = new SaidaOpcional();
+            saidaNumerica = new SaidaNumerica();
+        } else
+        {
+            CarregarSaida();
         }
+
+        opcaoSaida.setEnabled(false);
         
-        situacaoOrigem = new Situacao();
-        situacaoDestino = new Situacao();
-        
+
         PreencheListaSituacoes();
     }
-    
-    public final void CarregaSaida() {
-        txtNome.setText(saidaOpcao.getNome());
-        txaFalaAssistente.setText(saidaOpcao.getFalaAssistente());
-    }
-    
-    public final void PreencheListaSituacoes() {
-                
-        final DefaultComboBoxModel modelDestino = new DefaultComboBoxModel();
-        final DefaultComboBoxModel modelOrigem = new DefaultComboBoxModel();
-        
-        int itemSelecionadoOrigem = 0;
-        int itemSelecionadoDestino = 0;
-        int cont = 0;
-        
-        if (!(partidaDesenvolvimento.getSituacoes() == null)) {
-            for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
-                
-                if (s == saidaOpcao.getSituacaoOrigem()) {
-                    itemSelecionadoOrigem = cont;
-                }
-                
-                if (s == saidaOpcao.getSituacaoDestino()) {
-                    itemSelecionadoDestino = cont;
-                }
-                
-                modelDestino.addElement(s.getNome());
-                modelOrigem.addElement(s.getNome());
-                
-                cont++;
-            }
-            
-            cbxSituacaoDestino.setModel(modelDestino);
-            cbxSituacaoOrigem.setModel(modelOrigem);
-            
-            cbxSituacaoDestino.setSelectedIndex(itemSelecionadoDestino);
-            cbxSituacaoOrigem.setSelectedIndex(itemSelecionadoOrigem);
-            
+
+    public final void CarregarSaida() {
+
+        switch (saida.getTipoSaida()) {
+            case 1:
+                txaFalaAssistente.setText(saidaOpcao.getFalaAssistente());
+                txtDescricaoSO.setText(saidaOpcao.getNome());
+
+                break;
+            case 2:
+                spnValorMaximo.setValue(saidaNumerica.getFaixa().getLimiteSuperior());
+                spnValorMinimo.setValue(saidaNumerica.getFaixa().getLimiteInferior());
+
+                txaFalaAssistente.setText(saidaNumerica.getFalaAssistente());
+
+                break;
         }
-        
+
     }
 
-    /**
-     * Atualizar a tabela de ações defaults da saída numérica
-     */
-    public void AtualizaTabelaAcoesDefaultSN() {
-        ArrayList<AcaoSaidaNumerica> acoesDefaultSN = new ArrayList<>();
-        
-        acoesDefaultSN.add(saidaNumerica.getAcaoSNDefaultInferior());
-        acoesDefaultSN.add(saidaNumerica.getAcaoSNDefaultSuperior());
-        
-        AcoesDefaultSNTbModel model = new AcoesDefaultSNTbModel(acoesDefaultSN);
-        
-        tblAcoesDefaultSN.setModel(model);
-        
-        //Esconder a coluna contendo o objeto da saída
-        tblAcoesDefaultSN.getColumnModel().getColumn(0).setMinWidth(0);
-        tblAcoesDefaultSN.getColumnModel().getColumn(0).setMaxWidth(0);
-        tblAcoesDefaultSN.getColumnModel().getColumn(0).setPreferredWidth(0);
-    }
-    
-    /**
-     * Atualizar a tabela de ações da saída numérica
-     */
-    public void AtualizaTabelaAcoesSN()
-    {
-        if(saidaNumerica.getAcaoSaidaNumerica() != null)
-        {
-            AcoesSNTbModel model = new AcoesSNTbModel(saidaNumerica.getAcaoSaidaNumerica());
-            
-            tblAcoesSN.setModel(model);
+    public final void PreencheListaSituacoes() {
+
+        final DefaultComboBoxModel modelDestino = new DefaultComboBoxModel();
+
+        int itemSelecionadoDestino = 0;
+        int cont = 0;
+
+        for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
+
+            if (s == saidaOpcao.getSituacaoDestino()) {
+                itemSelecionadoDestino = cont;
+            }
+
+            modelDestino.addElement(s.getNome());
+
+            cont++;
         }
-    }
-    
-    /**
-     * Editar ação de saída numérica
-     * @param asn
-     */
-    public void EditarAcaoSN(AcaoSaidaNumerica asn)
-    {
-        JanelaDesenvolvimentoSaidaNumerica jdsn = new JanelaDesenvolvimentoSaidaNumerica(this, 2, asn);
-        jdsn.setVisible(true);
+
+        cbxSituacaoDestino.setModel(modelDestino);
+
+        cbxSituacaoDestino.setSelectedIndex(itemSelecionadoDestino);
+
     }
 
     /**
@@ -164,47 +124,109 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        opcaoSaida = new javax.swing.JTabbedPane();
         pnlSaidaOpcao = new javax.swing.JPanel();
+        lblDescricao = new javax.swing.JLabel();
+        txtDescricaoSO = new javax.swing.JTextField();
+        pnlSaidaNumerica = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        spnValorMinimo = new javax.swing.JSpinner();
+        spnValorMaximo = new javax.swing.JSpinner();
+        jLabel11 = new javax.swing.JLabel();
+        btnCancelar = new javax.swing.JButton();
+        btnConfirmar = new javax.swing.JButton();
+        cbxSituacaoDestino = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        txtSituacaoOrigem = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaFalaAssistente = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
-        cbxSituacaoDestino = new javax.swing.JComboBox();
-        cbxSituacaoOrigem = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        pnlSaidaNumerica = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblAcoesSN = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tblAcoesDefaultSN = new javax.swing.JTable();
-        lblAcoesDefaultSN = new javax.swing.JLabel();
-        lblAcoesSN = new javax.swing.JLabel();
-        btnEditarAcaoDefaultSN = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        btnEditarAcaoSN = new javax.swing.JButton();
-        btnNovaAcaoSN = new javax.swing.JButton();
-        txtNome = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        btnConfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Nome:");
-
-        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+        opcaoSaida.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabbedPane1MouseClicked(evt);
+                opcaoSaidaMouseClicked(evt);
             }
         });
 
-        txaFalaAssistente.setColumns(20);
-        txaFalaAssistente.setRows(5);
-        jScrollPane1.setViewportView(txaFalaAssistente);
+        lblDescricao.setText("lblDescricao");
 
-        jLabel2.setText("Fala assistente:");
+        javax.swing.GroupLayout pnlSaidaOpcaoLayout = new javax.swing.GroupLayout(pnlSaidaOpcao);
+        pnlSaidaOpcao.setLayout(pnlSaidaOpcaoLayout);
+        pnlSaidaOpcaoLayout.setHorizontalGroup(
+            pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSaidaOpcaoLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(lblDescricao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtDescricaoSO, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+        pnlSaidaOpcaoLayout.setVerticalGroup(
+            pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSaidaOpcaoLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDescricaoSO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDescricao))
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+
+        opcaoSaida.addTab("Opção", pnlSaidaOpcao);
+
+        jLabel10.setText("lblValorMinimo");
+
+        jLabel11.setText("lblValorMaximo");
+
+        javax.swing.GroupLayout pnlSaidaNumericaLayout = new javax.swing.GroupLayout(pnlSaidaNumerica);
+        pnlSaidaNumerica.setLayout(pnlSaidaNumericaLayout);
+        pnlSaidaNumericaLayout.setHorizontalGroup(
+            pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spnValorMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spnValorMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(332, Short.MAX_VALUE))))
+        );
+        pnlSaidaNumericaLayout.setVerticalGroup(
+            pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(spnValorMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(spnValorMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+
+        opcaoSaida.addTab("Numérica", pnlSaidaNumerica);
+
+        btnCancelar.setText("btnCancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnConfirmar.setText("btnConfirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
 
         cbxSituacaoDestino.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxSituacaoDestino.addActionListener(new java.awt.event.ActionListener() {
@@ -213,242 +235,83 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
             }
         });
 
-        cbxSituacaoOrigem.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxSituacaoOrigem.addActionListener(new java.awt.event.ActionListener() {
+        jLabel4.setText("Situação Destino:");
+
+        txtSituacaoOrigem.setEditable(false);
+        txtSituacaoOrigem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxSituacaoOrigemActionPerformed(evt);
+                txtSituacaoOrigemActionPerformed(evt);
             }
         });
-
-        jLabel4.setText("Situação Destino:");
 
         jLabel3.setText("Situação Origem:");
 
-        javax.swing.GroupLayout pnlSaidaOpcaoLayout = new javax.swing.GroupLayout(pnlSaidaOpcao);
-        pnlSaidaOpcao.setLayout(pnlSaidaOpcaoLayout);
-        pnlSaidaOpcaoLayout.setHorizontalGroup(
-            pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlSaidaOpcaoLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnlSaidaOpcaoLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(pnlSaidaOpcaoLayout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(cbxSituacaoOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(pnlSaidaOpcaoLayout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(106, Short.MAX_VALUE))
-        );
-        pnlSaidaOpcaoLayout.setVerticalGroup(
-            pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlSaidaOpcaoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addGroup(pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cbxSituacaoOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addGroup(pnlSaidaOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(67, 67, 67))
-        );
+        txaFalaAssistente.setColumns(20);
+        txaFalaAssistente.setRows(5);
+        jScrollPane1.setViewportView(txaFalaAssistente);
 
-        jTabbedPane1.addTab("Opção", pnlSaidaOpcao);
-
-        tblAcoesSN.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(tblAcoesSN);
-
-        tblAcoesDefaultSN.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(tblAcoesDefaultSN);
-
-        lblAcoesDefaultSN.setText("lblAcoesDefaultSN");
-
-        lblAcoesSN.setText("lblAcoesSN");
-
-        btnEditarAcaoDefaultSN.setText("btnEditarAcaoDefaultSN");
-        btnEditarAcaoDefaultSN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarAcaoDefaultSNActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("btnAjuda");
-
-        jButton4.setText("btnAjuda");
-
-        btnEditarAcaoSN.setText("btnEditarSN");
-        btnEditarAcaoSN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarAcaoSNActionPerformed(evt);
-            }
-        });
-
-        btnNovaAcaoSN.setText("btnNovaAcaoSN");
-        btnNovaAcaoSN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovaAcaoSNActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlSaidaNumericaLayout = new javax.swing.GroupLayout(pnlSaidaNumerica);
-        pnlSaidaNumerica.setLayout(pnlSaidaNumericaLayout);
-        pnlSaidaNumericaLayout.setHorizontalGroup(
-            pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
-                        .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
-                                .addComponent(lblAcoesDefaultSN)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditarAcaoDefaultSN))
-                    .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
-                        .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
-                                .addComponent(lblAcoesSN)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton4))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnEditarAcaoSN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnNovaAcaoSN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        pnlSaidaNumericaLayout.setVerticalGroup(
-            pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSaidaNumericaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAcoesDefaultSN, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEditarAcaoDefaultSN)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAcoesSN)
-                    .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
-                        .addComponent(btnEditarAcaoSN)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnNovaAcaoSN)))
-                .addGap(149, 149, 149))
-        );
-
-        jTabbedPane1.addTab("Numérica", pnlSaidaNumerica);
-
-        txtNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        btnConfirmar.setText("Confirmar");
-        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfirmarActionPerformed(evt);
-            }
-        });
+        jLabel2.setText("Fala assistente:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtSituacaoOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(opcaoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cbxSituacaoDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(0, 0, 0))
+                        .addGap(94, 94, 94))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(opcaoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                    .addComponent(txtSituacaoOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
+                    .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar)
                     .addComponent(btnConfirmar))
-                .addGap(21, 21, 21))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeActionPerformed
-
-    private void cbxSituacaoOrigemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSituacaoOrigemActionPerformed
-
-        //Recupera o index do item
-        int index = cbxSituacaoOrigem.getSelectedIndex();
-
-        //Recupera o item na lista e associa a saída
-        situacaoOrigem = partidaDesenvolvimento.getSituacoes().get(index);
-        
-    }//GEN-LAST:event_cbxSituacaoOrigemActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void cbxSituacaoDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSituacaoDestinoActionPerformed
 
@@ -458,95 +321,78 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         //Recupera o item na lista e associa a saída
         situacaoDestino = partidaDesenvolvimento.getSituacoes().get(index);
         System.out.println(situacaoDestino.getNome());
-        
+
     }//GEN-LAST:event_cbxSituacaoDestinoActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        
-        saidaOpcao.setFalaAssistente(txaFalaAssistente.getText());
-        saidaOpcao.setNome(txtNome.getText());
-        saidaOpcao.setSituacaoDestino(situacaoDestino);
-        saidaOpcao.setSituacaoOrigem(situacaoOrigem);
 
-        //Adiciona a saída na situação origem caso a ação seja inserir
-        if (acao == 1) {
-            situacaoOrigem.getSaida().getsaidasOpcao().add(saidaOpcao);
+        saida.setSituacaoOrigem(situacaoOrigem);
+
+        switch (saida.getTipoSaida()) {
+            case 1:
+                saidaOpcao.setFalaAssistente(txaFalaAssistente.getText());
+                saidaOpcao.setNome(txtDescricaoSO.getText());
+                saidaOpcao.setSituacaoDestino(situacaoDestino);
+
+                situacaoOrigem.getSaida().getsaidasOpcao().add(saidaOpcao);
+
+                if (modo == 1) {
+
+                    saida.getSaidasOpcao().add(saidaOpcao);                    
+                    
+                }
+
+                break;
+            case 2:
+                saidaNumerica.setFalaAssistente(txaFalaAssistente.getText());
+                saidaNumerica.setSituacaoDestino(situacaoDestino);
+
+                Faixa faixa = new Faixa();
+                faixa.setLimiteInferior((Integer) spnValorMinimo.getValue());
+                faixa.setLimiteSuperior((Integer) spnValorMaximo.getValue());
+
+                saidaNumerica.setFaixa(faixa);
+                
+                if (modo == 1) {
+
+                    saida.getSaidasNumerica().add(saidaNumerica);
+                    
+                }
+                
+                break;
         }
-        
-        jdp.AtualizaSaidas();
-        
+
+        situacaoOrigem.setSaida(saida);        
         dispose();
-        
+
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
-    private void btnEditarAcaoSNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAcaoSNActionPerformed
+    private void opcaoSaidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcaoSaidaMouseClicked
+
+    }//GEN-LAST:event_opcaoSaidaMouseClicked
+
+    private void txtSituacaoOrigemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSituacaoOrigemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditarAcaoSNActionPerformed
-
-    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        
-        tipoSaida = 2;
-
-        //Caso ainda não existam, pré-cria as saidas default
-        if (saida.getSaidaNumerica().getAcaoSNDefaultInferior() == null || saida.getSaidaNumerica().getAcaoSNDefaultSuperior() == null) {
-            AcaoSaidaNumerica acaoSN;
-            
-            acaoSN = new AcaoSaidaNumerica();
-            acaoSN.setAcaoSNDefault(true);
-            acaoSN.setDescricao(idioma.Valor("lblMinimo"));
-            saidaNumerica.setAcaoSNDefaultInferior(acaoSN);
-            
-            acaoSN = new AcaoSaidaNumerica();
-            acaoSN.setAcaoSNDefault(true);
-            acaoSN.setDescricao(idioma.Valor("lblMaximo"));
-            saidaNumerica.setAcaoSNDefaultSuperior(acaoSN);
-            
-            AtualizaTabelaAcoesDefaultSN();
-        }        
-        
-    }//GEN-LAST:event_jTabbedPane1MouseClicked
-
-    private void btnEditarAcaoDefaultSNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAcaoDefaultSNActionPerformed
-        
-        int linhaSelecionada = tblAcoesDefaultSN.getSelectedRow();
-        AcaoSaidaNumerica asn = (AcaoSaidaNumerica) tblAcoesDefaultSN.getValueAt(linhaSelecionada, 0);
-        
-        EditarAcaoSN(asn);
-        
-    }//GEN-LAST:event_btnEditarAcaoDefaultSNActionPerformed
-
-    private void btnNovaAcaoSNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaAcaoSNActionPerformed
-        
-        JanelaDesenvolvimentoSaidaNumerica jdsn = new JanelaDesenvolvimentoSaidaNumerica(this, 1, null);
-        jdsn.setVisible(true);
-        
-    }//GEN-LAST:event_btnNovaAcaoSNActionPerformed
+    }//GEN-LAST:event_txtSituacaoOrigemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
-    private javax.swing.JButton btnEditarAcaoDefaultSN;
-    private javax.swing.JButton btnEditarAcaoSN;
-    private javax.swing.JButton btnNovaAcaoSN;
     private javax.swing.JComboBox cbxSituacaoDestino;
-    private javax.swing.JComboBox cbxSituacaoOrigem;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblAcoesDefaultSN;
-    private javax.swing.JLabel lblAcoesSN;
+    private javax.swing.JLabel lblDescricao;
+    private javax.swing.JTabbedPane opcaoSaida;
     private javax.swing.JPanel pnlSaidaNumerica;
     private javax.swing.JPanel pnlSaidaOpcao;
-    private javax.swing.JTable tblAcoesDefaultSN;
-    private javax.swing.JTable tblAcoesSN;
+    private javax.swing.JSpinner spnValorMaximo;
+    private javax.swing.JSpinner spnValorMinimo;
     private javax.swing.JTextArea txaFalaAssistente;
-    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtDescricaoSO;
+    private javax.swing.JTextField txtSituacaoOrigem;
     // End of variables declaration//GEN-END:variables
 }

@@ -34,7 +34,12 @@ public class ControladoraIdioma {
     }
 
     public String Valor(String valor) {
-        return resourceBundle.getString(valor);
+        try {
+            return resourceBundle.getString(valor);
+        } catch(Exception e)
+        {
+            return valor;
+        }
     }
 
     public ResourceBundle getResourceBundle() {

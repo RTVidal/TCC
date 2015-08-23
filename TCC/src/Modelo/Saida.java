@@ -18,14 +18,15 @@ public class Saida {
     
     private Situacao situacaoOrigem;
     
-    private ArrayList<SaidaOpcao> saidasOpcao;
+    private ArrayList<SaidaOpcional> saidasOpcao;
     
-    private SaidaNumerica saidaNumerica;
+    private ArrayList<SaidaNumerica> saidasNumerica;
 
     public Saida()
     {
         saidasOpcao = new ArrayList<>();
-        saidaNumerica = new SaidaNumerica();
+        saidasNumerica = new ArrayList<>();
+        tipoSaida = 0;
     }
     
     public int getTipoSaida() {
@@ -44,20 +45,28 @@ public class Saida {
         this.situacaoOrigem = situacaoOrigem;
     }
 
-    public ArrayList<SaidaOpcao> getsaidasOpcao() {
+    public ArrayList<SaidaOpcional> getsaidasOpcao() {
         return saidasOpcao;
     }
 
-    public void setsaidasOpcao(ArrayList<SaidaOpcao> saidasOpcao) {
+    public void setsaidasOpcao(ArrayList<SaidaOpcional> saidasOpcao) {
         this.saidasOpcao = saidasOpcao;
     }
 
-    public SaidaNumerica getSaidaNumerica() {
-        return saidaNumerica;
+    public ArrayList<SaidaNumerica> getSaidasNumerica() {
+        return saidasNumerica;
     }
 
-    public void setSaidaNumerica(SaidaNumerica saidaNumerica) {
-        this.saidaNumerica = saidaNumerica;
+    public void setSaidasNumerica(ArrayList<SaidaNumerica> saidasNumerica) {
+        this.saidasNumerica = saidasNumerica;
+    }
+
+    public ArrayList<SaidaOpcional> getSaidasOpcao() {
+        return saidasOpcao;
+    }
+
+    public void setSaidasOpcao(ArrayList<SaidaOpcional> saidasOpcao) {
+        this.saidasOpcao = saidasOpcao;
     }
     
 }

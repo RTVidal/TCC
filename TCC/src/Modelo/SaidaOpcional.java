@@ -5,33 +5,35 @@
  */
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Rafael
  */
-public class SaidaNumerica {
+public class SaidaOpcional implements Serializable{
+    
+    private String nome;
         
-    private Faixa faixa;
+    private ArrayList<Acao> acoes;
     
     private String falaAssistente;
     
     private Situacao situacaoDestino;
-    
-    private ArrayList<Acao> acoes;
 
-    public SaidaNumerica()
+    public SaidaOpcional()
     {
         situacaoDestino = new Situacao();
-    }
-    
-    public Faixa getFaixa() {
-        return faixa;
+        acoes = new ArrayList<>();
     }
 
-    public void setFaixa(Faixa faixa) {
-        this.faixa = faixa;
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public ArrayList<Acao> getAcoes() {
@@ -56,6 +58,5 @@ public class SaidaNumerica {
 
     public void setSituacaoDestino(Situacao situacaoDestino) {
         this.situacaoDestino = situacaoDestino;
-    }   
-    
+    }
 }

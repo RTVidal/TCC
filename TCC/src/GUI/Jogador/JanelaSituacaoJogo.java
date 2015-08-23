@@ -7,7 +7,7 @@ package GUI.Jogador;
 
 import GUI.Suporte.PainelImagem;
 import Modelo.Assistente;
-import Modelo.SaidaOpcao;
+import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import java.awt.Color;
 import java.awt.Font;
@@ -128,7 +128,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
      *
      * @param saidas
      */
-    public void GerarSaidas(ArrayList<SaidaOpcao> saidas) {
+    public void GerarSaidas(ArrayList<SaidaOpcional> saidas) {
 
         painelBotoes.setOpaque(false);
         //painelBotoes.setT
@@ -137,7 +137,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         imgFundo.add(painelBotoes);
 
-        for (SaidaOpcao s : saidas) {
+        for (SaidaOpcional s : saidas) {
             btn = new JButton(s.getNome());
             btn.setLocation(0, 0);
             btn.setSize(20, 30);

@@ -10,7 +10,7 @@ import GUI.Desenvolvedor.JanelaDesenvolvimentoPartida;
 import Modelo.Assistente;
 import Modelo.Partida;
 import Modelo.Saida;
-import Modelo.SaidaOpcao;
+import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import Persistencia.IOPartida;
 import java.awt.Image;
@@ -219,23 +219,23 @@ public class JanelaInicial extends javax.swing.JFrame {
                     + "nuggets de banana, palmito assado, minipastel de geleia de "
                     + "pimenta, babaganoush e chips de banana.");
 
-            SaidaOpcao saida1 = new SaidaOpcao();
+            SaidaOpcional saida1 = new SaidaOpcional();
             saida1.setNome("Saida 1");
             saida1.setFalaAssistente("Você escolheu saida 1");
 
-            SaidaOpcao saida2 = new SaidaOpcao();
+            SaidaOpcional saida2 = new SaidaOpcional();
             saida2.setNome("Saida 2");
             saida2.setFalaAssistente("É a saída 2 que você escolheu");
 
-            SaidaOpcao saida3 = new SaidaOpcao();
+            SaidaOpcional saida3 = new SaidaOpcional();
             saida3.setNome("Saída 3");
             saida3.setFalaAssistente("Você quer a saída 3?");
 
-            SaidaOpcao saida4 = new SaidaOpcao();
+            SaidaOpcional saida4 = new SaidaOpcional();
             saida4.setNome("Saida 4");
             saida4.setFalaAssistente("Saída 4 então");
 
-            ArrayList<SaidaOpcao> saidasOpcao = new ArrayList<>();
+            ArrayList<SaidaOpcional> saidasOpcao = new ArrayList<>();
 
             saidasOpcao.add(saida1);
             saidasOpcao.add(saida2);

@@ -7,13 +7,10 @@ package GUI.Desenvolvedor;
 
 import Controle.ControladoraIdioma;
 import GUI.Jogador.JanelaSituacaoJogo;
-import GUI.Suporte.SaidasTbModel;
 import Modelo.Partida;
-import Modelo.SaidaOpcao;
 import Modelo.Situacao;
 import Persistencia.IOPartida;
 import java.io.File;
-import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -51,7 +48,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             AtualizaAssistente();
         }
 
-        AtualizaSaidas();
+        //AtualizaSaidas();
 
     }
     
@@ -115,28 +112,28 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     /**
      * Atualiza a tabela de saídas
      */
-    public final void AtualizaSaidas() {
-
-        ArrayList<Situacao> situacoes = partidaDesenvolvimento.getSituacoes();
-        ArrayList<SaidaOpcao> saidas = new ArrayList<>();
-
-        //Obtem as saídas de cada situacao
-        for (Situacao st : situacoes) {
-            if ((st.getSaida().getsaidasOpcao() != null)) {
-                for (SaidaOpcao sd : st.getSaida().getsaidasOpcao()) {
-                    saidas.add(sd);
-                }
-            }
-        }
-
-        tblSaidas.setModel(new SaidasTbModel(saidas));
-
-        //Esconder a coluna contendo o objeto da saída
-        tblSaidas.getColumnModel().getColumn(0).setMinWidth(0);
-        tblSaidas.getColumnModel().getColumn(0).setMaxWidth(0);
-        tblSaidas.getColumnModel().getColumn(0).setPreferredWidth(0);
-
-    }
+//    public final void AtualizaSaidas() {
+//
+//        ArrayList<Situacao> situacoes = partidaDesenvolvimento.getSituacoes();
+//        ArrayList<SaidaOpcao> saidas = new ArrayList<>();
+//
+//        //Obtem as saídas de cada situacao
+//        for (Situacao st : situacoes) {
+//            if ((st.getSaida().getsaidasOpcao() != null)) {
+//                for (SaidaOpcional sd : st.getSaida().getsaidasOpcao()) {
+//                    saidas.add(sd);
+//                }
+//            }
+//        }
+//
+//        tblSaidas.setModel(new SaidasTbModel(saidas));
+//
+//        //Esconder a coluna contendo o objeto da saída
+//        tblSaidas.getColumnModel().getColumn(0).setMinWidth(0);
+//        tblSaidas.getColumnModel().getColumn(0).setMaxWidth(0);
+//        tblSaidas.getColumnModel().getColumn(0).setPreferredWidth(0);
+//
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -445,8 +442,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     private void btnNovaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSaidaActionPerformed
 
-        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(1, null);
-        jds.setVisible(true);
+//        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(1, null);
+//        jds.setVisible(true);
 
     }//GEN-LAST:event_btnNovaSaidaActionPerformed
 
@@ -515,7 +512,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 //        int index = tblSaidas.getSelectedRow();
 //
 //        //Recuperar a saída
-//        SaidaOpcao saida = (SaidaOpcao) tblSaidas.getValueAt(index, 0);
+//        SaidaOpcional saida = (SaidaOpcional) tblSaidas.getValueAt(index, 0);
 //
 //        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(2, saida);
 //        jds.setVisible(true);

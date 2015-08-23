@@ -6,7 +6,7 @@
 package Controle;
 
 import Modelo.Partida;
-import Modelo.SaidaOpcao;
+import Modelo.SaidaOpcional;
 
 /**
  *
@@ -32,7 +32,7 @@ public class ControladoraExecucao {
         
     }
     
-    public void AtualizarSituacao(SaidaOpcao saida)
+    public void AtualizarSituacao(SaidaOpcional saida)
     {
                  
     }
