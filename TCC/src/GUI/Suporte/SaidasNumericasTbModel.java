@@ -35,7 +35,7 @@ public class SaidasNumericasTbModel extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
     
     public String getColumnName(int column) {  
@@ -50,8 +50,8 @@ public class SaidasNumericasTbModel extends AbstractTableModel{
     public Object getValueAt(int rowIndex, int column) {
         
         if (column == COL_SAIDANUMERICA) return saidasNumericas.get(rowIndex);
-        if (column == COL_VALORINICIAL) return saidasNumericas.get(rowIndex).getFaixa().getLimiteInferior();
-        if (column == COL_VALORFINAL) return saidasNumericas.get(rowIndex).getFaixa().getLimiteSuperior();
+        if (column == COL_VALORINICIAL) return saidasNumericas.get(rowIndex).getFaixa().getLimiteInferior().toString();
+        if (column == COL_VALORFINAL) return saidasNumericas.get(rowIndex).getFaixa().getLimiteSuperior().toString();
         if (column == COL_DESTINO) return saidasNumericas.get(rowIndex).getSituacaoDestino().getNome();
         return "";
         

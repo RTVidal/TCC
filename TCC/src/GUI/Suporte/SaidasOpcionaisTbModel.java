@@ -21,7 +21,6 @@ public class SaidasOpcionaisTbModel extends AbstractTableModel {
     private static final int COL_SAIDA = 0;
     private static final int COL_NOME = 1;
     private static final int COL_DESTINO = 2;
-    private static final int COL_TIPO = 3;
 
     private ArrayList<SaidaOpcional> saidas;
 
@@ -47,9 +46,6 @@ public class SaidasOpcionaisTbModel extends AbstractTableModel {
         if (column == COL_NOME) {
             return "Nome";
         }
-        if (column == COL_TIPO) {
-            return "Tipo";
-        }
         return ""; //Nunca deve ocorrer
     }
 
@@ -64,9 +60,6 @@ public class SaidasOpcionaisTbModel extends AbstractTableModel {
         }
         if (column == COL_DESTINO) {
             return saidas.get(rowIndex).getSituacaoDestino().getNome();
-        }
-        if (column == COL_TIPO) {
-            return "";
         }
         return "";
 

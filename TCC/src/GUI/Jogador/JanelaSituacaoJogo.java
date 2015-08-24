@@ -7,6 +7,7 @@ package GUI.Jogador;
 
 import GUI.Suporte.PainelImagem;
 import Modelo.Assistente;
+import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import java.awt.Color;
@@ -14,7 +15,9 @@ import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
 /**
@@ -36,7 +39,13 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
     private final ArrayList<JButton> botoesSaidas;
 
+    public static int valorSelecionado;
+
+    private JSlider jslSaidaNumerica;
+
     private JButton btn;
+
+    private JLabel lblValorSelecionado;
 
     public JanelaSituacaoJogo(Situacao situacao, Assistente assistente) {
         initComponents();
@@ -47,11 +56,9 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         setResizable(false);
 
         //Obtem o avatar do assistente (caso não haja assistente, preenche com um avatar genérico)
-        if(assistente.getAvatarAssistente().equals(""))
-        {
+        if (assistente.getAvatarAssistente().equals("")) {
             imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
-        } else
-        {
+        } else {
             imagemAvatar = new ImageIcon("./Recursos/avatar1.gif");
         }
 
@@ -62,16 +69,14 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         painelPrincipal.setSize(1024, 768);
 
         //Caso não haja imagem de fundo, adiciona uma imagem genérica
-        if(situacao.getFundoSituacao().getDescription().equals(""))
-        {
+        if (situacao.getFundoSituacao().getDescription().equals("")) {
             ImageIcon fundoGenerico = new ImageIcon("./Recursos/fundo.jpg");
             imgFundo = new PainelImagem(fundoGenerico.getImage());
-        } else
-        {
+        } else {
             //Desenha a imagem de fundo
             imgFundo = new PainelImagem(situacao.getFundoSituacao().getImage());
         }
-        
+
         imgFundo.setLayout(null);
         imgFundo.setSize(1024, 768);
 
@@ -115,12 +120,18 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         painelBotoes = new JPanel();
 
-        if (situacao.getSaida().getsaidasOpcao() != null) {
-            
-            GerarSaidas(situacao.getSaida().getsaidasOpcao());
-
+        switch (situacao.getSaida().getTipoSaida()) {
+            case 0:
+                //Não há tipo de saida definido
+                break;
+            case 1: //Saida opcional
+                GerarSaidaOpcional(situacao.getSaida().getsaidasOpcao());
+                break;
+            case 2:
+                GerarSaidaNumerica(situacao.getSaida().getSaidasNumerica());
+                break;
         }
-        
+
     }
 
     /**
@@ -128,7 +139,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
      *
      * @param saidas
      */
-    public void GerarSaidas(ArrayList<SaidaOpcional> saidas) {
+    public void GerarSaidaOpcional(ArrayList<SaidaOpcional> saidas) {
 
         painelBotoes.setOpaque(false);
         //painelBotoes.setT
@@ -141,15 +152,57 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
             btn = new JButton(s.getNome());
             btn.setLocation(0, 0);
             btn.setSize(20, 30);
-            btn.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getFalaAssistente());
-                    jcs.setVisible(true);
-                }
+            btn.addActionListener((java.awt.event.ActionEvent e) -> {
+                JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getFalaAssistente());
+                jcs.setVisible(true);
             });
             botoesSaidas.add(btn);
             painelBotoes.add(btn);
         }
+    }
+
+    public void GerarSaidaNumerica(ArrayList<SaidaNumerica> saidas) {
+        jslSaidaNumerica = new JSlider();
+        lblValorSelecionado = new JLabel();
+
+        jslSaidaNumerica.setOpaque(false);
+        jslSaidaNumerica.setSize(500, 100);
+        jslSaidaNumerica.setLocation(100, 600);
+        lblValorSelecionado.setLocation(225, 700);
+        lblValorSelecionado.setSize(50, 50);
+
+        imgFundo.add(jslSaidaNumerica);
+        imgFundo.add(lblValorSelecionado);
+
+        Integer valorMinimo = 0;
+        Integer valorMaximo = 0;
+        int cont = 0;
+
+        for (SaidaNumerica s : saidas) {
+            if (cont == 0) {
+                valorMinimo = s.getFaixa().getLimiteInferior();
+                valorMaximo = s.getFaixa().getLimiteSuperior();
+            } else {
+                if (s.getFaixa().getLimiteInferior() < valorMinimo) {
+                    valorMinimo = s.getFaixa().getLimiteInferior();
+                }
+                if (s.getFaixa().getLimiteSuperior() > valorMaximo) {
+                    valorMaximo = s.getFaixa().getLimiteSuperior();
+                }
+            }
+            cont++;
+        }
+
+        //Define o tamanho do seletor
+        jslSaidaNumerica.setMinimum(valorMinimo);
+        jslSaidaNumerica.setMaximum(valorMaximo);
+
+        lblValorSelecionado.setText(String.valueOf(jslSaidaNumerica.getValue()));
+
+        jslSaidaNumerica.addChangeListener((javax.swing.event.ChangeEvent evt) -> {
+            lblValorSelecionado.setText(String.valueOf(jslSaidaNumerica.getValue()));
+        });
+
     }
 
     private void acaoBotaoSaida(java.awt.event.ActionEvent evt) {

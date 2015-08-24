@@ -78,9 +78,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         fileChooser.setDialogTitle("Selecionar imagem");
         fileChooser.setFileFilter(new MyCustomFilter());
 
-        partidaDesenvolvimento = Partida.getInstancia();
-        
-        CarregarComboTipoSaida();
+        partidaDesenvolvimento = Partida.getInstancia();        
         
         if (acao == 2) {
             this.situacao = situacao;
@@ -90,7 +88,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             this.situacao = new Situacao();
             saida = new Saida();
             saida.setTipoSaida(1);
-        }        
+        }
+        
+        CarregarComboTipoSaida();
     }
     
     public final void CarregarComboTipoSaida()
@@ -100,6 +100,12 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         model.addElement(idioma.Valor("lblNumerica"));
         
         cbxTipoSaida.setModel(model);
+        
+        if(saida.getTipoSaida() > 0)
+        {
+            cbxTipoSaida.setSelectedIndex(saida.getTipoSaida() - 1);
+        }
+        
     }
 
     public final void CarregarSituacao() {
@@ -108,7 +114,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txtArquivo.setText(situacao.getFundoSituacao().getDescription());
                 
         AtualizaTabelaSaidas();
-
+        
     }
     
     public final void AtualizaTabelaSaidas()

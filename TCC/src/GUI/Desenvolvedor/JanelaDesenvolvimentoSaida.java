@@ -187,6 +187,10 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
         jLabel10.setText("lblValorMinimo");
 
+        spnValorMinimo.setModel(new javax.swing.SpinnerNumberModel());
+
+        spnValorMaximo.setModel(new javax.swing.SpinnerNumberModel());
+
         jLabel11.setText("lblValorMaximo");
 
         javax.swing.GroupLayout pnlSaidaNumericaLayout = new javax.swing.GroupLayout(pnlSaidaNumerica);
@@ -341,7 +345,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 saidaOpcao.setNome(txtDescricaoSO.getText());
                 saidaOpcao.setSituacaoDestino(situacaoDestino);
 
-                situacaoOrigem.getSaida().getsaidasOpcao().add(saidaOpcao);
+                //situacaoOrigem.getSaida().getsaidasOpcao().add(saidaOpcao);
 
                 if (modo == 1) {
 
@@ -369,7 +373,6 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 break;
         }
 
-        situacaoOrigem.setSaida(saida);
         janelaDevSituacao.AtualizaTabelaSaidas();
         dispose();
 

@@ -11,22 +11,22 @@ package Modelo;
  */
 public class Faixa {
     
-    private double limiteInferior;
-    private double limiteSuperior;
+    private Integer limiteInferior;
+    private Integer limiteSuperior;
 
-    public double getLimiteInferior() {
+    public Integer getLimiteInferior() {
         return limiteInferior;
     }
 
-    public void setLimiteInferior(double limiteInferior) {
+    public void setLimiteInferior(Integer limiteInferior) {
         this.limiteInferior = limiteInferior;
     }
 
-    public double getLimiteSuperior() {
+    public Integer getLimiteSuperior() {
         return limiteSuperior;
     }
 
-    public void setLimiteSuperior(double limiteSuperior) {
+    public void setLimiteSuperior(Integer limiteSuperior) {
         this.limiteSuperior = limiteSuperior;
-    }    
+    }
 }
