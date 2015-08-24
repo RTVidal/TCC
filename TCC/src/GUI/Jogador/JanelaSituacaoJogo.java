@@ -5,6 +5,7 @@
  */
 package GUI.Jogador;
 
+import Controle.ControladoraIdioma;
 import GUI.Suporte.PainelImagem;
 import Modelo.Assistente;
 import Modelo.SaidaNumerica;
@@ -25,6 +26,8 @@ import javax.swing.JTextArea;
  * @author Rafael
  */
 public final class JanelaSituacaoJogo extends javax.swing.JFrame {
+
+    private final ControladoraIdioma idioma;
 
     private final JPanel imgFundo;
     private final JPanel imgAvatar;
@@ -49,6 +52,8 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
     public JanelaSituacaoJogo(Situacao situacao, Assistente assistente) {
         initComponents();
+
+        idioma = ControladoraIdioma.getInstancia();
 
         botoesSaidas = new ArrayList<>();
 
@@ -165,7 +170,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         jslSaidaNumerica = new JSlider();
         lblValorSelecionado = new JLabel();
 
-        jslSaidaNumerica.setOpaque(false);
+        //jslSaidaNumerica.setOpaque(false);
         jslSaidaNumerica.setSize(500, 100);
         jslSaidaNumerica.setLocation(100, 600);
         lblValorSelecionado.setLocation(225, 700);
@@ -203,11 +208,36 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
             lblValorSelecionado.setText(String.valueOf(jslSaidaNumerica.getValue()));
         });
 
+        btn = new JButton(idioma.Valor("btnConfirmar"));
+        btn.setLocation(620, 600);
+        btn.setSize(40, 30);
+
+        imgFundo.add(btn);
+
+        btn.addActionListener((java.awt.event.ActionEvent e) -> {
+            TratarSaidaNumerica(saidas);
+        });
+
+    }
+    
+    
+    public void TratarSaidaNumerica(ArrayList<SaidaNumerica> saidas)
+    {
+        int valorSelecionado = jslSaidaNumerica.getValue();
+        
+        //Verifica em qual saída o valor selecionado se enquadra
+        
+        for(SaidaNumerica s : saidas){
+            
+            if(valorSelecionado >= s.getFaixa().getLimiteInferior() && valorSelecionado <= s.getFaixa().getLimiteSuperior())
+            {
+                JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getFalaAssistente());
+                jcs.setVisible(true);
+                break;
+            }
+        }
     }
 
-    private void acaoBotaoSaida(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
