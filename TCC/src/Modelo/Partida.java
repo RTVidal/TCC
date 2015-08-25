@@ -18,7 +18,7 @@ public class Partida implements Serializable{
     private Assistente assistente;
     private ArrayList<Situacao> situacoes;
     private ArrayList<Variavel> variaveis;
-    
+    private String idioma;
     private static Partida instancia;
 
     public Partida() {
@@ -63,16 +63,22 @@ public class Partida implements Serializable{
     }
 
     public static Partida getInstancia() {
-        
-        if(instancia == null)
-        {
+        if(instancia == null) {
             instancia = new Partida();
         }
-        
         return instancia;
     }
 
     public static void setInstancia(Partida instancia) {
         Partida.instancia = instancia;
     }
+
+    public String getIdioma() {
+        return idioma;
+    }
+
+    public void setIdioma(String idioma) {
+        this.idioma = idioma;
+    }
+    
 }

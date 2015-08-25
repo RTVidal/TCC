@@ -6,6 +6,7 @@
 package Controle;
 
 import java.util.ResourceBundle;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,20 +16,24 @@ public class ControladoraIdioma {
 
     private ResourceBundle resourceBundle;
     private static ControladoraIdioma instancia;
+    private String idiomaAtual;
 
-    public void DefineIdioma(int idioma) {
+    public void DefineIdioma(String idioma) {
         switch (idioma) {
-            case 1:
-                //Por
+            case "Português":
+                idiomaAtual = "Português";
                 resourceBundle = ResourceBundle.getBundle("Internacionalizacao/portugues");
                 break;
-            case 2:
-                //Eng
+            case "English":
+                idiomaAtual = "English";
                 resourceBundle = ResourceBundle.getBundle("Internacionalizacao/english");
                 break;
-            case 3:
-                //Esp
+            case "Español":
+                idiomaAtual = "Español";
                 resourceBundle = ResourceBundle.getBundle("Internacionalizacao/espanol");
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Idioma desconhecido pelo sistema. Sem alterações.");
                 break;
         }
     }
@@ -36,8 +41,7 @@ public class ControladoraIdioma {
     public String Valor(String valor) {
         try {
             return resourceBundle.getString(valor);
-        } catch(Exception e)
-        {
+        } catch (Exception e) {
             return valor;
         }
     }
@@ -61,6 +65,8 @@ public class ControladoraIdioma {
         ControladoraIdioma.instancia = instancia;
     }
 
-    
+    public String getIdiomaAtual() {
+        return idiomaAtual;
+    }
 
 }

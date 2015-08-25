@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,8 +30,7 @@ public class JanelaInicial extends javax.swing.JFrame {
 
     private JanelaDesenvolvimentoPartida jdp;
     private ControladoraIdioma ci;
-    private String idiomaSelecionado;
-
+    private Object[] opcao;
     private final ControladoraIdioma idioma;
 
     /**
@@ -41,8 +41,7 @@ public class JanelaInicial extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         idioma = ControladoraIdioma.getInstancia();
         PreencheComboIdiomas();
-        idiomaSelecionado = "Português";
-        DefineIdioma();
+        DefineIdioma("Português");
     }
 
     public void CarregaRecursos() {
@@ -51,6 +50,7 @@ public class JanelaInicial extends javax.swing.JFrame {
         btnNovoJogo.setText(idioma.Valor("principalBtnNovoJogo"));
         lblTituloPrincipal.setText(idioma.Valor("tituloTelaPrincipal"));
         lblIdioma.setText(idioma.Valor("principalLblIdioma"));
+        opcao = new Object[] {idioma.Valor("sim"), idioma.Valor("nao")};
     }
 
     public final void PreencheComboIdiomas() {
@@ -63,19 +63,8 @@ public class JanelaInicial extends javax.swing.JFrame {
         cbxIdiomas.setModel(model);
     }
 
-    public void DefineIdioma() {
-        switch (idiomaSelecionado) {
-            case "Português":
-                idioma.DefineIdioma(1);
-                break;
-            case "English":
-                idioma.DefineIdioma(2);
-                break;
-            case "Español":
-                idioma.DefineIdioma(3);
-                break;
-        }
-
+    public void DefineIdioma(String idiomaSelecionado) {
+        idioma.DefineIdioma(idiomaSelecionado);
         CarregaRecursos();
     }
 
@@ -261,6 +250,13 @@ public class JanelaInicial extends javax.swing.JFrame {
         IOPartida iop = new IOPartida();
         Partida partidaDesenvolvimento = iop.LePartida();
         if (partidaDesenvolvimento != null) {
+            if (!(((String) cbxIdiomas.getSelectedItem()).equalsIgnoreCase(partidaDesenvolvimento.getIdioma()))) {
+                int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdiomaEdicao"),
+                        "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcao, opcao[0]);
+                if (i == 0) {
+                    DefineIdioma(partidaDesenvolvimento.getIdioma());
+                }
+            }
             Partida.setInstancia(partidaDesenvolvimento);
             jdp = JanelaDesenvolvimentoPartida.getInstancia();
             jdp.setVisible(true);
@@ -268,24 +264,23 @@ public class JanelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarJogoActionPerformed
 
     private void cbxIdiomasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxIdiomasActionPerformed
-
-        idiomaSelecionado = (String) cbxIdiomas.getSelectedItem();
-        DefineIdioma();
-        System.out.println("idioma selecionado " + idiomaSelecionado);
-
+        DefineIdioma((String) cbxIdiomas.getSelectedItem());
     }//GEN-LAST:event_cbxIdiomasActionPerformed
 
     private void btnAbrirJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirJogoActionPerformed
-        
         IOPartida iop = new IOPartida();
-        Partida partidaDesenvolvimento = iop.LePartida();
-        if (partidaDesenvolvimento != null) {
-            
+        Partida partidaExecutar = iop.LePartida();
+        if (partidaExecutar != null) {
+            if (!(((String) cbxIdiomas.getSelectedItem()).equalsIgnoreCase(partidaExecutar.getIdioma()))) {
+                int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdiomaJogar"),
+                        "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcao, opcao[0]);
+                if (i == 0) {
+                    DefineIdioma(partidaExecutar.getIdioma());
+                }
+            }
             ControladoraExecucao ce = new ControladoraExecucao();
             ce.ExecutaPartida();
-            
         }
-        
     }//GEN-LAST:event_btnAbrirJogoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
