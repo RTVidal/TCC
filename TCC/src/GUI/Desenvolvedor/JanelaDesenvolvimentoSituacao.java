@@ -146,6 +146,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         situacao.setFalaAssistente(txaFalaAssistente.getText());
         situacao.setNome(txtNomeSituacao.getText());
 
+        //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
+        if (acao == 1) {
+            partidaDesenvolvimento.getSituacoes().add(situacao);
+        }
+        
         if (chbSituacaoInicial.isSelected()) {
 
             boolean continuar = true;
@@ -171,11 +176,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 partidaDesenvolvimento.setSituacaoInicial(situacao);
                 situacao.setSituacaoInicial(true);
             }
-        }
-
-        //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
-        if (acao == 1) {
-            partidaDesenvolvimento.getSituacoes().add(situacao);
         }
     }
 

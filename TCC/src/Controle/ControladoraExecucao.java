@@ -36,14 +36,10 @@ public class ControladoraExecucao {
         
         //Apresenta-se para a janela do jogo
         jsj.setControladora(this);
-        
-        //Adiciona o assiste à partida
-        jsj.CarregaAssistente(partida.getAssistente());        
-        
-        System.out.println(partida.getSituacaoInicial());
+        jsj.setAssistente(partida.getAssistente());
         
         //Carrega a situação inicial
-        jsj.CarregaSituacao(partida.getSituacaoInicial());
+        jsj.CarregaSituacao(partida.getSituacaoInicial(), true);
         
     }
  

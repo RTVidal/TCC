@@ -5,13 +5,14 @@
  */
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Rafael
  */
-public class SaidaNumerica {
+public class SaidaNumerica implements Serializable{
         
     private Faixa faixa;
     

@@ -32,14 +32,6 @@ public class IOPartida {
 
     public void SalvaPartida(String diretorio) {
         try {
-            
-//            //Converte a imagem de fundo para array de bytes
-//            for(Situacao s : partidaDesenvolvimento.getSituacoes())
-//            {
-//                BufferedImage buffered = (BufferedImage) s.getFundoSituacao();
-//                byte[] imgByte = imageToByteArray(buffered);
-//                s.setImgFundoByte(imgByte);
-//            }
 
             FileOutputStream arquivoGrav = new FileOutputStream(diretorio + ".tcc", true);
 
@@ -123,7 +115,7 @@ public class IOPartida {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         return partida;
     }
 

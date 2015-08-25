@@ -29,6 +29,8 @@ import javax.swing.JTextArea;
 public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
     private ControladoraIdioma idioma;
+    
+    private Assistente assistente;
 
     private JPanel imgFundo;
     private JPanel imgAvatar;
@@ -90,7 +92,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
 
-        imgFundo.add(imgAvatar);
+        
     }
 
     /**
@@ -113,13 +115,15 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         //Exibe o balão
         imgAvatar = new PainelImagem(imagemAvatar.getImage());
-
+        System.out.println("carregando " + imagemAvatar.getImage());
+        
+        
         imgAvatar.setOpaque(false);
 
         //Exibe o avatar do assistente
         imgAvatar.setLocation(700, 500);
 
-        //imgFundo.add(imgAvatar);
+        imgFundo.add(imgAvatar);
     }
 
     /**
@@ -177,6 +181,14 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
                 GerarSaidaNumerica(situacao.getSaida().getSaidasNumerica());
                 break;
         }
+    }
+    
+    /**
+     * Gera a saída da apresentação do assistente
+     */
+    public void GerarSaidaApresentacao()
+    {
+        
     }
 
     /**
@@ -274,10 +286,19 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         }
     }
 
-    public void CarregaSituacao(Situacao situacao) {
+    public void CarregaSituacao(Situacao situacao, boolean inicio) {
+        
         CarregaImagemFundo(situacao);
-        CarregaFalaAssistente(situacao.getFalaAssistente());
-        GerarSaidas(situacao);
+        CarregaAssistente(assistente);
+        
+        if(inicio)
+        {
+            CarregaFalaAssistente(assistente.getApresentacao());
+        } else 
+        {
+            GerarSaidas(situacao);
+        }
+        
     }
 
     public void CarregarPreviaSituacao(Situacao situacao, Assistente assistente) {
@@ -349,6 +370,14 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
     public void setControladora(ControladoraExecucao controladora) {
         this.controladora = controladora;
     }
+
+    public Assistente getAssistente() {
+        return assistente;
+    }
+
+    public void setAssistente(Assistente assistente) {
+        this.assistente = assistente;
+    }    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel painelPrincipal;

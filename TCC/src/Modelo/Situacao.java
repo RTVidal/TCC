@@ -29,15 +29,7 @@ public class Situacao implements Serializable{
         saida = new Saida();
         fundoSituacao = new ImageIcon();
         fundoSituacao.setDescription("");
-    }    
-
-//    public ArrayList<SaidaOpcao> getSaidas() {
-//        return saidasOpcao;
-//    }
-//
-//    public void setSaidas(ArrayList<SaidaOpcao> saidas) {
-//        this.saidasOpcao = saidas;
-//    }
+    }
 
     public boolean isSituacaoInicial() {
         return situacaoInicial;
@@ -78,24 +70,6 @@ public class Situacao implements Serializable{
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    
-
-//    public ArrayList<SaidaOpcao> getSaidasOpcao() {
-//        return saidasOpcao;
-//    }
-//
-//    public void setSaidasOpcao(ArrayList<SaidaOpcao> saidasOpcao) {
-//        this.saidasOpcao = saidasOpcao;
-//    }
-//
-//    public SaidaNumerica getSaidaNumerica() {
-//        return saidaNumerica;
-//    }
-//
-//    public void setSaidaNumerica(SaidaNumerica saidaNumerica) {
-//        this.saidaNumerica = saidaNumerica;
-//    }
 
     public Saida getSaida() {
         return saida;

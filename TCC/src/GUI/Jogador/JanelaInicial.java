@@ -277,7 +277,12 @@ public class JanelaInicial extends javax.swing.JFrame {
                 if (i == 0) {
                     DefineIdioma(partidaExecutar.getIdioma());
                 }
+                
+                
             }
+            
+            Partida.setInstancia(partidaExecutar);
+            
             ControladoraExecucao ce = new ControladoraExecucao();
             ce.ExecutaPartida();
         }
