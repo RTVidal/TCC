@@ -26,6 +26,8 @@ public class SaidaOpcional implements Serializable{
     {
         situacaoDestino = new Situacao();
         acoes = new ArrayList<>();
+        falaAssistente = "";
+        nome = "";
     }
 
     public String getNome() {

@@ -24,6 +24,9 @@ public class SaidaNumerica {
     public SaidaNumerica()
     {
         situacaoDestino = new Situacao();
+        falaAssistente = "";
+        acoes = new ArrayList<>();
+        faixa = new Faixa();
     }
     
     public Faixa getFaixa() {

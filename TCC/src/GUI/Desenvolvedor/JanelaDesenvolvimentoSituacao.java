@@ -10,6 +10,8 @@ import GUI.Suporte.SaidasNumericasTbModel;
 import GUI.Suporte.SaidasOpcionaisTbModel;
 import Modelo.Partida;
 import Modelo.Saida;
+import Modelo.SaidaNumerica;
+import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import java.awt.Image;
 import java.io.File;
@@ -44,13 +46,13 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private final JFileChooser fileChooser;
     private final Situacao situacao;
     private final Partida partidaDesenvolvimento;
-    
+
     private Saida saida;
-    
+
     private ControladoraIdioma idioma;
 
     //1. Inserir, 2. Editar
-    private final int acao;
+    private int acao;
 
     //private static JanelaDesenvolvimentoSituacao instancia;
     JanelaDesenvolvimentoPartida jdp;
@@ -68,7 +70,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         this.acao = acao;
 
         idioma = ControladoraIdioma.getInstancia();
-        
+
         jdp = JanelaDesenvolvimentoPartida.getInstancia();
 
         setLocationRelativeTo(jdp);
@@ -78,8 +80,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         fileChooser.setDialogTitle("Selecionar imagem");
         fileChooser.setFileFilter(new MyCustomFilter());
 
-        partidaDesenvolvimento = Partida.getInstancia();        
-        
+        partidaDesenvolvimento = Partida.getInstancia();
+
         if (acao == 2) {
             this.situacao = situacao;
             saida = situacao.getSaida();
@@ -88,41 +90,37 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             this.situacao = new Situacao();
             saida = new Saida();
             saida.setTipoSaida(1);
+            this.situacao.setSaida(saida);
         }
-        
+
         CarregarComboTipoSaida();
     }
-    
-    public final void CarregarComboTipoSaida()
-    {
+
+    public final void CarregarComboTipoSaida() {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         model.addElement(idioma.Valor("lblOpcional"));
         model.addElement(idioma.Valor("lblNumerica"));
-        
+
         cbxTipoSaida.setModel(model);
-        
-        if(saida.getTipoSaida() > 0)
-        {
+
+        if (saida.getTipoSaida() > 0) {
             cbxTipoSaida.setSelectedIndex(saida.getTipoSaida() - 1);
         }
-        
+
     }
 
     public final void CarregarSituacao() {
         txtNomeSituacao.setText(situacao.getNome());
         txaFalaAssistente.setText(situacao.getFalaAssistente());
         txtArquivo.setText(situacao.getFundoSituacao().getDescription());
-                
+
         AtualizaTabelaSaidas();
-        
+
     }
-    
-    public final void AtualizaTabelaSaidas()
-    {
-        System.out.println("Tipo saida " + saida.getTipoSaida());
+
+    public final void AtualizaTabelaSaidas() {
         //Atualiza a tabela conforme o tipo de saída
-        switch(saida.getTipoSaida())
-        {
+        switch (saida.getTipoSaida()) {
             case 1:
                 SaidasOpcionaisTbModel modelSO = new SaidasOpcionaisTbModel(saida.getSaidasOpcao());
                 tblSaidas.setModel(modelSO);
@@ -139,6 +137,46 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         tblSaidas.getColumnModel().getColumn(0).setMinWidth(0);
         tblSaidas.getColumnModel().getColumn(0).setMaxWidth(0);
         tblSaidas.getColumnModel().getColumn(0).setPreferredWidth(0);
+    }
+
+    /**
+     * Salva a situação inserida/editada
+     */
+    public void SalvaSituacao() {
+        situacao.setFalaAssistente(txaFalaAssistente.getText());
+        situacao.setNome(txtNomeSituacao.getText());
+
+        if (chbSituacaoInicial.isSelected()) {
+
+            boolean continuar = true;
+
+            if (partidaDesenvolvimento.getSituacaoInicial() != null) {
+
+                int opcao = JOptionPane.showConfirmDialog(null, "Já existe uma situação inicial. Deseja substituir a situação inicial atual?",
+                        "Aviso", JOptionPane.YES_NO_OPTION);
+
+                if (opcao == 1) {
+
+                    continuar = false;
+
+                }
+            }
+
+            if (continuar) {
+                //Marca todas as situações como não inicial
+                for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
+                    s.setSituacaoInicial(false);
+                }
+
+                partidaDesenvolvimento.setSituacaoInicial(situacao);
+                situacao.setSituacaoInicial(true);
+            }
+        }
+
+        //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
+        if (acao == 1) {
+            partidaDesenvolvimento.getSituacoes().add(situacao);
+        }
     }
 
     /**
@@ -404,45 +442,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
-        situacao.setFalaAssistente(txaFalaAssistente.getText());
-        situacao.setNome(txtNomeSituacao.getText());
-
-        if (chbSituacaoInicial.isSelected()) {
-
-            boolean continuar = true;
-            
-            if (partidaDesenvolvimento.getSituacaoInicial() != null) {
-                
-                int opcao = JOptionPane.showConfirmDialog(null, "Já existe uma situação inicial. Deseja substituir a situação inicial atual?", 
-                        "Aviso", JOptionPane.YES_NO_OPTION);
-
-                System.out.println(opcao);
-                if (opcao == 1) { 
-                    
-                    continuar = false;
-                    
-                } 
-            }
-
-            if(continuar)
-            {
-                System.out.println("continuou");
-                //Marca todas as situações como não inicial
-                for(Situacao s : partidaDesenvolvimento.getSituacoes())
-                {
-                    s.setSituacaoInicial(false);
-                }
-                
-                partidaDesenvolvimento.setSituacaoInicial(situacao);
-                situacao.setSituacaoInicial(true);
-            }
-        }
-
-        //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
-        if (acao == 1) {
-            partidaDesenvolvimento.getSituacoes().add(situacao);
-        }
-
+        SalvaSituacao();
         jdp.AtualizaSituacoes();
         dispose();
 
@@ -453,32 +453,63 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }//GEN-LAST:event_chbSituacaoInicialActionPerformed
 
     private void btnEditarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSaidaActionPerformed
-        
-        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(this, 2, saida, situacao);
-        jds.setVisible(true);
-        
+
+        JanelaDesenvolvimentoSaida jds;
+
+        switch (saida.getTipoSaida()) {
+
+            case 1:
+                SaidaOpcional saidaOpcional = (SaidaOpcional) tblSaidas.getValueAt(tblSaidas.getSelectedRow(), 0);
+                jds = new JanelaDesenvolvimentoSaida(this, 2, situacao, saidaOpcional);
+                jds.setVisible(true);
+                break;
+
+            case 2:
+                SaidaNumerica saidaNumerica = (SaidaNumerica) tblSaidas.getValueAt(tblSaidas.getSelectedRow(), 0);
+                jds = new JanelaDesenvolvimentoSaida(this, 2, situacao, saidaNumerica);
+                jds.setVisible(true);
+                break;
+        }
+
+
     }//GEN-LAST:event_btnEditarSaidaActionPerformed
 
     private void btnNovaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSaidaActionPerformed
-        
-        JanelaDesenvolvimentoSaida jds = new JanelaDesenvolvimentoSaida(this, 1, saida, situacao);
-        jds.setVisible(true);
-        
+
+        //Caso esteja no modo insert, salva a situação e altera o modo para edição
+        if (acao == 1) {
+            SalvaSituacao();
+            acao = 2;
+        }
+
+        JanelaDesenvolvimentoSaida jds;
+
+        switch (saida.getTipoSaida()) {
+
+            case 1:
+                SaidaOpcional saidaOpcional = new SaidaOpcional();
+                jds = new JanelaDesenvolvimentoSaida(this, 1, situacao, saidaOpcional);
+                jds.setVisible(true);
+                break;
+
+            case 2:
+                SaidaNumerica saidaNumerica = new SaidaNumerica();
+                jds = new JanelaDesenvolvimentoSaida(this, 1, situacao, saidaNumerica);
+                jds.setVisible(true);
+                break;
+
+        }
+
     }//GEN-LAST:event_btnNovaSaidaActionPerformed
 
     private void cbxTipoSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoSaidaActionPerformed
-        
-        System.out.println(cbxTipoSaida.getSelectedItem());
-        if(cbxTipoSaida.getSelectedItem().equals(idioma.Valor("lblOpcional")))
-        {
-            System.out.println("saida opcional");
+
+        if (cbxTipoSaida.getSelectedItem().equals(idioma.Valor("lblOpcional"))) {
             saida.setTipoSaida(1);
-        }else
-        {
-            System.out.println("saida numerica");
+        } else {
             saida.setTipoSaida(2);
         }
-        
+
     }//GEN-LAST:event_cbxTipoSaidaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

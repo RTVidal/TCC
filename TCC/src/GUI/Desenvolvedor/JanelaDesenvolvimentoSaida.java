@@ -40,7 +40,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
     private final JanelaDesenvolvimentoSituacao janelaDevSituacao;
 
-    public JanelaDesenvolvimentoSaida(JanelaDesenvolvimentoSituacao jds, int modo, Saida saida, Situacao situacao) {
+    public JanelaDesenvolvimentoSaida(JanelaDesenvolvimentoSituacao jds, int modo, Situacao situacao, Object saidaSelecionada) {
         initComponents();
 
         setLocationRelativeTo(jds);
@@ -50,7 +50,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         partidaDesenvolvimento = Partida.getInstancia();
         idioma = ControladoraIdioma.getInstancia();
 
-        this.saida = saida;
+        saida = situacao.getSaida();
         this.modo = modo;
 
         situacaoOrigem = situacao;
@@ -58,23 +58,24 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         txtSituacaoOrigem.setText(situacaoOrigem.getNome());
 
         if (modo == 1) {
-            saidaOpcao = new SaidaOpcional();
-            saidaNumerica = new SaidaNumerica();
 
             switch (saida.getTipoSaida()) {
                 case 1:
-                    
+
+                    saidaOpcao = (SaidaOpcional) saidaSelecionada;
                     opcaoSaida.setSelectedComponent(pnlSaidaOpcao);
 
                     break;
                 case 2:
-                    
+
+                    saidaNumerica = (SaidaNumerica) saidaSelecionada;
                     opcaoSaida.setSelectedComponent(pnlSaidaNumerica);
 
                     break;
             }
         } else {
-            CarregarSaida();
+
+            CarregarSaida(saidaSelecionada);
         }
 
         opcaoSaida.setEnabled(false);
@@ -82,20 +83,34 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         PreencheListaSituacoes();
     }
 
-    public final void CarregarSaida() {
+    /**
+     * Carregar a saída, caso o modo seja edição
+     * @param saidaSelecionada 
+     */
+    public final void CarregarSaida(Object saidaSelecionada) {
 
         switch (saida.getTipoSaida()) {
             case 1:
+                
+                saidaOpcao = (SaidaOpcional) saidaSelecionada;
+                
                 txaFalaAssistente.setText(saidaOpcao.getFalaAssistente());
                 txtDescricaoSO.setText(saidaOpcao.getNome());
+                
+                opcaoSaida.setSelectedComponent(pnlSaidaOpcao);
 
                 break;
             case 2:
+
+                saidaNumerica = (SaidaNumerica) saidaSelecionada;
+                
                 spnValorMaximo.setValue(saidaNumerica.getFaixa().getLimiteSuperior());
                 spnValorMinimo.setValue(saidaNumerica.getFaixa().getLimiteInferior());
 
                 txaFalaAssistente.setText(saidaNumerica.getFalaAssistente());
 
+                opcaoSaida.setSelectedComponent(pnlSaidaNumerica);
+                
                 break;
         }
 
@@ -110,8 +125,18 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
         for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
 
-            if (s == saidaOpcao.getSituacaoDestino()) {
-                itemSelecionadoDestino = cont;
+            if (s.getSaida().getTipoSaida() == 1) {
+
+                if (s == saidaOpcao.getSituacaoDestino()) {
+                    itemSelecionadoDestino = cont;
+                }
+
+            } else {
+
+                if (s == saidaNumerica.getSituacaoDestino()) {
+                    itemSelecionadoDestino = cont;
+                }
+
             }
 
             modelDestino.addElement(s.getNome());
@@ -329,9 +354,10 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         //Recupera o index do item
         int index = cbxSituacaoDestino.getSelectedIndex();
 
-        //Recupera o item na lista e associa a saída
-        situacaoDestino = partidaDesenvolvimento.getSituacoes().get(index);
-        System.out.println(situacaoDestino.getNome());
+        if (index >= 0) {
+            //Recupera o item na lista e associa a saída
+            situacaoDestino = partidaDesenvolvimento.getSituacoes().get(index);
+        }
 
     }//GEN-LAST:event_cbxSituacaoDestinoActionPerformed
 
@@ -346,7 +372,6 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 saidaOpcao.setSituacaoDestino(situacaoDestino);
 
                 //situacaoOrigem.getSaida().getsaidasOpcao().add(saidaOpcao);
-
                 if (modo == 1) {
 
                     saida.getSaidasOpcao().add(saidaOpcao);
