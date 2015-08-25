@@ -5,13 +5,14 @@
  */
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Rafael
  */
-public class Saida {
+public class Saida implements Serializable{
     
     //1. Multipla escolha, //2. Dissertativa
     private int tipoSaida;

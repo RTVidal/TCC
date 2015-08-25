@@ -358,7 +358,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         Situacao situacao = partidaDesenvolvimento.getSituacoes().get(index);
 
-        JanelaSituacaoJogo jsj = new JanelaSituacaoJogo(situacao, partidaDesenvolvimento.getAssistente());
+        JanelaSituacaoJogo jsj = new JanelaSituacaoJogo();
+        jsj.CarregarPreviaSituacao(situacao, partidaDesenvolvimento.getAssistente());
         jsj.setVisible(true);
 
     }//GEN-LAST:event_btnPreviaActionPerformed
@@ -410,7 +411,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             //executa acao conforme opcao selecionada
             if (acao == JFileChooser.APPROVE_OPTION) {
                 //escolheu arquivo
-                System.out.println(jFileChooser.getSelectedFile().getAbsolutePath());
                 String diretorio = jFileChooser.getSelectedFile().getAbsolutePath();
 
                 IOPartida iop = new IOPartida();

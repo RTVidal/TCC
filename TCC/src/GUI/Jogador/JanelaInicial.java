@@ -5,6 +5,7 @@
  */
 package GUI.Jogador;
 
+import Controle.ControladoraExecucao;
 import Controle.ControladoraIdioma;
 import GUI.Desenvolvedor.JanelaDesenvolvimentoPartida;
 import Modelo.Assistente;
@@ -100,6 +101,11 @@ public class JanelaInicial extends javax.swing.JFrame {
         setResizable(false);
 
         btnAbrirJogo.setText("Abrir Jogo");
+        btnAbrirJogo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbrirJogoActionPerformed(evt);
+            }
+        });
 
         btnNovoJogo.setText("Novo Jogo");
         btnNovoJogo.addActionListener(new java.awt.event.ActionListener() {
@@ -240,7 +246,8 @@ public class JanelaInicial extends javax.swing.JFrame {
 
             situacao.setSaida(saida);
 
-            JanelaSituacaoJogo jsj = new JanelaSituacaoJogo(situacao, assistente);
+            JanelaSituacaoJogo jsj = new JanelaSituacaoJogo();
+            jsj.CarregarPreviaSituacao(situacao, assistente);
 
             jsj.setVisible(true);
             jsj.setSize(1024, 768);
@@ -267,6 +274,19 @@ public class JanelaInicial extends javax.swing.JFrame {
         System.out.println("idioma selecionado " + idiomaSelecionado);
 
     }//GEN-LAST:event_cbxIdiomasActionPerformed
+
+    private void btnAbrirJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirJogoActionPerformed
+        
+        IOPartida iop = new IOPartida();
+        Partida partidaDesenvolvimento = iop.LePartida();
+        if (partidaDesenvolvimento != null) {
+            
+            ControladoraExecucao ce = new ControladoraExecucao();
+            ce.ExecutaPartida();
+            
+        }
+        
+    }//GEN-LAST:event_btnAbrirJogoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrirJogo;

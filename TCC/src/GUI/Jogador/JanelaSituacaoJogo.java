@@ -5,6 +5,7 @@
  */
 package GUI.Jogador;
 
+import Controle.ControladoraExecucao;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.PainelImagem;
 import Modelo.Assistente;
@@ -27,30 +28,33 @@ import javax.swing.JTextArea;
  */
 public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
-    private final ControladoraIdioma idioma;
+    private ControladoraIdioma idioma;
 
-    private final JPanel imgFundo;
-    private final JPanel imgAvatar;
-    private final JPanel imgBalao;
+    private JPanel imgFundo;
+    private JPanel imgAvatar;
+    private JPanel imgBalao;
 
-    private final ImageIcon imagemAvatar;
-    private final ImageIcon imagemBalao;
+    private ImageIcon imagemAvatar;
+    private ImageIcon imagemBalao;
 
-    private final JTextArea textoBalao;
+    private JTextArea textoBalao;
 
-    private final JPanel painelBotoes;
+    private JPanel painelBotoes;
 
-    private final ArrayList<JButton> botoesSaidas;
+    private ArrayList<JButton> botoesSaidas;
 
-    public static int valorSelecionado;
-
+    //public static int valorSelecionado;
     private JSlider jslSaidaNumerica;
 
     private JButton btn;
 
     private JLabel lblValorSelecionado;
 
-    public JanelaSituacaoJogo(Situacao situacao, Assistente assistente) {
+    private ControladoraExecucao controladora;
+
+    private static JanelaSituacaoJogo instancia;
+
+    public JanelaSituacaoJogo() {
         initComponents();
 
         idioma = ControladoraIdioma.getInstancia();
@@ -60,19 +64,16 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        //Obtem o avatar do assistente (caso não haja assistente, preenche com um avatar genérico)
-        if (assistente.getAvatarAssistente().equals("")) {
-            imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
-        } else {
-            imagemAvatar = new ImageIcon("./Recursos/avatar1.gif");
-        }
-
-        //Obtem a imagem do balão
-        imagemBalao = new ImageIcon("./Recursos/balao.gif");
-
         //Ajusta o tamanho da tela
         painelPrincipal.setSize(1024, 768);
+        painelPrincipal.setOpaque(false);
 
+        painelBotoes = new JPanel();
+
+    }
+
+    public void CarregaImagemFundo(Situacao situacao) {
+        
         //Caso não haja imagem de fundo, adiciona uma imagem genérica
         if (situacao.getFundoSituacao().getDescription().equals("")) {
             ImageIcon fundoGenerico = new ImageIcon("./Recursos/fundo.jpg");
@@ -83,17 +84,52 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         }
 
         imgFundo.setLayout(null);
+        imgFundo.setOpaque(false);
         imgFundo.setSize(1024, 768);
 
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
 
-        //Exibe o avatar
+        imgFundo.add(imgAvatar);
+    }
+
+    /**
+     * Carrega a apresentação do assistente
+     */
+    public void ApresentaAssistente() {
+
+    }
+
+    /**
+     * Carrega assistente
+     */
+    public void CarregaAssistente(Assistente assistente) {
+        //Obtem o avatar do assistente (caso não haja assistente/avatar, preenche com um avatar genérico)
+        if (assistente.getAvatarAssistente().equals("")) {
+            imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
+        } else {
+            imagemAvatar = new ImageIcon("./Recursos/avatar1.gif");
+        }
+
+        //Exibe o balão
         imgAvatar = new PainelImagem(imagemAvatar.getImage());
+
+        imgAvatar.setOpaque(false);
+
+        //Exibe o avatar do assistente
         imgAvatar.setLocation(700, 500);
 
-        //Adiciona o avatar à imagem de fundo
-        imgFundo.add(imgAvatar);
+        //imgFundo.add(imgAvatar);
+    }
+
+    /**
+     * Adiciona texto ao balão
+     *
+     * @param texto
+     */
+    public void CarregaFalaAssistente(String texto) {
+        //Obtem a imagem do balão
+        imagemBalao = new ImageIcon("./Recursos/balao.gif");
 
         //Exibe o balão
         imgBalao = new PainelImagem(imagemBalao.getImage());
@@ -103,7 +139,6 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         //Exibe o texto do balão
         textoBalao = new JTextArea();
-        String texto = situacao.getFalaAssistente();
 
         textoBalao.setText(texto);
         textoBalao.setSize(660, 230);
@@ -122,8 +157,14 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         //Adiciona o balao à imagem de fundo
         imgFundo.add(imgBalao);
+    }
 
-        painelBotoes = new JPanel();
+    /**
+     * Gerar as saídas da situação
+     *
+     * @param situacao
+     */
+    public void GerarSaidas(Situacao situacao) {
 
         switch (situacao.getSaida().getTipoSaida()) {
             case 0:
@@ -136,7 +177,6 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
                 GerarSaidaNumerica(situacao.getSaida().getSaidasNumerica());
                 break;
         }
-
     }
 
     /**
@@ -219,18 +259,14 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         });
 
     }
-    
-    
-    public void TratarSaidaNumerica(ArrayList<SaidaNumerica> saidas)
-    {
+
+    public void TratarSaidaNumerica(ArrayList<SaidaNumerica> saidas) {
         int valorSelecionado = jslSaidaNumerica.getValue();
-        
+
         //Verifica em qual saída o valor selecionado se enquadra
-        
-        for(SaidaNumerica s : saidas){
-            
-            if(valorSelecionado >= s.getFaixa().getLimiteInferior() && valorSelecionado <= s.getFaixa().getLimiteSuperior())
-            {
+        for (SaidaNumerica s : saidas) {
+
+            if (valorSelecionado >= s.getFaixa().getLimiteInferior() && valorSelecionado <= s.getFaixa().getLimiteSuperior()) {
                 JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getFalaAssistente());
                 jcs.setVisible(true);
                 break;
@@ -238,6 +274,18 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         }
     }
 
+    public void CarregaSituacao(Situacao situacao) {
+        CarregaImagemFundo(situacao);
+        CarregaFalaAssistente(situacao.getFalaAssistente());
+        GerarSaidas(situacao);
+    }
+
+    public void CarregarPreviaSituacao(Situacao situacao, Assistente assistente) {
+        CarregaImagemFundo(situacao);
+        CarregaAssistente(assistente);
+        CarregaFalaAssistente(situacao.getFalaAssistente());
+        GerarSaidas(situacao);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -281,6 +329,26 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public static JanelaSituacaoJogo getInstancia() {
+
+        if (instancia == null) {
+            instancia = new JanelaSituacaoJogo();
+        }
+
+        return instancia;
+    }
+
+    public static void setInstancia(JanelaSituacaoJogo instancia) {
+        JanelaSituacaoJogo.instancia = instancia;
+    }
+
+    public ControladoraExecucao getControladora() {
+        return controladora;
+    }
+
+    public void setControladora(ControladoraExecucao controladora) {
+        this.controladora = controladora;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel painelPrincipal;
