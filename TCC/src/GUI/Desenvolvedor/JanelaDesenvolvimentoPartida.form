@@ -46,12 +46,20 @@
                   <Component id="lblTitulo" min="-2" max="-2" attributes="0"/>
                   <Component id="jTabbedPane1" min="-2" pref="500" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="15" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="lblImgAssistente" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
-                  <Component id="lblNomeAssistente" alignment="1" max="32767" attributes="0"/>
-                  <Component id="btnEditarAssistente" alignment="1" pref="150" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="btnEditarAssistente" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="5" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblNomeAssistente" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblImgAssistente" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="lblAssistente" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
                   <Component id="btnSalvar" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -62,45 +70,31 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="lblTitulo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                      <Component id="jTabbedPane1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="lblImgAssistente" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lblImgAssistente" min="-2" pref="145" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lblAssistente" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblNomeAssistente" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnEditarAssistente" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnSalvar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="ASSISTENTE:" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblNomeAssistente">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="4"/>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="NOMEASSISTENTE" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-    </Component>
     <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
@@ -125,11 +119,10 @@
                               <Component id="btnNovaSituacao" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnEditarSituacao" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnPrevia" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="109" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btnExcluirSituacao" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="69" max="32767" attributes="0"/>
+                              <Component id="btnPreviaSituacao" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -145,8 +138,8 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnNovaSituacao" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnEditarSituacao" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnPrevia" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnExcluirSituacao" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnPreviaSituacao" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -178,9 +171,7 @@
             </Container>
             <Component class="javax.swing.JButton" name="btnNovaSituacao">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="NOVA SITUA&#xc7;&#xc3;O" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="btnNovaSituacao"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNovaSituacaoActionPerformed"/>
@@ -188,110 +179,32 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnEditarSituacao">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="EDITAR" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="btnEditarSituacao"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarSituacaoActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton4">
+            <Component class="javax.swing.JButton" name="btnExcluirSituacao">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="EXCLUIR" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnPrevia">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="PR&#xc9;VIA" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="btnExcluir"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPreviaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirSituacaoActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnPreviaSituacao">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="btnPrevia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPreviaSituacaoActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel3">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&lt;PARAMETRIZADOR&gt;">
-                <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="PARAMETRIZADOR" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-                </Property>
-              </JTabbedPaneConstraints>
-            </Constraint>
-          </Constraints>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-        </Container>
-        <Container class="javax.swing.JPanel" name="jPanel4">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&lt;VARI&#xc1;VEIS&gt;">
-                <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="VARI&#xc1;VEIS" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-                </Property>
-              </JTabbedPaneConstraints>
-            </Constraint>
-          </Constraints>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-        </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnEditarAssistente">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="EDITAR ASSISTENTE" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarAssistenteActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnSalvar">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="SALVAR" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblImgAssistente">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="GUI/Desenvolvedor/Bundle.properties" key="IMGASSISTENTE" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="lblTitulo">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -299,6 +212,37 @@
         </Property>
         <Property name="text" type="java.lang.String" value="lblTitulo"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblImgAssistente">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="imgAssistente"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblAssistente">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="lblAssistente"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblNomeAssistente">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="lblNomeAssistente"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnEditarAssistente">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="btnEditarAssistente"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarAssistenteActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSalvar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="btnSalvar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
