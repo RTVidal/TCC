@@ -32,23 +32,20 @@ public class IOPartida {
 
     public void SalvaPartida(String diretorio) {
         try {
-
-            FileOutputStream arquivoGrav = new FileOutputStream(diretorio + ".tcc", true);
-
+            String finalNome = diretorio.substring(diretorio.length()-4, diretorio.length());
+            FileOutputStream arquivoGrav;
+            if (finalNome.equalsIgnoreCase(".tcc")) {
+                arquivoGrav = new FileOutputStream(diretorio, true);
+            } else {
+                arquivoGrav = new FileOutputStream(diretorio + ".tcc", true);
+            }
             ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
-
             objGravar.writeObject(partidaDesenvolvimento);
-
-            System.out.println("salvou " + partidaDesenvolvimento.getSituacaoInicial());
-            
             objGravar.flush();
-
             objGravar.close();
-
             arquivoGrav.flush();
-
             arquivoGrav.close();
-
+            System.out.println("salvou " + partidaDesenvolvimento);
         } catch (Exception e) {
             e.printStackTrace();
         }

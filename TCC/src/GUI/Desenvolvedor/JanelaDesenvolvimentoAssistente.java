@@ -30,8 +30,8 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
      * Creates new form JanelaDesenvolvimentoAssistente
      */
     public JanelaDesenvolvimentoAssistente() {
-        setModal(true);
         initComponents();
+        setModal(true);
         idioma = ControladoraIdioma.getInstancia();
 
         //aplica a internacionalização na janela

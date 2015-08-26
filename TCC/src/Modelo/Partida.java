@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Partida implements Serializable{
     
     private Situacao situacaoInicial;
+    private String nomeArquivo;
     private Assistente assistente;
     private ArrayList<Situacao> situacoes;
     private ArrayList<Variavel> variaveis;
@@ -79,6 +80,14 @@ public class Partida implements Serializable{
 
     public void setIdioma(String idioma) {
         this.idioma = idioma;
+    }
+
+    public String getNomeArquivo() {
+        return nomeArquivo;
+    }
+
+    public void setNomeArquivo(String nomeArquivo) {
+        this.nomeArquivo = nomeArquivo;
     }
     
 }

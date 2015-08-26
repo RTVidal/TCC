@@ -11,7 +11,7 @@ import Controle.ControladoraIdioma;
  *
  * @author Rafael
  */
-public class JanelaAjuda extends javax.swing.JFrame {
+public class JanelaAjuda extends javax.swing.JDialog {
 
     ControladoraIdioma idioma;
     
@@ -21,6 +21,7 @@ public class JanelaAjuda extends javax.swing.JFrame {
     public JanelaAjuda(String textoAjuda) {
         initComponents();
         setLocationRelativeTo(null);
+        setModal(true);
         
         idioma = ControladoraIdioma.getInstancia();
         

@@ -9,13 +9,14 @@ package GUI.Jogador;
  *
  * @author Rafael
  */
-public class JanelaConfirmacaoSaida extends javax.swing.JFrame {
+public class JanelaConfirmacaoSaida extends javax.swing.JDialog {
 
     /**
      * Creates new form JanelaConfirmacaoSaida
      */
     public JanelaConfirmacaoSaida(String texto) {
         initComponents();
+        setModal(true);
         setLocationRelativeTo(null);
         
         txtSaida.setText(texto);

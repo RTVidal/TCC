@@ -21,12 +21,12 @@ import javax.swing.filechooser.FileFilter;
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
+public class JanelaDesenvolvimentoPartida extends javax.swing.JDialog {
 
     private Partida partidaDesenvolvimento;
 
     private static JanelaDesenvolvimentoPartida instancia;
-    
+
     private ControladoraIdioma idioma;
 
     /**
@@ -35,31 +35,33 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     public JanelaDesenvolvimentoPartida() {
         initComponents();
         setLocationRelativeTo(null);
+        setModal(true);
 
         idioma = ControladoraIdioma.getInstancia();
-        
-        PreencheComponentes();
-        
-        partidaDesenvolvimento = Partida.getInstancia();
 
+        PreencheComponentes();
+
+        partidaDesenvolvimento = Partida.getInstancia();
+        if (partidaDesenvolvimento.getNomeArquivo()!= null) {
+            setTitle(partidaDesenvolvimento.getNomeArquivo());
+        }
         AtualizaSituacoes();
 
         if (partidaDesenvolvimento.getAssistente() != null) {
             AtualizaAssistente();
         }
 
-        //AtualizaSaidas();
+        partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
 
+        //AtualizaSaidas();
     }
-    
+
     /**
      * Preenche os componentes da tela de acordo com o idioma selecionado
      */
-    public final void PreencheComponentes()
-    {
+    public final void PreencheComponentes() {
         //Labels
-        
-        
+
         //Botões        
         btnNovaSituacao.setText(idioma.Valor("desPartidaBtnNovaSituacao"));
         btnEditarAssistente.setText(idioma.Valor("desPartidaBtnEditarAssistente"));
@@ -109,14 +111,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         lblImgAssistente.setIcon(icone);
     }
 
-    public void NovaSituacao()
-    {
+    public void NovaSituacao() {
         JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao(1, null);
         jds.setVisible(true);
     }
-    
-    public void EditarSituacao()
-    {
+
+    public void EditarSituacao() {
         //Recuperar o item selecionado
         int index = lstSituacoes.getSelectedIndex();
 
@@ -124,9 +124,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jds.setVisible(true);
 
     }
-    
-    public void PreviaSituacao()
-    {
+
+    public void PreviaSituacao() {
         //Recuperar o item selecionado
         int index = lstSituacoes.getSelectedIndex();
 
@@ -136,15 +135,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jsj.CarregarPreviaSituacao(situacao, partidaDesenvolvimento.getAssistente());
         jsj.setVisible(true);
     }
-    
-    public void EditarAssistente()
-    {
+
+    public void EditarAssistente() {
         JanelaDesenvolvimentoAssistente jda = new JanelaDesenvolvimentoAssistente();
         jda.setVisible(true);
     }
-    
-    public void SalvarPartida()
-    {
+
+    public void SalvarPartida() {
         boolean continuar = true;
         String mensagem = "";
 
@@ -153,8 +150,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 //            continuar = false;
 //            mensagem = idioma.Valor("mensagemSemAssistente");
 //        }
-        
-        
         if (continuar) {
             JFileChooser jFileChooser = new JFileChooser();
 
@@ -183,18 +178,21 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             //executa acao conforme opcao selecionada
             if (acao == JFileChooser.APPROVE_OPTION) {
                 //escolheu arquivo
+                partidaDesenvolvimento.setNomeArquivo(jFileChooser.getSelectedFile().getName());
+                
                 String diretorio = jFileChooser.getSelectedFile().getAbsolutePath();
-
                 IOPartida iop = new IOPartida();
                 iop.SalvaPartida(diretorio);
+                dispose();
+                Partida.setInstancia(null);
+                JanelaDesenvolvimentoPartida.setInstancia(null);
 
             } else if (acao == JFileChooser.CANCEL_OPTION) {
                 //apertou botao cancelar
             } else if (acao == JFileChooser.ERROR_OPTION) {
                 //outra opcao
             }
-        } else
-        {
+        } else {
             JOptionPane.showMessageDialog(this, mensagem);
         }
     }
@@ -356,12 +354,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitulo)
                         .addGap(18, 18, 18)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -370,9 +367,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         .addComponent(lblNomeAssistente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditarAssistente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalvar)
-                        .addGap(25, 25, 25))))
+                        .addGap(174, 174, 174)
+                        .addComponent(btnSalvar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -391,7 +388,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarSituacaoActionPerformed
 
     private void btnExcluirSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSituacaoActionPerformed
-        
+
     }//GEN-LAST:event_btnExcluirSituacaoActionPerformed
 
     private void btnPreviaSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviaSituacaoActionPerformed
@@ -403,11 +400,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
-
         if (instancia == null) {
             instancia = new JanelaDesenvolvimentoPartida();
         }
-
         return instancia;
     }
 

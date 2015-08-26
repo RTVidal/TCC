@@ -41,31 +41,26 @@ public class JanelaInicial extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         idioma = ControladoraIdioma.getInstancia();
         PreencheComboIdiomas();
-        DefineIdioma("Português");
+        idioma.DefineIdioma("Português");
+        CarregaRecursos();
     }
 
-    public void CarregaRecursos() {
+    public final void CarregaRecursos() {
         btnAbrirJogo.setText(idioma.Valor("principalBtnAbrirJogo"));
         btnEditarJogo.setText(idioma.Valor("principalBtnEditarJogo"));
         btnNovoJogo.setText(idioma.Valor("principalBtnNovoJogo"));
         lblTituloPrincipal.setText(idioma.Valor("tituloTelaPrincipal"));
         lblIdioma.setText(idioma.Valor("principalLblIdioma"));
-        opcao = new Object[] {idioma.Valor("sim"), idioma.Valor("nao")};
+        opcao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
+        cbxIdiomas.setSelectedItem(idioma.getIdiomaAtual());
     }
 
     public final void PreencheComboIdiomas() {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-
-        model.addElement("Português");
         model.addElement("English");
         model.addElement("Español");
-
+        model.addElement("Português");
         cbxIdiomas.setModel(model);
-    }
-
-    public void DefineIdioma(String idiomaSelecionado) {
-        idioma.DefineIdioma(idiomaSelecionado);
-        CarregaRecursos();
     }
 
     /**
@@ -251,10 +246,11 @@ public class JanelaInicial extends javax.swing.JFrame {
         Partida partidaDesenvolvimento = iop.LePartida();
         if (partidaDesenvolvimento != null) {
             if (!(((String) cbxIdiomas.getSelectedItem()).equalsIgnoreCase(partidaDesenvolvimento.getIdioma()))) {
-                int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdiomaEdicao"),
+                int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"),
                         "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcao, opcao[0]);
                 if (i == 0) {
-                    DefineIdioma(partidaDesenvolvimento.getIdioma());
+                    idioma.DefineIdioma(partidaDesenvolvimento.getIdioma());
+                    CarregaRecursos();
                 }
             }
             Partida.setInstancia(partidaDesenvolvimento);
@@ -264,7 +260,8 @@ public class JanelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarJogoActionPerformed
 
     private void cbxIdiomasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxIdiomasActionPerformed
-        DefineIdioma((String) cbxIdiomas.getSelectedItem());
+        idioma.DefineIdioma((String) cbxIdiomas.getSelectedItem());
+        CarregaRecursos();
     }//GEN-LAST:event_cbxIdiomasActionPerformed
 
     private void btnAbrirJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirJogoActionPerformed
@@ -272,17 +269,14 @@ public class JanelaInicial extends javax.swing.JFrame {
         Partida partidaExecutar = iop.LePartida();
         if (partidaExecutar != null) {
             if (!(((String) cbxIdiomas.getSelectedItem()).equalsIgnoreCase(partidaExecutar.getIdioma()))) {
-                int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdiomaJogar"),
+                int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"),
                         "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcao, opcao[0]);
                 if (i == 0) {
-                    DefineIdioma(partidaExecutar.getIdioma());
+                    idioma.DefineIdioma(partidaExecutar.getIdioma());
+                    CarregaRecursos();
                 }
-                
-                
             }
-            
             Partida.setInstancia(partidaExecutar);
-            
             ControladoraExecucao ce = new ControladoraExecucao();
             ce.ExecutaPartida();
         }

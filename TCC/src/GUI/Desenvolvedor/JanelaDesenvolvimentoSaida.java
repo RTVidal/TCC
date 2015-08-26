@@ -18,7 +18,7 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
+public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
     /**
      * Creates new form JanelaDesenvolvimentoSaida
@@ -42,7 +42,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
     public JanelaDesenvolvimentoSaida(JanelaDesenvolvimentoSituacao jds, int modo, Situacao situacao, Object saidaSelecionada) {
         initComponents();
-
+        setModal(true);
         setLocationRelativeTo(jds);
 
         janelaDevSituacao = jds;
@@ -85,32 +85,33 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
     /**
      * Carregar a saída, caso o modo seja edição
-     * @param saidaSelecionada 
+     *
+     * @param saidaSelecionada
      */
     public final void CarregarSaida(Object saidaSelecionada) {
 
         switch (saida.getTipoSaida()) {
             case 1:
-                
+
                 saidaOpcao = (SaidaOpcional) saidaSelecionada;
-                
+
                 txaFalaAssistente.setText(saidaOpcao.getFalaAssistente());
                 txtDescricaoSO.setText(saidaOpcao.getNome());
-                
+
                 opcaoSaida.setSelectedComponent(pnlSaidaOpcao);
 
                 break;
             case 2:
 
                 saidaNumerica = (SaidaNumerica) saidaSelecionada;
-                
+
                 spnValorMaximo.setValue(saidaNumerica.getFaixa().getLimiteSuperior());
                 spnValorMinimo.setValue(saidaNumerica.getFaixa().getLimiteInferior());
 
                 txaFalaAssistente.setText(saidaNumerica.getFalaAssistente());
 
                 opcaoSaida.setSelectedComponent(pnlSaidaNumerica);
-                
+
                 break;
         }
 

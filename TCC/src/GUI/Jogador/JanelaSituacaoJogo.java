@@ -26,7 +26,7 @@ import javax.swing.JTextArea;
  *
  * @author Rafael
  */
-public final class JanelaSituacaoJogo extends javax.swing.JFrame {
+public final class JanelaSituacaoJogo extends javax.swing.JDialog {
 
     private ControladoraIdioma idioma;
     
@@ -58,7 +58,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
     public JanelaSituacaoJogo() {
         initComponents();
-
+        setModal(true);
         idioma = ControladoraIdioma.getInstancia();
 
         botoesSaidas = new ArrayList<>();

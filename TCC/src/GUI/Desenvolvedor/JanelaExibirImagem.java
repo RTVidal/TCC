@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  *
  * @author Rafael
  */
-public class JanelaExibirImagem extends javax.swing.JFrame {
+public class JanelaExibirImagem extends javax.swing.JDialog {
 
     private final JPanel imgFundo;
     /**
@@ -21,7 +21,7 @@ public class JanelaExibirImagem extends javax.swing.JFrame {
      */
     public JanelaExibirImagem(Image imagem) {
         initComponents();
-        
+        setModal(true);
         imgFundo = new PainelImagem(imagem);
         
         painelPrincipal.add(imgFundo);
