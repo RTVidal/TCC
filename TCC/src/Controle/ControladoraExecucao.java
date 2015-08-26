@@ -7,7 +7,6 @@ package Controle;
 
 import GUI.Jogador.JanelaSituacaoJogo;
 import Modelo.Partida;
-import Modelo.Situacao;
 
 /**
  *
@@ -30,9 +29,17 @@ public class ControladoraExecucao {
     public final void ExecutaPartida()
     {
         
+        System.out.println("Iniciando execução");
+                
         //Abre a janela inicial para a apresentação do assistente
         jsj = JanelaSituacaoJogo.getInstancia();
+        
+        System.out.println("Instanciou a janela");
+        
         jsj.setVisible(true);
+        jsj.setVisible(true);
+        
+        System.out.println("Abriu a janela");
         
         //Apresenta-se para a janela do jogo
         jsj.setControladora(this);
@@ -41,6 +48,14 @@ public class ControladoraExecucao {
         //Carrega a situação inicial
         jsj.CarregaSituacao(partida.getSituacaoInicial(), true);
         
+    }
+    
+    /**
+     * 
+     */
+    public void IniciarJogo()
+    {
+        jsj.CarregaSituacao(partida.getSituacaoInicial(), false);
     }
  
 }
