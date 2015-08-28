@@ -9,6 +9,7 @@ import Controle.ControladoraExecucao;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.PainelImagem;
 import Modelo.Assistente;
+import Modelo.Partida;
 import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
@@ -26,7 +27,7 @@ import javax.swing.JTextArea;
  *
  * @author Rafael
  */
-public final class JanelaSituacaoJogo extends javax.swing.JDialog {
+public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
     private ControladoraIdioma idioma;
 
@@ -70,7 +71,21 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
         painelPrincipal.setSize(1024, 768);
         painelPrincipal.setOpaque(false);
 
-        painelBotoes = new JPanel();
+        assistente = Partida.getInstancia().getAssistente();
+        
+        CarregaAssistente();
+        CarregaBalaoAssistente();
+
+    }
+
+    public void RecarregarComponentes() {
+        
+        painelPrincipal.repaint();
+        imgFundo.repaint();
+        textoBalao.repaint();
+        imgBalao.repaint();
+//        btn.repaint();
+//        painelBotoes.repaint();
 
     }
 
@@ -104,7 +119,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
     /**
      * Carrega assistente
      */
-    public void CarregaAssistente(Assistente assistente) {
+    public void CarregaAssistente() {
         //Obtem o avatar do assistente (caso não haja assistente/avatar, preenche com um avatar genérico)
         if (assistente.getAvatarAssistente().equals("")) {
             imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
@@ -114,22 +129,20 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
 
         //Exibe o balão
         imgAvatar = new PainelImagem(imagemAvatar.getImage());
-        System.out.println("carregando " + imagemAvatar.getImage());
 
         imgAvatar.setOpaque(false);
 
         //Exibe o avatar do assistente
         imgAvatar.setLocation(700, 500);
 
-        imgFundo.add(imgAvatar);
+        painelPrincipal.add(imgAvatar);
     }
 
     /**
      * Adiciona texto ao balão
      *
-     * @param texto
      */
-    public void CarregaFalaAssistente(String texto) {
+    public void CarregaBalaoAssistente() {
         //Obtem a imagem do balão
         imagemBalao = new ImageIcon("./Recursos/balao.gif");
 
@@ -141,14 +154,12 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
 
         //Exibe o texto do balão
         textoBalao = new JTextArea();
-
-        textoBalao.setText(texto);
+        
         textoBalao.setSize(660, 230);
         textoBalao.setLocation(50, 50);
         textoBalao.setEditable(false);
         textoBalao.setAutoscrolls(true);
         textoBalao.setDragEnabled(false);
-        //textoBalao.setEnabled(false);
         textoBalao.setFont(new Font("Serif", Font.ITALIC, 16));
         textoBalao.setLineWrap(true);
         textoBalao.setWrapStyleWord(true);
@@ -158,8 +169,14 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
         imgBalao.add(textoBalao);
 
         //Adiciona o balao à imagem de fundo
-        imgFundo.add(imgBalao);
+        painelPrincipal.add(imgBalao);
     }
+    
+    public void CarregaFalaAssistente(String texto)
+    {
+        textoBalao.setText(texto);
+    }
+    
 
     /**
      * Gerar as saídas da situação
@@ -168,6 +185,8 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
      */
     public void GerarSaidas(Situacao situacao) {
 
+        //painelBotoes.removeAll();
+        
         switch (situacao.getSaida().getTipoSaida()) {
             case 0:
                 //Não há tipo de saida definido
@@ -185,12 +204,12 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
      * Gera a saída da apresentação do assistente
      */
     public void GerarSaidaApresentacao() {
+
+        painelBotoes = new JPanel();
+        
         painelBotoes.setOpaque(false);
-        //painelBotoes.setT
         painelBotoes.setSize(500, 100);
         painelBotoes.setLocation(100, 600);
-        
-        imgFundo.add(painelBotoes);
 
         btn = new JButton(idioma.Valor("btnContinuar"));
         btn.setLocation(0, 0);
@@ -199,6 +218,9 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
             controladora.IniciarJogo();
         });
         painelBotoes.add(btn);
+        
+        painelPrincipal.add(painelBotoes);
+
     }
 
     /**
@@ -208,12 +230,13 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
      */
     public void GerarSaidaOpcional(ArrayList<SaidaOpcional> saidas) {
 
+        painelBotoes = new JPanel();
+
         painelBotoes.setOpaque(false);
-        //painelBotoes.setT
         painelBotoes.setSize(500, 100);
         painelBotoes.setLocation(100, 600);
 
-        imgFundo.add(painelBotoes);
+        //imgFundo.add(painelBotoes);
 
         for (SaidaOpcional s : saidas) {
             btn = new JButton(s.getNome());
@@ -223,9 +246,12 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
                 JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getFalaAssistente());
                 jcs.setVisible(true);
             });
-            botoesSaidas.add(btn);
+            //botoesSaidas.add(btn);
             painelBotoes.add(btn);
         }
+        
+        painelPrincipal.add(painelBotoes);
+        //painelBotoes.repaint();
     }
 
     public void GerarSaidaNumerica(ArrayList<SaidaNumerica> saidas) {
@@ -298,26 +324,41 @@ public final class JanelaSituacaoJogo extends javax.swing.JDialog {
 
     public void CarregaSituacao(Situacao situacao, boolean inicio) {
 
-        System.out.println("Carregando situacao... " + situacao.getNome());
-        CarregaImagemFundo(situacao);
-        CarregaAssistente(assistente);
+        System.out.println("Carregando situacao... " + situacao.getNome() + " " + inicio);
+        
+        
+        //CarregaAssistente();
+        
 
         if (inicio) {
+            
             CarregaFalaAssistente(assistente.getApresentacao());
             GerarSaidaApresentacao();
-            
-            System.out.println("Carregou");
         } else {
+
+            CarregaFalaAssistente(situacao.getFalaAssistente());
             GerarSaidas(situacao);
+            
         }
+        
+        CarregaImagemFundo(situacao);
+
+        RecarregarComponentes();
+//        this.repaint();
 
     }
 
     public void CarregarPreviaSituacao(Situacao situacao, Assistente assistente) {
-        CarregaImagemFundo(situacao);
-        CarregaAssistente(assistente);
+
+        this.assistente = assistente;
+
+        
+        //CarregaAssistente();
         CarregaFalaAssistente(situacao.getFalaAssistente());
         GerarSaidas(situacao);
+        
+        CarregaImagemFundo(situacao);
+
     }
 
     /**

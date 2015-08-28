@@ -13,49 +13,56 @@ import Modelo.Partida;
  * @author Rafael
  */
 public class ControladoraExecucao {
-    
+
     private Partida partida;
-    
+
     private JanelaSituacaoJogo jsj;
-    
-    public ControladoraExecucao()
-    {
+
+    private static ControladoraExecucao instancia;
+
+    public ControladoraExecucao() {
         partida = Partida.getInstancia();
     }
-    
+
     /**
      * Método principal da execução da partida
      */
-    public final void ExecutaPartida()
-    {
-        
-        System.out.println("Iniciando execução");
-                
+    public final void ExecutaPartida() {
+
         //Abre a janela inicial para a apresentação do assistente
         jsj = JanelaSituacaoJogo.getInstancia();
-        
-        System.out.println("Instanciou a janela");
-        
+
         jsj.setVisible(true);
-        jsj.setVisible(true);
-        
-        System.out.println("Abriu a janela");
-        
+
         //Apresenta-se para a janela do jogo
         jsj.setControladora(this);
-        jsj.setAssistente(partida.getAssistente());
-        
+        //jsj.setAssistente(partida.getAssistente());
+
         //Carrega a situação inicial
         jsj.CarregaSituacao(partida.getSituacaoInicial(), true);
-        
+
     }
-    
+
     /**
-     * 
+     *
      */
-    public void IniciarJogo()
-    {
+    public void IniciarJogo() {
+
+        //jsj = new JanelaSituacaoJogo();
+        
         jsj.CarregaSituacao(partida.getSituacaoInicial(), false);
+        //jsj.RecarregarComponentes();
+//        jsj.invalidate();
+//        jsj.validate();
+//        jsj.repaint();
+
     }
- 
+
+    public static ControladoraExecucao getInstancia() {
+        return instancia;
+    }
+
+    public static void setInstancia(ControladoraExecucao instancia) {
+        ControladoraExecucao.instancia = instancia;
+    }
 }

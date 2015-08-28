@@ -45,7 +45,6 @@ public class IOPartida {
             objGravar.close();
             arquivoGrav.flush();
             arquivoGrav.close();
-            System.out.println("salvou " + partidaDesenvolvimento);
         } catch (Exception e) {
             e.printStackTrace();
         }
