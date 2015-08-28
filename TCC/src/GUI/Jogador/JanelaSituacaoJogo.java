@@ -72,20 +72,21 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         painelPrincipal.setOpaque(false);
 
         assistente = Partida.getInstancia().getAssistente();
-        
+
         CarregaAssistente();
         CarregaBalaoAssistente();
+        CarregaPainelSaida();
 
     }
 
     public void RecarregarComponentes() {
-        
+
         painelPrincipal.repaint();
         imgFundo.repaint();
         textoBalao.repaint();
         imgBalao.repaint();
-//        btn.repaint();
-//        painelBotoes.repaint();
+        btn.repaint();
+        painelBotoes.repaint();
 
     }
 
@@ -113,6 +114,18 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
      * Carrega a apresentação do assistente
      */
     public void ApresentaAssistente() {
+
+    }
+
+    public void CarregaPainelSaida() {
+
+        painelBotoes = new JPanel();
+
+        painelBotoes.setOpaque(true);
+        painelBotoes.setSize(500, 100);
+        painelBotoes.setLocation(100, 600);
+        
+        painelPrincipal.add(painelBotoes);
 
     }
 
@@ -154,7 +167,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         //Exibe o texto do balão
         textoBalao = new JTextArea();
-        
+
         textoBalao.setSize(660, 230);
         textoBalao.setLocation(50, 50);
         textoBalao.setEditable(false);
@@ -171,12 +184,10 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         //Adiciona o balao à imagem de fundo
         painelPrincipal.add(imgBalao);
     }
-    
-    public void CarregaFalaAssistente(String texto)
-    {
+
+    public void CarregaFalaAssistente(String texto) {
         textoBalao.setText(texto);
     }
-    
 
     /**
      * Gerar as saídas da situação
@@ -185,8 +196,7 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
      */
     public void GerarSaidas(Situacao situacao) {
 
-        //painelBotoes.removeAll();
-        
+        //painelPrincipal.remove(painelBotoes);
         switch (situacao.getSaida().getTipoSaida()) {
             case 0:
                 //Não há tipo de saida definido
@@ -205,21 +215,13 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
      */
     public void GerarSaidaApresentacao() {
 
-        painelBotoes = new JPanel();
-        
-        painelBotoes.setOpaque(false);
-        painelBotoes.setSize(500, 100);
-        painelBotoes.setLocation(100, 600);
-
         btn = new JButton(idioma.Valor("btnContinuar"));
         btn.setLocation(0, 0);
         btn.setSize(20, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
             controladora.IniciarJogo();
         });
-        painelBotoes.add(btn);
-        
-        painelPrincipal.add(painelBotoes);
+        painelBotoes.add(btn);        
 
     }
 
@@ -230,14 +232,9 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
      */
     public void GerarSaidaOpcional(ArrayList<SaidaOpcional> saidas) {
 
-        painelBotoes = new JPanel();
-
-        painelBotoes.setOpaque(false);
-        painelBotoes.setSize(500, 100);
-        painelBotoes.setLocation(100, 600);
-
-        //imgFundo.add(painelBotoes);
-
+        painelBotoes.remove(btn);
+        painelBotoes.revalidate();
+        
         for (SaidaOpcional s : saidas) {
             btn = new JButton(s.getNome());
             btn.setLocation(0, 0);
@@ -248,10 +245,8 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
             });
             //botoesSaidas.add(btn);
             painelBotoes.add(btn);
+            btn.repaint();
         }
-        
-        painelPrincipal.add(painelBotoes);
-        //painelBotoes.repaint();
     }
 
     public void GerarSaidaNumerica(ArrayList<SaidaNumerica> saidas) {
@@ -325,22 +320,19 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
     public void CarregaSituacao(Situacao situacao, boolean inicio) {
 
         System.out.println("Carregando situacao... " + situacao.getNome() + " " + inicio);
-        
-        
-        //CarregaAssistente();
-        
 
+        //CarregaAssistente();
         if (inicio) {
-            
+
             CarregaFalaAssistente(assistente.getApresentacao());
             GerarSaidaApresentacao();
         } else {
 
             CarregaFalaAssistente(situacao.getFalaAssistente());
             GerarSaidas(situacao);
-            
+
         }
-        
+
         CarregaImagemFundo(situacao);
 
         RecarregarComponentes();
@@ -352,11 +344,10 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         this.assistente = assistente;
 
-        
         //CarregaAssistente();
         CarregaFalaAssistente(situacao.getFalaAssistente());
         GerarSaidas(situacao);
-        
+
         CarregaImagemFundo(situacao);
 
     }
