@@ -93,6 +93,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
         }
 
         CarregarComboTipoSaida();
+        AtualizaTabelaSaidas();
     }
 
     public final void CarregarComboTipoSaida() {
@@ -105,7 +106,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
         if (saida.getTipoSaida() > 0) {
             cbxTipoSaida.setSelectedIndex(saida.getTipoSaida() - 1);
         }
-
     }
 
     public final void CarregarSituacao() {
@@ -121,14 +121,41 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
         //Atualiza a tabela conforme o tipo de saída
         switch (saida.getTipoSaida()) {
             case 1:
-                SaidasOpcionaisTbModel modelSO = new SaidasOpcionaisTbModel(saida.getSaidasOpcao());
-                tblSaidas.setModel(modelSO);
-                cbxTipoSaida.setSelectedIndex(0);
+
+                if (saida.getSaidasOpcao().isEmpty()) {
+
+                    lblMsgNaoHaSaidas.setText(idioma.Valor("msgNaoHaSaidas"));
+                    tblSaidas.setVisible(false);
+
+                } else {
+
+                    SaidasOpcionaisTbModel modelSO = new SaidasOpcionaisTbModel(saida.getSaidasOpcao());
+                    tblSaidas.setModel(modelSO);
+                    cbxTipoSaida.setSelectedIndex(0);
+                    lblMsgNaoHaSaidas.setVisible(false);
+                    cbxTipoSaida.setEnabled(false);
+                    tblSaidas.setVisible(true);
+
+                }
+
                 break;
             case 2:
-                SaidasNumericasTbModel modelSN = new SaidasNumericasTbModel(saida.getSaidasNumerica());
-                tblSaidas.setModel(modelSN);
-                cbxTipoSaida.setSelectedIndex(1);
+
+                if (saida.getSaidasNumerica().isEmpty()) {
+
+                    lblMsgNaoHaSaidas.setText(idioma.Valor("msgNaoHaSaidas"));
+                    tblSaidas.setVisible(false);
+
+                } else {
+
+                    SaidasNumericasTbModel modelSN = new SaidasNumericasTbModel(saida.getSaidasNumerica());
+                    tblSaidas.setModel(modelSN);
+                    cbxTipoSaida.setSelectedIndex(1);
+                    lblMsgNaoHaSaidas.setVisible(false);
+                    cbxTipoSaida.setEnabled(false);
+                    tblSaidas.setVisible(true);
+
+                }
                 break;
         }
 
@@ -210,6 +237,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
         cbxTipoSaida = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        lblMsgNaoHaSaidas = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -319,6 +347,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
 
         jLabel5.setText("lblTipoSaida");
 
+        lblMsgNaoHaSaidas.setText("msgNaoHaSaidas");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -348,20 +378,23 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
                             .addComponent(jScrollPane1)
                             .addComponent(txtNomeSituacao, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnNovaSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                         .addComponent(cbxTipoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEditarSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnNovaSaida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jButton1)
+                                    .addGap(77, 77, 77)
+                                    .addComponent(btnEditarSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblMsgNaoHaSaidas))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
@@ -380,8 +413,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnNovaSaida)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblMsgNaoHaSaidas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -503,11 +538,15 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
 
     private void cbxTipoSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoSaidaActionPerformed
 
-        if (cbxTipoSaida.getSelectedItem().equals(idioma.Valor("lblOpcional"))) {
-            saida.setTipoSaida(1);
-        } else {
-            saida.setTipoSaida(2);
+        switch (cbxTipoSaida.getSelectedIndex()) {
+            case 0:
+                saida.setTipoSaida(1);
+                break;
+            case 1:
+                saida.setTipoSaida(2);
+                break;
         }
+
 
     }//GEN-LAST:event_cbxTipoSaidaActionPerformed
 
@@ -531,6 +570,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JLabel lblMsgNaoHaSaidas;
     private javax.swing.JTable tblSaidas;
     private javax.swing.JTextArea txaFalaAssistente;
     private javax.swing.JTextField txtArquivo;

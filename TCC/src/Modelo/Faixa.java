@@ -5,11 +5,13 @@
  */
 package Modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Rafael
  */
-public class Faixa {
+public class Faixa implements Serializable{
     
     private Integer limiteInferior;
     private Integer limiteSuperior;

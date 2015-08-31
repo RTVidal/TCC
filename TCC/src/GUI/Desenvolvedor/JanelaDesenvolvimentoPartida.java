@@ -6,12 +6,12 @@
 package GUI.Desenvolvedor;
 
 import Controle.ControladoraIdioma;
-import GUI.Jogador.JanelaSituacaoJogo;
+import GUI.Jogador.JanelaExecucaoPartida;
+import GUI.Suporte.SituacoesTbModel;
 import Modelo.Partida;
 import Modelo.Situacao;
 import Persistencia.IOPartida;
 import java.io.File;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -21,7 +21,7 @@ import javax.swing.filechooser.FileFilter;
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoPartida extends javax.swing.JDialog {
+public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     private Partida partidaDesenvolvimento;
 
@@ -35,7 +35,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JDialog {
     public JanelaDesenvolvimentoPartida() {
         initComponents();
         setLocationRelativeTo(null);
-        setModal(true);
 
         idioma = ControladoraIdioma.getInstancia();
 
@@ -72,25 +71,14 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JDialog {
      */
     public final void AtualizaSituacoes() {
 
-        DefaultListModel itens = new DefaultListModel();
-
-        if (!(partidaDesenvolvimento.getSituacoes() == null)) {
-            for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
-
-                if (s.isSituacaoInicial()) {
-
-                    itens.addElement(s.getNome() + " - " + idioma.Valor("desPartidaBtnInicial"));
-
-                } else {
-
-                    itens.addElement(s.getNome());
-
-                }
-
-            }
-
-            lstSituacoes.setModel(itens);
-        }
+        SituacoesTbModel model = new SituacoesTbModel(partidaDesenvolvimento.getSituacoes());
+        
+        tblSituacoes.setModel(model);
+        
+        //Esconder a coluna contendo o objeto da situação
+        tblSituacoes.getColumnModel().getColumn(0).setMinWidth(0);
+        tblSituacoes.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblSituacoes.getColumnModel().getColumn(0).setPreferredWidth(0);
 
     }
 
@@ -118,20 +106,24 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JDialog {
 
     public void EditarSituacao() {
         //Recuperar o item selecionado
-        int index = lstSituacoes.getSelectedIndex();
+        int index = tblSituacoes.getSelectedRow();
+        
+        //Recupera o objeto na tabela
+        Situacao situacao = (Situacao)tblSituacoes.getValueAt(index, 0);
 
-        JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao(2, partidaDesenvolvimento.getSituacoes().get(index));
+        JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao(2, situacao);
         jds.setVisible(true);
 
     }
 
     public void PreviaSituacao() {
         //Recuperar o item selecionado
-        int index = lstSituacoes.getSelectedIndex();
+        int index = tblSituacoes.getSelectedRow();
+        
+        //Recupera o objeto na tabela
+        Situacao situacao = (Situacao)tblSituacoes.getValueAt(index, 0);
 
-        Situacao situacao = partidaDesenvolvimento.getSituacoes().get(index);
-
-        JanelaSituacaoJogo jsj = new JanelaSituacaoJogo();
+        JanelaExecucaoPartida jsj = new JanelaExecucaoPartida();
         jsj.CarregarPreviaSituacao(situacao, partidaDesenvolvimento.getAssistente());
         jsj.setVisible(true);
     }
@@ -209,12 +201,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JDialog {
         jFrame1 = new javax.swing.JFrame();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstSituacoes = new javax.swing.JList();
         btnNovaSituacao = new javax.swing.JButton();
         btnEditarSituacao = new javax.swing.JButton();
         btnExcluirSituacao = new javax.swing.JButton();
         btnPreviaSituacao = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblSituacoes = new javax.swing.JTable();
         lblTitulo = new javax.swing.JLabel();
         lblImgAssistente = new javax.swing.JLabel();
         lblAssistente = new javax.swing.JLabel();
@@ -234,13 +226,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JDialog {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        lstSituacoes.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(lstSituacoes);
 
         btnNovaSituacao.setText("btnNovaSituacao");
         btnNovaSituacao.addActionListener(new java.awt.event.ActionListener() {
@@ -270,36 +255,49 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JDialog {
             }
         });
 
+        tblSituacoes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblSituacoes);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnNovaSituacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditarSituacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEditarSituacao)
+                        .addGap(18, 18, 18)
                         .addComponent(btnExcluirSituacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnPreviaSituacao)))
-                .addContainerGap())
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovaSituacao)
                     .addComponent(btnEditarSituacao)
                     .addComponent(btnExcluirSituacao)
                     .addComponent(btnPreviaSituacao))
-                .addContainerGap())
+                .addGap(22, 22, 22))
         );
 
         jTabbedPane1.addTab("Situações", jPanel1);
@@ -426,6 +424,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JDialog {
     private javax.swing.JLabel lblImgAssistente;
     private javax.swing.JLabel lblNomeAssistente;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JList lstSituacoes;
+    private javax.swing.JTable tblSituacoes;
     // End of variables declaration//GEN-END:variables
 }

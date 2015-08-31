@@ -5,7 +5,7 @@
  */
 package Controle;
 
-import GUI.Jogador.JanelaSituacaoJogo;
+import GUI.Jogador.JanelaExecucaoPartida;
 import Modelo.Partida;
 
 /**
@@ -16,7 +16,7 @@ public class ControladoraExecucao {
 
     private Partida partida;
 
-    private JanelaSituacaoJogo jsj;
+    private JanelaExecucaoPartida jsj;
 
     private static ControladoraExecucao instancia;
 
@@ -30,7 +30,7 @@ public class ControladoraExecucao {
     public final void ExecutaPartida() {
 
         //Abre a janela inicial para a apresentação do assistente
-        jsj = JanelaSituacaoJogo.getInstancia();
+        jsj = JanelaExecucaoPartida.getInstancia();
 
         jsj.setVisible(true);
 
@@ -48,7 +48,7 @@ public class ControladoraExecucao {
      */
     public void IniciarJogo() {
 
-        //jsj = new JanelaSituacaoJogo();
+        //jsj = new JanelaExecucaoPartida();
         
         jsj.CarregaSituacao(partida.getSituacaoInicial(), false);
         //jsj.RecarregarComponentes();

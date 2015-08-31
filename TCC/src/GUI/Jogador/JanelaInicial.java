@@ -189,6 +189,7 @@ public class JanelaInicial extends javax.swing.JFrame {
 
             ImageIcon image = new ImageIcon("./recursos/teste.jpg");
 
+            situacao.setNome("Teste");
             situacao.setFundoSituacao(image);
             situacao.setFalaAssistente("No menu está uma variedade de sanduíches com preparos, "
                     + "apresentações e acompanhamentos criativos. Há hambúrguer de "
@@ -230,7 +231,7 @@ public class JanelaInicial extends javax.swing.JFrame {
 
             situacao.setSaida(saida);
 
-            JanelaSituacaoJogo jsj = new JanelaSituacaoJogo();
+            JanelaExecucaoPartida jsj = new JanelaExecucaoPartida();
             jsj.CarregarPreviaSituacao(situacao, assistente);
 
             jsj.setVisible(true);

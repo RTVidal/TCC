@@ -27,7 +27,7 @@ import javax.swing.JTextArea;
  *
  * @author Rafael
  */
-public final class JanelaSituacaoJogo extends javax.swing.JFrame {
+public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     private ControladoraIdioma idioma;
 
@@ -55,9 +55,9 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
     private ControladoraExecucao controladora;
 
-    private static JanelaSituacaoJogo instancia;
+    private static JanelaExecucaoPartida instancia;
 
-    public JanelaSituacaoJogo() {
+    public JanelaExecucaoPartida() {
         initComponents();
         //setModal(true);
         idioma = ControladoraIdioma.getInstancia();
@@ -70,7 +70,9 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         //Ajusta o tamanho da tela
         painelPrincipal.setSize(1024, 768);
         painelPrincipal.setOpaque(false);
-
+        painelPrincipal.repaint();
+        
+        
         assistente = Partida.getInstancia().getAssistente();
 
         CarregaAssistente();
@@ -79,16 +81,16 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
     }
 
-    public void RecarregarComponentes() {
-
-        painelPrincipal.repaint();
-        imgFundo.repaint();
-        textoBalao.repaint();
-        imgBalao.repaint();
-        btn.repaint();
-        painelBotoes.repaint();
-
-    }
+//    public void RecarregarComponentes() {
+//
+//        //painelPrincipal.repaint();
+//        //imgFundo.repaint();
+//        //textoBalao.repaint();
+//        //imgBalao.repaint();
+//        //btn.repaint();
+//        //painelBotoes.repaint();
+//
+//    }
 
     public void CarregaImagemFundo(Situacao situacao) {
 
@@ -104,9 +106,11 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         imgFundo.setLayout(null);
         imgFundo.setOpaque(false);
         imgFundo.setSize(1024, 768);
+        
 
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
+        imgFundo.repaint();
 
     }
 
@@ -183,6 +187,9 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         //Adiciona o balao à imagem de fundo
         painelPrincipal.add(imgBalao);
+        
+        textoBalao.repaint();
+        imgBalao.repaint();
     }
 
     public void CarregaFalaAssistente(String texto) {
@@ -221,7 +228,9 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
             controladora.IniciarJogo();
         });
-        painelBotoes.add(btn);        
+        painelBotoes.add(btn);
+        btn.repaint();
+        painelBotoes.repaint();
 
     }
 
@@ -232,7 +241,11 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
      */
     public void GerarSaidaOpcional(ArrayList<SaidaOpcional> saidas) {
 
-        painelBotoes.remove(btn);
+        if(btn != null)
+        {
+            painelBotoes.remove(btn);
+        }
+        
         painelBotoes.revalidate();
         
         for (SaidaOpcional s : saidas) {
@@ -254,13 +267,13 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         lblValorSelecionado = new JLabel();
 
         //jslSaidaNumerica.setOpaque(false);
-        jslSaidaNumerica.setSize(500, 100);
+        jslSaidaNumerica.setSize(800, 100);
         jslSaidaNumerica.setLocation(100, 600);
         lblValorSelecionado.setLocation(225, 700);
         lblValorSelecionado.setSize(50, 50);
 
-        imgFundo.add(jslSaidaNumerica);
-        imgFundo.add(lblValorSelecionado);
+        painelBotoes.add(jslSaidaNumerica);
+        painelBotoes.add(lblValorSelecionado);
 
         Integer valorMinimo = 0;
         Integer valorMaximo = 0;
@@ -295,11 +308,16 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         btn.setLocation(620, 600);
         btn.setSize(40, 30);
 
-        imgFundo.add(btn);
+        painelBotoes.add(btn);
 
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
             TratarSaidaNumerica(saidas);
         });
+        
+        jslSaidaNumerica.repaint();
+        lblValorSelecionado.repaint();
+        btn.repaint();
+        //painelBotoes.repaint();
 
     }
 
@@ -319,8 +337,6 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
     public void CarregaSituacao(Situacao situacao, boolean inicio) {
 
-        System.out.println("Carregando situacao... " + situacao.getNome() + " " + inicio);
-
         //CarregaAssistente();
         if (inicio) {
 
@@ -335,20 +351,12 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
 
         CarregaImagemFundo(situacao);
 
-        RecarregarComponentes();
-//        this.repaint();
-
     }
 
     public void CarregarPreviaSituacao(Situacao situacao, Assistente assistente) {
 
         this.assistente = assistente;
-
-        //CarregaAssistente();
-        CarregaFalaAssistente(situacao.getFalaAssistente());
-        GerarSaidas(situacao);
-
-        CarregaImagemFundo(situacao);
+        CarregaSituacao(situacao, false);
 
     }
 
@@ -394,19 +402,20 @@ public final class JanelaSituacaoJogo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static JanelaSituacaoJogo getInstancia() {
-
-        if (instancia == null) {
-            instancia = new JanelaSituacaoJogo();
+    public static JanelaExecucaoPartida getInstancia() {
+        
+        if(instancia == null)
+        {
+            instancia = new JanelaExecucaoPartida();
         }
-
+        
         return instancia;
     }
 
-    public static void setInstancia(JanelaSituacaoJogo instancia) {
-        JanelaSituacaoJogo.instancia = instancia;
+    public static void setInstancia(JanelaExecucaoPartida instancia) {
+        JanelaExecucaoPartida.instancia = instancia;
     }
-
+    
     public ControladoraExecucao getControladora() {
         return controladora;
     }

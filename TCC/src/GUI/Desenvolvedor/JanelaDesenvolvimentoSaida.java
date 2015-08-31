@@ -126,7 +126,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
 
-            if (s.getSaida().getTipoSaida() == 1) {
+            if (saida.getTipoSaida() == 1) {
 
                 if (s == saidaOpcao.getSituacaoDestino()) {
                     itemSelecionadoDestino = cont;
