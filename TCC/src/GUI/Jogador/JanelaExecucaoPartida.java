@@ -10,6 +10,7 @@ import Controle.ControladoraIdioma;
 import GUI.Suporte.PainelImagem;
 import Modelo.Assistente;
 import Modelo.Partida;
+import Modelo.Saida;
 import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
@@ -32,6 +33,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     private ControladoraIdioma idioma;
 
     private Assistente assistente;
+
+    private Situacao situacao;
 
     private JPanel imgFundo;
     private JPanel imgAvatar;
@@ -71,8 +74,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelPrincipal.setSize(1024, 768);
         painelPrincipal.setOpaque(false);
         painelPrincipal.repaint();
-        
-        
+
         assistente = Partida.getInstancia().getAssistente();
 
         CarregaAssistente();
@@ -81,16 +83,16 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     }
 
-//    public void RecarregarComponentes() {
-//
-//        //painelPrincipal.repaint();
-//        //imgFundo.repaint();
-//        //textoBalao.repaint();
-//        //imgBalao.repaint();
-//        //btn.repaint();
-//        //painelBotoes.repaint();
-//
-//    }
+    public void RecarregarComponentes() {
+
+        imgFundo.repaint();
+        painelPrincipal.repaint();
+        textoBalao.repaint();
+        imgBalao.repaint();
+        btn.repaint();
+        painelBotoes.repaint();
+
+    }
 
     public void CarregaImagemFundo(Situacao situacao) {
 
@@ -106,18 +108,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         imgFundo.setLayout(null);
         imgFundo.setOpaque(false);
         imgFundo.setSize(1024, 768);
-        
 
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
-        imgFundo.repaint();
-
-    }
-
-    /**
-     * Carrega a apresentação do assistente
-     */
-    public void ApresentaAssistente() {
 
     }
 
@@ -128,7 +121,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.setOpaque(true);
         painelBotoes.setSize(500, 100);
         painelBotoes.setLocation(100, 600);
-        
+
         painelPrincipal.add(painelBotoes);
 
     }
@@ -187,7 +180,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         //Adiciona o balao à imagem de fundo
         painelPrincipal.add(imgBalao);
-        
+
         textoBalao.repaint();
         imgBalao.repaint();
     }
@@ -229,8 +222,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             controladora.IniciarJogo();
         });
         painelBotoes.add(btn);
-        btn.repaint();
-        painelBotoes.repaint();
 
     }
 
@@ -241,28 +232,30 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
      */
     public void GerarSaidaOpcional(ArrayList<SaidaOpcional> saidas) {
 
-        if(btn != null)
-        {
-            painelBotoes.remove(btn);
-        }
-        
+        painelBotoes.removeAll();
+
         painelBotoes.revalidate();
-        
+
         for (SaidaOpcional s : saidas) {
             btn = new JButton(s.getNome());
             btn.setLocation(0, 0);
             btn.setSize(20, 30);
             btn.addActionListener((java.awt.event.ActionEvent e) -> {
-                JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getFalaAssistente());
-                jcs.setVisible(true);
+
+                CarregarTextoSaida(1, s);
+                RecarregarComponentes();
+
             });
-            //botoesSaidas.add(btn);
             painelBotoes.add(btn);
             btn.repaint();
         }
     }
 
     public void GerarSaidaNumerica(ArrayList<SaidaNumerica> saidas) {
+
+        painelBotoes.removeAll();
+        painelBotoes.revalidate();
+
         jslSaidaNumerica = new JSlider();
         lblValorSelecionado = new JLabel();
 
@@ -313,11 +306,36 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
             TratarSaidaNumerica(saidas);
         });
-        
+
         jslSaidaNumerica.repaint();
         lblValorSelecionado.repaint();
         btn.repaint();
-        //painelBotoes.repaint();
+
+    }
+
+    public void GerarSaidaSituacao(Situacao situacaoDestino) {
+
+        painelBotoes.removeAll();
+
+        painelBotoes.revalidate();
+
+        btn = new JButton(idioma.Valor("btnVoltar"));
+        btn.setLocation(0, 0);
+        btn.setSize(20, 30);
+        btn.addActionListener((java.awt.event.ActionEvent e) -> {
+            //Carrega novamente a situação
+            CarregaSituacao(situacao, 2);
+        });
+        painelBotoes.add(btn);
+
+        btn = new JButton(idioma.Valor("btnContinuar"));
+        btn.setLocation(0, 0);
+        btn.setSize(20, 30);
+        btn.addActionListener((java.awt.event.ActionEvent e) -> {
+            //Carrega novamente a situação
+            CarregaSituacao(situacaoDestino, 2);
+        });
+        painelBotoes.add(btn);
 
     }
 
@@ -335,28 +353,44 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         }
     }
 
-    public void CarregaSituacao(Situacao situacao, boolean inicio) {
+    public void CarregarTextoSaida(int tipoSaida, Object saida) {
 
-        //CarregaAssistente();
-        if (inicio) {
+        if (tipoSaida == 1) {
+            SaidaOpcional saidaOpcional = (SaidaOpcional)saida;
+            CarregaFalaAssistente(saidaOpcional.getFalaAssistente());
 
-            CarregaFalaAssistente(assistente.getApresentacao());
-            GerarSaidaApresentacao();
-        } else {
+            GerarSaidaSituacao(saidaOpcional.getSituacaoDestino());
+        }
 
-            CarregaFalaAssistente(situacao.getFalaAssistente());
-            GerarSaidas(situacao);
+    }
 
+    public void CarregaSituacao(Situacao situacao, int etapa) {
+
+        this.situacao = situacao;
+        
+        //1. Início, 2. Continuação
+        switch (etapa) {
+
+            case 1:
+                CarregaFalaAssistente(assistente.getApresentacao());
+                GerarSaidaApresentacao();
+                break;
+
+            case 2:
+                CarregaFalaAssistente(situacao.getFalaAssistente());
+                GerarSaidas(situacao);
+                break;
         }
 
         CarregaImagemFundo(situacao);
+        RecarregarComponentes();
 
     }
 
     public void CarregarPreviaSituacao(Situacao situacao, Assistente assistente) {
 
         this.assistente = assistente;
-        CarregaSituacao(situacao, false);
+        CarregaSituacao(situacao, 2);
 
     }
 
@@ -403,19 +437,18 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public static JanelaExecucaoPartida getInstancia() {
-        
-        if(instancia == null)
-        {
+
+        if (instancia == null) {
             instancia = new JanelaExecucaoPartida();
         }
-        
+
         return instancia;
     }
 
     public static void setInstancia(JanelaExecucaoPartida instancia) {
         JanelaExecucaoPartida.instancia = instancia;
     }
-    
+
     public ControladoraExecucao getControladora() {
         return controladora;
     }

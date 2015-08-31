@@ -39,7 +39,7 @@ public class ControladoraExecucao {
         //jsj.setAssistente(partida.getAssistente());
 
         //Carrega a situação inicial
-        jsj.CarregaSituacao(partida.getSituacaoInicial(), true);
+        jsj.CarregaSituacao(partida.getSituacaoInicial(), 1);
 
     }
 
@@ -47,16 +47,12 @@ public class ControladoraExecucao {
      *
      */
     public void IniciarJogo() {
-
-        //jsj = new JanelaExecucaoPartida();
         
-        jsj.CarregaSituacao(partida.getSituacaoInicial(), false);
-        //jsj.RecarregarComponentes();
-//        jsj.invalidate();
-//        jsj.validate();
-//        jsj.repaint();
+        jsj.CarregaSituacao(partida.getSituacaoInicial(), 2);
 
     }
+    
+    //public void Carregar
 
     public static ControladoraExecucao getInstancia() {
         return instancia;
