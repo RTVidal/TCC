@@ -10,7 +10,6 @@ import Controle.ControladoraIdioma;
 import GUI.Suporte.PainelImagem;
 import Modelo.Assistente;
 import Modelo.Partida;
-import Modelo.Saida;
 import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
@@ -70,10 +69,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        //Ajusta o tamanho da tela
-        painelPrincipal.setSize(1024, 768);
-        painelPrincipal.setOpaque(false);
-        painelPrincipal.repaint();
+        
 
         assistente = Partida.getInstancia().getAssistente();
 
@@ -85,17 +81,29 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     public void RecarregarComponentes() {
 
-        imgFundo.repaint();
-        painelPrincipal.repaint();
+        
         textoBalao.repaint();
         imgBalao.repaint();
         btn.repaint();
         painelBotoes.repaint();
+        imgFundo.repaint();
+        painelPrincipal.repaint();
+        
 
     }
 
     public void CarregaImagemFundo(Situacao situacao) {
 
+        if (imgFundo != null)
+        {
+            painelPrincipal.remove(imgFundo);
+        }
+        
+        //Ajusta o tamanho da tela
+        painelPrincipal.setSize(1024, 768);
+        painelPrincipal.setOpaque(false);
+        painelPrincipal.repaint();
+        
         //Caso não haja imagem de fundo, adiciona uma imagem genérica
         if (situacao.getFundoSituacao().getDescription().equals("")) {
             ImageIcon fundoGenerico = new ImageIcon("./Recursos/fundo.jpg");
@@ -105,12 +113,18 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             imgFundo = new PainelImagem(situacao.getFundoSituacao().getImage());
         }
 
-        imgFundo.setLayout(null);
+        //imgFundo.setLayout(null);
         imgFundo.setOpaque(false);
         imgFundo.setSize(1024, 768);
+        
 
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
+        
+//        painelPrincipal.revalidate();
+//        imgFundo.revalidate();
+        
+        System.out.println("carregou " + situacao.getFundoSituacao().getDescription());
 
     }
 
@@ -365,7 +379,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }
 
     public void CarregaSituacao(Situacao situacao, int etapa) {
-
+                
         this.situacao = situacao;
         
         //1. Início, 2. Continuação
@@ -377,6 +391,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 break;
 
             case 2:
+                
                 CarregaFalaAssistente(situacao.getFalaAssistente());
                 GerarSaidas(situacao);
                 break;
@@ -392,6 +407,15 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         this.assistente = assistente;
         CarregaSituacao(situacao, 2);
 
+    }
+    
+    public static JanelaExecucaoPartida getInstancia() {
+
+        if (instancia == null) {
+            instancia = new JanelaExecucaoPartida();
+        }
+
+        return instancia;
     }
 
     /**
@@ -435,15 +459,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public static JanelaExecucaoPartida getInstancia() {
-
-        if (instancia == null) {
-            instancia = new JanelaExecucaoPartida();
-        }
-
-        return instancia;
-    }
 
     public static void setInstancia(JanelaExecucaoPartida instancia) {
         JanelaExecucaoPartida.instancia = instancia;

@@ -36,7 +36,6 @@ public class ControladoraExecucao {
 
         //Apresenta-se para a janela do jogo
         jsj.setControladora(this);
-        //jsj.setAssistente(partida.getAssistente());
 
         //Carrega a situação inicial
         jsj.CarregaSituacao(partida.getSituacaoInicial(), 1);
