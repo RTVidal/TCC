@@ -11,14 +11,14 @@ import Controle.ControladoraIdioma;
  *
  * @author Rafael
  */
-public class JanelaAjuda extends javax.swing.JDialog {
+public class JanelaTexto extends javax.swing.JDialog {
 
     ControladoraIdioma idioma;
     
     /**
      * Creates new form JanelaAjuda
      */
-    public JanelaAjuda(String textoAjuda) {
+    public JanelaTexto(String textoAjuda) {
         initComponents();
         setLocationRelativeTo(null);
         setModal(true);
@@ -42,7 +42,7 @@ public class JanelaAjuda extends javax.swing.JDialog {
         txaAjuda = new javax.swing.JTextArea();
         btnOk = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         txaAjuda.setColumns(20);
         txaAjuda.setRows(5);

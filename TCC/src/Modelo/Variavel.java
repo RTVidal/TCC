@@ -6,7 +6,6 @@
 package Modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  *
@@ -15,8 +14,7 @@ import java.util.ArrayList;
 public class Variavel implements Serializable{
     
     private String nome;
-    private double valorInicial;
-    private ArrayList<Acao> acoes;
+    private long valorInicial;
     private boolean oculta;
 
     public String getNome() {
@@ -27,20 +25,12 @@ public class Variavel implements Serializable{
         this.nome = nome;
     }
 
-    public double getValorInicial() {
+    public long getValorInicial() {
         return valorInicial;
     }
 
-    public void setValorInicial(double valorInicial) {
+    public void setValorInicial(long valorInicial) {
         this.valorInicial = valorInicial;
-    }
-
-    public ArrayList<Acao> getAcoes() {
-        return acoes;
-    }
-
-    public void setAcoes(ArrayList<Acao> acoes) {
-        this.acoes = acoes;
     }
 
     public boolean isOculta() {

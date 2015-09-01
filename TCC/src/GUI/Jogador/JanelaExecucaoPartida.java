@@ -121,9 +121,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
         
-//        painelPrincipal.revalidate();
-//        imgFundo.revalidate();
-        
         System.out.println("carregou " + situacao.getFundoSituacao().getDescription());
 
     }
@@ -360,8 +357,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         for (SaidaNumerica s : saidas) {
 
             if (valorSelecionado >= s.getFaixa().getLimiteInferior() && valorSelecionado <= s.getFaixa().getLimiteSuperior()) {
-                JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getFalaAssistente());
-                jcs.setVisible(true);
+                //JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getFalaAssistente());
+                //jcs.setVisible(true);
                 break;
             }
         }
