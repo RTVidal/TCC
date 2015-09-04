@@ -5,7 +5,9 @@
  */
 package GUI.Desenvolvedor;
 
+import Controle.ControladoraIdioma;
 import Modelo.Acao;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -13,13 +15,62 @@ import Modelo.Acao;
  */
 public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
 
+    private final JanelaDesenvolvimentoSaida janelaDevSaida;
+    private final ControladoraIdioma idioma;
+    private final Acao acao;
+
     /**
      * Creates new form JanelaDesenvolvimentoAcao
+     *
      * @param janelaDevSaida
      * @param acao
      */
     public JanelaDesenvolvimentoAcao(JanelaDesenvolvimentoSaida janelaDevSaida, Acao acao) {
+        
         initComponents();
+        setLocationRelativeTo(janelaDevSaida);
+
+        idioma = ControladoraIdioma.getInstancia();
+        this.acao = acao;
+        this.janelaDevSaida = janelaDevSaida;
+
+        CarregarAcao();
+        PreencheComboOperacoes();
+    }
+
+    public final void CarregarAcao() {
+        txtNomeVariavel.setText(acao.getVariavel().getNome());
+        jspValor.setToolTipText("Teste");
+        jspValor.setValue(acao.getNumero());
+        chbAbortarNegativo.setSelected(acao.isAbortarJogoSeNegativo());
+    }
+
+    public final void PreencheComboOperacoes() {
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+
+        model.addElement(idioma.Valor("lblNennhuma"));
+        model.addElement(idioma.Valor("lblSomar"));
+        model.addElement(idioma.Valor("lblSubtrair"));
+        model.addElement(idioma.Valor("lblMultiplicar"));
+        model.addElement(idioma.Valor("lblDividir"));
+
+        cbxOperacao.setModel(model);
+
+        cbxOperacao.setSelectedIndex(acao.getOperacao());
+    }
+
+    public void SalvarAcao() {
+        acao.setNumero((double) jspValor.getValue());
+        acao.setAbortarJogoSeNegativo(chbAbortarNegativo.isSelected());
+
+        int operacao = cbxOperacao.getSelectedIndex();
+        System.out.println("operacao " + operacao);
+
+        acao.setOperacao(operacao);
+
+        janelaDevSaida.AtualizarAcoes();
+
+        dispose();
     }
 
     /**
@@ -33,15 +84,15 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
 
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblAcao = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        jspValor = new javax.swing.JSpinner();
         jButton1 = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
         txtNomeVariavel = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jTextField1 = new javax.swing.JTextField();
+        chbAbortarNegativo = new javax.swing.JCheckBox();
+        cbxOperacao = new javax.swing.JComboBox();
 
         jLabel4.setText("jLabel4");
 
@@ -49,12 +100,12 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
 
         jLabel1.setText("lblVariavel");
 
-        jLabel2.setText("lblOperacao");
+        lblAcao.setText("lblAcao");
 
         jLabel3.setText("lblValor");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
-        jSpinner1.setToolTipText("");
+        jspValor.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
+        jspValor.setToolTipText("");
 
         jButton1.setText("bntAjuda");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -66,17 +117,22 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         btnCancelar.setText("btnCancelar");
 
         btnConfirmar.setText("btnConfirmar");
-
-        txtNomeVariavel.setEditable(false);
-
-        jCheckBox1.setText("lblAbortarSeNegativo");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                btnConfirmarActionPerformed(evt);
             }
         });
 
-        jTextField1.setEditable(false);
+        txtNomeVariavel.setEditable(false);
+
+        chbAbortarNegativo.setText("lblAbortarSeNegativo");
+        chbAbortarNegativo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbAbortarNegativoActionPerformed(evt);
+            }
+        });
+
+        cbxOperacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,19 +142,19 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel2)
+                    .addComponent(lblAcao)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chbAbortarNegativo)
+                    .addComponent(jspValor, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                         .addGap(32, 32, 32)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtNomeVariavel)
-                    .addComponent(jTextField1))
+                    .addComponent(cbxOperacao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
@@ -112,14 +168,14 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
                     .addComponent(txtNomeVariavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblAcao)
+                    .addComponent(cbxOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jspValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(chbAbortarNegativo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmar)
@@ -134,21 +190,27 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void chbAbortarNegativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbAbortarNegativoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_chbAbortarNegativoActionPerformed
+
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+
+        SalvarAcao();
+
+    }//GEN-LAST:event_btnConfirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
+    private javax.swing.JComboBox cbxOperacao;
+    private javax.swing.JCheckBox chbAbortarNegativo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JSpinner jspValor;
+    private javax.swing.JLabel lblAcao;
     private javax.swing.JTextField txtNomeVariavel;
     // End of variables declaration//GEN-END:variables
 }

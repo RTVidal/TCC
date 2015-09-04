@@ -6,6 +6,7 @@
 package GUI.Desenvolvedor;
 
 import Controle.ControladoraIdioma;
+import GUI.Suporte.AcoesTbModel;
 import Modelo.Acao;
 import Modelo.Faixa;
 import Modelo.Partida;
@@ -13,13 +14,14 @@ import Modelo.Saida;
 import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
+import Modelo.Variavel;
 import javax.swing.DefaultComboBoxModel;
 
 /**
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
+public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
     /**
      * Creates new form JanelaDesenvolvimentoSaida
@@ -43,7 +45,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
     public JanelaDesenvolvimentoSaida(JanelaDesenvolvimentoSituacao jds, int modo, Situacao situacao, Object saidaSelecionada) {
         initComponents();
-        setModal(true);
+        //setModal(true);
         setLocationRelativeTo(jds);
 
         janelaDevSituacao = jds;
@@ -82,6 +84,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         opcaoSaida.setEnabled(false);
 
         PreencheListaSituacoes();
+        AtualizarAcoes();
     }
 
     /**
@@ -151,15 +154,93 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         cbxSituacaoDestino.setSelectedIndex(itemSelecionadoDestino);
 
     }
-    
-    public void EditarAcao()
-    {
+
+    public void AtualizarAcoes() {
+        AcoesTbModel model;
+
+        if (saida.getTipoSaida() == 1) {
+            model = new AcoesTbModel(saidaOpcao.getAcoes());
+        } else {
+            model = new AcoesTbModel(saidaNumerica.getAcoes());
+        }
+
+        tblAcoes.setModel(model);
+
+        //Esconder a coluna contendo o objeto da situação
+        tblAcoes.getColumnModel().getColumn(0).setMinWidth(0);
+        tblAcoes.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblAcoes.getColumnModel().getColumn(0).setPreferredWidth(0);
+
+    }
+
+    public void EditarAcao() {
         int index = tblAcoes.getSelectedRow();
-        
-        Acao acao = (Acao)tblAcoes.getValueAt(index, 0);
-        
+
+        Acao acao = (Acao) tblAcoes.getValueAt(index, 0);
+
         JanelaDesenvolvimentoAcao jda = new JanelaDesenvolvimentoAcao(this, acao);
         jda.setVisible(true);
+    }
+
+    public void SalvarSaida() {
+        saida.setSituacaoOrigem(situacaoOrigem);
+
+        switch (saida.getTipoSaida()) {
+            case 1:
+                saidaOpcao.setFalaAssistente(txaFalaAssistente.getText());
+                saidaOpcao.setNome(txtDescricaoSO.getText());
+                saidaOpcao.setSituacaoDestino(situacaoDestino);
+
+                //situacaoOrigem.getSaida().getsaidasOpcao().add(saidaOpcao);
+                if (modo == 1) {
+
+                    CriarAcoesSaida(1);
+                    saida.getSaidasOpcao().add(saidaOpcao);
+                    
+                }
+
+                break;
+            case 2:
+                saidaNumerica.setFalaAssistente(txaFalaAssistente.getText());
+                saidaNumerica.setSituacaoDestino(situacaoDestino);
+
+                Faixa faixa = new Faixa();
+                faixa.setLimiteInferior((Integer) spnValorMinimo.getValue());
+                faixa.setLimiteSuperior((Integer) spnValorMaximo.getValue());
+
+                saidaNumerica.setFaixa(faixa);
+
+                if (modo == 1) {
+
+                    CriarAcoesSaida(2);
+                    saida.getSaidasNumerica().add(saidaNumerica);
+                    
+                }
+
+                break;
+        }
+
+        janelaDevSituacao.AtualizaTabelaSaidas();
+
+        dispose();
+    }
+
+    public void CriarAcoesSaida(int tipoSaida) {
+        
+        if (tipoSaida == 1) {
+            for (Variavel variavel : partidaDesenvolvimento.getVariaveis()) {
+                
+                Acao acao = new Acao();
+                acao.setAbortarJogoSeNegativo(false);
+                acao.setNumero(0);
+                acao.setOperacao(0);
+                acao.setVariavel(variavel);
+                
+                saidaOpcao.getAcoes().add(acao);
+                
+            }
+        }
+
     }
 
     /**
@@ -414,43 +495,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
-        saida.setSituacaoOrigem(situacaoOrigem);
-
-        switch (saida.getTipoSaida()) {
-            case 1:
-                saidaOpcao.setFalaAssistente(txaFalaAssistente.getText());
-                saidaOpcao.setNome(txtDescricaoSO.getText());
-                saidaOpcao.setSituacaoDestino(situacaoDestino);
-
-                //situacaoOrigem.getSaida().getsaidasOpcao().add(saidaOpcao);
-                if (modo == 1) {
-
-                    saida.getSaidasOpcao().add(saidaOpcao);
-
-                }
-
-                break;
-            case 2:
-                saidaNumerica.setFalaAssistente(txaFalaAssistente.getText());
-                saidaNumerica.setSituacaoDestino(situacaoDestino);
-
-                Faixa faixa = new Faixa();
-                faixa.setLimiteInferior((Integer) spnValorMinimo.getValue());
-                faixa.setLimiteSuperior((Integer) spnValorMaximo.getValue());
-
-                saidaNumerica.setFaixa(faixa);
-
-                if (modo == 1) {
-
-                    saida.getSaidasNumerica().add(saidaNumerica);
-
-                }
-
-                break;
-        }
-
-        janelaDevSituacao.AtualizaTabelaSaidas();
-        dispose();
+        SalvarSaida();
 
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
@@ -463,9 +508,9 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     }//GEN-LAST:event_txtSituacaoOrigemActionPerformed
 
     private void btnEditarAcaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAcaoActionPerformed
-       
+
         EditarAcao();
-        
+
     }//GEN-LAST:event_btnEditarAcaoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,11 +5,13 @@
  */
 package Modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Rafael
  */
-public class Acao {
+public class Acao implements Serializable {
     
     private Variavel variavel;
     

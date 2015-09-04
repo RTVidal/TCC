@@ -19,7 +19,7 @@ public class AcoesTbModel extends AbstractTableModel {
     private final ControladoraIdioma idioma;
 
     private static final int COL_ACAO = 0;
-    private static final int COL_VALIDA = 1;
+    private static final int COL_VARIAVEL = 1;
     private static final int COL_OPERACAO = 2;
     private static final int COL_VALOR = 3;
     private static final int COL_ABORTARNEGATIVO = 4;
@@ -45,13 +45,13 @@ public class AcoesTbModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        //Qual é o nome das nossas colunas?  
-        if (column == COL_VALIDA) {
-            return idioma.Valor("lblValida");
+        //Qual é o nome das nossas colunas?
+        if (column == COL_VARIAVEL) {
+            return idioma.Valor("lblVariavel");
         }
         if (column == COL_OPERACAO) {
             return idioma.Valor("lblOperacao");
-        }
+        }        
         if (column == COL_VALOR) {
             return idioma.Valor("lblValor");
         }
@@ -67,33 +67,35 @@ public class AcoesTbModel extends AbstractTableModel {
         if (column == COL_ACAO) {
             return acoes.get(rowIndex);
         }
-        if (column == COL_VALIDA) {
-            if (acoes.get(rowIndex).isValida())
-            {
-                return idioma.Valor("lblSim");
-            } else {
-                return idioma.Valor("lblNao");
-            }
+        if (column == COL_VARIAVEL) {
+            return acoes.get(rowIndex).getVariavel().getNome();
         }
         if (column == COL_OPERACAO) {
             switch(acoes.get(rowIndex).getOperacao())
             {
+                case 0:
+                    return idioma.Valor("lblNenhuma");
                 case 1:
-                    return idioma.Valor("lblAdicao");
+                    return idioma.Valor("lblSomar");
                 case 2:
-                    return idioma.Valor("lblSubtracao");
+                    return idioma.Valor("lblSubtrair");
                 case 3:
-                    return idioma.Valor("lblMultiplicacao");
+                    return idioma.Valor("lblMultiplicar");
                 case 4:
-                    return idioma.Valor("lblDivisao");
+                    return idioma.Valor("lblDividir");
             }
         }
+        
+        if (column == COL_VALOR) {
+            return String.valueOf(acoes.get(rowIndex).getNumero());
+        }
+        
         if (column == COL_ABORTARNEGATIVO) {
             if(acoes.get(rowIndex).isAbortarJogoSeNegativo())
             {
-                return idioma.Valor("lblSim");
+                return "✓";
             } else {
-                return idioma.Valor("lblNao");
+                return "";
             }
         }
         return "";

@@ -67,14 +67,14 @@ public class VariaveisTbModel extends AbstractTableModel{
             return variaveis.get(rowIndex).getNome();
         }
         if (column == COL_VALORINICIAL) {
-            return variaveis.get(rowIndex).getValorInicial();
+            return String.valueOf(variaveis.get(rowIndex).getValorInicial());
         }
         if (column == COL_OCULTA) {
             if(variaveis.get(rowIndex).isOculta())
             {
-                return idioma.Valor("lblSim");
+                return "✓";
             } else {
-                return idioma.Valor("lblNao");
+                return "";
             }
         }
         return "";

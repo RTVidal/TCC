@@ -41,7 +41,7 @@ class MyCustomFilter extends javax.swing.filechooser.FileFilter {
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
+public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     private final JFileChooser fileChooser;
     private final Situacao situacao;
@@ -65,7 +65,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
      */
     public JanelaDesenvolvimentoSituacao(int acao, Situacao situacao) {
         initComponents();
-        setModal(true);
+        //setModal(true);
         this.acao = acao;
 
         idioma = ControladoraIdioma.getInstancia();

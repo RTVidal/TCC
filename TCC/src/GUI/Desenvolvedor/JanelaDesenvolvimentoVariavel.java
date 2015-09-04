@@ -5,8 +5,12 @@
  */
 package GUI.Desenvolvedor;
 
+import Modelo.Acao;
 import Modelo.Partida;
+import Modelo.SaidaOpcional;
+import Modelo.Situacao;
 import Modelo.Variavel;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,57 +19,83 @@ import Modelo.Variavel;
 public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
 
     private final Partida partidaDesenvolvimento;
-    
+
     private final JanelaDesenvolvimentoPartida janelaDesenvolvimento;
     private final int modo;
     private final Variavel variavel;
-    
+
     /**
      * Creates new form JanelaDesenvolvimentoVariavel
+     *
      * @param modo
      * @param variavel
      */
     public JanelaDesenvolvimentoVariavel(int modo, Variavel variavel) {
         initComponents();
-        
+
         partidaDesenvolvimento = Partida.getInstancia();
-        
+
         janelaDesenvolvimento = JanelaDesenvolvimentoPartida.getInstancia();
-        
+
         setLocationRelativeTo(janelaDesenvolvimento);
-        
+
         this.variavel = variavel;
         this.modo = modo;
-        
+
         //Caso o modo seja edição, preenche os campos
-        if(modo == 2)
-        {
+        if (modo == 2) {
             CarregarVariavel();
         }
     }
-    
-    public final void CarregarVariavel()
-    {
+
+    public final void CarregarVariavel() {
         txtNome.setText(variavel.getNome());
         jspValorInicial.setValue(variavel.getValorInicial());
         chbOculta.setSelected(variavel.isOculta());
     }
-    
-    public void SalvarVariavel()
-    {
+
+    public void SalvarVariavel() {
         variavel.setNome(txtNome.getText());
-        variavel.setValorInicial((long)jspValorInicial.getValue());
+        variavel.setValorInicial((double) jspValorInicial.getValue());
         variavel.setOculta(chbOculta.isSelected());
-        
+
         //Caso o modo seja inserir, adiciona a variável à partida
-        if(modo == 1)
-        {
+        if (modo == 1) {
             partidaDesenvolvimento.getVariaveis().add(variavel);
         }
         
+        CriarAcoesVariavel();
+
         janelaDesenvolvimento.AtualizaVariaveis();
-        
+
         dispose();
+    }
+
+    /**
+     * Pré-criar as ações para a variável em cada saída
+     */
+    public void CriarAcoesVariavel() {
+        for (Situacao situacao : partidaDesenvolvimento.getSituacoes()) {
+            if (situacao.getSaida().getTipoSaida() == 1) {
+                
+                ArrayList<SaidaOpcional> saidas = situacao.getSaida().getSaidasOpcao();
+                
+                for(SaidaOpcional saida : saidas)
+                {
+                    Acao acao = new Acao();
+                    acao.setVariavel(variavel);
+                    acao.setNumero(0);
+                    acao.setAbortarJogoSeNegativo(false);
+                    acao.setOperacao(0);
+                    
+                    saida.getAcoes().add(acao);
+                }
+
+            } else {
+
+            }
+
+        }
     }
 
     /**
@@ -173,9 +203,9 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        
+
         SalvarVariavel();
-        
+
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
@@ -183,9 +213,9 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNomeActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        
+
         dispose();
-        
+
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
