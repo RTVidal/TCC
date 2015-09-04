@@ -21,7 +21,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -38,13 +40,15 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     private JPanel imgFundo;
     private JPanel imgAvatar;
     private JPanel imgBalao;
+    private JPanel painelBotoes;
+    private JPanel painelVariaveis;
 
     private ImageIcon imagemAvatar;
     private ImageIcon imagemBalao;
 
     private JTextArea textoBalao;
 
-    private JPanel painelBotoes;
+    private JTable tblVariaveis;
 
     private ArrayList<JButton> botoesSaidas;
 
@@ -69,11 +73,10 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        
-
         assistente = Partida.getInstancia().getAssistente();
 
         CarregaAssistente();
+        CarregaVariaveis();
         CarregaBalaoAssistente();
         CarregaPainelSaida();
 
@@ -81,29 +84,26 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     public void RecarregarComponentes() {
 
-        
         textoBalao.repaint();
         imgBalao.repaint();
         btn.repaint();
         painelBotoes.repaint();
         imgFundo.repaint();
         painelPrincipal.repaint();
-        
 
     }
 
     public void CarregaImagemFundo(Situacao situacao) {
 
-        if (imgFundo != null)
-        {
+        if (imgFundo != null) {
             painelPrincipal.remove(imgFundo);
         }
-        
+
         //Ajusta o tamanho da tela
         painelPrincipal.setSize(1024, 768);
         painelPrincipal.setOpaque(false);
         painelPrincipal.repaint();
-        
+
         //Caso não haja imagem de fundo, adiciona uma imagem genérica
         if (situacao.getFundoSituacao().getDescription().equals("")) {
             ImageIcon fundoGenerico = new ImageIcon("./Recursos/fundo.jpg");
@@ -116,11 +116,10 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         //imgFundo.setLayout(null);
         imgFundo.setOpaque(false);
         imgFundo.setSize(1024, 768);
-        
 
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
-        
+
         System.out.println("carregou " + situacao.getFundoSituacao().getDescription());
 
     }
@@ -157,6 +156,41 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         imgAvatar.setLocation(700, 500);
 
         painelPrincipal.add(imgAvatar);
+    }
+
+    /**
+     * Carrega as variáveis
+     */
+    public void CarregaVariaveis() {
+
+        //JList listaVariaveis = new JList();
+        tblVariaveis = new JTable();
+
+        DefaultTableModel model = (DefaultTableModel)tblVariaveis.getModel();   
+
+        model.addColumn("variavel");
+        model.addColumn("valor");
+        
+        //model.setNumRows(0);
+        model.addRow(new Object[]{"Teste", "11"});
+        model.addRow(new Object[]{"TesAAte", "642"});
+        model.addRow(new Object[]{"Teste555", "764"});
+
+        //tblVariaveis.setModel(model);
+        tblVariaveis.setSize(150, 100);
+        tblVariaveis.setLocation(10, 10);
+        tblVariaveis.setEnabled(false);
+        tblVariaveis.setShowGrid(false);
+        tblVariaveis.setFont(new Font("Verdana", Font.BOLD, 14));
+        tblVariaveis.setForeground(Color.ORANGE);
+        tblVariaveis.setBackground(new Color(0, 0, 255, 150));
+
+        tblVariaveis.getColumnModel().getColumn(0).setPreferredWidth(100);
+        tblVariaveis.getColumnModel().getColumn(1).setPreferredWidth(50);
+
+
+        painelPrincipal.add(tblVariaveis);
+
     }
 
     /**
@@ -367,7 +401,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     public void CarregarTextoSaida(int tipoSaida, Object saida) {
 
         if (tipoSaida == 1) {
-            SaidaOpcional saidaOpcional = (SaidaOpcional)saida;
+            SaidaOpcional saidaOpcional = (SaidaOpcional) saida;
             CarregaFalaAssistente(saidaOpcional.getFalaAssistente());
 
             GerarSaidaSituacao(saidaOpcional.getSituacaoDestino());
@@ -376,9 +410,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }
 
     public void CarregaSituacao(Situacao situacao, int etapa) {
-                
+
         this.situacao = situacao;
-        
+
         //1. Início, 2. Continuação
         switch (etapa) {
 
@@ -388,7 +422,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 break;
 
             case 2:
-                
+
                 CarregaFalaAssistente(situacao.getFalaAssistente());
                 GerarSaidas(situacao);
                 break;
@@ -405,7 +439,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         CarregaSituacao(situacao, 2);
 
     }
-    
+
     public static JanelaExecucaoPartida getInstancia() {
 
         if (instancia == null) {
