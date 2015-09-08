@@ -19,6 +19,7 @@ public class Partida implements Serializable{
     private Assistente assistente;
     private ArrayList<Situacao> situacoes;
     private ArrayList<Variavel> variaveis;
+    private ArrayList<Avaliacao> avaliacoes;
     private String idioma;
     private static Partida instancia;
 
@@ -26,6 +27,7 @@ public class Partida implements Serializable{
         
         situacoes = new ArrayList<>();
         variaveis = new ArrayList<>();
+        avaliacoes = new ArrayList<>();
         
         assistente = new Assistente();
         
@@ -89,5 +91,12 @@ public class Partida implements Serializable{
     public void setNomeArquivo(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
     }
-    
+
+    public ArrayList<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void setAvaliacoes(ArrayList<Avaliacao> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }    
 }

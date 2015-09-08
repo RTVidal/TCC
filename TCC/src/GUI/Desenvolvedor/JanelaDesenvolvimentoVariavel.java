@@ -66,7 +66,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
         
         CriarAcoesVariavel();
 
-        janelaDesenvolvimento.AtualizaVariaveis();
+        janelaDesenvolvimento.AtualizarDados();
 
         dispose();
     }

@@ -477,7 +477,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
         SalvaSituacao();
-        jdp.AtualizaSituacoes();
+        jdp.AtualizarDados();
         dispose();
 
     }//GEN-LAST:event_btnConfirmarActionPerformed
