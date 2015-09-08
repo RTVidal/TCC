@@ -7,6 +7,7 @@ package Controle;
 
 import GUI.Jogador.JanelaExecucaoPartida;
 import Modelo.Partida;
+import Modelo.Variavel;
 
 /**
  *
@@ -36,6 +37,15 @@ public class ControladoraExecucao {
 
         //Apresenta-se para a janela do jogo
         jsj.setControladora(this);
+        
+//        System.out.println("variaveis " + partida.getVariaveis().size());
+//        for (Variavel v : partida.getVariaveis())
+//        {
+//            System.out.println(v.getNome());
+//        }
+        
+//        //Carrega a lista de variáveis
+//        jsj.setVariaveis(partida.getVariaveis());
 
         //Carrega a situação inicial
         jsj.CarregaSituacao(partida.getSituacaoInicial(), 1);

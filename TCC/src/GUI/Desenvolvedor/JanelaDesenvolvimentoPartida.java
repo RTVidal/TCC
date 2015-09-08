@@ -31,6 +31,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     private final ControladoraIdioma idioma;
 
+    private boolean partidaSalva;
+
     /**
      * Creates new form JanelaAdministrarJogo
      */
@@ -43,7 +45,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         PreencheComponentes();
 
         partidaDesenvolvimento = Partida.getInstancia();
-        if (partidaDesenvolvimento.getNomeArquivo()!= null) {
+        if (partidaDesenvolvimento.getNomeArquivo() != null) {
             setTitle(partidaDesenvolvimento.getNomeArquivo());
         }
         AtualizaSituacoes();
@@ -55,7 +57,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
 
-        //AtualizaSaidas();
     }
 
     /**
@@ -75,25 +76,24 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     public final void AtualizaSituacoes() {
 
         SituacoesTbModel model = new SituacoesTbModel(partidaDesenvolvimento.getSituacoes());
-        
+
         tblSituacoes.setModel(model);
-        
+
         //Esconder a coluna contendo o objeto da situação
         tblSituacoes.getColumnModel().getColumn(0).setMinWidth(0);
         tblSituacoes.getColumnModel().getColumn(0).setMaxWidth(0);
         tblSituacoes.getColumnModel().getColumn(0).setPreferredWidth(0);
 
     }
-    
+
     /**
      * Atualiza a tabela de variáveis da partida
      */
-    public final void AtualizaVariaveis()
-    {
+    public final void AtualizaVariaveis() {
         VariaveisTbModel model = new VariaveisTbModel(partidaDesenvolvimento.getVariaveis());
-        
+
         tblVariaveis.setModel(model);
-        
+
         //Esconder a coluna contendo o objeto da variável
         tblVariaveis.getColumnModel().getColumn(0).setMinWidth(0);
         tblVariaveis.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -125,9 +125,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     public void EditarSituacao() {
         //Recuperar o item selecionado
         int index = tblSituacoes.getSelectedRow();
-        
+
         //Recupera o objeto na tabela
-        Situacao situacao = (Situacao)tblSituacoes.getValueAt(index, 0);
+        Situacao situacao = (Situacao) tblSituacoes.getValueAt(index, 0);
 
         JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao(2, situacao);
         jds.setVisible(true);
@@ -137,9 +137,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     public void PreviaSituacao() {
         //Recuperar o item selecionado
         int index = tblSituacoes.getSelectedRow();
-        
+
         //Recupera o objeto na tabela
-        Situacao situacao = (Situacao)tblSituacoes.getValueAt(index, 0);
+        Situacao situacao = (Situacao) tblSituacoes.getValueAt(index, 0);
 
         JanelaExecucaoPartida jsj = new JanelaExecucaoPartida();
         jsj.CarregarPreviaSituacao(situacao, partidaDesenvolvimento.getAssistente());
@@ -155,11 +155,18 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         boolean continuar = true;
         String mensagem = "";
 
-//        if(!partidaDesenvolvimento.getAssistente().isCriado())
-//        {
-//            continuar = false;
-//            mensagem = idioma.Valor("mensagemSemAssistente");
-//        }
+        if (!partidaDesenvolvimento.getAssistente().isCriado()) {
+            mensagem = idioma.Valor("mensagemSemAssistente");
+
+            int opcao = JOptionPane.showConfirmDialog(null, mensagem, "Aviso", JOptionPane.YES_NO_OPTION);
+
+            if (opcao == 1) {
+
+                continuar = false;
+
+            }
+
+        }
         if (continuar) {
             JFileChooser jFileChooser = new JFileChooser();
 
@@ -189,7 +196,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             if (acao == JFileChooser.APPROVE_OPTION) {
                 //escolheu arquivo
                 partidaDesenvolvimento.setNomeArquivo(jFileChooser.getSelectedFile().getName());
-                
+
                 String diretorio = jFileChooser.getSelectedFile().getAbsolutePath();
                 IOPartida iop = new IOPartida();
                 iop.SalvaPartida(diretorio);
@@ -206,32 +213,29 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, mensagem);
         }
     }
-    
-    public void AtualizarAcoes()
-    {
-        
+
+    public void AtualizarAcoes() {
+
     }
-    
+
     /**
      * Criar uma nova variável
      */
-    public void NovaVariavel()
-    {
+    public void NovaVariavel() {
         Variavel variavel = new Variavel();
         JanelaDesenvolvimentoVariavel jdv = new JanelaDesenvolvimentoVariavel(1, variavel);
         jdv.setVisible(true);
     }
-    
+
     /**
      * Editar variável
      */
-    public void EditarVariavel()
-    {
+    public void EditarVariavel() {
         int index = tblVariaveis.getSelectedRow();
-        
-        Variavel variavel = (Variavel)tblVariaveis.getValueAt(index, 0);
+
+        Variavel variavel = (Variavel) tblVariaveis.getValueAt(index, 0);
         System.out.println("recuperou " + variavel.getNome());
-        
+
         JanelaDesenvolvimentoVariavel jdv = new JanelaDesenvolvimentoVariavel(2, variavel);
         jdv.setVisible(true);
     }
@@ -246,6 +250,14 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        jPopupMenu3 = new javax.swing.JPopupMenu();
+        jPopupMenu4 = new javax.swing.JPopupMenu();
+        jPopupMenu5 = new javax.swing.JPopupMenu();
+        jFrame2 = new javax.swing.JFrame();
+        jFrame3 = new javax.swing.JFrame();
+        jDialog1 = new javax.swing.JDialog();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         btnNovaSituacao = new javax.swing.JButton();
@@ -260,12 +272,23 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnNovaVariavel = new javax.swing.JButton();
         btnEditarVariavel = new javax.swing.JButton();
         btnExcluirVariavel = new javax.swing.JButton();
+        pnlParametrizador = new javax.swing.JPanel();
         lblTitulo = new javax.swing.JLabel();
         lblImgAssistente = new javax.swing.JLabel();
         lblAssistente = new javax.swing.JLabel();
         lblNomeAssistente = new javax.swing.JLabel();
         btnEditarAssistente = new javax.swing.JButton();
-        btnSalvar = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        mniSalvar = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -278,7 +301,48 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        javax.swing.GroupLayout jFrame2Layout = new javax.swing.GroupLayout(jFrame2.getContentPane());
+        jFrame2.getContentPane().setLayout(jFrame2Layout);
+        jFrame2Layout.setHorizontalGroup(
+            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame2Layout.setVerticalGroup(
+            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jFrame3Layout = new javax.swing.GroupLayout(jFrame3.getContentPane());
+        jFrame3.getContentPane().setLayout(jFrame3Layout);
+        jFrame3Layout.setHorizontalGroup(
+            jFrame3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame3Layout.setVerticalGroup(
+            jFrame3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         btnNovaSituacao.setText("btnNovaSituacao");
         btnNovaSituacao.addActionListener(new java.awt.event.ActionListener() {
@@ -415,6 +479,19 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("abaVariaveis", jPanel2);
 
+        javax.swing.GroupLayout pnlParametrizadorLayout = new javax.swing.GroupLayout(pnlParametrizador);
+        pnlParametrizador.setLayout(pnlParametrizadorLayout);
+        pnlParametrizadorLayout.setHorizontalGroup(
+            pnlParametrizadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 495, Short.MAX_VALUE)
+        );
+        pnlParametrizadorLayout.setVerticalGroup(
+            pnlParametrizadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 438, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("abaParametrizador", pnlParametrizador);
+
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTitulo.setText("lblTitulo");
 
@@ -431,12 +508,45 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             }
         });
 
-        btnSalvar.setText("btnSalvar");
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+        jMenu1.setText("mniArquivo");
+
+        jMenuItem2.setText("mniAbrirJogar");
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("mniAbrirEditar");
+        jMenu1.add(jMenuItem3);
+
+        mniSalvar.setText("mniSalvar");
+        mniSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
+                mniSalvarActionPerformed(evt);
             }
         });
+        jMenu1.add(mniSalvar);
+
+        jMenuItem1.setText("mniSalvarComo");
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("mniConfigurar");
+
+        jMenuItem6.setText("mniIdioma");
+        jMenu2.add(jMenuItem6);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("mniAjuda");
+
+        jMenuItem4.setText("mniManualUtilizacao");
+        jMenu3.add(jMenuItem4);
+
+        jMenuItem5.setText("mniSobre");
+        jMenu3.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -451,14 +561,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditarAssistente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 5, Short.MAX_VALUE)
+                        .addGap(0, 47, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNomeAssistente, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblImgAssistente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblAssistente)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -478,8 +587,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         .addComponent(lblNomeAssistente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditarAssistente)
-                        .addGap(174, 174, 174)
-                        .addComponent(btnSalvar)))
+                        .addGap(197, 197, 197)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -506,21 +614,48 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         PreviaSituacao();
     }//GEN-LAST:event_btnPreviaSituacaoActionPerformed
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        SalvarPartida();
-    }//GEN-LAST:event_btnSalvarActionPerformed
-
     private void btnNovaVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaVariavelActionPerformed
-        
+
         NovaVariavel();
-        
+
     }//GEN-LAST:event_btnNovaVariavelActionPerformed
 
     private void btnEditarVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarVariavelActionPerformed
-        
+
         EditarVariavel();
-        
+
     }//GEN-LAST:event_btnEditarVariavelActionPerformed
+
+    private void mniSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSalvarActionPerformed
+        
+        SalvarPartida();
+        
+    }//GEN-LAST:event_mniSalvarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+
+        if (!partidaSalva) {
+
+            int opcao = JOptionPane.showConfirmDialog(null, idioma.Valor("msgDesejaSalvar"), "Aviso", JOptionPane.YES_NO_CANCEL_OPTION);
+
+            switch(opcao)
+            {
+                case 0: //Salvar
+                    SalvarPartida();
+                    break;
+                case 1: //Não salvar
+                    dispose();
+                    System.exit(0);
+                    break;
+            }
+
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
         if (instancia == null) {
@@ -543,10 +678,27 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JButton btnNovaSituacao;
     private javax.swing.JButton btnNovaVariavel;
     private javax.swing.JButton btnPreviaSituacao;
-    private javax.swing.JButton btnSalvar;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JFrame jFrame2;
+    private javax.swing.JFrame jFrame3;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu2;
+    private javax.swing.JPopupMenu jPopupMenu3;
+    private javax.swing.JPopupMenu jPopupMenu4;
+    private javax.swing.JPopupMenu jPopupMenu5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -554,6 +706,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JLabel lblImgAssistente;
     private javax.swing.JLabel lblNomeAssistente;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JMenuItem mniSalvar;
+    private javax.swing.JPanel pnlParametrizador;
     private javax.swing.JTable tblSituacoes;
     private javax.swing.JTable tblVariaveis;
     // End of variables declaration//GEN-END:variables

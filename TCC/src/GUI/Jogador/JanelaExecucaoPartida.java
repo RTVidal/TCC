@@ -8,11 +8,13 @@ package GUI.Jogador;
 import Controle.ControladoraExecucao;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.PainelImagem;
+import Modelo.Acao;
 import Modelo.Assistente;
 import Modelo.Partida;
 import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
+import Modelo.Variavel;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -50,8 +52,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     private JTable tblVariaveis;
 
-    private ArrayList<JButton> botoesSaidas;
-
     //public static int valorSelecionado;
     private JSlider jslSaidaNumerica;
 
@@ -62,21 +62,24 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     private ControladoraExecucao controladora;
 
     private static JanelaExecucaoPartida instancia;
+    
+    private ArrayList<Variavel> variaveis;
+    
+    private int tipoSaida;
 
     public JanelaExecucaoPartida() {
         initComponents();
         //setModal(true);
         idioma = ControladoraIdioma.getInstancia();
 
-        botoesSaidas = new ArrayList<>();
-
         setLocationRelativeTo(null);
         setResizable(false);
 
         assistente = Partida.getInstancia().getAssistente();
+        variaveis = Partida.getInstancia().getVariaveis();
 
         CarregaAssistente();
-        CarregaVariaveis();
+        CarregarTabelaVariaveis();
         CarregaBalaoAssistente();
         CarregaPainelSaida();
 
@@ -84,6 +87,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     public void RecarregarComponentes() {
 
+        tblVariaveis.repaint();
         textoBalao.repaint();
         imgBalao.repaint();
         btn.repaint();
@@ -157,37 +161,47 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         painelPrincipal.add(imgAvatar);
     }
-
-    /**
-     * Carrega as variáveis
-     */
-    public void CarregaVariaveis() {
-
-        //JList listaVariaveis = new JList();
+    
+    public void CarregarTabelaVariaveis()
+    {
         tblVariaveis = new JTable();
-
-        DefaultTableModel model = (DefaultTableModel)tblVariaveis.getModel();   
-
-        model.addColumn("variavel");
-        model.addColumn("valor");
         
-        //model.setNumRows(0);
-        model.addRow(new Object[]{"Teste", "11"});
-        model.addRow(new Object[]{"TesAAte", "642"});
-        model.addRow(new Object[]{"Teste555", "764"});
-
-        //tblVariaveis.setModel(model);
-        tblVariaveis.setSize(150, 100);
-        tblVariaveis.setLocation(10, 10);
         tblVariaveis.setEnabled(false);
         tblVariaveis.setShowGrid(false);
         tblVariaveis.setFont(new Font("Verdana", Font.BOLD, 14));
         tblVariaveis.setForeground(Color.ORANGE);
         tblVariaveis.setBackground(new Color(0, 0, 255, 150));
 
+        
+    }
+
+    /**
+     * Carrega as variáveis
+     */
+    public void CarregaVariaveis() {
+
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("variavel");
+        model.addColumn("valor");
+        
+        for (Variavel v : variaveis)
+        {
+            //Adicionar na lista apenas caso a variável não seja oculta
+            if(!v.isOculta())
+            {
+                model.addRow(new Object[]{v.getNome(), v.getValorInicial()});
+            }
+        }
+        
+        //tblVariaveis.setModel(model);
+        tblVariaveis.setSize(150, 100);
+        tblVariaveis.setLocation(10, 10);
+        
+        tblVariaveis.setModel(model);
+        
         tblVariaveis.getColumnModel().getColumn(0).setPreferredWidth(100);
         tblVariaveis.getColumnModel().getColumn(1).setPreferredWidth(50);
-
 
         painelPrincipal.add(tblVariaveis);
 
@@ -241,15 +255,16 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
      */
     public void GerarSaidas(Situacao situacao) {
 
+        tipoSaida = situacao.getSaida().getTipoSaida();
         //painelPrincipal.remove(painelBotoes);
-        switch (situacao.getSaida().getTipoSaida()) {
+        switch (tipoSaida) {
             case 0:
                 //Não há tipo de saida definido
                 break;
             case 1: //Saida opcional
                 GerarSaidaOpcional(situacao.getSaida().getsaidasOpcao());
                 break;
-            case 2:
+            case 2: //Saída numérica
                 GerarSaidaNumerica(situacao.getSaida().getSaidasNumerica());
                 break;
         }
@@ -358,7 +373,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     }
 
-    public void GerarSaidaSituacao(Situacao situacaoDestino) {
+    public void GerarSaidaSituacao(Object saida, Situacao situacaoDestino) {
 
         painelBotoes.removeAll();
 
@@ -368,6 +383,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.setLocation(0, 0);
         btn.setSize(20, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
+                        
             //Carrega novamente a situação
             CarregaSituacao(situacao, 2);
         });
@@ -377,7 +393,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.setLocation(0, 0);
         btn.setSize(20, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
-            //Carrega novamente a situação
+            
+            ExecutarAcoesSaida(saida);
+            //Carrega a situação seguinte
             CarregaSituacao(situacaoDestino, 2);
         });
         painelBotoes.add(btn);
@@ -404,9 +422,58 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             SaidaOpcional saidaOpcional = (SaidaOpcional) saida;
             CarregaFalaAssistente(saidaOpcional.getFalaAssistente());
 
-            GerarSaidaSituacao(saidaOpcional.getSituacaoDestino());
+            GerarSaidaSituacao(saida, saidaOpcional.getSituacaoDestino());
         }
 
+    }
+    
+    public void ExecutarAcoesSaida(Object saida)
+    {
+        if(tipoSaida == 1){
+            System.out.println("vai executar ação");
+            SaidaOpcional saidaOpcional = (SaidaOpcional) saida;
+            
+            double novoValor = 0;
+            
+            for(Acao a : saidaOpcional.getAcoes())
+            {
+                switch(a.getOperacao())
+                {
+                    case 0:
+                        //Não faz nada
+                    case 1: //Soma
+                        
+                        novoValor = a.getVariavel().getValorInicial() + a.getNumero();
+                        a.getVariavel().setValorInicial(novoValor);
+                        break;
+                        
+                    case 2: //Subtração
+                        
+                        novoValor = a.getVariavel().getValorInicial() - a.getNumero();
+                        a.getVariavel().setValorInicial(novoValor);
+                        break;
+                        
+                    case 3: //Multiplicação
+                        
+                        novoValor = a.getVariavel().getValorInicial() * a.getNumero();
+                        a.getVariavel().setValorInicial(novoValor);
+                        break;
+                        
+                    case 4: //Divisão
+                        
+                        novoValor = a.getVariavel().getValorInicial() / a.getNumero();
+                        a.getVariavel().setValorInicial(novoValor);
+                        break;
+                        
+                }
+            }
+            
+        } else {
+            
+        }
+        
+        
+                
     }
 
     public void CarregaSituacao(Situacao situacao, int etapa) {
@@ -427,7 +494,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 GerarSaidas(situacao);
                 break;
         }
-
+        
+        CarregaVariaveis();
         CarregaImagemFundo(situacao);
         RecarregarComponentes();
 
@@ -510,6 +578,14 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     public void setAssistente(Assistente assistente) {
         this.assistente = assistente;
     }
+
+    public ArrayList<Variavel> getVariaveis() {
+        return variaveis;
+    }
+
+    public void setVariaveis(ArrayList<Variavel> variaveis) {
+        this.variaveis = variaveis;
+    }    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel painelPrincipal;

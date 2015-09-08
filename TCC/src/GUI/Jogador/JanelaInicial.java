@@ -38,7 +38,10 @@ public class JanelaInicial extends javax.swing.JFrame {
      */
     public JanelaInicial() {
         initComponents();
-        setLocationRelativeTo(null);
+        
+        
+        
+        setLocationRelativeTo(jdp);
         idioma = ControladoraIdioma.getInstancia();
         PreencheComboIdiomas();
         idioma.DefineIdioma("Português");
@@ -165,9 +168,12 @@ public class JanelaInicial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoJogoActionPerformed
-        //Cria uma instancia da janela de desenvolvimento de partida
+
         jdp = JanelaDesenvolvimentoPartida.getInstancia();
+        
         jdp.setVisible(true);
+        
+        dispose();
     }//GEN-LAST:event_btnNovoJogoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -255,8 +261,11 @@ public class JanelaInicial extends javax.swing.JFrame {
                 }
             }
             Partida.setInstancia(partidaDesenvolvimento);
-            jdp = JanelaDesenvolvimentoPartida.getInstancia();
+            
+            jdp = JanelaDesenvolvimentoPartida.getInstancia();            
+            
             jdp.setVisible(true);
+            dispose();
         }
     }//GEN-LAST:event_btnEditarJogoActionPerformed
 
