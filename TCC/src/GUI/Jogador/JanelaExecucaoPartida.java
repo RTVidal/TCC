@@ -43,7 +43,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     private JPanel imgAvatar;
     private JPanel imgBalao;
     private JPanel painelBotoes;
-    private JPanel painelVariaveis;
 
     private ImageIcon imagemAvatar;
     private ImageIcon imagemBalao;
@@ -66,17 +65,20 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     private ArrayList<Variavel> variaveis;
     
     private int tipoSaida;
+    
+    private Partida partida;
 
     public JanelaExecucaoPartida() {
         initComponents();
         //setModal(true);
         idioma = ControladoraIdioma.getInstancia();
+        partida = Partida.getInstancia();
 
         setLocationRelativeTo(null);
         setResizable(false);
 
-        assistente = Partida.getInstancia().getAssistente();
-        variaveis = Partida.getInstancia().getVariaveis();
+        assistente = partida.getAssistente();
+        variaveis = partida.getVariaveis();
 
         CarregaAssistente();
         CarregarTabelaVariaveis();
@@ -124,7 +126,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
 
-        System.out.println("carregou " + situacao.getFundoSituacao().getDescription());
 
     }
 
@@ -255,19 +256,44 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
      */
     public void GerarSaidas(Situacao situacao) {
 
+        boolean naoHaSaidas = false;
+        
         tipoSaida = situacao.getSaida().getTipoSaida();
         //painelPrincipal.remove(painelBotoes);
         switch (tipoSaida) {
             case 0:
+                
                 //Não há tipo de saida definido
+                naoHaSaidas = true;
                 break;
+                
             case 1: //Saida opcional
-                GerarSaidaOpcional(situacao.getSaida().getsaidasOpcao());
+                
+                if(situacao.getSaida().getsaidasOpcao().isEmpty())
+                {
+                    naoHaSaidas = true;
+                } else {
+                    GerarSaidaOpcional(situacao.getSaida().getsaidasOpcao());
+                }                
                 break;
+                
             case 2: //Saída numérica
-                GerarSaidaNumerica(situacao.getSaida().getSaidasNumerica());
+                
+                if(situacao.getSaida().getSaidasNumerica().isEmpty())
+                {
+                    naoHaSaidas = true;
+                } else {
+                    GerarSaidaNumerica(situacao.getSaida().getSaidasNumerica());
+                }
+                
                 break;
         }
+        
+        //Se não houver saídas então a situação é final
+        if(naoHaSaidas)
+        {
+            GerarSaidaFinal();
+        }        
     }
 
     /**
@@ -283,6 +309,19 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         });
         painelBotoes.add(btn);
 
+    }
+    
+    /**
+     * Gera a saída para situação final
+     */
+    public void GerarSaidaFinal()
+    {
+        /*Se não houverem avaliações, apenas adiciona o botão de sair
+        Caso contrário, carrega as avaliações */
+        if(partida.getAvaliacoes().isEmpty())
+        {
+            
+        }
     }
 
     /**
