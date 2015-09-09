@@ -10,12 +10,17 @@ import GUI.Jogador.JanelaExecucaoPartida;
 import GUI.Suporte.AvaliacoesTbModel;
 import GUI.Suporte.SituacoesTbModel;
 import GUI.Suporte.VariaveisTbModel;
+import Modelo.Acao;
 import Modelo.Avaliacao;
 import Modelo.Partida;
+import Modelo.Saida;
+import Modelo.SaidaNumerica;
+import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import Modelo.Variavel;
 import Persistencia.IOPartida;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -66,7 +71,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     public final void PreencheComponentes() {
 
         //Nomeia os componentes conforme o idioma selecionado
-
         //Botões        
         btnNovaSituacao.setText(idioma.Valor("btnNovaSituacao"));
         btnEditarAssistente.setText(idioma.Valor("btnEditarAssistente"));
@@ -173,6 +177,63 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     }
 
+    public void ExcluirSituacao() {
+
+        boolean continuar = false;
+
+        String mensagem = idioma.Valor("msgExclusaoSituacao");
+        int opcao = JOptionPane.showConfirmDialog(null, mensagem, "Aviso", JOptionPane.YES_NO_OPTION);
+
+        if (opcao == 0) {
+
+            continuar = true;
+
+        }
+
+        if (continuar) {
+
+            //Recuperar o item selecionado
+            int index = tblSituacoes.getSelectedRow();
+
+            //Recupera o objeto na tabela
+            Situacao situacao = (Situacao) tblSituacoes.getValueAt(index, 0);
+
+            //Excluir todas as saídas que tem a situação como destino
+            for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
+                Saida saida = s.getSaida();
+                
+                switch (saida.getTipoSaida()) {
+                    
+                    case 0:
+                        //Não há saídas, não faz nada
+                        break;
+                        
+                    case 1:
+                        ArrayList<SaidaOpcional> saidasO = saida.getSaidasOpcao();
+                        for (SaidaOpcional so : saidasO) {
+                            if (so.getSituacaoDestino() == situacao) {
+                                saidasO.remove(so);
+                            }
+                        }
+                        break;
+                        
+                    case 2:
+                        ArrayList<SaidaNumerica> saidasN = saida.getSaidasNumerica();
+                        for (SaidaNumerica sn : saidasN) {
+                            if (sn.getSituacaoDestino() == situacao) {
+                                saidasN.remove(sn);
+                            }
+                        }
+                        break;
+                }
+            }
+
+            partidaDesenvolvimento.getSituacoes().remove(situacao);
+            AtualizarDados();
+        }
+
+    }
+
     public void PreviaSituacao() {
         //Recuperar o item selecionado
         int index = tblSituacoes.getSelectedRow();
@@ -276,6 +337,81 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     }
 
     /**
+     * Excluir variável
+     */
+    public void ExcluirVariavel() {
+        boolean continuar = false;
+
+        String mensagem = idioma.Valor("msgExclusaoVariavel");
+        int opcao = JOptionPane.showConfirmDialog(null, mensagem, "Aviso", JOptionPane.YES_NO_OPTION);
+
+        if (opcao == 0) {
+
+            continuar = true;
+
+        }
+
+        if (continuar) {
+
+            //Recuperar o item selecionado
+            int index = tblVariaveis.getSelectedRow();
+
+            //Recupera o objeto na tabela
+            Variavel variavel = (Variavel) tblVariaveis.getValueAt(index, 0);
+            
+            //Excluir todas as ações relacionadas à variável
+            for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
+                Saida saida = s.getSaida();
+                
+                switch (saida.getTipoSaida()) {
+                    
+                    case 0:
+                        //Não há saídas, não faz nada
+                        break;
+                        
+                    case 1:
+                        ArrayList<SaidaOpcional> saidasO = saida.getSaidasOpcao();
+                        for (SaidaOpcional so : saidasO) {
+                            for(Acao a : so.getAcoes())
+                            {
+                                if(a.getVariavel() == variavel)
+                                {
+                                    so.getAcoes().remove(a);
+                                }
+                            }
+                        }
+                        break;
+                        
+                    case 2:
+                        ArrayList<SaidaNumerica> saidasN = saida.getSaidasNumerica();
+                        for (SaidaNumerica sn : saidasN) {
+                            for(Acao a : sn.getAcoes())
+                            {
+                                if(a.getVariavel() == variavel)
+                                {
+                                    sn.getAcoes().remove(a);
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
+            
+            //Excluir todas as avaliações envolvendo a variável
+            for(Avaliacao a : partidaDesenvolvimento.getAvaliacoes())
+            {
+                if(a.getVariavel() == variavel)
+                {
+                    partidaDesenvolvimento.getAvaliacoes().remove(a);
+                }
+            }
+
+            partidaDesenvolvimento.getVariaveis().remove(variavel);
+            AtualizarDados();
+        }
+    }
+
+    /**
      * Editar/Criar Avaliação
      *
      * @param modo
@@ -294,6 +430,34 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         JanelaDesenvolvimentoAvaliacao jda = new JanelaDesenvolvimentoAvaliacao(modo, avaliacao);
         jda.setVisible(true);
+    }
+
+    /**
+     * Excluir avaliação
+     */
+    public void ExcluirAvaliacao() {
+        boolean continuar = false;
+
+        String mensagem = idioma.Valor("msgExclusaoAvaliacao");
+        int opcao = JOptionPane.showConfirmDialog(null, mensagem, idioma.Valor("lblAviso"), JOptionPane.YES_NO_OPTION);
+
+        if (opcao == 0) {
+
+            continuar = true;
+
+        }
+
+        if (continuar) {
+
+            //Recuperar o item selecionado
+            int index = tblAvaliacoes.getSelectedRow();
+
+            //Recupera o objeto na tabela
+            Avaliacao avaliacao = (Avaliacao) tblAvaliacoes.getValueAt(index, 0);
+
+            partidaDesenvolvimento.getAvaliacoes().remove(avaliacao);
+            AtualizarDados();
+        }
     }
 
     /**
@@ -517,6 +681,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         });
 
         btnExcluirVariavel.setText("btnExcluirVariavel");
+        btnExcluirVariavel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirVariavelActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("btnAjuda");
 
@@ -585,6 +754,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         });
 
         btnExcluirAvaliacao.setText("btnExcluirAvaliacao");
+        btnExcluirAvaliacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirAvaliacaoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlParametrizadorLayout = new javax.swing.GroupLayout(pnlParametrizador);
         pnlParametrizador.setLayout(pnlParametrizadorLayout);
@@ -738,7 +912,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarSituacaoActionPerformed
 
     private void btnExcluirSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSituacaoActionPerformed
-
+        ExcluirSituacao();
     }//GEN-LAST:event_btnExcluirSituacaoActionPerformed
 
     private void btnPreviaSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviaSituacaoActionPerformed
@@ -798,6 +972,18 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         EditarAvaliacao(1);
 
     }//GEN-LAST:event_btnNovaAvaliacaoActionPerformed
+
+    private void btnExcluirVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirVariavelActionPerformed
+
+        ExcluirVariavel();
+
+    }//GEN-LAST:event_btnExcluirVariavelActionPerformed
+
+    private void btnExcluirAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirAvaliacaoActionPerformed
+
+        ExcluirAvaliacao();
+
+    }//GEN-LAST:event_btnExcluirAvaliacaoActionPerformed
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
         if (instancia == null) {
