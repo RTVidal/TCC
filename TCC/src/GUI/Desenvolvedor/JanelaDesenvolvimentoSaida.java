@@ -382,6 +382,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         jLabel3.setText("Situação Origem:");
 
         txaFalaAssistente.setColumns(20);
+        txaFalaAssistente.setLineWrap(true);
         txaFalaAssistente.setRows(5);
         jScrollPane1.setViewportView(txaFalaAssistente);
 

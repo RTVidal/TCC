@@ -10,6 +10,7 @@ import Controle.ControladoraIdioma;
 import GUI.Suporte.PainelImagem;
 import Modelo.Acao;
 import Modelo.Assistente;
+import Modelo.Avaliacao;
 import Modelo.Partida;
 import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
@@ -61,11 +62,11 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     private ControladoraExecucao controladora;
 
     private static JanelaExecucaoPartida instancia;
-    
+
     private ArrayList<Variavel> variaveis;
-    
+
     private int tipoSaida;
-    
+
     private Partida partida;
 
     public JanelaExecucaoPartida() {
@@ -126,7 +127,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
 
-
     }
 
     public void CarregaPainelSaida() {
@@ -162,18 +162,16 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         painelPrincipal.add(imgAvatar);
     }
-    
-    public void CarregarTabelaVariaveis()
-    {
+
+    public void CarregarTabelaVariaveis() {
         tblVariaveis = new JTable();
-        
+
         tblVariaveis.setEnabled(false);
         tblVariaveis.setShowGrid(false);
         tblVariaveis.setFont(new Font("Verdana", Font.BOLD, 14));
         tblVariaveis.setForeground(Color.ORANGE);
         tblVariaveis.setBackground(new Color(0, 0, 255, 150));
 
-        
     }
 
     /**
@@ -185,22 +183,20 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         model.addColumn("variavel");
         model.addColumn("valor");
-        
-        for (Variavel v : variaveis)
-        {
+
+        for (Variavel v : variaveis) {
             //Adicionar na lista apenas caso a variável não seja oculta
-            if(!v.isOculta())
-            {
+            if (!v.isOculta()) {
                 model.addRow(new Object[]{v.getNome(), v.getValorInicial()});
             }
         }
-        
+
         //tblVariaveis.setModel(model);
         tblVariaveis.setSize(150, 100);
         tblVariaveis.setLocation(10, 10);
-        
+
         tblVariaveis.setModel(model);
-        
+
         tblVariaveis.getColumnModel().getColumn(0).setPreferredWidth(100);
         tblVariaveis.getColumnModel().getColumn(1).setPreferredWidth(50);
 
@@ -257,43 +253,40 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     public void GerarSaidas(Situacao situacao) {
 
         boolean naoHaSaidas = false;
-        
+
         tipoSaida = situacao.getSaida().getTipoSaida();
         //painelPrincipal.remove(painelBotoes);
         switch (tipoSaida) {
             case 0:
-                
+
                 //Não há tipo de saida definido
                 naoHaSaidas = true;
                 break;
-                
+
             case 1: //Saida opcional
-                
-                if(situacao.getSaida().getsaidasOpcao().isEmpty())
-                {
+
+                if (situacao.getSaida().getsaidasOpcao().isEmpty()) {
                     naoHaSaidas = true;
                 } else {
                     GerarSaidaOpcional(situacao.getSaida().getsaidasOpcao());
-                }                
+                }
                 break;
-                
+
             case 2: //Saída numérica
-                
-                if(situacao.getSaida().getSaidasNumerica().isEmpty())
-                {
+
+                if (situacao.getSaida().getSaidasNumerica().isEmpty()) {
                     naoHaSaidas = true;
                 } else {
                     GerarSaidaNumerica(situacao.getSaida().getSaidasNumerica());
                 }
-                
+
                 break;
         }
-        
+
         //Se não houver saídas então a situação é final
-        if(naoHaSaidas)
-        {
+        if (naoHaSaidas) {
             GerarSaidaFinal();
-        }        
+        }
     }
 
     /**
@@ -310,18 +303,71 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.add(btn);
 
     }
-    
+
     /**
      * Gera a saída para situação final
      */
-    public void GerarSaidaFinal()
-    {
+    public void GerarSaidaFinal() {
+
         /*Se não houverem avaliações, apenas adiciona o botão de sair
-        Caso contrário, carrega as avaliações */
-        if(partida.getAvaliacoes().isEmpty())
-        {
-            
+         Caso contrário, carrega as avaliações */
+        if (partida.getAvaliacoes().isEmpty()) {
+
+            painelBotoes.removeAll();
+            painelBotoes.revalidate();
+
+            btn = new JButton(idioma.Valor("btnTerminar"));
+            btn.setLocation(0, 0);
+            btn.setSize(20, 30);
+            btn.addActionListener((java.awt.event.ActionEvent e) -> {
+
+                dispose();
+
+            });
+            painelBotoes.add(btn);
+            btn.repaint();
+        } else {
+
+            GerarSaidaAvaliacao(partida.getAvaliacoes().get(0), 0);
+
         }
+
+    }
+
+    public void GerarSaidaAvaliacao(Avaliacao avaliacao, int index) {
+
+        painelBotoes.removeAll();
+        painelBotoes.revalidate();
+
+        //Caso seja a ultima avaliação, gera saída diferenciada
+        if (index == partida.getAvaliacoes().size()) {
+
+            btn = new JButton(idioma.Valor("lblTerminar"));
+
+            btn.addActionListener((java.awt.event.ActionEvent e) -> {
+
+                dispose();
+
+            });
+
+        } else {
+
+            btn = new JButton(idioma.Valor("lblContemeMais"));
+
+            btn.addActionListener((java.awt.event.ActionEvent e) -> {
+
+                GerarSaidaAvaliacao(avaliacao, index + 1);
+
+            });
+
+        }
+
+        btn.setLocation(0, 0);
+        btn.setSize(20, 30);
+
+        painelBotoes.add(btn);
+        btn.repaint();
+
     }
 
     /**
@@ -422,7 +468,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.setLocation(0, 0);
         btn.setSize(20, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
-                        
+
             //Carrega novamente a situação
             CarregaSituacao(situacao, 2);
         });
@@ -432,7 +478,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.setLocation(0, 0);
         btn.setSize(20, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
-            
+
             ExecutarAcoesSaida(saida);
             //Carrega a situação seguinte
             CarregaSituacao(situacaoDestino, 2);
@@ -465,54 +511,49 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         }
 
     }
-    
-    public void ExecutarAcoesSaida(Object saida)
-    {
-        if(tipoSaida == 1){
+
+    public void ExecutarAcoesSaida(Object saida) {
+        if (tipoSaida == 1) {
             System.out.println("vai executar ação");
             SaidaOpcional saidaOpcional = (SaidaOpcional) saida;
-            
+
             double novoValor = 0;
-            
-            for(Acao a : saidaOpcional.getAcoes())
-            {
-                switch(a.getOperacao())
-                {
+
+            for (Acao a : saidaOpcional.getAcoes()) {
+                switch (a.getOperacao()) {
                     case 0:
-                        //Não faz nada
+                    //Não faz nada
                     case 1: //Soma
-                        
+
                         novoValor = a.getVariavel().getValorInicial() + a.getNumero();
                         a.getVariavel().setValorInicial(novoValor);
                         break;
-                        
+
                     case 2: //Subtração
-                        
+
                         novoValor = a.getVariavel().getValorInicial() - a.getNumero();
                         a.getVariavel().setValorInicial(novoValor);
                         break;
-                        
+
                     case 3: //Multiplicação
-                        
+
                         novoValor = a.getVariavel().getValorInicial() * a.getNumero();
                         a.getVariavel().setValorInicial(novoValor);
                         break;
-                        
+
                     case 4: //Divisão
-                        
+
                         novoValor = a.getVariavel().getValorInicial() / a.getNumero();
                         a.getVariavel().setValorInicial(novoValor);
                         break;
-                        
+
                 }
             }
-            
+
         } else {
-            
+
         }
-        
-        
-                
+
     }
 
     public void CarregaSituacao(Situacao situacao, int etapa) {
@@ -533,7 +574,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 GerarSaidas(situacao);
                 break;
         }
-        
+
         CarregaVariaveis();
         CarregaImagemFundo(situacao);
         RecarregarComponentes();
@@ -624,7 +665,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     public void setVariaveis(ArrayList<Variavel> variaveis) {
         this.variaveis = variaveis;
-    }    
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel painelPrincipal;
