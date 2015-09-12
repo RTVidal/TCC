@@ -85,7 +85,6 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
                     Acao acao = new Acao();
                     acao.setVariavel(variavel);
                     acao.setNumero(0);
-                    acao.setAbortarJogoSeNegativo(false);
                     acao.setOperacao(0);
                     
                     saida.getAcoes().add(acao);

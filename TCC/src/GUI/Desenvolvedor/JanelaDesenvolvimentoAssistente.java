@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -76,10 +77,67 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
             }
             itens.addElement(arquivos[i].getName());
         }
-        
+
         lstAvatares.setModel(itens);
         lstAvatares.setSelectedIndex(itemSelecionado);
+
+    }
+
+    /**
+     * Salva o assistente
+     */
+    public void SalvarAssistente() {
+
+        boolean ok = ValidarDados();
+
+        if (ok) {
+            assistente.setNome(txtNomeAssistente.getText());
+            assistente.setAvatarAssistente(avatarSelecionado.getDescription());
+            assistente.setApresentacao(txaApresentacao.getText());
+            partida.setAssistente(assistente);
+            assistente.setCriado(true);
+            jdp.AtualizaAssistente();
+            dispose();
+        }
+
+    }
+
+    /**
+     * Valida os dados
+     * @return 
+     */
+    public boolean ValidarDados() {
         
+        boolean ok = true;
+        String mensagem;
+        ArrayList<String> mensagens = new ArrayList<>();
+
+        if (txtNomeAssistente.getText().isEmpty()) {
+            
+            ok = false;
+            mensagem = "msgNomeAssistenteObrigatorio";
+            mensagens.add(mensagem);
+        }
+
+        if (txaApresentacao.getText().isEmpty()) {
+            
+            ok = false;
+            mensagem = "msgApresentacaoObrigatoria";
+            mensagens.add(mensagem);
+        }
+
+        if (!ok) {
+            
+            String mensagemJanela = "";
+
+            for (String s : mensagens) {
+                mensagemJanela += s + "\n";
+            }
+
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+        }
+
+        return ok;
     }
 
     /**
@@ -103,6 +161,8 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
         btnConfirmar = new javax.swing.JButton();
         lblImgAvatar = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
+        btnCancelar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         jButton3.setText("jButton2");
 
@@ -115,6 +175,12 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
         lblApresentacao.setText("Apresentação:");
 
         lblAvatar.setText("Selecione um Avatar:");
+
+        txtNomeAssistente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeAssistenteActionPerformed(evt);
+            }
+        });
 
         txaApresentacao.setColumns(20);
         txaApresentacao.setRows(5);
@@ -132,7 +198,7 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
         });
         jScrollPane2.setViewportView(lstAvatares);
 
-        btnConfirmar.setText("Confirmar");
+        btnConfirmar.setText("btnConfirmar");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfirmarActionPerformed(evt);
@@ -144,6 +210,15 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTitulo.setText("lblTitulo");
 
+        btnCancelar.setText("btnCancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("btnAjuda");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,34 +226,39 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblAvatar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                        .addComponent(lblImgAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblTitulo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnConfirmar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblApresentacao)
                             .addComponent(lblNomeAssistente))
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addComponent(txtNomeAssistente))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                            .addComponent(txtNomeAssistente)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblAvatar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblImgAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTitulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTitulo)
-                    .addComponent(btnConfirmar))
-                .addGap(18, 18, 18)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNomeAssistente)
                     .addComponent(txtNomeAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -190,15 +270,14 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblAvatar)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 3, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblImgAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(lblAvatar)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblImgAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnConfirmar)
+                    .addComponent(btnCancelar))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
@@ -216,19 +295,26 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
     }//GEN-LAST:event_lstAvataresValueChanged
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        //assistente = new Assistente();
-        assistente.setNome(txtNomeAssistente.getText());
-        assistente.setAvatarAssistente(avatarSelecionado.getDescription());
-        assistente.setApresentacao(txaApresentacao.getText());
-        partida.setAssistente(assistente);
-        assistente.setCriado(true);
-        jdp.AtualizaAssistente();
-        dispose();
+
+        SalvarAssistente();
+
     }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void txtNomeAssistenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeAssistenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeAssistenteActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+       
+        dispose();
+        
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

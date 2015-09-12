@@ -231,7 +231,6 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
             for (Variavel variavel : partidaDesenvolvimento.getVariaveis()) {
                 
                 Acao acao = new Acao();
-                acao.setAbortarJogoSeNegativo(false);
                 acao.setNumero(0);
                 acao.setOperacao(0);
                 acao.setVariavel(variavel);

@@ -15,6 +15,7 @@ import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import java.awt.Image;
 import java.io.File;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -112,6 +113,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txtNomeSituacao.setText(situacao.getNome());
         txaFalaAssistente.setText(situacao.getFalaAssistente());
         txtArquivo.setText(situacao.getFundoSituacao().getDescription());
+        chbSituacaoInicial.setSelected(situacao.isSituacaoInicial());
 
         AtualizaTabelaSaidas();
 
@@ -121,10 +123,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         //Atualiza a tabela conforme o tipo de saída
         boolean naoHaSaidas = saida.getSaidasNumerica().isEmpty() && saida.getSaidasOpcao().isEmpty();
         System.out.println(saida.getSaidasNumerica().isEmpty() + " e " + saida.getSaidasOpcao().isEmpty());
-        
+
         //Habilitar o combobox apenas quando não houverem saídas cadastradas
         cbxTipoSaida.setEnabled(naoHaSaidas);
-        
+
         switch (saida.getTipoSaida()) {
             case 1:
 
@@ -199,40 +201,97 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
      * Salva a situação inserida/editada
      */
     public void SalvaSituacao() {
-        situacao.setFalaAssistente(txaFalaAssistente.getText());
-        situacao.setNome(txtNomeSituacao.getText());
 
-        //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
-        if (acao == 1) {
-            partidaDesenvolvimento.getSituacoes().add(situacao);
+        boolean ok = ValidaDados();
+        boolean continuar = true;
+
+        if (ok) {
+            situacao.setFalaAssistente(txaFalaAssistente.getText());
+            situacao.setNome(txtNomeSituacao.getText());
+
+            //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
+            if (acao == 1) {
+                partidaDesenvolvimento.getSituacoes().add(situacao);
+            }
+
+            jdp.AtualizarDados();
+            dispose();
         }
 
-        if (chbSituacaoInicial.isSelected()) {
+    }
 
-            boolean continuar = true;
+    /**
+     * Valida os campos
+     *
+     * @return
+     */
+    public boolean ValidaDados() {
 
-            if (partidaDesenvolvimento.getSituacaoInicial() != null) {
+        boolean ok = true;
+        String mensagem;
+        ArrayList<String> mensagens = new ArrayList<>();
 
-                int opcao = JOptionPane.showConfirmDialog(null, "Já existe uma situação inicial. Deseja substituir a situação inicial atual?",
-                        "Aviso", JOptionPane.YES_NO_OPTION);
+        if (txtNomeSituacao.getText().isEmpty()) {
+            ok = false;
+            mensagem = "msgNomeSituacaoObrigatorio";
+            mensagens.add(mensagem);
+        }
+        if (txaFalaAssistente.getText().isEmpty()) {
+            ok = false;
+            mensagem = "msgFalaAssistenteObrigatoria";
+            mensagens.add(mensagem);
+        }
+
+        //Imprime as mensgens
+        if (!ok) {
+            String mensagemJanela = "";
+
+            for (String s : mensagens) {
+                mensagemJanela += s + "\n";
+            }
+
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+
+        } else {
+
+            //Exibe avisos
+            if (txtArquivo.getText().isEmpty()) {
+                int opcao = JOptionPane.showConfirmDialog(null, "msgSemImagemFundo", idioma.Valor("lblAviso"),
+                        JOptionPane.YES_NO_OPTION);
 
                 if (opcao == 1) {
 
-                    continuar = false;
+                    ok = false;
 
                 }
             }
 
-            if (continuar) {
-                //Marca todas as situações como não inicial
-                for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
-                    s.setSituacaoInicial(false);
+            //Caso já exista situação inicial
+            if (chbSituacaoInicial.isSelected() && partidaDesenvolvimento.getSituacaoInicial() != null) {
+
+                int opcao = JOptionPane.showConfirmDialog(null, "msgJaExisteSituacaoInicial", idioma.Valor("Aviso"),
+                        JOptionPane.YES_NO_OPTION);
+
+                if (opcao == 0) {
+
+                    //Marca todas as situações como não inicial
+                    for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
+                        s.setSituacaoInicial(false);
+                    }
+
+                    //Define a situação como inicial
+                    partidaDesenvolvimento.setSituacaoInicial(situacao);
+                    situacao.setSituacaoInicial(true);
+
+                } else {
+
+                    ok = false;
+
                 }
 
-                partidaDesenvolvimento.setSituacaoInicial(situacao);
-                situacao.setSituacaoInicial(true);
             }
         }
+        return ok;
     }
 
     /**
@@ -483,7 +542,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             try {
-                //txtArquivo.read(new FileReader(file.getAbsolutePath()), null);
                 txtArquivo.setText(file.getName());
 
                 Image image = ImageIO.read(file);
@@ -496,9 +554,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             } catch (Exception ex) {
                 System.out.println("problem accessing file" + file.getAbsolutePath());
             }
-        } else {
-            System.out.println("File access cancelled by user.");
-
         }
 
     }//GEN-LAST:event_btnSelImagemActionPerformed
@@ -506,8 +561,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
         SalvaSituacao();
-        jdp.AtualizarDados();
-        dispose();
 
     }//GEN-LAST:event_btnConfirmarActionPerformed
 

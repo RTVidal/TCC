@@ -146,7 +146,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
      */
     public void CarregaAssistente() {
         //Obtem o avatar do assistente (caso não haja assistente/avatar, preenche com um avatar genérico)
-        if (assistente.getAvatarAssistente().equals("")) {
+        if (!assistente.getAvatarAssistente().equals("")) {
             imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
         } else {
             imagemAvatar = new ImageIcon("./Recursos/avatar1.gif");
@@ -340,7 +340,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.revalidate();
 
         CarregaFalaAssistente(avaliacao.getTexto());
-        System.out.println("carregou fala " + avaliacao.getTexto() + " " + avaliacao.getVariavel().getNome());
         
         //Caso seja a ultima avaliação, gera saída diferenciada
         System.out.println(index + " " + partida.getAvaliacoes().size());

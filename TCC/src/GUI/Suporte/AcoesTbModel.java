@@ -22,7 +22,6 @@ public class AcoesTbModel extends AbstractTableModel {
     private static final int COL_VARIAVEL = 1;
     private static final int COL_OPERACAO = 2;
     private static final int COL_VALOR = 3;
-    private static final int COL_ABORTARNEGATIVO = 4;
 
     private final ArrayList<Acao> acoes;
 
@@ -40,7 +39,7 @@ public class AcoesTbModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 4;
     }
 
     @Override
@@ -54,9 +53,6 @@ public class AcoesTbModel extends AbstractTableModel {
         }        
         if (column == COL_VALOR) {
             return idioma.Valor("lblValor");
-        }
-        if (column == COL_ABORTARNEGATIVO) {
-            return idioma.Valor("lblAbortarNegativo");
         }
         return ""; //Nunca deve ocorrer
     }
@@ -90,14 +86,6 @@ public class AcoesTbModel extends AbstractTableModel {
             return String.valueOf(acoes.get(rowIndex).getNumero());
         }
         
-        if (column == COL_ABORTARNEGATIVO) {
-            if(acoes.get(rowIndex).isAbortarJogoSeNegativo())
-            {
-                return "✓";
-            } else {
-                return "";
-            }
-        }
         return "";
 
     }

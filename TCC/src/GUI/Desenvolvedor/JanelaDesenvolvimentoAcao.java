@@ -42,7 +42,6 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         txtNomeVariavel.setText(acao.getVariavel().getNome());
         jspValor.setToolTipText("Teste");
         jspValor.setValue(acao.getNumero());
-        chbAbortarNegativo.setSelected(acao.isAbortarJogoSeNegativo());
     }
 
     public final void PreencheComboOperacoes() {
@@ -61,7 +60,6 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
 
     public void SalvarAcao() {
         acao.setNumero((double) jspValor.getValue());
-        acao.setAbortarJogoSeNegativo(chbAbortarNegativo.isSelected());
 
         int operacao = cbxOperacao.getSelectedIndex();
         System.out.println("operacao " + operacao);
@@ -91,7 +89,6 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
         txtNomeVariavel = new javax.swing.JTextField();
-        chbAbortarNegativo = new javax.swing.JCheckBox();
         cbxOperacao = new javax.swing.JComboBox();
 
         jLabel4.setText("jLabel4");
@@ -125,13 +122,6 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
 
         txtNomeVariavel.setEditable(false);
 
-        chbAbortarNegativo.setText("lblAbortarSeNegativo");
-        chbAbortarNegativo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chbAbortarNegativoActionPerformed(evt);
-            }
-        });
-
         cbxOperacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -146,7 +136,6 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(chbAbortarNegativo)
                     .addComponent(jspValor, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -174,9 +163,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jspValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(chbAbortarNegativo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmar)
                     .addComponent(btnCancelar))
@@ -190,10 +177,6 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void chbAbortarNegativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbAbortarNegativoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chbAbortarNegativoActionPerformed
-
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
         SalvarAcao();
@@ -204,7 +187,6 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JComboBox cbxOperacao;
-    private javax.swing.JCheckBox chbAbortarNegativo;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

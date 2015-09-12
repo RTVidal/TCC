@@ -15,8 +15,6 @@ public class Acao implements Serializable {
     
     private Variavel variavel;
     
-    private boolean abortarJogoSeNegativo;
-    
     private boolean valida;
     
     //1. adição, 2. subtração, 3. multiplicação, 4. divisão
@@ -46,14 +44,6 @@ public class Acao implements Serializable {
 
     public void setNumero(double numero) {
         this.numero = numero;
-    }
-
-    public boolean isAbortarJogoSeNegativo() {
-        return abortarJogoSeNegativo;
-    }
-
-    public void setAbortarJogoSeNegativo(boolean abortarJogoSeNegativo) {
-        this.abortarJogoSeNegativo = abortarJogoSeNegativo;
     }
 
     public boolean isValida() {
