@@ -8,6 +8,7 @@ package GUI.Desenvolvedor;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.SaidasNumericasTbModel;
 import GUI.Suporte.SaidasOpcionaisTbModel;
+import Modelo.Faixa;
 import Modelo.Partida;
 import Modelo.Saida;
 import Modelo.SaidaNumerica;
@@ -81,6 +82,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         fileChooser.setFileFilter(new MyCustomFilter());
 
         partidaDesenvolvimento = Partida.getInstancia();
+        
+        txaFalaAssistente.setWrapStyleWord(true);
 
         if (acao == 2) {
             this.situacao = situacao;
@@ -199,8 +202,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     /**
      * Salva a situação inserida/editada
+     *
+     * @return
      */
-    public void SalvaSituacao() {
+    public boolean SalvaSituacao(boolean fecharJanela) {
 
         boolean ok = ValidaDados();
         boolean continuar = true;
@@ -215,8 +220,14 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             }
 
             jdp.AtualizarDados();
-            dispose();
+
+            if (fecharJanela) {
+                dispose();
+            }
+
         }
+
+        return ok;
 
     }
 
@@ -230,6 +241,17 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         boolean ok = true;
         String mensagem;
         ArrayList<String> mensagens = new ArrayList<>();
+
+        //Caso a saída seja numérica, valida os valores
+        if (situacao.getSaida().getTipoSaida() == 2) {
+            ArrayList<String> mensagensErro = ValidarValoresSN();
+            
+            if(!mensagensErro.isEmpty())
+            {
+                ok = false;
+                mensagens.addAll(mensagensErro);
+            }
+        }
 
         if (txtNomeSituacao.getText().isEmpty()) {
             ok = false;
@@ -292,6 +314,117 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             }
         }
         return ok;
+    }
+
+    /**
+     * Valida os valores da saída numérica
+     *
+     * @return
+     */
+    public ArrayList<String> ValidarValoresSN() {
+
+        ArrayList<String> mensagens = new ArrayList<>();
+        String mensagem;
+        boolean emSequencia = false;
+        ArrayList<Faixa> sequencias = new ArrayList<>();
+        Faixa sequenciaAtual = new Faixa();
+
+        //Recupera o menor e o maior valor
+        Integer valorMinimo = 0;
+        Integer valorMaximo = 0;
+        int cont = 0;
+
+        for (SaidaNumerica s : saida.getSaidasNumerica()) {
+            if (cont == 0) {
+                valorMinimo = s.getFaixa().getLimiteInferior();
+                valorMaximo = s.getFaixa().getLimiteSuperior();
+            } else {
+                if (s.getFaixa().getLimiteInferior() < valorMinimo) {
+                    valorMinimo = s.getFaixa().getLimiteInferior();
+                }
+                if (s.getFaixa().getLimiteSuperior() > valorMaximo) {
+                    valorMaximo = s.getFaixa().getLimiteSuperior();
+                }
+            }
+            cont++;
+        }
+        
+        //Verifica se o valor pertence a alguma faixa
+        for (int valor = valorMinimo; valor < valorMaximo; valor++) {
+
+            boolean temSaida = false;
+            for (SaidaNumerica s : saida.getSaidasNumerica()) {
+
+                if (valor >= s.getFaixa().getLimiteInferior() && valor <= s.getFaixa().getLimiteSuperior()) {
+                    temSaida = true;
+                    
+                    //Caso tenha sequencia em aberto, fecha
+                    if(emSequencia)
+                    {                        
+                        sequencias.add(sequenciaAtual);
+                    }
+                    
+                    emSequencia = false;
+                    
+                    //Assume o valor como o ultimo da faixa, uma vez que não há necessidade de testar os de dentro da faixa
+                    valor = s.getFaixa().getLimiteSuperior();
+                    break;
+                }
+
+            }
+            
+            if (!temSaida) {
+
+                if (emSequencia) {
+                    
+                    //Cresce a sequência
+                    sequenciaAtual.setLimiteSuperior(valor);
+
+                } else {
+
+                    //Cria uma nova sequência
+                    sequenciaAtual = new Faixa();
+                    sequenciaAtual.setLimiteInferior(valor);
+                    sequenciaAtual.setLimiteSuperior(valor);
+                    emSequencia = true;
+
+                }
+            }
+        }
+
+        for (Faixa f : sequencias) {
+            
+            int diferenca = f.getLimiteSuperior() - f.getLimiteInferior();
+            
+            switch(diferenca)
+            {
+                case 0: //Sequência com apenas um valor                 
+                    mensagem = idioma.Valor("msgValUnicoForaSeq1") + " " +
+                        f.getLimiteSuperior() + " " +
+                        idioma.Valor("msgValUnicoForaSeq2");               
+                    break;
+                
+                case 1: //Sequência com dois valores
+                    mensagem = idioma.Valor("msgValForaSeq1") + " " +
+                        f.getLimiteInferior() + " " + 
+                        idioma.Valor("msgValForaSeqE") + " " + 
+                        f.getLimiteSuperior() + " " +
+                        idioma.Valor("msgValForSeq2");
+                    break;
+                    
+                default: //Sequência com mais de dois valores
+                    mensagem = idioma.Valor("msgValForaSeq1") + " " +
+                        f.getLimiteInferior() + " " +
+                        idioma.Valor("msgValForaSeqA") + " " + 
+                        f.getLimiteSuperior() + " " +
+                        idioma.Valor("msgValForSeq2");
+                    break;
+            }
+            mensagens.add(mensagem);
+                        
+        }
+
+        return mensagens;
     }
 
     /**
@@ -360,6 +493,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         lblFalaAssistente.setText("lblFalaAssistente");
 
         txaFalaAssistente.setColumns(20);
+        txaFalaAssistente.setLineWrap(true);
         txaFalaAssistente.setRows(5);
         jScrollPane1.setViewportView(txaFalaAssistente);
 
@@ -560,7 +694,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
-        SalvaSituacao();
+        SalvaSituacao(true);
 
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
@@ -592,28 +726,33 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     private void btnNovaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSaidaActionPerformed
 
+        boolean ok = true;
+
         //Caso esteja no modo insert, salva a situação e altera o modo para edição
         if (acao == 1) {
-            SalvaSituacao();
-            acao = 2;
+            ok = SalvaSituacao(false);
+
         }
 
-        JanelaDesenvolvimentoSaida jds;
+        if (ok) {
+            acao = 2;
+            JanelaDesenvolvimentoSaida jds;
 
-        switch (saida.getTipoSaida()) {
+            switch (saida.getTipoSaida()) {
 
-            case 1:
-                SaidaOpcional saidaOpcional = new SaidaOpcional();
-                jds = new JanelaDesenvolvimentoSaida(this, 1, situacao, saidaOpcional);
-                jds.setVisible(true);
-                break;
+                case 1:
+                    SaidaOpcional saidaOpcional = new SaidaOpcional();
+                    jds = new JanelaDesenvolvimentoSaida(this, 1, situacao, saidaOpcional);
+                    jds.setVisible(true);
+                    break;
 
-            case 2:
-                SaidaNumerica saidaNumerica = new SaidaNumerica();
-                jds = new JanelaDesenvolvimentoSaida(this, 1, situacao, saidaNumerica);
-                jds.setVisible(true);
-                break;
+                case 2:
+                    SaidaNumerica saidaNumerica = new SaidaNumerica();
+                    jds = new JanelaDesenvolvimentoSaida(this, 1, situacao, saidaNumerica);
+                    jds.setVisible(true);
+                    break;
 
+            }
         }
 
     }//GEN-LAST:event_btnNovaSaidaActionPerformed

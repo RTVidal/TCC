@@ -15,7 +15,9 @@ import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import Modelo.Variavel;
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -109,8 +111,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
                 saidaNumerica = (SaidaNumerica) saidaSelecionada;
 
-                spnValorMaximo.setValue(saidaNumerica.getFaixa().getLimiteSuperior());
-                spnValorMinimo.setValue(saidaNumerica.getFaixa().getLimiteInferior());
+                jspValorMaximo.setValue(saidaNumerica.getFaixa().getLimiteSuperior());
+                jspValorMinimo.setValue(saidaNumerica.getFaixa().getLimiteInferior());
 
                 txaFalaAssistente.setText(saidaNumerica.getFalaAssistente());
 
@@ -155,7 +157,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
     }
 
-    public void AtualizarAcoes() {
+    public final void AtualizarAcoes() {
         AcoesTbModel model;
 
         if (saida.getTipoSaida() == 1) {
@@ -185,58 +187,149 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     public void SalvarSaida() {
         saida.setSituacaoOrigem(situacaoOrigem);
 
+        boolean ok = ValidarDados();
+
+        if (ok) {
+            switch (saida.getTipoSaida()) {
+                case 1:
+
+                    SalvarSaidaOpcional();
+                    break;
+
+                case 2:
+
+                    SalvarSaidaNumerica();
+                    break;
+            }
+
+            janelaDevSituacao.AtualizaTabelaSaidas();
+
+            dispose();
+        }
+
+    }
+
+    /**
+     * Validação dos dados
+     *
+     * @return
+     */
+    public boolean ValidarDados() {
+
+        boolean ok = true;
+        ArrayList<String> mensagens = new ArrayList<>();
+        String mensagem;
+
         switch (saida.getTipoSaida()) {
             case 1:
-                saidaOpcao.setFalaAssistente(txaFalaAssistente.getText());
-                saidaOpcao.setNome(txtDescricaoSO.getText());
-                saidaOpcao.setSituacaoDestino(situacaoDestino);
 
-                //situacaoOrigem.getSaida().getsaidasOpcao().add(saidaOpcao);
-                if (modo == 1) {
-
-                    CriarAcoesSaida(1);
-                    saida.getSaidasOpcao().add(saidaOpcao);
-                    
+                if (txtDescricaoSO.getText().isEmpty()) {
+                    ok = false;
+                    mensagem = idioma.Valor("msgDescricaoSOObrigatoria");
+                    mensagens.add(mensagem);
                 }
-
                 break;
+
             case 2:
-                saidaNumerica.setFalaAssistente(txaFalaAssistente.getText());
-                saidaNumerica.setSituacaoDestino(situacaoDestino);
 
-                Faixa faixa = new Faixa();
-                faixa.setLimiteInferior((Integer) spnValorMinimo.getValue());
-                faixa.setLimiteSuperior((Integer) spnValorMaximo.getValue());
+                int valorMinimo = (int) jspValorMinimo.getValue();
+                int valorMaximo = (int) jspValorMaximo.getValue();
 
-                saidaNumerica.setFaixa(faixa);
-
-                if (modo == 1) {
-
-                    CriarAcoesSaida(2);
-                    saida.getSaidasNumerica().add(saidaNumerica);
-                    
+                if (valorMinimo >= valorMaximo) {
+                    ok = false;
+                    mensagem = idioma.Valor("msgValorMinimoMenor");
+                    mensagens.add(mensagem);
                 }
-
                 break;
         }
 
-        janelaDevSituacao.AtualizaTabelaSaidas();
+        //Exibe avisos
+        if (ok) {
+            //Sem fala de assistente
+            if (txaFalaAssistente.getText().isEmpty()) {
+                int opcao = JOptionPane.showConfirmDialog(this, "msgSemFalaAssistente", idioma.Valor("lblAviso"),
+                        JOptionPane.YES_NO_OPTION);
 
-        dispose();
+                if (opcao == 1) {
+
+                    ok = false;
+
+                }
+            }
+
+            //Situação destino = situação origem
+            if (txtSituacaoOrigem.getText() == cbxSituacaoDestino.getSelectedItem()) {
+                int opcao = JOptionPane.showConfirmDialog(this, "msgMesmaSituacao", idioma.Valor("lblAviso"),
+                        JOptionPane.YES_NO_OPTION);
+
+                if (opcao == 1) {
+
+                    ok = false;
+
+                }
+            }
+
+        } else {
+            String mensagemJanela = "";
+
+            for (String s : mensagens) {
+                mensagemJanela += s + "\n";
+            }
+
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+        }
+
+        return ok;
+    }
+
+    /**
+     * Salva a saída do tipo opcional
+     */
+    public void SalvarSaidaOpcional() {
+
+        saidaOpcao.setFalaAssistente(txaFalaAssistente.getText());
+        saidaOpcao.setNome(txtDescricaoSO.getText());
+        saidaOpcao.setSituacaoDestino(situacaoDestino);
+
+        if (modo == 1) {
+
+            CriarAcoesSaida(1);
+            saida.getSaidasOpcao().add(saidaOpcao);
+
+        }
+    }
+
+    public void SalvarSaidaNumerica() {
+
+        saidaNumerica.setFalaAssistente(txaFalaAssistente.getText());
+        saidaNumerica.setSituacaoDestino(situacaoDestino);
+
+        Faixa faixa = new Faixa();
+        faixa.setLimiteInferior((Integer) jspValorMinimo.getValue());
+        faixa.setLimiteSuperior((Integer) jspValorMaximo.getValue());
+
+        saidaNumerica.setFaixa(faixa);
+
+        if (modo == 1) {
+
+            CriarAcoesSaida(2);
+            saida.getSaidasNumerica().add(saidaNumerica);
+
+        }
     }
 
     public void CriarAcoesSaida(int tipoSaida) {
-        
+
         if (tipoSaida == 1) {
             for (Variavel variavel : partidaDesenvolvimento.getVariaveis()) {
-                
+
                 Acao acao = new Acao();
                 acao.setNumero(0);
                 acao.setOperacao(0);
                 acao.setVariavel(variavel);
-                
+
                 saidaOpcao.getAcoes().add(acao);
-                
+
             }
         }
 
@@ -257,8 +350,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         txtDescricaoSO = new javax.swing.JTextField();
         pnlSaidaNumerica = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        spnValorMinimo = new javax.swing.JSpinner();
-        spnValorMaximo = new javax.swing.JSpinner();
+        jspValorMinimo = new javax.swing.JSpinner();
+        jspValorMaximo = new javax.swing.JSpinner();
         jLabel11 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
@@ -308,9 +401,9 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
         jLabel10.setText("lblValorMinimo");
 
-        spnValorMinimo.setModel(new javax.swing.SpinnerNumberModel());
+        jspValorMinimo.setModel(new javax.swing.SpinnerNumberModel());
 
-        spnValorMaximo.setModel(new javax.swing.SpinnerNumberModel());
+        jspValorMaximo.setModel(new javax.swing.SpinnerNumberModel());
 
         jLabel11.setText("lblValorMaximo");
 
@@ -324,12 +417,12 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                     .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnValorMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jspValorMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spnValorMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jspValorMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(332, Short.MAX_VALUE))))
         );
         pnlSaidaNumericaLayout.setVerticalGroup(
@@ -338,11 +431,11 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(spnValorMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jspValorMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(spnValorMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jspValorMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
@@ -526,12 +619,12 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jspValorMaximo;
+    private javax.swing.JSpinner jspValorMinimo;
     private javax.swing.JLabel lblDescricao;
     private javax.swing.JTabbedPane opcaoSaida;
     private javax.swing.JPanel pnlSaidaNumerica;
     private javax.swing.JPanel pnlSaidaOpcao;
-    private javax.swing.JSpinner spnValorMaximo;
-    private javax.swing.JSpinner spnValorMinimo;
     private javax.swing.JTable tblAcoes;
     private javax.swing.JTextArea txaFalaAssistente;
     private javax.swing.JTextField txtDescricaoSO;

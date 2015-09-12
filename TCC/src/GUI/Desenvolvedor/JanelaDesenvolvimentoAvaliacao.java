@@ -5,10 +5,13 @@
  */
 package GUI.Desenvolvedor;
 
+import Controle.ControladoraIdioma;
 import Modelo.Avaliacao;
 import Modelo.Partida;
 import Modelo.Variavel;
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,83 +24,134 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
     private final Partida partidaDesenvolvimento;
     private final int modo;
     private Variavel variavel;
-    
+    private final ControladoraIdioma idioma;
+
     /**
      * Creates new form JanelaDesenvolvimentoAvaliacao
+     *
      * @param modo
      * @param avaliacao
      */
     public JanelaDesenvolvimentoAvaliacao(int modo, Avaliacao avaliacao) {
         initComponents();
-        
+
         janelaDevPartida = JanelaDesenvolvimentoPartida.getInstancia();
         partidaDesenvolvimento = Partida.getInstancia();
-        
+        idioma = ControladoraIdioma.getInstancia();
+
         setLocationRelativeTo(janelaDevPartida);
-        
+
         this.avaliacao = avaliacao;
         this.modo = modo;
-        
-        if(modo == 2)
-        {
+
+        if (modo == 2) {
             CarregarAvaliacao();
         }
         CarregarVariaveis();
-        
+
     }
-    
+
     /**
      * Carrega os dados da avaliação
      */
-    public final void CarregarAvaliacao()
-    {
+    public final void CarregarAvaliacao() {
         txtDescricao.setText(avaliacao.getDescricao());
         jspValorInicial.setValue(avaliacao.getValorInicial());
         jspValorFinal.setValue(avaliacao.getValorFinal());
         txaTextoAvaliacao.setText(avaliacao.getTexto());
     }
-    
+
     /**
      * Carrega o combo de variáveis
      */
-    public final void CarregarVariaveis()
-    {
+    public final void CarregarVariaveis() {
         int index = 0;
         int itemSelecionado = 0;
-        
+
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        
-        for(Variavel v : partidaDesenvolvimento.getVariaveis())
-        {
+
+        for (Variavel v : partidaDesenvolvimento.getVariaveis()) {
             model.addElement(v.getNome());
-            
-            if(v == avaliacao.getVariavel())
-            {
+
+            if (v == avaliacao.getVariavel()) {
                 itemSelecionado = index;
             }
             index++;
         }
-        
+
         cbxVariavel.setModel(model);
         cbxVariavel.setSelectedIndex(itemSelecionado);
         variavel = partidaDesenvolvimento.getVariaveis().get(itemSelecionado);
     }
-    
-    public void SalvarAvaliacao()
-    {
-        avaliacao.setDescricao(txtDescricao.getText());
-        avaliacao.setValorInicial((double)jspValorInicial.getValue());
-        avaliacao.setValorFinal((double)jspValorFinal.getValue());
-        avaliacao.setVariavel(variavel);
-        avaliacao.setTexto(txaTextoAvaliacao.getText());
+
+    public void SalvarAvaliacao() {
         
-        if(modo == 1)
+        boolean ok = ValidarDados();
+
+        if (ok) {
+            avaliacao.setDescricao(txtDescricao.getText());
+            avaliacao.setValorInicial((double) jspValorInicial.getValue());
+            avaliacao.setValorFinal((double) jspValorFinal.getValue());
+            avaliacao.setVariavel(variavel);
+            avaliacao.setTexto(txaTextoAvaliacao.getText());
+
+            if (modo == 1) {
+                partidaDesenvolvimento.getAvaliacoes().add(avaliacao);
+            }
+
+            janelaDevPartida.AtualizarDados();
+            dispose();
+        }
+
+    }
+    
+    /**
+     * Validação dos dados
+     */
+    public boolean ValidarDados()
+    {
+        boolean ok = true;
+        ArrayList<String> mensagens = new ArrayList<>();
+        String mensagem;
+        
+        if(txtDescricao.getText().isEmpty())
         {
-            partidaDesenvolvimento.getAvaliacoes().add(avaliacao);
+            ok = false;
+            mensagem = idioma.Valor("msgDescricaoObrigatoria");
+            mensagens.add(mensagem);
+            
+        }
+        if(txaTextoAvaliacao.getText().isEmpty())
+        {
+            ok = false;
+            mensagem = idioma.Valor("msgTextoObrigatorio");
+            mensagens.add(mensagem);
+            
         }
         
-        janelaDevPartida.AtualizarDados();
-        dispose();
+        double valorInicial = (double)jspValorInicial.getValue();
+        double valorFinal = (double)jspValorFinal.getValue();
+        
+        if(valorInicial >= valorFinal)
+        {
+            ok = false;
+            mensagem = idioma.Valor("msgValorInicialMenor");
+            mensagens.add(mensagem);
+        }
+        
+        //Exibe as mensagens
+        if(!ok)
+        {
+            String mensagemJanela = "";
+
+            for (String s : mensagens) {
+                mensagemJanela += s + "\n";
+            }
+
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+        }
+        
+        return ok;
     }
 
     /**
@@ -226,23 +280,23 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        
+
         SalvarAvaliacao();
-        
+
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        
+
         dispose();
-        
+
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void cbxVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxVariavelActionPerformed
-        
+
         int index = cbxVariavel.getSelectedIndex();
-        
+
         variavel = partidaDesenvolvimento.getVariaveis().get(index);
-        
+
     }//GEN-LAST:event_cbxVariavelActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

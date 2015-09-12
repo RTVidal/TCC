@@ -176,13 +176,13 @@
                           <Group type="102" attributes="0">
                               <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="spnValorMaximo" min="-2" pref="73" max="-2" attributes="0"/>
+                              <Component id="jspValorMaximo" min="-2" pref="73" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="spnValorMinimo" min="-2" pref="73" max="-2" attributes="0"/>
+                              <Component id="jspValorMinimo" min="-2" pref="73" max="-2" attributes="0"/>
                               <EmptySpace pref="332" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -195,12 +195,12 @@
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="spnValorMinimo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jspValorMinimo" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="spnValorMaximo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jspValorMaximo" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="31" max="32767" attributes="0"/>
                   </Group>
@@ -213,14 +213,14 @@
                 <Property name="text" type="java.lang.String" value="lblValorMinimo"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JSpinner" name="spnValorMinimo">
+            <Component class="javax.swing.JSpinner" name="jspValorMinimo">
               <Properties>
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                   <SpinnerModel initial="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JSpinner" name="spnValorMaximo">
+            <Component class="javax.swing.JSpinner" name="jspValorMaximo">
               <Properties>
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                   <SpinnerModel initial="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
