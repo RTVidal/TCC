@@ -339,8 +339,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.removeAll();
         painelBotoes.revalidate();
 
+        CarregaFalaAssistente(avaliacao.getTexto());
+        System.out.println("carregou fala " + avaliacao.getTexto() + " " + avaliacao.getVariavel().getNome());
+        
         //Caso seja a ultima avaliação, gera saída diferenciada
-        if (index == partida.getAvaliacoes().size()) {
+        System.out.println(index + " " + partida.getAvaliacoes().size());
+        if (index == (partida.getAvaliacoes().size() - 1)) {
 
             btn = new JButton(idioma.Valor("lblTerminar"));
 
@@ -356,7 +360,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
             btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
-                GerarSaidaAvaliacao(avaliacao, index + 1);
+                int proximaAvaliacao = index + 1;
+                GerarSaidaAvaliacao(partida.getAvaliacoes().get(proximaAvaliacao), proximaAvaliacao);
 
             });
 
@@ -367,6 +372,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         painelBotoes.add(btn);
         btn.repaint();
+        
+        RecarregarComponentes();
 
     }
 
@@ -513,11 +520,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }
 
     public void ExecutarAcoesSaida(Object saida) {
-        if (tipoSaida == 1) {
-            System.out.println("vai executar ação");
-            SaidaOpcional saidaOpcional = (SaidaOpcional) saida;
 
-            double novoValor = 0;
+        double novoValor = 0;
+
+        if (tipoSaida == 1) {
+
+            SaidaOpcional saidaOpcional = (SaidaOpcional) saida;
 
             for (Acao a : saidaOpcional.getAcoes()) {
                 switch (a.getOperacao()) {
@@ -552,6 +560,38 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         } else {
 
+            SaidaNumerica SaidaNumerica = (SaidaNumerica) saida;
+
+            for (Acao a : SaidaNumerica.getAcoes()) {
+                switch (a.getOperacao()) {
+                    case 0:
+                    //Não faz nada
+                    case 1: //Soma
+
+                        novoValor = a.getVariavel().getValorInicial() + a.getNumero();
+                        a.getVariavel().setValorInicial(novoValor);
+                        break;
+
+                    case 2: //Subtração
+
+                        novoValor = a.getVariavel().getValorInicial() - a.getNumero();
+                        a.getVariavel().setValorInicial(novoValor);
+                        break;
+
+                    case 3: //Multiplicação
+
+                        novoValor = a.getVariavel().getValorInicial() * a.getNumero();
+                        a.getVariavel().setValorInicial(novoValor);
+                        break;
+
+                    case 4: //Divisão
+
+                        novoValor = a.getVariavel().getValorInicial() / a.getNumero();
+                        a.getVariavel().setValorInicial(novoValor);
+                        break;
+
+                }
+            }
         }
 
     }
