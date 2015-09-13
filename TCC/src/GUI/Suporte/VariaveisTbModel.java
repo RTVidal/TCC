@@ -20,7 +20,7 @@ public class VariaveisTbModel extends AbstractTableModel{
 
     private static final int COL_VARIAVEL = 0;
     private static final int COL_NOME = 1;
-    private static final int COL_VALORINICIAL = 2;
+    private static final int COL_VALOR = 2;
     private static final int COL_OCULTA = 3;
 
     private final ArrayList<Variavel> variaveis;
@@ -48,7 +48,7 @@ public class VariaveisTbModel extends AbstractTableModel{
         if (column == COL_NOME) {
             return idioma.Valor("lblNome");
         }
-        if (column == COL_VALORINICIAL) {
+        if (column == COL_VALOR) {
             return idioma.Valor("lblValorInicial");
         }
         if (column == COL_OCULTA) {
@@ -66,8 +66,8 @@ public class VariaveisTbModel extends AbstractTableModel{
         if (column == COL_NOME) {
             return variaveis.get(rowIndex).getNome();
         }
-        if (column == COL_VALORINICIAL) {
-            return String.valueOf(variaveis.get(rowIndex).getValorInicial());
+        if (column == COL_VALOR) {
+            return String.valueOf(variaveis.get(rowIndex).getValor());
         }
         if (column == COL_OCULTA) {
             if(variaveis.get(rowIndex).isOculta())

@@ -76,8 +76,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         setLocationRelativeTo(jdp);
 
-        
-
         partidaDesenvolvimento = Partida.getInstancia();
         
         txaFalaAssistente.setWrapStyleWord(true);
@@ -200,16 +198,23 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     /**
      * Salva a situação inserida/editada
      *
+     * @param fecharJanela
      * @return
      */
     public boolean SalvaSituacao(boolean fecharJanela) {
 
         boolean ok = ValidaDados();
-        boolean continuar = true;
 
         if (ok) {
+            
             situacao.setFalaAssistente(txaFalaAssistente.getText());
             situacao.setNome(txtNomeSituacao.getText());
+            situacao.setSituacaoInicial(chbSituacaoInicial.isSelected());
+
+            if(situacao.isSituacaoInicial())
+            {
+                partidaDesenvolvimento.setSituacaoInicial(situacao);
+            }
 
             //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
             if (acao == 1) {
@@ -297,10 +302,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                     for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
                         s.setSituacaoInicial(false);
                     }
-
-                    //Define a situação como inicial
-                    partidaDesenvolvimento.setSituacaoInicial(situacao);
-                    situacao.setSituacaoInicial(true);
 
                 } else {
 

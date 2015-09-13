@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Variavel implements Serializable{
     
     private String nome;
-    private double valorInicial;
+    private double valor;
     private boolean oculta;
 
     public String getNome() {
@@ -25,12 +25,12 @@ public class Variavel implements Serializable{
         this.nome = nome;
     }
 
-    public double getValorInicial() {
-        return valorInicial;
+    public double getValor() {
+        return valor;
     }
 
-    public void setValorInicial(double valorInicial) {
-        this.valorInicial = valorInicial;
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public boolean isOculta() {

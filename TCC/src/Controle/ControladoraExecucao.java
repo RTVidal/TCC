@@ -7,7 +7,6 @@ package Controle;
 
 import GUI.Jogador.JanelaExecucaoPartida;
 import Modelo.Partida;
-import Modelo.Variavel;
 
 /**
  *
@@ -15,7 +14,7 @@ import Modelo.Variavel;
  */
 public class ControladoraExecucao {
 
-    private Partida partida;
+    private final Partida partida;
 
     private JanelaExecucaoPartida jsj;
 
@@ -31,7 +30,8 @@ public class ControladoraExecucao {
     public final void ExecutaPartida() {
 
         //Abre a janela inicial para a apresentação do assistente
-        jsj = JanelaExecucaoPartida.getInstancia();
+        jsj = new JanelaExecucaoPartida(1);
+        JanelaExecucaoPartida.setInstancia(jsj);
 
         jsj.setVisible(true);
 

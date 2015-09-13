@@ -55,7 +55,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
 
     public final void CarregarVariavel() {
         txtNomeVariavel.setText(variavel.getNome());
-        jspValorInicial.setValue(variavel.getValorInicial());
+        jspValorInicial.setValue(variavel.getValor());
         chbOculta.setSelected(variavel.isOculta());
     }
 
@@ -66,7 +66,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
         if (ok) {
 
             variavel.setNome(txtNomeVariavel.getText());
-            variavel.setValorInicial((double) jspValorInicial.getValue());
+            variavel.setValor((double) jspValorInicial.getValue());
             variavel.setOculta(chbOculta.isSelected());
 
             //Caso o modo seja inserir, adiciona a variável à partida

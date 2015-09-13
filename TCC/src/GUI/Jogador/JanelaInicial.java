@@ -237,7 +237,7 @@ public class JanelaInicial extends javax.swing.JFrame {
 
             situacao.setSaida(saida);
 
-            JanelaExecucaoPartida jsj = new JanelaExecucaoPartida();
+            JanelaExecucaoPartida jsj = new JanelaExecucaoPartida(1);
             jsj.CarregarPreviaSituacao(situacao, assistente);
 
             jsj.setVisible(true);

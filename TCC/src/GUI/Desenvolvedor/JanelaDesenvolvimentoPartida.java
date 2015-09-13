@@ -262,7 +262,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Recupera o objeto na tabela
         Situacao situacao = (Situacao) tblSituacoes.getValueAt(index, 0);
 
-        JanelaExecucaoPartida jsj = new JanelaExecucaoPartida();
+        JanelaExecucaoPartida jsj = new JanelaExecucaoPartida(2);
         jsj.CarregarPreviaSituacao(situacao, partidaDesenvolvimento.getAssistente());
         jsj.setVisible(true);
     }
