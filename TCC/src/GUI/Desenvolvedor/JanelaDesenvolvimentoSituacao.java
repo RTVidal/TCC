@@ -201,9 +201,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
      * @param fecharJanela
      * @return
      */
-    public boolean SalvaSituacao(boolean fecharJanela) {
+    public boolean SalvarSituacao(boolean fecharJanela) {
 
-        boolean ok = ValidaDados();
+        boolean ok = ValidarDados();
 
         if (ok) {
             
@@ -234,11 +234,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }
 
     /**
-     * Valida os campos
+     * Validação dos dados
      *
      * @return
      */
-    public boolean ValidaDados() {
+    public boolean ValidarDados() {
 
         boolean ok = true;
         String mensagem;
@@ -291,7 +291,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             }
 
             //Caso já exista situação inicial
-            if (chbSituacaoInicial.isSelected() && partidaDesenvolvimento.getSituacaoInicial() != null) {
+            if (chbSituacaoInicial.isSelected() && partidaDesenvolvimento.getSituacaoInicial() != null && !situacao.isSituacaoInicial()) {
 
                 int opcao = JOptionPane.showConfirmDialog(null, "msgJaExisteSituacaoInicial", idioma.Valor("Aviso"),
                         JOptionPane.YES_NO_OPTION);
@@ -697,7 +697,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
-        SalvaSituacao(true);
+        SalvarSituacao(true);
 
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
@@ -733,7 +733,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         //Caso esteja no modo insert, salva a situação e altera o modo para edição
         if (acao == 1) {
-            ok = SalvaSituacao(false);
+            ok = SalvarSituacao(false);
 
         }
 

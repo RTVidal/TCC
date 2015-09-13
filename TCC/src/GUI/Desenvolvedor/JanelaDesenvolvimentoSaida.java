@@ -28,7 +28,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     /**
      * Creates new form JanelaDesenvolvimentoSaida
      */
-    private final int modo;
+    private int modo;
 
     private final Partida partidaDesenvolvimento;
 
@@ -58,12 +58,16 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         saida = situacao.getSaida();
         this.modo = modo;
 
+        CarregarRecursos();
+        
+        txaFalaAssistente.setWrapStyleWord(true);
+        
         situacaoOrigem = situacao;
 
         txtSituacaoOrigem.setText(situacaoOrigem.getNome());
 
         if (modo == 1) {
-
+            
             switch (saida.getTipoSaida()) {
                 case 1:
 
@@ -87,6 +91,14 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
         PreencheListaSituacoes();
         AtualizarAcoes();
+    }
+    
+    /**
+     * Carrega os recursos da janela de acordo com o idioma selecionado
+     */
+    public final void CarregarRecursos()
+    {
+        msgSalvarSaidaHabAcoes.setText(idioma.Valor("msgSalvarSaidaHabAcoes"));
     }
 
     /**
@@ -158,6 +170,11 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     }
 
     public final void AtualizarAcoes() {
+        
+        msgSalvarSaidaHabAcoes.setVisible(modo == 1);
+        btnSalvarSaidaAcoes.setVisible(modo == 1);
+
+        
         AcoesTbModel model;
 
         if (saida.getTipoSaida() == 1) {
@@ -172,6 +189,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         tblAcoes.getColumnModel().getColumn(0).setMinWidth(0);
         tblAcoes.getColumnModel().getColumn(0).setMaxWidth(0);
         tblAcoes.getColumnModel().getColumn(0).setPreferredWidth(0);
+        
+        
 
     }
 
@@ -184,7 +203,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         jda.setVisible(true);
     }
 
-    public void SalvarSaida() {
+    public void SalvarSaida(boolean fecharJanela) {
         saida.setSituacaoOrigem(situacaoOrigem);
 
         boolean ok = ValidarDados();
@@ -204,7 +223,15 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
             janelaDevSituacao.AtualizaTabelaSaidas();
 
-            dispose();
+            if(fecharJanela)
+            {
+                dispose();
+            } else 
+            {
+                modo = 2;
+                AtualizarAcoes();
+            }
+            
         }
 
     }
@@ -366,6 +393,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         tblAcoes = new javax.swing.JTable();
         btnEditarAcao = new javax.swing.JButton();
         btnAjuda = new javax.swing.JButton();
+        msgSalvarSaidaHabAcoes = new javax.swing.JLabel();
+        btnSalvarSaidaAcoes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -502,46 +531,58 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
         btnAjuda.setText("btnAjdua");
 
+        msgSalvarSaidaHabAcoes.setText("msgSalvarSaidaHabAcoes");
+
+        btnSalvarSaidaAcoes.setText("btnSalvarSaida");
+        btnSalvarSaidaAcoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarSaidaAcoesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAjuda)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(opcaoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(opcaoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtSituacaoOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel3)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(txtSituacaoOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel4)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEditarAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(msgSalvarSaidaHabAcoes)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSalvarSaidaAcoes))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAjuda))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(opcaoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23)
@@ -552,10 +593,14 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSituacaoOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnAjuda)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(msgSalvarSaidaHabAcoes, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSalvarSaidaAcoes, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -588,7 +633,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
-        SalvarSaida();
+        SalvarSaida(true);
 
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
@@ -606,11 +651,18 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEditarAcaoActionPerformed
 
+    private void btnSalvarSaidaAcoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarSaidaAcoesActionPerformed
+        
+        SalvarSaida(false);
+        
+    }//GEN-LAST:event_btnSalvarSaidaAcoesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAjuda;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnEditarAcao;
+    private javax.swing.JButton btnSalvarSaidaAcoes;
     private javax.swing.JComboBox cbxSituacaoDestino;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -622,6 +674,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     private javax.swing.JSpinner jspValorMaximo;
     private javax.swing.JSpinner jspValorMinimo;
     private javax.swing.JLabel lblDescricao;
+    private javax.swing.JLabel msgSalvarSaidaHabAcoes;
     private javax.swing.JTabbedPane opcaoSaida;
     private javax.swing.JPanel pnlSaidaNumerica;
     private javax.swing.JPanel pnlSaidaOpcao;

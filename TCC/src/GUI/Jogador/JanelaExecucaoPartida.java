@@ -183,16 +183,19 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         model.addColumn("variavel");
         model.addColumn("valor");
-
+        
         for (Variavel v : variaveis) {
             //Adicionar na lista apenas caso a variável não seja oculta
             if (!v.isOculta()) {
                 model.addRow(new Object[]{v.getNome(), v.getValor()});
             }
         }
+        
+        //Calcula a altura da tabela de variáveis
+        int altura = variaveis.size()*16;
 
-        //tblVariaveis.setModel(model);
-        tblVariaveis.setSize(150, 100);
+        tblVariaveis.setModel(model);
+        tblVariaveis.setSize(150, altura);
         tblVariaveis.setLocation(10, 10);
 
         tblVariaveis.setModel(model);
@@ -200,6 +203,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         tblVariaveis.getColumnModel().getColumn(0).setPreferredWidth(100);
         tblVariaveis.getColumnModel().getColumn(1).setPreferredWidth(50);
 
+        tblVariaveis.revalidate();
+        
         painelPrincipal.add(tblVariaveis);
 
     }
