@@ -45,13 +45,13 @@ class MyCustomFilter extends javax.swing.filechooser.FileFilter {
  */
 public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
-    private final JFileChooser fileChooser;
+    private JFileChooser fileChooser;
     private final Situacao situacao;
     private final Partida partidaDesenvolvimento;
 
-    private Saida saida;
+    private final Saida saida;
 
-    private ControladoraIdioma idioma;
+    private final ControladoraIdioma idioma;
 
     //1. Inserir, 2. Editar
     private int acao;
@@ -76,10 +76,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         setLocationRelativeTo(jdp);
 
-        fileChooser = new javax.swing.JFileChooser();
-
-        fileChooser.setDialogTitle("Selecionar imagem");
-        fileChooser.setFileFilter(new MyCustomFilter());
+        
 
         partidaDesenvolvimento = Partida.getInstancia();
         
@@ -672,6 +669,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     private void btnSelImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelImagemActionPerformed
 
+        fileChooser = new javax.swing.JFileChooser();
+
+        fileChooser.setDialogTitle(idioma.Valor("lblSelImagem"));
+        fileChooser.setFileFilter(new MyCustomFilter());
+        
         int returnVal = fileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();

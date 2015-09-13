@@ -5,12 +5,14 @@
  */
 package GUI.Desenvolvedor;
 
+import Controle.ControladoraIdioma;
 import Modelo.Acao;
 import Modelo.Partida;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import Modelo.Variavel;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,6 +25,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     private final JanelaDesenvolvimentoPartida janelaDesenvolvimento;
     private final int modo;
     private final Variavel variavel;
+    private final ControladoraIdioma idioma;
 
     /**
      * Creates new form JanelaDesenvolvimentoVariavel
@@ -37,6 +40,8 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
 
         janelaDesenvolvimento = JanelaDesenvolvimentoPartida.getInstancia();
 
+        idioma = ControladoraIdioma.getInstancia();
+
         setLocationRelativeTo(janelaDesenvolvimento);
 
         this.variavel = variavel;
@@ -49,26 +54,63 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     }
 
     public final void CarregarVariavel() {
-        txtNome.setText(variavel.getNome());
+        txtNomeVariavel.setText(variavel.getNome());
         jspValorInicial.setValue(variavel.getValorInicial());
         chbOculta.setSelected(variavel.isOculta());
     }
 
     public void SalvarVariavel() {
-        variavel.setNome(txtNome.getText());
-        variavel.setValorInicial((double) jspValorInicial.getValue());
-        variavel.setOculta(chbOculta.isSelected());
 
-        //Caso o modo seja inserir, adiciona a variável à partida
-        if (modo == 1) {
-            partidaDesenvolvimento.getVariaveis().add(variavel);
+        boolean ok = ValidarDados();
+
+        if (ok) {
+
+            variavel.setNome(txtNomeVariavel.getText());
+            variavel.setValorInicial((double) jspValorInicial.getValue());
+            variavel.setOculta(chbOculta.isSelected());
+
+            //Caso o modo seja inserir, adiciona a variável à partida
+            if (modo == 1) {
+                partidaDesenvolvimento.getVariaveis().add(variavel);
+            }
+
+            CriarAcoesVariavel();
+
+            janelaDesenvolvimento.AtualizarDados();
+
+            dispose();
+
         }
-        
-        CriarAcoesVariavel();
 
-        janelaDesenvolvimento.AtualizarDados();
+    }
 
-        dispose();
+    /**
+     * Validação dos dados
+     *
+     * @return
+     */
+    public boolean ValidarDados() {
+        boolean ok = true;
+        ArrayList<String> mensagens = new ArrayList<>();
+        String mensagem;
+
+        if (txtNomeVariavel.getText().isEmpty()) {
+            ok = false;
+            mensagem = idioma.Valor("msgNomeVariavelObrigatorio");
+
+        }
+
+        if (!ok) {
+            String mensagemJanela = "";
+
+            for (String s : mensagens) {
+                mensagemJanela += s + "\n";
+            }
+
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+        }
+
+        return ok;
     }
 
     /**
@@ -77,16 +119,15 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     public void CriarAcoesVariavel() {
         for (Situacao situacao : partidaDesenvolvimento.getSituacoes()) {
             if (situacao.getSaida().getTipoSaida() == 1) {
-                
+
                 ArrayList<SaidaOpcional> saidas = situacao.getSaida().getSaidasOpcao();
-                
-                for(SaidaOpcional saida : saidas)
-                {
+
+                for (SaidaOpcional saida : saidas) {
                     Acao acao = new Acao();
                     acao.setVariavel(variavel);
                     acao.setNumero(0);
                     acao.setOperacao(0);
-                    
+
                     saida.getAcoes().add(acao);
                 }
 
@@ -111,7 +152,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
         chbOculta = new javax.swing.JCheckBox();
         btnCancelar = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
-        txtNome = new javax.swing.JTextField();
+        txtNomeVariavel = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jspValorInicial = new javax.swing.JSpinner();
 
@@ -137,9 +178,9 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
             }
         });
 
-        txtNome.addActionListener(new java.awt.event.ActionListener() {
+        txtNomeVariavel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeActionPerformed(evt);
+                txtNomeVariavelActionPerformed(evt);
             }
         });
 
@@ -171,7 +212,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
                                     .addComponent(jLabel1))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNomeVariavel, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jspValorInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
@@ -182,7 +223,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNomeVariavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -207,9 +248,9 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
+    private void txtNomeVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeVariavelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeActionPerformed
+    }//GEN-LAST:event_txtNomeVariavelActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
@@ -225,6 +266,6 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JSpinner jspValorInicial;
-    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtNomeVariavel;
     // End of variables declaration//GEN-END:variables
 }

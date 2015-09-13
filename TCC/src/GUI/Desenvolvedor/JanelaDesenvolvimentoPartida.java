@@ -194,6 +194,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
             //Recuperar o item selecionado
             int index = tblSituacoes.getSelectedRow();
+            ArrayList<Integer> itensRemover = new ArrayList<>();
+
+            int cont;
 
             //Recupera o objeto na tabela
             Situacao situacao = (Situacao) tblSituacoes.getValueAt(index, 0);
@@ -201,29 +204,47 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             //Excluir todas as saídas que tem a situação como destino
             for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
                 Saida saida = s.getSaida();
-                
+
                 switch (saida.getTipoSaida()) {
-                    
+
                     case 0:
                         //Não há saídas, não faz nada
                         break;
-                        
+
                     case 1:
                         ArrayList<SaidaOpcional> saidasO = saida.getSaidasOpcao();
+
+                        cont = 0;
                         for (SaidaOpcional so : saidasO) {
                             if (so.getSituacaoDestino() == situacao) {
-                                saidasO.remove(so);
+                                itensRemover.add(cont);
                             }
+                            cont++;
                         }
+
+                        for (int i : itensRemover) {
+                            saidasO.remove(i);
+                        }
+                        itensRemover.clear();
                         break;
-                        
+
                     case 2:
+
                         ArrayList<SaidaNumerica> saidasN = saida.getSaidasNumerica();
+
+                        cont = 0;
                         for (SaidaNumerica sn : saidasN) {
                             if (sn.getSituacaoDestino() == situacao) {
-                                saidasN.remove(sn);
+                                itensRemover.add(cont);
                             }
+                            cont++;
                         }
+
+                        for (int i : itensRemover) {
+                            saidasN.remove(i);
+                        }
+                        itensRemover.clear();
+
                         break;
                 }
             }
@@ -340,7 +361,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      * Excluir variável
      */
     public void ExcluirVariavel() {
+
         boolean continuar = false;
+        ArrayList<Integer> itensRemover = new ArrayList<>();
+        int cont;
 
         String mensagem = idioma.Valor("msgExclusaoVariavel");
         int opcao = JOptionPane.showConfirmDialog(null, mensagem, "Aviso", JOptionPane.YES_NO_OPTION);
@@ -358,52 +382,79 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
             //Recupera o objeto na tabela
             Variavel variavel = (Variavel) tblVariaveis.getValueAt(index, 0);
-            
+
             //Excluir todas as ações relacionadas à variável
             for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
                 Saida saida = s.getSaida();
-                
+
                 switch (saida.getTipoSaida()) {
-                    
+
                     case 0:
                         //Não há saídas, não faz nada
                         break;
-                        
+
                     case 1:
+
                         ArrayList<SaidaOpcional> saidasO = saida.getSaidasOpcao();
+
                         for (SaidaOpcional so : saidasO) {
-                            for(Acao a : so.getAcoes())
-                            {
-                                if(a.getVariavel() == variavel)
-                                {
-                                    so.getAcoes().remove(a);
+
+                            cont = 0;
+                            for (Acao a : so.getAcoes()) {
+
+                                if (a.getVariavel() == variavel) {
+                                    itensRemover.add(cont);
+
                                 }
+                                cont++;
                             }
+                            for (int i : itensRemover) {
+                                so.getAcoes().remove(i);
+                            }
+                            itensRemover.clear();
+
                         }
+
                         break;
-                        
+
                     case 2:
+
                         ArrayList<SaidaNumerica> saidasN = saida.getSaidasNumerica();
+
                         for (SaidaNumerica sn : saidasN) {
-                            for(Acao a : sn.getAcoes())
-                            {
-                                if(a.getVariavel() == variavel)
-                                {
-                                    sn.getAcoes().remove(a);
+
+                            cont = 0;
+                            for (Acao a : sn.getAcoes()) {
+
+                                if (a.getVariavel() == variavel) {
+                                    itensRemover.add(cont);
                                 }
+                                cont++;
                             }
+
+                            for (int i : itensRemover) {
+                                sn.getAcoes().remove(i);
+                            }
+                            itensRemover.clear();
+
                         }
                         break;
                 }
             }
-            
+
             //Excluir todas as avaliações envolvendo a variável
-            for(Avaliacao a : partidaDesenvolvimento.getAvaliacoes())
-            {
-                if(a.getVariavel() == variavel)
-                {
-                    partidaDesenvolvimento.getAvaliacoes().remove(a);
+            cont = 0;
+            for (Avaliacao a : partidaDesenvolvimento.getAvaliacoes()) {
+                if (a.getVariavel() == variavel) {
+                    itensRemover.add(cont);
+                    
                 }
+                cont++;
+            }
+            
+            for(int i : itensRemover)
+            {
+                partidaDesenvolvimento.getAvaliacoes().remove(i);
             }
 
             partidaDesenvolvimento.getVariaveis().remove(variavel);

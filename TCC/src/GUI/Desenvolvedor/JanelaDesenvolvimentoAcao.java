@@ -7,7 +7,9 @@ package GUI.Desenvolvedor;
 
 import Controle.ControladoraIdioma;
 import Modelo.Acao;
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,7 +28,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
      * @param acao
      */
     public JanelaDesenvolvimentoAcao(JanelaDesenvolvimentoSaida janelaDevSaida, Acao acao) {
-        
+
         initComponents();
         setLocationRelativeTo(janelaDevSaida);
 
@@ -59,16 +61,54 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
     }
 
     public void SalvarAcao() {
-        acao.setNumero((double) jspValor.getValue());
 
-        int operacao = cbxOperacao.getSelectedIndex();
-        System.out.println("operacao " + operacao);
+        boolean ok = ValidarDados();
 
-        acao.setOperacao(operacao);
+        if (ok) {
+            acao.setNumero((double) jspValor.getValue());
 
-        janelaDevSaida.AtualizarAcoes();
+            int operacao = cbxOperacao.getSelectedIndex();
+            System.out.println("operacao " + operacao);
 
-        dispose();
+            acao.setOperacao(operacao);
+
+            janelaDevSaida.AtualizarAcoes();
+
+            dispose();
+        }
+
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public boolean ValidarDados()
+    {
+        boolean ok = true;
+        ArrayList<String> mensagens = new ArrayList<>();
+        String mensagem;
+        
+        double valor = (double)jspValor.getValue();
+        String operacao = (String)cbxOperacao.getSelectedItem();
+        if(cbxOperacao.getSelectedItem().equals(idioma.Valor("lblDividir")) && valor == 0)
+        {
+            ok = false;
+            mensagem = idioma.Valor("msgDivisaoZero");
+            mensagens.add(mensagem);
+        }
+        
+        if(!ok)
+        {
+            String mensagemJanela = "";
+
+            for (String s : mensagens) {
+                mensagemJanela += s + "\n";
+            }
+
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+        }
+        return ok;
     }
 
     /**
