@@ -33,21 +33,6 @@ public class Partida implements Serializable{
         
     }
     
-    public Partida ObterCopia()
-    {
-        Partida copia = new Partida();
-        
-        copia.setAssistente(this.getAssistente());
-        copia.setAvaliacoes(this.getAvaliacoes());
-        copia.setIdioma(this.getIdioma());
-        copia.setNomeArquivo(this.getNomeArquivo());
-        copia.setSituacaoInicial(this.getSituacaoInicial());
-        copia.setSituacoes(this.getSituacoes());
-        copia.setVariaveis(this.getVariaveis());
-        
-        return copia;
-    }
-    
     public Situacao getSituacaoInicial() {
         return situacaoInicial;
     }
