@@ -183,16 +183,16 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         model.addColumn("variavel");
         model.addColumn("valor");
-        
+
         for (Variavel v : variaveis) {
             //Adicionar na lista apenas caso a variável não seja oculta
             if (!v.isOculta()) {
                 model.addRow(new Object[]{v.getNome(), v.getValor()});
             }
         }
-        
+
         //Calcula a altura da tabela de variáveis
-        int altura = variaveis.size()*16;
+        int altura = variaveis.size() * 16;
 
         tblVariaveis.setModel(model);
         tblVariaveis.setSize(150, altura);
@@ -204,7 +204,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         tblVariaveis.getColumnModel().getColumn(1).setPreferredWidth(50);
 
         tblVariaveis.revalidate();
-        
+
         painelPrincipal.add(tblVariaveis);
 
     }
@@ -226,8 +226,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         //Exibe o texto do balão
         textoBalao = new JTextArea();
 
-        textoBalao.setSize(660, 230);
-        textoBalao.setLocation(50, 50);
+        textoBalao.setLocation(245, 185);
         textoBalao.setEditable(false);
         textoBalao.setAutoscrolls(true);
         textoBalao.setDragEnabled(false);
@@ -236,18 +235,45 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         textoBalao.setWrapStyleWord(true);
         textoBalao.setForeground(Color.black);
 
-        //Adiciona o texto ao balão
-        imgBalao.add(textoBalao);
+        textoBalao.setOpaque(true);
 
+        //Adiciona o texto ao balão
+        //imgBalao.add(textoBalao);
         //Adiciona o balao à imagem de fundo
-        painelPrincipal.add(imgBalao);
+        //painelPrincipal.add(imgBalao);
+        painelPrincipal.add(textoBalao);
 
         textoBalao.repaint();
         imgBalao.repaint();
     }
 
     public void CarregaFalaAssistente(String texto) {
+
         textoBalao.setText(texto);
+
+        int caracteres = texto.length();
+        
+        //50 caracteres por linha
+        int altura = (caracteres/50)*16;
+        
+        if(altura < 16)
+        {
+            altura = 22;
+        }
+        
+        textoBalao.setSize(600, altura);
+
+        //int altura = linhas * 17;
+
+        //textoBalao.setSize(660, 230);
+        //textoBalao.setSize(660, altura);
+        
+        //int linhasquebradas = textoBalao.get
+        System.out.println("linhas quebradas " + textoBalao.getPreferredSize());
+        
+        
+        //textoBalao.setSize(textoBalao.getPreferredSize());
+        
     }
 
     /**
@@ -337,7 +363,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.repaint();
 
         if (modo == 1) {
-            
+
             btn = new JButton(idioma.Valor("lblJogarNovamente"));
 
             btn.addActionListener((java.awt.event.ActionEvent e) -> {
@@ -352,7 +378,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
             painelBotoes.add(btn);
             btn.repaint();
-            
+
         }
 
     }
