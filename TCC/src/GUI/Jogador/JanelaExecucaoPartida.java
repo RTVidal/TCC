@@ -86,7 +86,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         CarregaAssistente();
         CarregarTabelaVariaveis();
-        CarregaBalaoAssistente();
         CarregaPainelSaida();
 
     }
@@ -209,71 +208,86 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     }
 
-    /**
-     * Adiciona texto ao balão
-     *
-     */
-    public void CarregaBalaoAssistente() {
-        //Obtem a imagem do balão
+    public void CarregaFalaAssistente(String texto) {
+
+        if (imgBalao != null)
+        {
+            painelPrincipal.remove(imgBalao);
+        }
+        
         imagemBalao = new ImageIcon("./Recursos/balao.gif");
-
-        //Exibe o balão
+                
         imgBalao = new PainelImagem(imagemBalao.getImage());
-
-        imgBalao.setLocation(245, 185);
-        imgBalao.setLayout(null);
+        
 
         //Exibe o texto do balão
         textoBalao = new JTextArea();
 
-        textoBalao.setLocation(245, 185);
+        textoBalao.setLocation(30, 30);
         textoBalao.setEditable(false);
-        textoBalao.setAutoscrolls(true);
         textoBalao.setDragEnabled(false);
         textoBalao.setFont(new Font("Serif", Font.ITALIC, 16));
         textoBalao.setLineWrap(true);
         textoBalao.setWrapStyleWord(true);
         textoBalao.setForeground(Color.black);
 
-        textoBalao.setOpaque(true);
-
-        //Adiciona o texto ao balão
-        //imgBalao.add(textoBalao);
-        //Adiciona o balao à imagem de fundo
-        //painelPrincipal.add(imgBalao);
-        painelPrincipal.add(textoBalao);
-
-        textoBalao.repaint();
-        imgBalao.repaint();
-    }
-
-    public void CarregaFalaAssistente(String texto) {
-
+        textoBalao.setOpaque(false);
+   
+        
         textoBalao.setText(texto);
 
         int caracteres = texto.length();
+
+        //80 caracteres por linha
+        int altura = (caracteres / 80) * 16;
         
-        //50 caracteres por linha
-        int altura = (caracteres/50)*16;
-        
-        if(altura < 16)
-        {
+        int largura = 600; //Largura máxima
+
+        if (altura < 16) {
             altura = 22;
+            largura = caracteres*10;
         }
-        
-        textoBalao.setSize(600, altura);
 
-        //int altura = linhas * 17;
+        textoBalao.setSize(largura, altura);
+        
+        ImageIcon imgRedimensionada = imagemBalao;
+        
+        int alturaTexto = textoBalao.getHeight();
+        int larguraTexto = textoBalao.getWidth();
+        
+        int yAvatar = imgAvatar.getY() + 40;
+        int xAvatar = imgAvatar.getX() + 300;
+                
+        imgRedimensionada.setImage(imgRedimensionada.getImage().getScaledInstance(larguraTexto + 80, alturaTexto + 80, 300));
+                
+        imgBalao = new PainelImagem(imgRedimensionada.getImage());
+        
+        //Posicionar o balão sempre acima do avatar e mais a direita possível
+        int yBalao = yAvatar - imgBalao.getHeight();
+        int xBalao;
+        
+        //Se a largura for menor do que o máximo (600), posicionar o balão acima do avatar
+        if(largura < 600)
+        {
+            //Gerar o final do balão sempre rente a 2/3 do tamanho do avatar
+            xBalao = (imgAvatar.getX() + (2*(imgAvatar.getWidth()/3))) - imgBalao.getWidth();
+            
+        } else {
+            
+            xBalao = xAvatar - imgBalao.getWidth();
+            
+        }        
+        
+        imgBalao.setLocation(xBalao, yBalao);
+        imgBalao.setLayout(null);
+                
+        imgBalao.add(textoBalao);
+                
+        painelPrincipal.add(imgBalao);
+                
+        imgBalao.repaint();
+        textoBalao.repaint();
 
-        //textoBalao.setSize(660, 230);
-        //textoBalao.setSize(660, altura);
-        
-        //int linhasquebradas = textoBalao.get
-        System.out.println("linhas quebradas " + textoBalao.getPreferredSize());
-        
-        
-        //textoBalao.setSize(textoBalao.getPreferredSize());
-        
     }
 
     /**
