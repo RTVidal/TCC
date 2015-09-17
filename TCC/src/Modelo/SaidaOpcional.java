@@ -21,6 +21,8 @@ public class SaidaOpcional implements Serializable{
     private String falaAssistente;
     
     private Situacao situacaoDestino;
+    
+    private boolean podeDesistir;
 
     public SaidaOpcional()
     {
@@ -60,5 +62,13 @@ public class SaidaOpcional implements Serializable{
 
     public void setSituacaoDestino(Situacao situacaoDestino) {
         this.situacaoDestino = situacaoDestino;
+    }
+
+    public boolean isPodeDesistir() {
+        return podeDesistir;
+    }
+
+    public void setPodeDesistir(boolean podeDesistir) {
+        this.podeDesistir = podeDesistir;
     }
 }

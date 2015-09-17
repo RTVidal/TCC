@@ -117,6 +117,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 txtDescricaoSO.setText(saidaOpcao.getNome());
 
                 opcaoSaida.setSelectedComponent(pnlSaidaOpcao);
+                
+                chbPodeDesistir.setSelected(saidaOpcao.isPodeDesistir());
 
                 break;
             case 2:
@@ -129,6 +131,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 txaFalaAssistente.setText(saidaNumerica.getFalaAssistente());
 
                 opcaoSaida.setSelectedComponent(pnlSaidaNumerica);
+                
+                chbPodeDesistir.setSelected(saidaNumerica.isPodeDesistir());
 
                 break;
         }
@@ -332,6 +336,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         saidaOpcao.setFalaAssistente(txaFalaAssistente.getText());
         saidaOpcao.setNome(txtDescricaoSO.getText());
         saidaOpcao.setSituacaoDestino(situacaoDestino);
+        saidaOpcao.setPodeDesistir(chbPodeDesistir.isSelected());
 
         if (modo == 1) {
 
@@ -345,6 +350,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
         saidaNumerica.setFalaAssistente(txaFalaAssistente.getText());
         saidaNumerica.setSituacaoDestino(situacaoDestino);
+        saidaNumerica.setPodeDesistir(chbPodeDesistir.isSelected());
 
         Faixa faixa = new Faixa();
         faixa.setLimiteInferior((Integer) jspValorMinimo.getValue());
@@ -410,6 +416,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         btnAjuda = new javax.swing.JButton();
         msgSalvarSaidaHabAcoes = new javax.swing.JLabel();
         btnSalvarSaidaAcoes = new javax.swing.JButton();
+        chbPodeDesistir = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -555,6 +562,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
             }
         });
 
+        chbPodeDesistir.setText("lblPodeDesistir");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -574,9 +583,11 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel4)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(chbPodeDesistir)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -621,11 +632,13 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                     .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(btnEditarAcao))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chbPodeDesistir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmar)
                     .addComponent(btnCancelar))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -679,6 +692,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     private javax.swing.JButton btnEditarAcao;
     private javax.swing.JButton btnSalvarSaidaAcoes;
     private javax.swing.JComboBox cbxSituacaoDestino;
+    private javax.swing.JCheckBox chbPodeDesistir;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;

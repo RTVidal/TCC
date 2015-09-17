@@ -7,6 +7,7 @@ package Controle;
 
 import GUI.Jogador.JanelaExecucaoPartida;
 import Modelo.Partida;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,7 +22,9 @@ public class ControladoraExecucao {
     private static ControladoraExecucao instancia;
 
     public ControladoraExecucao() {
+        
         partida = Partida.getInstancia();
+
     }
 
     /**
@@ -37,15 +40,6 @@ public class ControladoraExecucao {
 
         //Apresenta-se para a janela do jogo
         jsj.setControladora(this);
-        
-//        System.out.println("variaveis " + partida.getVariaveis().size());
-//        for (Variavel v : partida.getVariaveis())
-//        {
-//            System.out.println(v.getNome());
-//        }
-        
-//        //Carrega a lista de variáveis
-//        jsj.setVariaveis(partida.getVariaveis());
 
         //Carrega a situação inicial
         jsj.CarregaSituacao(partida.getSituacaoInicial(), 1);
@@ -56,13 +50,12 @@ public class ControladoraExecucao {
      *
      */
     public void IniciarJogo() {
-        
+
         jsj.CarregaSituacao(partida.getSituacaoInicial(), 2);
 
     }
-    
-    //public void Carregar
 
+    //public void Carregar
     public static ControladoraExecucao getInstancia() {
         return instancia;
     }

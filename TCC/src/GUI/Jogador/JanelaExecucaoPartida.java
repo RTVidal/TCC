@@ -91,14 +91,13 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }
 
     public void RecarregarComponentes() {
-        
+
         tblVariaveis.repaint();
         textoBalao.repaint();
         imgBalao.repaint();
         imgFundo.repaint();
         painelPrincipal.repaint();
-        
-        
+
     }
 
     public void CarregaImagemFundo(Situacao situacao) {
@@ -209,18 +208,17 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }
 
     public void CarregaFalaAssistente(String texto) {
-        
+
         System.out.println("Carregou " + texto);
-        
-        if (imgBalao != null)
-        {
+
+        if (imgBalao != null) {
             painelPrincipal.remove(imgBalao);
         }
-        
+
         imagemBalao = new ImageIcon("./Recursos/balao.gif");
-                
+
         imgBalao = new PainelImagem(imagemBalao.getImage());
-        
+
         //Exibe o texto do balão
         textoBalao = new JTextArea();
 
@@ -231,65 +229,62 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         textoBalao.setLineWrap(true);
         textoBalao.setWrapStyleWord(true);
         textoBalao.setForeground(Color.black);
-        
+
         textoBalao.setText(texto);
 
         int caracteres = texto.length();
 
         //80 caracteres por linha
         int altura = (caracteres / 80) * 16;
-        
+
         int largura = 600; //Largura máxima
 
         if (altura < 16) {
             altura = 22;
-            largura = caracteres*10;
+            largura = caracteres * 10;
         }
 
         textoBalao.setSize(largura, altura);
-        
+
         ImageIcon imgRedimensionada = imagemBalao;
-        
+
         int alturaTexto = textoBalao.getHeight();
         int larguraTexto = textoBalao.getWidth();
-        
+
         int yAvatar = imgAvatar.getY() + 40;
         int xAvatar = imgAvatar.getX() + 300;
-                
+
         imgRedimensionada.setImage(imgRedimensionada.getImage().getScaledInstance(larguraTexto + 80, alturaTexto + 80, 300));
-                
+
         imgBalao = new PainelImagem(imgRedimensionada.getImage());
-        
+
         //Posicionar o balão sempre acima do avatar e mais a direita possível
         int yBalao = yAvatar - imgBalao.getHeight();
         int xBalao;
-        
+
         //Se a largura for menor do que o máximo (600), posicionar o balão acima do avatar
-        if(largura < 600)
-        {
+        if (largura < 600) {
             //Gerar o final do balão sempre rente a 2/3 do tamanho do avatar
-            xBalao = (imgAvatar.getX() + (2*(imgAvatar.getWidth()/3))) - imgBalao.getWidth();
-            
+            xBalao = (imgAvatar.getX() + (2 * (imgAvatar.getWidth() / 3))) - imgBalao.getWidth();
+
         } else {
-            
+
             xBalao = xAvatar - imgBalao.getWidth();
-            
-        }        
-        
+
+        }
+
         imgBalao.setLocation(xBalao, yBalao);
         imgBalao.setLayout(null);
-                
+
         imgBalao.add(textoBalao);
-                
+
         painelPrincipal.add(imgBalao);
-        
+
         //O balão precisa ser adicionado antes da imagem de fundo para ser exibido
-        if(imgFundo != null)
-        {
+        if (imgFundo != null) {
             painelPrincipal.remove(imgFundo);
             painelPrincipal.add(imgFundo);
         }
-        
 
     }
 
@@ -397,13 +392,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             btn.repaint();
 
         }
-        
-        //RecarregarComponentes();
 
+        //RecarregarComponentes();
     }
 
     public void GerarSaidaAvaliacao(Avaliacao avaliacao, int index) {
-                
+
         //Exibe a avaliação apenas caso o valor da variável esteja dentro do range da avaliação
         if (avaliacao.getVariavel().getValor() >= avaliacao.getValorInicial()
                 && avaliacao.getVariavel().getValor() <= avaliacao.getValorFinal()) {
@@ -434,9 +428,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 btn.repaint();
 
             }
-            
-            if(index > -1)
-            {
+
+            if (index > -1) {
                 CarregaFalaAssistente(avaliacao.getTexto());
             }
 
@@ -455,7 +448,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
             }
         }
-        
+
         RecarregarComponentes();
 
     }
@@ -548,34 +541,64 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     }
 
-    public void GerarSaidaSituacao(Object saida, Situacao situacaoDestino) {
+    public void GerarSaidaSituacao(Object saida, Situacao situacaoDestino, int tipoSaida) {
 
-        painelBotoes.removeAll();
+        boolean temFalaAssistente;
+        boolean podeDesistir;
 
-        painelBotoes.revalidate();
+        if (tipoSaida == 1) {
 
-        btn = new JButton(idioma.Valor("btnVoltar"));
-        btn.setLocation(0, 0);
-        btn.setSize(20, 30);
-        btn.addActionListener((java.awt.event.ActionEvent e) -> {
+            SaidaOpcional saidaO = (SaidaOpcional) saida;
+            temFalaAssistente = !(saidaO.getFalaAssistente().isEmpty());
+            podeDesistir = saidaO.isPodeDesistir();
 
-            //Carrega novamente a situação
-            CarregaSituacao(situacao, 2);
-        });
-        painelBotoes.add(btn);
+        } else {
 
-        btn = new JButton(idioma.Valor("btnContinuar"));
-        btn.setLocation(0, 0);
-        btn.setSize(20, 30);
-        btn.addActionListener((java.awt.event.ActionEvent e) -> {
+            SaidaNumerica saidaN = (SaidaNumerica) saida;
+            temFalaAssistente = !(saidaN.getFalaAssistente().isEmpty());
+            podeDesistir = saidaN.isPodeDesistir();
 
+        }
+
+        //Caso o assistente não tenha fala, executa as ações da saída e vai direto para a próxima situação
+        if (temFalaAssistente) {
+
+            painelBotoes.removeAll();
+
+            painelBotoes.revalidate();
+
+            //Gerar o botão de voltar apenas se for possível desistir
+            if (podeDesistir) {
+
+                btn = new JButton(idioma.Valor("btnPrecisoPensarMelhor"));
+                btn.setLocation(0, 0);
+                btn.setSize(20, 30);
+                btn.addActionListener((java.awt.event.ActionEvent e) -> {
+
+                    //Carrega novamente a situação
+                    CarregaSituacao(situacao, 2);
+                });
+                painelBotoes.add(btn);
+            }
+
+            btn = new JButton(idioma.Valor("btnVamosLa"));
+            btn.setLocation(0, 0);
+            btn.setSize(20, 30);
+            btn.addActionListener((java.awt.event.ActionEvent e) -> {
+
+                ExecutarAcoesSaida(saida);
+
+                //Carrega a situação seguinte
+                CarregaSituacao(situacaoDestino, 2);
+            });
+            painelBotoes.add(btn);
+            
+        } else {
+            
             ExecutarAcoesSaida(saida);
-
-            //Carrega a situação seguinte
             CarregaSituacao(situacaoDestino, 2);
-        });
-        painelBotoes.add(btn);
-
+            
+        }
     }
 
     public void TratarSaidaNumerica(ArrayList<SaidaNumerica> saidas) {
@@ -599,13 +622,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             SaidaOpcional saidaOpcional = (SaidaOpcional) saida;
             CarregaFalaAssistente(saidaOpcional.getFalaAssistente());
 
-            GerarSaidaSituacao(saida, saidaOpcional.getSituacaoDestino());
+            GerarSaidaSituacao(saida, saidaOpcional.getSituacaoDestino(), tipoSaida);
         } else {
             //Saída numérica
         }
-        
-        //RecarregarComponentes();
 
+        //RecarregarComponentes();
     }
 
     public void ExecutarAcoesSaida(Object saida) {

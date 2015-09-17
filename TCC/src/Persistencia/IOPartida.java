@@ -5,17 +5,15 @@
  */
 package Persistencia;
 
+import Controle.ControladoraIdioma;
 import Modelo.Partida;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 /**
@@ -25,14 +23,18 @@ import javax.swing.filechooser.FileFilter;
 public class IOPartida {
 
     private final Partida partidaDesenvolvimento;
+    private final ControladoraIdioma idioma;
 
     public IOPartida() {
+
         partidaDesenvolvimento = Partida.getInstancia();
+        idioma = ControladoraIdioma.getInstancia();
+
     }
 
     public void SalvaPartida(String diretorio) {
         try {
-            String finalNome = diretorio.substring(diretorio.length()-4, diretorio.length());
+            String finalNome = diretorio.substring(diretorio.length() - 4, diretorio.length());
             FileOutputStream arquivoGrav;
             if (finalNome.equalsIgnoreCase(".tcc")) {
                 arquivoGrav = new FileOutputStream(diretorio, true);
@@ -56,7 +58,7 @@ public class IOPartida {
 
         try {
 
-            String diretorio = "";
+            String diretorio;
 
             JFileChooser jFileChooser = new JFileChooser();
 
@@ -106,17 +108,17 @@ public class IOPartida {
                 //outra opcao
                 return null;
             }
+            
+            return partida;
 
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return partida;
+
+            String mensagem = idioma.Valor("msgErroAoAbrirArquivo") + ": " + e.getMessage();
+            JOptionPane.showMessageDialog(null, mensagem, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+
+            return null;
+
+        }        
     }
 
-    public static byte[] imageToByteArray(BufferedImage image) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, "png", baos);
-        return baos.toByteArray();
-    }
 }

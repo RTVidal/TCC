@@ -21,6 +21,8 @@ public class SaidaNumerica implements Serializable{
     private Situacao situacaoDestino;
     
     private ArrayList<Acao> acoes;
+    
+    private boolean podeDesistir;
 
     public SaidaNumerica()
     {
@@ -60,6 +62,14 @@ public class SaidaNumerica implements Serializable{
 
     public void setSituacaoDestino(Situacao situacaoDestino) {
         this.situacaoDestino = situacaoDestino;
-    }   
+    }
+
+    public boolean isPodeDesistir() {
+        return podeDesistir;
+    }
+
+    public void setPodeDesistir(boolean podeDesistir) {
+        this.podeDesistir = podeDesistir;
+    }
     
 }
