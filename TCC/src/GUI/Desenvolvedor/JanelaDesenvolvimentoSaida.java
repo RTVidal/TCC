@@ -174,29 +174,38 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         msgSalvarSaidaHabAcoes.setVisible(modo == 1);
         btnSalvarSaidaAcoes.setVisible(modo == 1);
 
+        
         AcoesTbModel model;
 
         if (saida.getTipoSaida() == 1) {
             model = new AcoesTbModel(saidaOpcao.getAcoes());
+            btnEditarAcao.setEnabled(!saidaOpcao.getAcoes().isEmpty());
+            
+            if(!saidaOpcao.getAcoes().isEmpty())
+            {
+                tblAcoes.setRowSelectionInterval(0, 0);
+            }
+            
         } else {
             model = new AcoesTbModel(saidaNumerica.getAcoes());
+            btnEditarAcao.setEnabled(!saidaOpcao.getAcoes().isEmpty());
+            
+            if(!saidaOpcao.getAcoes().isEmpty())
+            {
+                tblAcoes.setRowSelectionInterval(0, 0);
+            }
         }
-        
-        //Habilitar o botão de edição apenas caso hajam registros na tabela
-        btnEditarAcao.setEnabled(!(saidaOpcao.getAcoes().isEmpty() && saidaNumerica.getAcoes().isEmpty()));
-        
+
         tblAcoes.setModel(model);
-        
-        //Se houverem registros, selecionar a primeira linha
-        if(!(saidaOpcao.getAcoes().isEmpty() && saidaNumerica.getAcoes().isEmpty()))
-        {
-            tblAcoes.setRowSelectionInterval(0, 0);
-        }
 
         //Esconder a coluna contendo o objeto da situação
         tblAcoes.getColumnModel().getColumn(0).setMinWidth(0);
         tblAcoes.getColumnModel().getColumn(0).setMaxWidth(0);
         tblAcoes.getColumnModel().getColumn(0).setPreferredWidth(0);
+        
+        
+        
+        
 
     }
 

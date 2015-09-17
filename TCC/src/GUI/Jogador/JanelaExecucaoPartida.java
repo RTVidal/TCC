@@ -91,13 +91,14 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }
 
     public void RecarregarComponentes() {
-
+        
         tblVariaveis.repaint();
         textoBalao.repaint();
         imgBalao.repaint();
         imgFundo.repaint();
         painelPrincipal.repaint();
-
+        
+        
     }
 
     public void CarregaImagemFundo(Situacao situacao) {
@@ -109,7 +110,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         //Ajusta o tamanho da tela
         painelPrincipal.setSize(1024, 768);
         painelPrincipal.setOpaque(false);
-        painelPrincipal.repaint();
 
         //Caso não haja imagem de fundo, adiciona uma imagem genérica
         if (situacao.getFundoSituacao().getDescription().equals("")) {
@@ -209,7 +209,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }
 
     public void CarregaFalaAssistente(String texto) {
-
+        
+        System.out.println("Carregou " + texto);
+        
         if (imgBalao != null)
         {
             painelPrincipal.remove(imgBalao);
@@ -219,7 +221,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 
         imgBalao = new PainelImagem(imagemBalao.getImage());
         
-
         //Exibe o texto do balão
         textoBalao = new JTextArea();
 
@@ -230,9 +231,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         textoBalao.setLineWrap(true);
         textoBalao.setWrapStyleWord(true);
         textoBalao.setForeground(Color.black);
-
-        textoBalao.setOpaque(false);
-   
         
         textoBalao.setText(texto);
 
@@ -284,9 +282,14 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         imgBalao.add(textoBalao);
                 
         painelPrincipal.add(imgBalao);
-                
-        imgBalao.repaint();
-        textoBalao.repaint();
+        
+        //O balão precisa ser adicionado antes da imagem de fundo para ser exibido
+        if(imgFundo != null)
+        {
+            painelPrincipal.remove(imgFundo);
+            painelPrincipal.add(imgFundo);
+        }
+        
 
     }
 
@@ -333,7 +336,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             if (partida.getAvaliacoes().isEmpty()) {
                 GerarSaidaFinal();
             } else {
-                GerarSaidaAvaliacao(partida.getAvaliacoes().get(0), 0);
+                GerarSaidaAvaliacao(partida.getAvaliacoes().get(0), -1);
             }
 
         }
@@ -394,11 +397,13 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             btn.repaint();
 
         }
+        
+        //RecarregarComponentes();
 
     }
 
     public void GerarSaidaAvaliacao(Avaliacao avaliacao, int index) {
-
+                
         //Exibe a avaliação apenas caso o valor da variável esteja dentro do range da avaliação
         if (avaliacao.getVariavel().getValor() >= avaliacao.getValorInicial()
                 && avaliacao.getVariavel().getValor() <= avaliacao.getValorFinal()) {
@@ -429,10 +434,11 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 btn.repaint();
 
             }
-
-            RecarregarComponentes();
-
-            CarregaFalaAssistente(avaliacao.getTexto());
+            
+            if(index > -1)
+            {
+                CarregaFalaAssistente(avaliacao.getTexto());
+            }
 
         } else {
 
@@ -449,6 +455,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
             }
         }
+        
+        RecarregarComponentes();
 
     }
 
@@ -592,7 +600,11 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             CarregaFalaAssistente(saidaOpcional.getFalaAssistente());
 
             GerarSaidaSituacao(saida, saidaOpcional.getSituacaoDestino());
+        } else {
+            //Saída numérica
         }
+        
+        //RecarregarComponentes();
 
     }
 
