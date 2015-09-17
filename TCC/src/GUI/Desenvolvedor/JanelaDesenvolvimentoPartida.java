@@ -99,6 +99,16 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Habilitar o botão de editar e excluir apenas quando houverem registros na lista
         btnEditarSituacao.setEnabled(!partidaDesenvolvimento.getSituacoes().isEmpty());
         btnExcluirSituacao.setEnabled(!partidaDesenvolvimento.getSituacoes().isEmpty());
+            
+            
+        if(!partidaDesenvolvimento.getSituacoes().isEmpty())
+        {
+            tblSituacoes.setRowSelectionInterval(0, 0);
+        }
+        
+        
+        
+        
 
     }
 
@@ -118,7 +128,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Habilitar o botão de editar e excluir apenas quando houverem registros na lista
         btnEditarVariavel.setEnabled(!partidaDesenvolvimento.getVariaveis().isEmpty());
         btnExcluirVariavel.setEnabled(!partidaDesenvolvimento.getVariaveis().isEmpty());
-
+        
+        //Selecionar o primeiro item
+        if(!partidaDesenvolvimento.getVariaveis().isEmpty())
+        {
+            tblVariaveis.setRowSelectionInterval(0, 0);
+        }
+        
     }
 
     /**
@@ -141,6 +157,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Habilitar o botão de nova avaliação apenas se houverem variáveis criadas
         btnNovaAvaliacao.setEnabled(!partidaDesenvolvimento.getVariaveis().isEmpty());
         btnNovaAvaliacao.setToolTipText(idioma.Valor("msgNaoHaVariaveis"));
+        
+        //Selecionar o primeiro item
+        if(!partidaDesenvolvimento.getAvaliacoes().isEmpty())
+        {
+            tblAvaliacoes.setRowSelectionInterval(0, 0);
+        }
     }
 
     /**
@@ -567,6 +589,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -897,6 +921,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jMenuItem4.setText("mniManualUtilizacao");
         jMenu3.add(jMenuItem4);
 
+        jMenuItem7.setText("mniProjetosExemploEditar");
+        jMenu3.add(jMenuItem7);
+
+        jMenuItem8.setText("mniProjetosExemploJogar");
+        jMenu3.add(jMenuItem8);
+
         jMenuItem5.setText("mniSobre");
         jMenu3.add(jMenuItem5);
 
@@ -1078,6 +1108,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;

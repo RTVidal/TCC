@@ -125,11 +125,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         //Habilitar o combobox apenas quando não houverem saídas cadastradas
         cbxTipoSaida.setEnabled(naoHaSaidas);
 
+        btnEditarSaida.setEnabled(!(saida.getSaidasOpcao().isEmpty() && saida.getSaidasNumerica().isEmpty()));
+        btnExcluirSaida.setEnabled(!(saida.getSaidasOpcao().isEmpty() && saida.getSaidasNumerica().isEmpty()));
+        
         switch (saida.getTipoSaida()) {
             case 1:
-
-                btnEditarSaida.setEnabled(!saida.getSaidasOpcao().isEmpty());
-                btnExcluirSaida.setEnabled(!saida.getSaidasOpcao().isEmpty());
 
                 SaidasOpcionaisTbModel modelSO = new SaidasOpcionaisTbModel(saida.getSaidasOpcao());
                 tblSaidas.setModel(modelSO);
@@ -137,10 +137,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
                 break;
             case 2:
-
-                btnEditarSaida.setEnabled(!saida.getSaidasNumerica().isEmpty());
-                btnExcluirSaida.setEnabled(!saida.getSaidasNumerica().isEmpty());
-
+                
                 SaidasNumericasTbModel modelSN = new SaidasNumericasTbModel(saida.getSaidasNumerica());
                 tblSaidas.setModel(modelSN);
                 cbxTipoSaida.setSelectedIndex(1);
@@ -152,6 +149,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         tblSaidas.getColumnModel().getColumn(0).setMinWidth(0);
         tblSaidas.getColumnModel().getColumn(0).setMaxWidth(0);
         tblSaidas.getColumnModel().getColumn(0).setPreferredWidth(0);
+        
+        if(!(saida.getSaidasOpcao().isEmpty() && saida.getSaidasNumerica().isEmpty()))
+        {
+            tblSaidas.setRowSelectionInterval(0, 0);
+        }
     }
 
     /**
