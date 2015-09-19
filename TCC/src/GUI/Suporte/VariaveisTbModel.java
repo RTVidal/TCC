@@ -67,7 +67,7 @@ public class VariaveisTbModel extends AbstractTableModel{
             return variaveis.get(rowIndex).getNome();
         }
         if (column == COL_VALOR) {
-            return String.valueOf(variaveis.get(rowIndex).getValor());
+            return String.valueOf(variaveis.get(rowIndex).getValorInicial());
         }
         if (column == COL_OCULTA) {
             if(variaveis.get(rowIndex).isOculta())

@@ -177,11 +177,13 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         btnSalvarSaidaAcoes.setVisible(modo == 1);
 
         AcoesTbModel model;
-
+        
         if (saida.getTipoSaida() == 1) {
             model = new AcoesTbModel(saidaOpcao.getAcoes());
             btnEditarAcao.setEnabled(!saidaOpcao.getAcoes().isEmpty());
-
+            
+            tblAcoes.setModel(model);
+            
             if (!saidaOpcao.getAcoes().isEmpty()) {
                 tblAcoes.setRowSelectionInterval(0, 0);
             }
@@ -190,12 +192,14 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
             model = new AcoesTbModel(saidaNumerica.getAcoes());
             btnEditarAcao.setEnabled(!saidaNumerica.getAcoes().isEmpty());
 
+            tblAcoes.setModel(model);
+            
             if (!saidaNumerica.getAcoes().isEmpty()) {
                 tblAcoes.setRowSelectionInterval(0, 0);
             }
         }
 
-        tblAcoes.setModel(model);
+        
 
         //Esconder a coluna contendo o objeto da situação
         tblAcoes.getColumnModel().getColumn(0).setMinWidth(0);

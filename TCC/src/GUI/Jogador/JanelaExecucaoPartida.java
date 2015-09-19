@@ -63,6 +63,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     private static JanelaExecucaoPartida instancia;
 
     private ArrayList<Variavel> variaveis;
+    
+    private ArrayList<Avaliacao> avaliacoesRealizar;
 
     private int tipoSaida;
     private final int modo;
@@ -87,6 +89,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         CarregaAssistente();
         CarregarTabelaVariaveis();
         CarregaPainelSaida();
+        ResetarVariaveis();
 
     }
 
@@ -98,6 +101,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         imgFundo.repaint();
         painelPrincipal.repaint();
 
+    }
+
+    public final void ResetarVariaveis() {
+        for (Variavel v : partida.getVariaveis()) {
+            v.setValor(v.getValorInicial());
+        }
     }
 
     public void CarregaImagemFundo(Situacao situacao) {
@@ -208,8 +217,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }
 
     public void CarregaFalaAssistente(String texto) {
-
-        System.out.println("Carregou " + texto);
 
         if (imgBalao != null) {
             painelPrincipal.remove(imgBalao);
@@ -329,9 +336,13 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         //Se não houver saídas então a situação é final
         if (naoHaSaidas) {
             if (partida.getAvaliacoes().isEmpty()) {
+                System.out.println("Não tem avaliações");
                 GerarSaidaFinal();
             } else {
-                GerarSaidaAvaliacao(partida.getAvaliacoes().get(0), -1);
+                System.out.println("Tem avaliações");
+                VerificarAvaliacoes();
+
+                //GerarSaidaAvaliacao(partida.getAvaliacoes().get(0), 0, false);
             }
 
         }
@@ -393,62 +404,68 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         }
 
-        //RecarregarComponentes();
     }
 
-    public void GerarSaidaAvaliacao(Avaliacao avaliacao, int index) {
+    public void VerificarAvaliacoes() {
+        avaliacoesRealizar = new ArrayList<>();
 
-        //Exibe a avaliação apenas caso o valor da variável esteja dentro do range da avaliação
-        if (avaliacao.getVariavel().getValor() >= avaliacao.getValorInicial()
-                && avaliacao.getVariavel().getValor() <= avaliacao.getValorFinal()) {
+        for (Avaliacao avaliacao : partida.getAvaliacoes()) {
+            
+            //Exibe a avaliação apenas caso o valor da variável esteja dentro do range da avaliação
+            if (avaliacao.getVariavel().getValor() >= avaliacao.getValorInicial()
+                    && avaliacao.getVariavel().getValor() <= avaliacao.getValorFinal()) {
 
-            //Caso seja a ultima avaliação, gera saída diferenciada
-            if (index == (partida.getAvaliacoes().size() - 1)) {
-
-                GerarSaidaFinal();
-
-            } else {
-
-                painelBotoes.removeAll();
-                painelBotoes.revalidate();
-
-                btn = new JButton(idioma.Valor("lblContemeMais"));
-
-                btn.addActionListener((java.awt.event.ActionEvent e) -> {
-
-                    int proximaAvaliacao = index + 1;
-                    GerarSaidaAvaliacao(partida.getAvaliacoes().get(proximaAvaliacao), proximaAvaliacao);
-
-                });
-
-                btn.setLocation(0, 0);
-                btn.setSize(20, 30);
-
-                painelBotoes.add(btn);
-                btn.repaint();
-
-            }
-
-            if (index > -1) {
-                CarregaFalaAssistente(avaliacao.getTexto());
-            }
-
-        } else {
-
-            //Caso seja a ultima avaliação, gera a saída final
-            if (index == (partida.getAvaliacoes().size() - 1)) {
-
-                GerarSaidaFinal();
-
-            } else {
-
-                //Gera a próxima avaliação
-                int proximaAvaliacao = index + 1;
-                GerarSaidaAvaliacao(partida.getAvaliacoes().get(proximaAvaliacao), proximaAvaliacao);
+                avaliacoesRealizar.add(avaliacao);
 
             }
         }
 
+        if (!avaliacoesRealizar.isEmpty()) {
+
+            GerarSaidaAvaliacao(avaliacoesRealizar.get(0), -1);
+
+        } else {
+
+            GerarSaidaFinal();
+
+        }
+    }
+
+    public void GerarSaidaAvaliacao(Avaliacao avaliacao, int index) {
+
+        //Caso ainda não tenha carregado avaliação, apenas cria o botão para direcionar para a primeira avaliação
+        if (index > -1) {
+            CarregaFalaAssistente(avaliacao.getTexto());
+        }
+
+        //Caso seja a ultima avaliação, gera saída diferenciada
+        if (index == (avaliacoesRealizar.size() - 1)) {
+
+            GerarSaidaFinal();
+
+        } else {
+
+            painelBotoes.removeAll();
+            painelBotoes.revalidate();
+
+            btn = new JButton(idioma.Valor("lblContemeMais"));
+
+            btn.addActionListener((java.awt.event.ActionEvent e) -> {
+
+                int proximaAvaliacao = index + 1;
+
+                GerarSaidaAvaliacao(avaliacoesRealizar.get(proximaAvaliacao), proximaAvaliacao);
+
+            });
+
+            btn.setLocation(0, 0);
+            btn.setSize(20, 30);
+
+            painelBotoes.add(btn);
+            btn.repaint();
+
+        }
+        
         RecarregarComponentes();
 
     }
@@ -532,10 +549,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         });
 
         painelBotoes.add(btn);
-        
+
         jslSaidaNumerica.repaint();
         lblValorSelecionado.repaint();
-        //btn.repaint();
 
     }
 
@@ -590,12 +606,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 CarregaSituacao(situacaoDestino, 2);
             });
             painelBotoes.add(btn);
-            
+
         } else {
-            
+
             ExecutarAcoesSaida(saida);
             CarregaSituacao(situacaoDestino, 2);
-            
+
         }
     }
 
@@ -609,7 +625,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
                 CarregarTextoSaida(2, s);
                 RecarregarComponentes();
-                
+
                 break;
             }
         }
@@ -623,12 +639,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
             GerarSaidaSituacao(saida, saidaOpcional.getSituacaoDestino(), tipoSaida);
         } else {
-            
+
             SaidaNumerica saidaNumerica = (SaidaNumerica) saida;
             CarregaFalaAssistente(saidaNumerica.getFalaAssistente());
 
             GerarSaidaSituacao(saida, saidaNumerica.getSituacaoDestino(), tipoSaida);
-            
+
         }
 
     }
@@ -679,7 +695,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             for (Acao a : SaidaNumerica.getAcoes()) {
                 switch (a.getOperacao()) {
                     case 0:
-                    //Não faz nada
+                        //Não faz nada
+                        break;
+
                     case 1: //Soma
 
                         novoValor = a.getVariavel().getValor() + a.getNumero();
