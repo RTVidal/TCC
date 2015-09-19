@@ -36,12 +36,14 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
      */
     public JanelaDesenvolvimentoVariavel(int modo, Variavel variavel) {
         initComponents();
-        CarregaIdioma();
+        
         partidaDesenvolvimento = Partida.getInstancia();
 
         janelaDesenvolvimento = JanelaDesenvolvimentoPartida.getInstancia();
 
         idioma = ControladoraIdioma.getInstancia();
+        
+        CarregaIdioma();
 
         setLocationRelativeTo(janelaDesenvolvimento);
 
@@ -54,7 +56,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
         }
     }
     
-    public void CarregaIdioma() {
+    public final void CarregaIdioma() {
         chbOculta.setText(idioma.Valor("lblOculta"));
         lblNome.setText(idioma.Valor("lblNomeVariavel"));
         lblValorInicial.setText(idioma.Valor("lblValorInicial"));
