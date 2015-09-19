@@ -68,7 +68,6 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
             acao.setNumero((double) jspValor.getValue());
 
             int operacao = cbxOperacao.getSelectedIndex();
-            System.out.println("operacao " + operacao);
 
             acao.setOperacao(operacao);
 
@@ -190,7 +189,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
                             .addComponent(txtNomeVariavel)
                             .addComponent(cbxOperacao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jspValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jspValor, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
