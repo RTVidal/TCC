@@ -47,7 +47,6 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
     public JanelaDesenvolvimentoSaida(JanelaDesenvolvimentoSituacao jds, int modo, Situacao situacao, Object saidaSelecionada) {
         initComponents();
-        //setModal(true);
         setLocationRelativeTo(jds);
 
         janelaDevSituacao = jds;
@@ -59,15 +58,15 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         this.modo = modo;
 
         CarregarRecursos();
-        
+
         txaFalaAssistente.setWrapStyleWord(true);
-        
+
         situacaoOrigem = situacao;
 
         txtSituacaoOrigem.setText(situacaoOrigem.getNome());
 
         if (modo == 1) {
-            
+
             switch (saida.getTipoSaida()) {
                 case 1:
 
@@ -92,12 +91,11 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         PreencheListaSituacoes();
         AtualizarAcoes();
     }
-    
+
     /**
      * Carrega os recursos da janela de acordo com o idioma selecionado
      */
-    public final void CarregarRecursos()
-    {
+    public final void CarregarRecursos() {
         msgSalvarSaidaHabAcoes.setText(idioma.Valor("msgSalvarSaidaHabAcoes"));
     }
 
@@ -117,7 +115,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 txtDescricaoSO.setText(saidaOpcao.getNome());
 
                 opcaoSaida.setSelectedComponent(pnlSaidaOpcao);
-                
+
                 chbPodeDesistir.setSelected(saidaOpcao.isPodeDesistir());
 
                 break;
@@ -131,7 +129,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                 txaFalaAssistente.setText(saidaNumerica.getFalaAssistente());
 
                 opcaoSaida.setSelectedComponent(pnlSaidaNumerica);
-                
+
                 chbPodeDesistir.setSelected(saidaNumerica.isPodeDesistir());
 
                 break;
@@ -174,28 +172,25 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     }
 
     public final void AtualizarAcoes() {
-        
+
         msgSalvarSaidaHabAcoes.setVisible(modo == 1);
         btnSalvarSaidaAcoes.setVisible(modo == 1);
 
-        
         AcoesTbModel model;
 
         if (saida.getTipoSaida() == 1) {
             model = new AcoesTbModel(saidaOpcao.getAcoes());
             btnEditarAcao.setEnabled(!saidaOpcao.getAcoes().isEmpty());
-            
-            if(!saidaOpcao.getAcoes().isEmpty())
-            {
+
+            if (!saidaOpcao.getAcoes().isEmpty()) {
                 tblAcoes.setRowSelectionInterval(0, 0);
             }
-            
+
         } else {
             model = new AcoesTbModel(saidaNumerica.getAcoes());
-            btnEditarAcao.setEnabled(!saidaOpcao.getAcoes().isEmpty());
-            
-            if(!saidaOpcao.getAcoes().isEmpty())
-            {
+            btnEditarAcao.setEnabled(!saidaNumerica.getAcoes().isEmpty());
+
+            if (!saidaNumerica.getAcoes().isEmpty()) {
                 tblAcoes.setRowSelectionInterval(0, 0);
             }
         }
@@ -206,10 +201,6 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         tblAcoes.getColumnModel().getColumn(0).setMinWidth(0);
         tblAcoes.getColumnModel().getColumn(0).setMaxWidth(0);
         tblAcoes.getColumnModel().getColumn(0).setPreferredWidth(0);
-        
-        
-        
-        
 
     }
 
@@ -242,15 +233,13 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
             janelaDevSituacao.AtualizaTabelaSaidas();
 
-            if(fecharJanela)
-            {
+            if (fecharJanela) {
                 dispose();
-            } else 
-            {
+            } else {
                 modo = 2;
                 AtualizarAcoes();
             }
-            
+
         }
 
     }
@@ -368,19 +357,25 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
     public void CriarAcoesSaida(int tipoSaida) {
 
-        if (tipoSaida == 1) {
-            for (Variavel variavel : partidaDesenvolvimento.getVariaveis()) {
+        Acao acao = new Acao();
+        
+        for (Variavel variavel : partidaDesenvolvimento.getVariaveis()) {
+            
+            acao.setNumero(0);
+            acao.setOperacao(0);
+            acao.setVariavel(variavel);
 
-                Acao acao = new Acao();
-                acao.setNumero(0);
-                acao.setOperacao(0);
-                acao.setVariavel(variavel);
-
-                saidaOpcao.getAcoes().add(acao);
-
-            }
         }
 
+        if (tipoSaida == 1) {
+
+            saidaOpcao.getAcoes().add(acao);
+
+        } else {
+
+            saidaNumerica.getAcoes().add(acao);
+
+        }
     }
 
     /**
@@ -680,9 +675,9 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarAcaoActionPerformed
 
     private void btnSalvarSaidaAcoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarSaidaAcoesActionPerformed
-        
+
         SalvarSaida(false);
-        
+
     }//GEN-LAST:event_btnSalvarSaidaAcoesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

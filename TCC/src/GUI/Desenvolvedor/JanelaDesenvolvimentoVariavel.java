@@ -8,6 +8,7 @@ package GUI.Desenvolvedor;
 import Controle.ControladoraIdioma;
 import Modelo.Acao;
 import Modelo.Partida;
+import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import Modelo.Variavel;
@@ -124,15 +125,15 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     }
 
     /**
-     * Pré-criar as ações para a variável em cada saída
+     * Pré-cria as ações para a variável em cada saída
      */
     public void CriarAcoesVariavel() {
         for (Situacao situacao : partidaDesenvolvimento.getSituacoes()) {
             if (situacao.getSaida().getTipoSaida() == 1) {
 
-                ArrayList<SaidaOpcional> saidas = situacao.getSaida().getSaidasOpcao();
+                ArrayList<SaidaOpcional> saidasO = situacao.getSaida().getSaidasOpcao();
 
-                for (SaidaOpcional saida : saidas) {
+                for (SaidaOpcional saida : saidasO) {
                     Acao acao = new Acao();
                     acao.setVariavel(variavel);
                     acao.setNumero(0);
@@ -142,6 +143,17 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
                 }
 
             } else {
+                
+                ArrayList<SaidaNumerica> saidasN = situacao.getSaida().getSaidasNumerica();
+
+                for (SaidaNumerica saida : saidasN) {
+                    Acao acao = new Acao();
+                    acao.setVariavel(variavel);
+                    acao.setNumero(0);
+                    acao.setOperacao(0);
+
+                    saida.getAcoes().add(acao);
+                }
 
             }
 

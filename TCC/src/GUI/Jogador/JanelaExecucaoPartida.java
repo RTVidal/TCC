@@ -461,7 +461,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     public void GerarSaidaOpcional(ArrayList<SaidaOpcional> saidas) {
 
         painelBotoes.removeAll();
-
         painelBotoes.revalidate();
 
         for (SaidaOpcional s : saidas) {
@@ -528,16 +527,15 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn = new JButton(idioma.Valor("btnConfirmar"));
         btn.setLocation(620, 600);
         btn.setSize(40, 30);
-
-        painelBotoes.add(btn);
-
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
             TratarSaidaNumerica(saidas);
         });
 
+        painelBotoes.add(btn);
+        
         jslSaidaNumerica.repaint();
         lblValorSelecionado.repaint();
-        btn.repaint();
+        //btn.repaint();
 
     }
 
@@ -609,8 +607,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
             if (valorSelecionado >= s.getFaixa().getLimiteInferior() && valorSelecionado <= s.getFaixa().getLimiteSuperior()) {
 
-                //JanelaConfirmacaoSaida jcs = new JanelaConfirmacaoSaida(s.getFalaAssistente());
-                //jcs.setVisible(true);
+                CarregarTextoSaida(2, s);
+                RecarregarComponentes();
+                
                 break;
             }
         }
@@ -624,10 +623,14 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
             GerarSaidaSituacao(saida, saidaOpcional.getSituacaoDestino(), tipoSaida);
         } else {
-            //Saída numérica
+            
+            SaidaNumerica saidaNumerica = (SaidaNumerica) saida;
+            CarregaFalaAssistente(saidaNumerica.getFalaAssistente());
+
+            GerarSaidaSituacao(saida, saidaNumerica.getSituacaoDestino(), tipoSaida);
+            
         }
 
-        //RecarregarComponentes();
     }
 
     public void ExecutarAcoesSaida(Object saida) {
