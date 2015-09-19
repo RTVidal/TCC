@@ -33,6 +33,8 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         setLocationRelativeTo(janelaDevSaida);
 
         idioma = ControladoraIdioma.getInstancia();
+        CarregaIdioma();
+        
         this.acao = acao;
         this.janelaDevSaida = janelaDevSaida;
 
@@ -40,6 +42,19 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         PreencheComboOperacoes();
     }
 
+    /**
+     * Preenche os componentes da tela de acordo com o idioma selecionado
+     */
+    public void CarregaIdioma() {
+        lblAcao.setText(idioma.Valor("lblAcao"));
+        lblValor.setText(idioma.Valor("lblValor"));
+        lblVariavel.setText(idioma.Valor("lblVariavel"));
+        btnAjuda.setText(idioma.Valor("btnAjuda"));
+        btnCancelar.setText(idioma.Valor("btnCancelar"));
+        btnConfirmar.setText(idioma.Valor("btnConfirmar"));
+        lblTitulo.setText(idioma.Valor("tituloDesenvAcao"));
+    }
+    
     public final void CarregarAcao() {
         txtNomeVariavel.setText(acao.getVariavel().getNome());
         jspValor.setToolTipText("Teste");
@@ -121,12 +136,12 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
     private void initComponents() {
 
         lblTitulo = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnAjuda = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lblVariavel = new javax.swing.JLabel();
         lblAcao = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblValor = new javax.swing.JLabel();
         txtNomeVariavel = new javax.swing.JTextField();
         cbxOperacao = new javax.swing.JComboBox();
         jspValor = new javax.swing.JSpinner();
@@ -136,10 +151,10 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTitulo.setText("lblTitulo");
 
-        jButton1.setText("bntAjuda");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAjuda.setText("bntAjuda");
+        btnAjuda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAjudaActionPerformed(evt);
             }
         });
 
@@ -152,11 +167,11 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
 
         btnCancelar.setText("btnCancelar");
 
-        jLabel1.setText("lblVariavel");
+        lblVariavel.setText("lblVariavel");
 
         lblAcao.setText("lblAcao");
 
-        jLabel3.setText("lblValor");
+        lblValor.setText("lblValor");
 
         txtNomeVariavel.setEditable(false);
 
@@ -175,7 +190,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(btnAjuda))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
@@ -183,8 +198,8 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblAcao)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))
+                            .addComponent(lblVariavel)
+                            .addComponent(lblValor))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNomeVariavel)
@@ -199,11 +214,11 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
+                    .addComponent(btnAjuda)
                     .addComponent(lblTitulo))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblVariavel)
                     .addComponent(txtNomeVariavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -211,7 +226,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
                     .addComponent(cbxOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(lblValor)
                     .addComponent(jspValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -223,9 +238,9 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjudaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAjudaActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
@@ -234,15 +249,15 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAjuda;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JComboBox cbxOperacao;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JSpinner jspValor;
     private javax.swing.JLabel lblAcao;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblValor;
+    private javax.swing.JLabel lblVariavel;
     private javax.swing.JTextField txtNomeVariavel;
     // End of variables declaration//GEN-END:variables
 }

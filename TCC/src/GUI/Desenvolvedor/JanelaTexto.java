@@ -27,6 +27,7 @@ public class JanelaTexto extends javax.swing.JDialog {
         
         txaAjuda.setText(idioma.Valor(textoAjuda));
 
+        btnOk.setText(idioma.Valor("btnOk"));
     }
 
     /**

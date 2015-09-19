@@ -43,15 +43,16 @@ public class JanelaInicial extends javax.swing.JFrame {
         idioma = ControladoraIdioma.getInstancia();
         PreencheComboIdiomas();
         idioma.DefineIdioma("Português");
-        CarregaRecursos();
+        CarregaIdioma();
     }
 
-    public final void CarregaRecursos() {
+    public final void CarregaIdioma() {
         btnAbrirJogo.setText(idioma.Valor("principalBtnAbrirJogo"));
         btnEditarJogo.setText(idioma.Valor("principalBtnEditarJogo"));
         btnNovoJogo.setText(idioma.Valor("principalBtnNovoJogo"));
         lblTituloPrincipal.setText(idioma.Valor("tituloTelaPrincipal"));
         lblIdioma.setText(idioma.Valor("principalLblIdioma"));
+        btnExemplo.setText(idioma.Valor("btnExemploInicial"));
         opcao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
         cbxIdiomas.setSelectedItem(idioma.getIdiomaAtual());
     }
@@ -74,7 +75,7 @@ public class JanelaInicial extends javax.swing.JFrame {
                         "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcao, opcao[0]);
                 if (i == 0) {
                     idioma.DefineIdioma(partidaExecutar.getIdioma());
-                    CarregaRecursos();
+                    CarregaIdioma();
                 }
             }
 
@@ -113,7 +114,7 @@ public class JanelaInicial extends javax.swing.JFrame {
                         "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcao, opcao[0]);
                 if (i == 0) {
                     idioma.DefineIdioma(partidaDesenvolvimento.getIdioma());
-                    CarregaRecursos();
+                    CarregaIdioma();
                 }
             }
             Partida.setInstancia(partidaDesenvolvimento);
@@ -138,7 +139,7 @@ public class JanelaInicial extends javax.swing.JFrame {
         btnAbrirJogo = new javax.swing.JButton();
         btnNovoJogo = new javax.swing.JButton();
         btnEditarJogo = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnExemplo = new javax.swing.JButton();
         cbxIdiomas = new javax.swing.JComboBox();
         lblIdioma = new javax.swing.JLabel();
         lblTituloPrincipal = new javax.swing.JLabel();
@@ -167,10 +168,10 @@ public class JanelaInicial extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Situação exemplo");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnExemplo.setText("Situação exemplo");
+        btnExemplo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnExemploActionPerformed(evt);
             }
         });
 
@@ -200,7 +201,7 @@ public class JanelaInicial extends javax.swing.JFrame {
                     .addComponent(btnEditarJogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNovoJogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cbxIdiomas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnExemplo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -219,7 +220,7 @@ public class JanelaInicial extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbxIdiomas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(btnExemplo)
                 .addContainerGap())
         );
 
@@ -235,7 +236,7 @@ public class JanelaInicial extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnNovoJogoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnExemploActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExemploActionPerformed
 
         try {
             //Preenche a instancia do assistente
@@ -305,7 +306,7 @@ public class JanelaInicial extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnExemploActionPerformed
 
     private void btnEditarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarJogoActionPerformed
 
@@ -315,7 +316,7 @@ public class JanelaInicial extends javax.swing.JFrame {
 
     private void cbxIdiomasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxIdiomasActionPerformed
         idioma.DefineIdioma((String) cbxIdiomas.getSelectedItem());
-        CarregaRecursos();
+        CarregaIdioma();
     }//GEN-LAST:event_cbxIdiomasActionPerformed
 
     private void btnAbrirJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirJogoActionPerformed
@@ -327,10 +328,10 @@ public class JanelaInicial extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrirJogo;
     private javax.swing.JButton btnEditarJogo;
+    private javax.swing.JButton btnExemplo;
     private javax.swing.JButton btnNovoJogo;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cbxIdiomas;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel lblIdioma;
     private javax.swing.JLabel lblTituloPrincipal;
     // End of variables declaration//GEN-END:variables

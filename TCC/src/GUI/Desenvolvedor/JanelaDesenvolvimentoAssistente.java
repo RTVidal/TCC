@@ -36,7 +36,7 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
         idioma = ControladoraIdioma.getInstancia();
 
         //aplica a internacionalização na janela
-        lblTitulo.setText(idioma.Valor("tituloAssistente"));
+        CarregaIdioma();
 
         partida = Partida.getInstancia();
         assistente = partida.getAssistente();
@@ -50,6 +50,17 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
         jdp = JanelaDesenvolvimentoPartida.getInstancia();
         setLocationRelativeTo(jdp);
         avatarSelecionado = new ImageIcon();
+    }
+
+    public void CarregaIdioma() {
+        lblApresentacao.setText(idioma.Valor("lblApresentacao"));
+        lblNomeAssistente.setText(idioma.Valor("lblNomeAssistente"));
+        lblSelecioneAvatar.setText(idioma.Valor("lblSelecioneAvatar"));
+        btnAjuda.setText(idioma.Valor("btnAjuda"));
+        btnCancelar.setText(idioma.Valor("btnCancelar"));
+        btnConfirmar.setText(idioma.Valor("btnConfirmar"));
+        lblTitulo.setText(idioma.Valor("tituloAssistente"));
+        this.setTitle(idioma.Valor("tituloAssistente"));
     }
 
     public final void CarregaAssistente() {
@@ -152,7 +163,7 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
         jButton3 = new javax.swing.JButton();
         lblNomeAssistente = new javax.swing.JLabel();
         lblApresentacao = new javax.swing.JLabel();
-        lblAvatar = new javax.swing.JLabel();
+        lblSelecioneAvatar = new javax.swing.JLabel();
         txtNomeAssistente = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaApresentacao = new javax.swing.JTextArea();
@@ -162,7 +173,7 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
         lblImgAvatar = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnAjuda = new javax.swing.JButton();
 
         jButton3.setText("jButton2");
 
@@ -174,7 +185,7 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
 
         lblApresentacao.setText("Apresentação:");
 
-        lblAvatar.setText("Selecione um Avatar:");
+        lblSelecioneAvatar.setText("Selecione um Avatar:");
 
         txtNomeAssistente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,7 +228,7 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setText("btnAjuda");
+        btnAjuda.setText("btnAjuda");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -239,7 +250,7 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnConfirmar))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblAvatar)
+                        .addComponent(lblSelecioneAvatar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -248,7 +259,7 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(btnAjuda)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -257,7 +268,7 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTitulo)
-                    .addComponent(jButton1))
+                    .addComponent(btnAjuda))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNomeAssistente)
@@ -270,7 +281,7 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAvatar)
+                    .addComponent(lblSelecioneAvatar)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblImgAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
@@ -312,16 +323,16 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAjuda;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblApresentacao;
-    private javax.swing.JLabel lblAvatar;
     private javax.swing.JLabel lblImgAvatar;
     private javax.swing.JLabel lblNomeAssistente;
+    private javax.swing.JLabel lblSelecioneAvatar;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JList lstAvatares;
     private javax.swing.JTextArea txaApresentacao;

@@ -49,7 +49,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         idioma = ControladoraIdioma.getInstancia();
 
-        PreencheComponentes();
+        CarregaIdioma();
 
         partidaDesenvolvimento = Partida.getInstancia();
         if (partidaDesenvolvimento.getNomeArquivo() != null) {
@@ -68,12 +68,14 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     /**
      * Preenche os componentes da tela de acordo com o idioma selecionado
      */
-    public final void PreencheComponentes() {
-
+    public void CarregaIdioma() {
         //Nomeia os componentes conforme o idioma selecionado
-        //Botões        
+        //Botões
         btnNovaSituacao.setText(idioma.Valor("btnNovaSituacao"));
         btnEditarAssistente.setText(idioma.Valor("btnEditarAssistente"));
+        btnAjudaAvaliacoes.setText(idioma.Valor("btnAjuda"));
+        btnAjudaSituacoes.setText(idioma.Valor("btnAjuda"));
+        btnAjudaVariaveis.setText(idioma.Valor("btnAjuda"));
     }
 
     public final void AtualizarDados() {
@@ -559,18 +561,18 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnPreviaSituacao = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSituacoes = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnAjudaSituacoes = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblVariaveis = new javax.swing.JTable();
         btnNovaVariavel = new javax.swing.JButton();
         btnEditarVariavel = new javax.swing.JButton();
         btnExcluirVariavel = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnAjudaVariaveis = new javax.swing.JButton();
         pnlParametrizador = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblAvaliacoes = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
+        btnAjudaAvaliacoes = new javax.swing.JButton();
         btnNovaAvaliacao = new javax.swing.JButton();
         btnEditarAvaliacao = new javax.swing.JButton();
         btnExcluirAvaliacao = new javax.swing.JButton();
@@ -688,7 +690,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblSituacoes);
 
-        jButton1.setText("btnAjuda");
+        btnAjudaSituacoes.setText("btnAjuda");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -698,7 +700,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton1)
+                        .addComponent(btnAjudaSituacoes)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnNovaSituacao)
@@ -714,7 +716,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(btnAjudaSituacoes)
                 .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -762,7 +764,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("btnAjuda");
+        btnAjudaVariaveis.setText("btnAjuda");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -771,7 +773,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2)
+                    .addComponent(btnAjudaVariaveis)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel2Layout.createSequentialGroup()
@@ -786,7 +788,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2)
+                .addComponent(btnAjudaVariaveis)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -812,7 +814,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tblAvaliacoes);
 
-        jButton3.setText("btnAjuda");
+        btnAjudaAvaliacoes.setText("btnAjuda");
 
         btnNovaAvaliacao.setText("btnNovaAvaliacao");
         btnNovaAvaliacao.addActionListener(new java.awt.event.ActionListener() {
@@ -845,7 +847,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                     .addGroup(pnlParametrizadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(pnlParametrizadorLayout.createSequentialGroup()
                             .addGap(375, 375, 375)
-                            .addComponent(jButton3))
+                            .addComponent(btnAjudaAvaliacoes))
                         .addGroup(pnlParametrizadorLayout.createSequentialGroup()
                             .addComponent(btnNovaAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
@@ -859,7 +861,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             pnlParametrizadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlParametrizadorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton3)
+                .addComponent(btnAjudaAvaliacoes)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1080,6 +1082,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane abaAvaliacoes;
+    private javax.swing.JButton btnAjudaAvaliacoes;
+    private javax.swing.JButton btnAjudaSituacoes;
+    private javax.swing.JButton btnAjudaVariaveis;
     private javax.swing.JButton btnEditarAssistente;
     private javax.swing.JButton btnEditarAvaliacao;
     private javax.swing.JButton btnEditarSituacao;
@@ -1091,9 +1096,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JButton btnNovaSituacao;
     private javax.swing.JButton btnNovaVariavel;
     private javax.swing.JButton btnPreviaSituacao;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;

@@ -35,7 +35,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
      */
     public JanelaDesenvolvimentoVariavel(int modo, Variavel variavel) {
         initComponents();
-
+        CarregaIdioma();
         partidaDesenvolvimento = Partida.getInstancia();
 
         janelaDesenvolvimento = JanelaDesenvolvimentoPartida.getInstancia();
@@ -51,6 +51,16 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
         if (modo == 2) {
             CarregarVariavel();
         }
+    }
+    
+    public void CarregaIdioma() {
+        chbOculta.setText(idioma.Valor("lblOculta"));
+        lblNome.setText(idioma.Valor("lblNomeVariavel"));
+        lblValorInicial.setText(idioma.Valor("lblValorInicial"));
+        btnAjuda.setText(idioma.Valor("btnAjuda"));
+        btnCancelar.setText(idioma.Valor("btnCancelar"));
+        btnConfirmar.setText(idioma.Valor("btnConfirmar"));
+        lblTitulo.setText(idioma.Valor("tituloDesenvVariavel"));
     }
 
     public final void CarregarVariavel() {
@@ -147,21 +157,21 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblNome = new javax.swing.JLabel();
+        lblValorInicial = new javax.swing.JLabel();
         chbOculta = new javax.swing.JCheckBox();
         btnCancelar = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
         txtNomeVariavel = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        btnAjuda = new javax.swing.JButton();
         jspValorInicial = new javax.swing.JSpinner();
         lblTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("lblNome");
+        lblNome.setText("lblNome");
 
-        jLabel2.setText("lblValorInicial");
+        lblValorInicial.setText("lblValorInicial");
 
         chbOculta.setText("lblOculta");
 
@@ -185,7 +195,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("btnAjuda");
+        btnAjuda.setText("btnAjuda");
 
         jspValorInicial.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
 
@@ -206,11 +216,11 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3))
+                        .addComponent(btnAjuda))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
+                            .addComponent(lblValorInicial)
+                            .addComponent(lblNome))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNomeVariavel)
@@ -227,14 +237,14 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTitulo)
-                    .addComponent(jButton3))
+                    .addComponent(btnAjuda))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblNome)
                     .addComponent(txtNomeVariavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lblValorInicial)
                     .addComponent(jspValorInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(chbOculta)
@@ -265,14 +275,14 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAjuda;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JCheckBox chbOculta;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JSpinner jspValorInicial;
+    private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblValorInicial;
     private javax.swing.JTextField txtNomeVariavel;
     // End of variables declaration//GEN-END:variables
 }

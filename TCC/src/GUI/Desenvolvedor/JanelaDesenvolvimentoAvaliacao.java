@@ -34,7 +34,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
      */
     public JanelaDesenvolvimentoAvaliacao(int modo, Avaliacao avaliacao) {
         initComponents();
-
+        CarregaIdioma();
         janelaDevPartida = JanelaDesenvolvimentoPartida.getInstancia();
         partidaDesenvolvimento = Partida.getInstancia();
         idioma = ControladoraIdioma.getInstancia();
@@ -49,6 +49,21 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         }
         CarregarVariaveis();
 
+    }
+
+    /**
+     * Preenche os componentes da tela de acordo com o idioma selecionado
+     */
+    public void CarregaIdioma() {
+        lblDescricao.setText(idioma.Valor("lblDescricao"));
+        lblTxtAvaliacao.setText(idioma.Valor("lblTxtAvaliacao"));
+        lblValorFinal.setText(idioma.Valor("lblValorFinal"));
+        lblValorInicial.setText(idioma.Valor("lblValorInicial"));
+        lblVariavel.setText(idioma.Valor("lblVariavel"));
+        btnCancelar.setText(idioma.Valor("btnCancelar"));
+        btnConfirmar.setText(idioma.Valor("btnConfirmar"));
+        lblTitulo.setText(idioma.Valor("tituloDesenvAvaliacao"));
+        this.setTitle(idioma.Valor("tituloDesenvAvaliacao"));
     }
 
     /**
@@ -161,11 +176,11 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         btnConfirmar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblValorInicial = new javax.swing.JLabel();
+        lblValorFinal = new javax.swing.JLabel();
+        lblTxtAvaliacao = new javax.swing.JLabel();
+        lblDescricao = new javax.swing.JLabel();
+        lblVariavel = new javax.swing.JLabel();
         txtDescricao = new javax.swing.JTextField();
         cbxVariavel = new javax.swing.JComboBox();
         jspValorInicial = new javax.swing.JSpinner();
@@ -192,15 +207,15 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTitulo.setText("lblTitulo");
 
-        jLabel3.setText("lblValorInicial");
+        lblValorInicial.setText("lblValorInicial");
 
-        jLabel4.setText("lvlValorFinal");
+        lblValorFinal.setText("lvlValorFinal");
 
-        jLabel5.setText("lblTxtAvaliacao");
+        lblTxtAvaliacao.setText("lblTxtAvaliacao");
 
-        jLabel1.setText("lblDescricao");
+        lblDescricao.setText("lblDescricao");
 
-        jLabel2.setText("lblVariavel");
+        lblVariavel.setText("lblVariavel");
 
         cbxVariavel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxVariavel.addActionListener(new java.awt.event.ActionListener() {
@@ -236,16 +251,16 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
+                            .addComponent(lblValorInicial)
+                            .addComponent(lblTxtAvaliacao)
+                            .addComponent(lblVariavel)
+                            .addComponent(lblDescricao))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jspValorInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblValorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jspValorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtDescricao)
@@ -260,26 +275,26 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
                 .addComponent(lblTitulo)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblDescricao)
                     .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lblVariavel)
                     .addComponent(cbxVariavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
+                    .addComponent(lblValorInicial)
+                    .addComponent(lblValorFinal)
                     .addComponent(jspValorInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jspValorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
+                    .addComponent(lblTxtAvaliacao)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnConfirmar)
-                    .addComponent(btnCancelar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnConfirmar))
                 .addContainerGap())
         );
 
@@ -310,15 +325,15 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JComboBox cbxVariavel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jspValorFinal;
     private javax.swing.JSpinner jspValorInicial;
+    private javax.swing.JLabel lblDescricao;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblTxtAvaliacao;
+    private javax.swing.JLabel lblValorFinal;
+    private javax.swing.JLabel lblValorInicial;
+    private javax.swing.JLabel lblVariavel;
     private javax.swing.JTextArea txaTextoAvaliacao;
     private javax.swing.JTextField txtDescricao;
     // End of variables declaration//GEN-END:variables
