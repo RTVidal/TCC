@@ -68,7 +68,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     /**
      * Preenche os componentes da tela de acordo com o idioma selecionado
      */
-    public void CarregaIdioma() {
+    public final void CarregaIdioma() {
         //Nomeia os componentes conforme o idioma selecionado
         //Botões
         btnNovaSituacao.setText(idioma.Valor("btnNovaSituacao"));

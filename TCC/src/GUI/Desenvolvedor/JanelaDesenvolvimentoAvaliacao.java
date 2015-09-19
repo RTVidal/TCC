@@ -34,10 +34,11 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
      */
     public JanelaDesenvolvimentoAvaliacao(int modo, Avaliacao avaliacao) {
         initComponents();
-        CarregaIdioma();
+        
         janelaDevPartida = JanelaDesenvolvimentoPartida.getInstancia();
         partidaDesenvolvimento = Partida.getInstancia();
         idioma = ControladoraIdioma.getInstancia();
+        CarregaIdioma();
 
         setLocationRelativeTo(janelaDevPartida);
 
@@ -54,7 +55,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
     /**
      * Preenche os componentes da tela de acordo com o idioma selecionado
      */
-    public void CarregaIdioma() {
+    public final void CarregaIdioma() {
         lblDescricao.setText(idioma.Valor("lblDescricao"));
         lblTxtAvaliacao.setText(idioma.Valor("lblTxtAvaliacao"));
         lblValorFinal.setText(idioma.Valor("lblValorFinal"));

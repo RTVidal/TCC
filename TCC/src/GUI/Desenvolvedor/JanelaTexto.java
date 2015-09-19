@@ -17,6 +17,7 @@ public class JanelaTexto extends javax.swing.JDialog {
     
     /**
      * Creates new form JanelaAjuda
+     * @param textoAjuda
      */
     public JanelaTexto(String textoAjuda) {
         initComponents();
