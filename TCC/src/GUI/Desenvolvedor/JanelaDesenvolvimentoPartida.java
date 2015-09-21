@@ -588,7 +588,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         mniSalvar = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        mniIdioma = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -913,8 +913,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         jMenu2.setText("mniConfigurar");
 
-        jMenuItem6.setText("mniIdioma");
-        jMenu2.add(jMenuItem6);
+        mniIdioma.setText("mniIdioma");
+        mniIdioma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniIdiomaActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mniIdioma);
 
         jMenuBar1.add(jMenu2);
 
@@ -1068,6 +1073,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnExcluirAvaliacaoActionPerformed
 
+    private void mniIdiomaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniIdiomaActionPerformed
+        
+        JanelaTrocaIdioma jti = new JanelaTrocaIdioma();
+        jti.setVisible(true);
+        
+    }//GEN-LAST:event_mniIdiomaActionPerformed
+
     public static JanelaDesenvolvimentoPartida getInstancia() {
         if (instancia == null) {
             instancia = new JanelaDesenvolvimentoPartida();
@@ -1109,7 +1121,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
@@ -1126,6 +1137,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JLabel lblImgAssistente;
     private javax.swing.JLabel lblNomeAssistente;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JMenuItem mniIdioma;
     private javax.swing.JMenuItem mniSalvar;
     private javax.swing.JPanel pnlParametrizador;
     private javax.swing.JTable tblAvaliacoes;
