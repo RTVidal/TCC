@@ -22,9 +22,9 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
 
     private ArrayList<ImageIcon> avatares;
     private Assistente assistente;
-    private Partida partida;
+    private final Partida partida;
     private ImageIcon avatarSelecionado;
-    private JanelaDesenvolvimentoPartida jdp;
+    private final JanelaDesenvolvimentoPartida jdp;
     private final ControladoraIdioma idioma;
 
     /**
@@ -49,10 +49,10 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
         CarregaAvatares();
         jdp = JanelaDesenvolvimentoPartida.getInstancia();
         setLocationRelativeTo(jdp);
-        avatarSelecionado = new ImageIcon();
+        
     }
 
-    public void CarregaIdioma() {
+    public final void CarregaIdioma() {
         lblApresentacao.setText(idioma.Valor("lblApresentacao"));
         lblNomeAssistente.setText(idioma.Valor("lblNomeAssistente"));
         lblSelecioneAvatar.setText(idioma.Valor("lblSelecioneAvatar"));
@@ -72,14 +72,19 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
      * Carrega os avatares disponíveis para o assistente
      */
     public final void CarregaAvatares() {
+        
         int itemSelecionado = 0;
-        lblImgAvatar.setText("Selecione um avatar");
+        lblImgAvatar.setText(idioma.Valor("lblSelecioneUmAvatar"));
         DefaultListModel itens = new DefaultListModel<>();
         avatares = new ArrayList<>();
+        
         //Recupera a quantidade de avatares disponiveis
         File file = new File("./Recursos/Avatar");
         File arquivos[] = file.listFiles();
+        
+        
         for (int i = 0; i < arquivos.length; i++) {
+            
             ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
             avatar.setDescription(arquivos[i].getAbsolutePath());
             avatares.add(avatar);
@@ -87,8 +92,9 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
                 itemSelecionado = i;
             }
             itens.addElement(arquivos[i].getName());
+            
         }
-
+        
         lstAvatares.setModel(itens);
         lstAvatares.setSelectedIndex(itemSelecionado);
 
@@ -101,6 +107,8 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
 
         boolean ok = ValidarDados();
 
+        System.out.println("avatar sel " + avatarSelecionado.getDescription());
+        
         if (ok) {
             assistente.setNome(txtNomeAssistente.getText());
             assistente.setAvatarAssistente(avatarSelecionado.getDescription());
@@ -149,6 +157,19 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
         }
 
         return ok;
+    }
+    
+    public void SelecionarAvatar()
+    {
+        int index = lstAvatares.getSelectedIndex();
+        if (index > -1) {
+            ImageIcon icone = new ImageIcon();
+            icone.setImage(avatares.get(index).getImage().getScaledInstance(150, 150, 150));
+            lblImgAvatar.setText(null);
+            lblImgAvatar.setIcon(icone);
+            avatarSelecionado = avatares.get(index);
+            
+        }
     }
 
     /**
@@ -295,14 +316,9 @@ public class JanelaDesenvolvimentoAssistente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lstAvataresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAvataresValueChanged
-        int index = lstAvatares.getSelectedIndex();
-        if (index > -1) {
-            ImageIcon icone = new ImageIcon();
-            icone.setImage(avatares.get(index).getImage().getScaledInstance(150, 150, 150));
-            lblImgAvatar.setText(null);
-            lblImgAvatar.setIcon(icone);
-            avatarSelecionado = avatares.get(index);
-        }
+
+        SelecionarAvatar();
+        
     }//GEN-LAST:event_lstAvataresValueChanged
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
