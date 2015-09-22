@@ -40,6 +40,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     private boolean partidaSalva;
 
+    private Object[] opcaoSimNao;
+    private Object[] opcaoSimNaoCancelar;
+
     /**
      * Creates new form JanelaAdministrarJogo
      */
@@ -54,6 +57,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         partidaDesenvolvimento = Partida.getInstancia();
         if (partidaDesenvolvimento.getNomeArquivo() != null) {
             setTitle(partidaDesenvolvimento.getNomeArquivo());
+            lblTitulo.setText(idioma.Valor("tituloDesenvPartidaEdicao")
+                    + " " + partidaDesenvolvimento.getNomeArquivo());
         }
         AtualizarDados();
 
@@ -70,12 +75,27 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      */
     public final void CarregaIdioma() {
         //Nomeia os componentes conforme o idioma selecionado
+        opcaoSimNao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
+        opcaoSimNaoCancelar = new Object[]{idioma.Valor("sim"), idioma.Valor("nao"), idioma.Valor("btnCancelar")};
+
         //Botões
         btnNovaSituacao.setText(idioma.Valor("btnNovaSituacao"));
         btnEditarAssistente.setText(idioma.Valor("btnEditarAssistente"));
         btnAjudaAvaliacoes.setText(idioma.Valor("btnAjuda"));
         btnAjudaSituacoes.setText(idioma.Valor("btnAjuda"));
         btnAjudaVariaveis.setText(idioma.Valor("btnAjuda"));
+        btnEditarSituacao.setText(idioma.Valor("btnEditarSituacao"));
+        btnPreviaSituacao.setText(idioma.Valor("btnPrevia"));
+        btnExcluirSituacao.setText(idioma.Valor("btnExcluirSituacao"));
+        btnNovaVariavel.setText(idioma.Valor("btnNovaVariavel"));
+        btnEditarVariavel.setText(idioma.Valor("btnEditarVariavel"));
+        btnExcluirVariavel.setText(idioma.Valor("btnExcluirVariavel"));
+        btnNovaAvaliacao.setText(idioma.Valor("btnNovaAvaliacao"));
+        btnEditarAvaliacao.setText(idioma.Valor("btnEditarAvaliacao"));
+        btnExcluirAvaliacao.setText(idioma.Valor("btnExcluirAvaliacao"));
+        //Label
+        lblTitulo.setText(idioma.Valor("tituloDesenvPartidaNova"));
+        lblAssistente.setText(idioma.Valor("lblAssistente"));
     }
 
     public final void AtualizarDados() {
@@ -101,16 +121,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Habilitar o botão de editar e excluir apenas quando houverem registros na lista
         btnEditarSituacao.setEnabled(!partidaDesenvolvimento.getSituacoes().isEmpty());
         btnExcluirSituacao.setEnabled(!partidaDesenvolvimento.getSituacoes().isEmpty());
-            
-            
-        if(!partidaDesenvolvimento.getSituacoes().isEmpty())
-        {
+
+        if (!partidaDesenvolvimento.getSituacoes().isEmpty()) {
             tblSituacoes.setRowSelectionInterval(0, 0);
         }
-        
-        
-        
-        
 
     }
 
@@ -130,13 +144,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Habilitar o botão de editar e excluir apenas quando houverem registros na lista
         btnEditarVariavel.setEnabled(!partidaDesenvolvimento.getVariaveis().isEmpty());
         btnExcluirVariavel.setEnabled(!partidaDesenvolvimento.getVariaveis().isEmpty());
-        
+
         //Selecionar o primeiro item
-        if(!partidaDesenvolvimento.getVariaveis().isEmpty())
-        {
+        if (!partidaDesenvolvimento.getVariaveis().isEmpty()) {
             tblVariaveis.setRowSelectionInterval(0, 0);
         }
-        
+
     }
 
     /**
@@ -159,10 +172,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Habilitar o botão de nova avaliação apenas se houverem variáveis criadas
         btnNovaAvaliacao.setEnabled(!partidaDesenvolvimento.getVariaveis().isEmpty());
         btnNovaAvaliacao.setToolTipText(idioma.Valor("msgNaoHaVariaveis"));
-        
+
         //Selecionar o primeiro item
-        if(!partidaDesenvolvimento.getAvaliacoes().isEmpty())
-        {
+        if (!partidaDesenvolvimento.getAvaliacoes().isEmpty()) {
             tblAvaliacoes.setRowSelectionInterval(0, 0);
         }
     }
@@ -206,7 +218,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         boolean continuar = false;
 
         String mensagem = idioma.Valor("msgExclusaoSituacao");
-        int opcao = JOptionPane.showConfirmDialog(null, mensagem, "Aviso", JOptionPane.YES_NO_OPTION);
+        int opcao = JOptionPane.showConfirmDialog(null, mensagem, idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
 
         if (opcao == 0) {
 
@@ -303,7 +315,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         if (!partidaDesenvolvimento.getAssistente().isCriado()) {
             mensagem = idioma.Valor("mensagemSemAssistente");
 
-            int opcao = JOptionPane.showConfirmDialog(null, mensagem, "Aviso", JOptionPane.YES_NO_OPTION);
+            int opcao = JOptionPane.showConfirmDialog(null, mensagem, idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
 
             if (opcao == 1) {
 
@@ -391,7 +403,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         int cont;
 
         String mensagem = idioma.Valor("msgExclusaoVariavel");
-        int opcao = JOptionPane.showConfirmDialog(null, mensagem, "Aviso", JOptionPane.YES_NO_OPTION);
+        int opcao = JOptionPane.showConfirmDialog(null, mensagem, idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
 
         if (opcao == 0) {
 
@@ -471,13 +483,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             for (Avaliacao a : partidaDesenvolvimento.getAvaliacoes()) {
                 if (a.getVariavel() == variavel) {
                     itensRemover.add(cont);
-                    
+
                 }
                 cont++;
             }
-            
-            for(int i : itensRemover)
-            {
+
+            for (int i : itensRemover) {
                 partidaDesenvolvimento.getAvaliacoes().remove(i);
             }
 
@@ -514,7 +525,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         boolean continuar = false;
 
         String mensagem = idioma.Valor("msgExclusaoAvaliacao");
-        int opcao = JOptionPane.showConfirmDialog(null, mensagem, idioma.Valor("lblAviso"), JOptionPane.YES_NO_OPTION);
+        int opcao = JOptionPane.showConfirmDialog(null, mensagem, idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
 
         if (opcao == 0) {
 
@@ -553,8 +564,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jFrame2 = new javax.swing.JFrame();
         jFrame3 = new javax.swing.JFrame();
         jDialog1 = new javax.swing.JDialog();
-        abaAvaliacoes = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        painelConfiguracoes = new javax.swing.JTabbedPane();
+        abaAssistente = new javax.swing.JPanel();
+        lblImgAssistente = new javax.swing.JLabel();
+        lblAssistente = new javax.swing.JLabel();
+        lblNomeAssistente = new javax.swing.JLabel();
+        btnEditarAssistente = new javax.swing.JButton();
+        abaSituacoes = new javax.swing.JPanel();
         btnNovaSituacao = new javax.swing.JButton();
         btnEditarSituacao = new javax.swing.JButton();
         btnExcluirSituacao = new javax.swing.JButton();
@@ -562,14 +578,14 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSituacoes = new javax.swing.JTable();
         btnAjudaSituacoes = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        abaVariaveis = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblVariaveis = new javax.swing.JTable();
         btnNovaVariavel = new javax.swing.JButton();
         btnEditarVariavel = new javax.swing.JButton();
         btnExcluirVariavel = new javax.swing.JButton();
         btnAjudaVariaveis = new javax.swing.JButton();
-        pnlParametrizador = new javax.swing.JPanel();
+        abaAvaliacoes = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblAvaliacoes = new javax.swing.JTable();
         btnAjudaAvaliacoes = new javax.swing.JButton();
@@ -577,10 +593,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnEditarAvaliacao = new javax.swing.JButton();
         btnExcluirAvaliacao = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
-        lblImgAssistente = new javax.swing.JLabel();
-        lblAssistente = new javax.swing.JLabel();
-        lblNomeAssistente = new javax.swing.JLabel();
-        btnEditarAssistente = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -641,13 +653,57 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
+
+        lblImgAssistente.setText("imgAssistente");
+
+        lblAssistente.setText("lblAssistente");
+
+        lblNomeAssistente.setText("lblNomeAssistente");
+
+        btnEditarAssistente.setText("btnEditarAssistente");
+        btnEditarAssistente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarAssistenteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout abaAssistenteLayout = new javax.swing.GroupLayout(abaAssistente);
+        abaAssistente.setLayout(abaAssistenteLayout);
+        abaAssistenteLayout.setHorizontalGroup(
+            abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaAssistenteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(abaAssistenteLayout.createSequentialGroup()
+                        .addComponent(lblAssistente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNomeAssistente)))
+                .addContainerGap(474, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaAssistenteLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEditarAssistente)
+                .addContainerGap())
+        );
+        abaAssistenteLayout.setVerticalGroup(
+            abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaAssistenteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAssistente)
+                    .addComponent(lblNomeAssistente))
+                .addGap(18, 18, 18)
+                .addComponent(btnEditarAssistente)
+                .addContainerGap(167, Short.MAX_VALUE))
+        );
+
+        painelConfiguracoes.addTab("abaAssistente", abaAssistente);
 
         btnNovaSituacao.setText("btnNovaSituacao");
         btnNovaSituacao.addActionListener(new java.awt.event.ActionListener() {
@@ -663,7 +719,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             }
         });
 
-        btnExcluirSituacao.setText("btnExcluir");
+        btnExcluirSituacao.setText("btnExcluirSituacao");
         btnExcluirSituacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirSituacaoActionPerformed(evt);
@@ -692,43 +748,42 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         btnAjudaSituacoes.setText("btnAjuda");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout abaSituacoesLayout = new javax.swing.GroupLayout(abaSituacoes);
+        abaSituacoes.setLayout(abaSituacoesLayout);
+        abaSituacoesLayout.setHorizontalGroup(
+            abaSituacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaSituacoesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnAjudaSituacoes)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(abaSituacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(abaSituacoesLayout.createSequentialGroup()
                         .addComponent(btnNovaSituacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditarSituacao)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExcluirSituacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPreviaSituacao)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addComponent(btnPreviaSituacao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAjudaSituacoes)))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        abaSituacoesLayout.setVerticalGroup(
+            abaSituacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaSituacoesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAjudaSituacoes)
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(abaSituacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovaSituacao)
                     .addComponent(btnEditarSituacao)
                     .addComponent(btnExcluirSituacao)
-                    .addComponent(btnPreviaSituacao))
+                    .addComponent(btnPreviaSituacao)
+                    .addComponent(btnAjudaSituacoes))
                 .addContainerGap())
         );
 
-        abaAvaliacoes.addTab("Situações", jPanel1);
+        painelConfiguracoes.addTab("abaSituacoes", abaSituacoes);
 
         tblVariaveis.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -766,40 +821,39 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         btnAjudaVariaveis.setText("btnAjuda");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout abaVariaveisLayout = new javax.swing.GroupLayout(abaVariaveis);
+        abaVariaveis.setLayout(abaVariaveisLayout);
+        abaVariaveisLayout.setHorizontalGroup(
+            abaVariaveisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaVariaveisLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAjudaVariaveis)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(btnNovaVariavel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnEditarVariavel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnExcluirVariavel))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addGroup(abaVariaveisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+                    .addGroup(abaVariaveisLayout.createSequentialGroup()
+                        .addComponent(btnNovaVariavel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarVariavel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExcluirVariavel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAjudaVariaveis)))
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        abaVariaveisLayout.setVerticalGroup(
+            abaVariaveisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaVariaveisLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAjudaVariaveis)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(abaVariaveisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovaVariavel)
                     .addComponent(btnEditarVariavel)
-                    .addComponent(btnExcluirVariavel))
+                    .addComponent(btnExcluirVariavel)
+                    .addComponent(btnAjudaVariaveis))
                 .addContainerGap())
         );
 
-        abaAvaliacoes.addTab("abaVariaveis", jPanel2);
+        painelConfiguracoes.addTab("abaVariaveis", abaVariaveis);
 
         tblAvaliacoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -837,58 +891,42 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout pnlParametrizadorLayout = new javax.swing.GroupLayout(pnlParametrizador);
-        pnlParametrizador.setLayout(pnlParametrizadorLayout);
-        pnlParametrizadorLayout.setHorizontalGroup(
-            pnlParametrizadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlParametrizadorLayout.createSequentialGroup()
+        javax.swing.GroupLayout abaAvaliacoesLayout = new javax.swing.GroupLayout(abaAvaliacoes);
+        abaAvaliacoes.setLayout(abaAvaliacoesLayout);
+        abaAvaliacoesLayout.setHorizontalGroup(
+            abaAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaAvaliacoesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlParametrizadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlParametrizadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(pnlParametrizadorLayout.createSequentialGroup()
-                            .addGap(375, 375, 375)
-                            .addComponent(btnAjudaAvaliacoes))
-                        .addGroup(pnlParametrizadorLayout.createSequentialGroup()
-                            .addComponent(btnNovaAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnEditarAvaliacao)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnExcluirAvaliacao)))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addGroup(abaAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(abaAvaliacoesLayout.createSequentialGroup()
+                        .addComponent(btnNovaAvaliacao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarAvaliacao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExcluirAvaliacao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+                        .addComponent(btnAjudaAvaliacoes)))
+                .addContainerGap())
         );
-        pnlParametrizadorLayout.setVerticalGroup(
-            pnlParametrizadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlParametrizadorLayout.createSequentialGroup()
+        abaAvaliacoesLayout.setVerticalGroup(
+            abaAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaAvaliacoesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAjudaAvaliacoes)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlParametrizadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(abaAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluirAvaliacao)
                     .addComponent(btnEditarAvaliacao)
-                    .addComponent(btnNovaAvaliacao))
+                    .addComponent(btnNovaAvaliacao)
+                    .addComponent(btnAjudaAvaliacoes))
                 .addContainerGap())
         );
 
-        abaAvaliacoes.addTab("abaAvaliacoes", pnlParametrizador);
+        painelConfiguracoes.addTab("abaAvaliacoes", abaAvaliacoes);
 
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTitulo.setText("lblTitulo");
-
-        lblImgAssistente.setText("imgAssistente");
-
-        lblAssistente.setText("lblAssistente");
-
-        lblNomeAssistente.setText("lblNomeAssistente");
-
-        btnEditarAssistente.setText("btnEditarAssistente");
-        btnEditarAssistente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarAssistenteActionPerformed(evt);
-            }
-        });
 
         jMenu1.setText("mniArquivo");
 
@@ -947,40 +985,18 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitulo)
-                    .addComponent(abaAvaliacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEditarAssistente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 47, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNomeAssistente, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblImgAssistente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblAssistente)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(painelConfiguracoes))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(lblTitulo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(abaAvaliacoes))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblAssistente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNomeAssistente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEditarAssistente)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(lblTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(painelConfiguracoes)
                 .addContainerGap())
         );
 
@@ -1025,18 +1041,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     }//GEN-LAST:event_mniSalvarActionPerformed
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-
-
-    }//GEN-LAST:event_formWindowClosed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-
         if (!partidaSalva) {
-
-            int opcao = JOptionPane.showConfirmDialog(null, idioma.Valor("msgDesejaSalvar"), "Aviso", JOptionPane.YES_NO_CANCEL_OPTION);
-
-            switch (opcao) {
+            int selecionado = JOptionPane.showOptionDialog(null, idioma.Valor("msgDesejaSalvar"),
+                    idioma.Valor("aviso"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, opcaoSimNaoCancelar, opcaoSimNaoCancelar[0]);
+            switch (selecionado) {
                 case 0: //Salvar
                     SalvarPartida();
                     break;
@@ -1045,39 +1055,28 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                     System.exit(0);
                     break;
             }
-
         }
     }//GEN-LAST:event_formWindowClosing
 
     private void btnEditarAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAvaliacaoActionPerformed
-
         EditarAvaliacao(2);
-
     }//GEN-LAST:event_btnEditarAvaliacaoActionPerformed
 
     private void btnNovaAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaAvaliacaoActionPerformed
-
         EditarAvaliacao(1);
-
     }//GEN-LAST:event_btnNovaAvaliacaoActionPerformed
 
     private void btnExcluirVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirVariavelActionPerformed
-
         ExcluirVariavel();
-
     }//GEN-LAST:event_btnExcluirVariavelActionPerformed
 
     private void btnExcluirAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirAvaliacaoActionPerformed
-
         ExcluirAvaliacao();
-
     }//GEN-LAST:event_btnExcluirAvaliacaoActionPerformed
 
     private void mniIdiomaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniIdiomaActionPerformed
-        
         JanelaTrocaIdioma jti = new JanelaTrocaIdioma();
         jti.setVisible(true);
-        
     }//GEN-LAST:event_mniIdiomaActionPerformed
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
@@ -1093,7 +1092,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane abaAvaliacoes;
+    private javax.swing.JPanel abaAssistente;
+    private javax.swing.JPanel abaAvaliacoes;
+    private javax.swing.JPanel abaSituacoes;
+    private javax.swing.JPanel abaVariaveis;
     private javax.swing.JButton btnAjudaAvaliacoes;
     private javax.swing.JButton btnAjudaSituacoes;
     private javax.swing.JButton btnAjudaVariaveis;
@@ -1123,8 +1125,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JPopupMenu jPopupMenu3;
@@ -1139,7 +1139,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JMenuItem mniIdioma;
     private javax.swing.JMenuItem mniSalvar;
-    private javax.swing.JPanel pnlParametrizador;
+    private javax.swing.JTabbedPane painelConfiguracoes;
     private javax.swing.JTable tblAvaliacoes;
     private javax.swing.JTable tblSituacoes;
     private javax.swing.JTable tblVariaveis;

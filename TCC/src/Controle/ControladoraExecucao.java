@@ -7,7 +7,6 @@ package Controle;
 
 import GUI.Jogador.JanelaExecucaoPartida;
 import Modelo.Partida;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,26 +15,20 @@ import javax.swing.JOptionPane;
 public class ControladoraExecucao {
 
     private final Partida partida;
-
     private JanelaExecucaoPartida jsj;
-
     private static ControladoraExecucao instancia;
 
     public ControladoraExecucao() {
-        
         partida = Partida.getInstancia();
-
     }
 
     /**
      * Método principal da execução da partida
      */
     public final void ExecutaPartida() {
-
         //Abre a janela inicial para a apresentação do assistente
         jsj = new JanelaExecucaoPartida(1);
         JanelaExecucaoPartida.setInstancia(jsj);
-
         jsj.setVisible(true);
 
         //Apresenta-se para a janela do jogo
@@ -43,16 +36,13 @@ public class ControladoraExecucao {
 
         //Carrega a situação inicial
         jsj.CarregaSituacao(partida.getSituacaoInicial(), 1);
-
     }
 
     /**
      *
      */
     public void IniciarJogo() {
-
         jsj.CarregaSituacao(partida.getSituacaoInicial(), 2);
-
     }
 
     //public void Carregar

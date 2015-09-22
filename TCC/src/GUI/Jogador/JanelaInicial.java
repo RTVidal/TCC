@@ -30,7 +30,8 @@ public class JanelaInicial extends javax.swing.JFrame {
 
     private JanelaDesenvolvimentoPartida jdp;
     private ControladoraIdioma ci;
-    private Object[] opcao;
+    private Object[] opcaoSimNao;
+    private Object[] opcaoSimNaoCancelar;
     private final ControladoraIdioma idioma;
 
     /**
@@ -47,13 +48,15 @@ public class JanelaInicial extends javax.swing.JFrame {
     }
 
     public final void CarregaIdioma() {
+        opcaoSimNao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
+        opcaoSimNaoCancelar = new Object[]{idioma.Valor("sim"), idioma.Valor("nao"), idioma.Valor("btnCancelar")};
+        
         btnAbrirJogo.setText(idioma.Valor("principalBtnAbrirJogo"));
         btnEditarJogo.setText(idioma.Valor("principalBtnEditarJogo"));
         btnNovoJogo.setText(idioma.Valor("principalBtnNovoJogo"));
         lblTituloPrincipal.setText(idioma.Valor("tituloTelaPrincipal"));
         lblIdioma.setText(idioma.Valor("principalLblIdioma"));
         btnExemplo.setText(idioma.Valor("btnExemploInicial"));
-        opcao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
         cbxIdiomas.setSelectedItem(idioma.getIdiomaAtual());
     }
 
@@ -66,61 +69,49 @@ public class JanelaInicial extends javax.swing.JFrame {
     }
 
     public void ExecutarJogo() {
-
         IOPartida iop = new IOPartida();
         Partida partidaExecutar = iop.LePartida();
         if (partidaExecutar != null) {
             if (!(((String) cbxIdiomas.getSelectedItem()).equalsIgnoreCase(partidaExecutar.getIdioma()))) {
-                int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"),
-                        "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcao, opcao[0]);
+                int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"), idioma.Valor("aviso"),
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcaoSimNao, opcaoSimNao[0]);
                 if (i == 0) {
                     idioma.DefineIdioma(partidaExecutar.getIdioma());
                     CarregaIdioma();
                 }
-            }
-
-            if (partidaExecutar.getSituacaoInicial() != null) {
-
-                Partida.setInstancia(partidaExecutar);
-                ControladoraExecucao ce = new ControladoraExecucao();
-                ce.ExecutaPartida();
-
-            } else {
-
-                String mensagem = idioma.Valor("msgNaoHaSituacaoInicial");
-                int opcao = JOptionPane.showConfirmDialog(this, mensagem, idioma.Valor("lblAviso"), JOptionPane.YES_NO_OPTION);
-
-                if (opcao == 0) {
-                    
-                    EditarJogo(partidaExecutar);
-
+                if (partidaExecutar.getSituacaoInicial() != null) {
+                    Partida.setInstancia(partidaExecutar);
+                    ControladoraExecucao ce = new ControladoraExecucao();
+                    ce.ExecutaPartida();
+                } else {
+                    int selecionada = JOptionPane.showOptionDialog(null, idioma.Valor("msgNaoHaSituacaoInicial"),
+                            idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                            null, opcaoSimNao, opcaoSimNao[0]);
+                    if (selecionada == 0) {
+                        EditarJogo(partidaExecutar);
+                    }
                 }
             }
         }
     }
 
     public void EditarJogo(Partida partidaDesenvolvimento) {
-         
         if (partidaDesenvolvimento == null) {
-            
             IOPartida iop = new IOPartida();
             partidaDesenvolvimento = iop.LePartida();
-            
         }
-        
+
         if (partidaDesenvolvimento != null) {
             if (!(((String) cbxIdiomas.getSelectedItem()).equalsIgnoreCase(partidaDesenvolvimento.getIdioma()))) {
-                int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"),
-                        "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcao, opcao[0]);
+                int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"), idioma.Valor("aviso"),
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcaoSimNao, opcaoSimNao[0]);
                 if (i == 0) {
                     idioma.DefineIdioma(partidaDesenvolvimento.getIdioma());
                     CarregaIdioma();
                 }
             }
             Partida.setInstancia(partidaDesenvolvimento);
-
             jdp = JanelaDesenvolvimentoPartida.getInstancia();
-
             jdp.setVisible(true);
             dispose();
         }

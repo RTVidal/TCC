@@ -28,13 +28,12 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
      * @param acao
      */
     public JanelaDesenvolvimentoAcao(JanelaDesenvolvimentoSaida janelaDevSaida, Acao acao) {
-
         initComponents();
-        setLocationRelativeTo(janelaDevSaida);
 
+        setLocationRelativeTo(janelaDevSaida);
         idioma = ControladoraIdioma.getInstancia();
         CarregaIdioma();
-        
+
         this.acao = acao;
         this.janelaDevSaida = janelaDevSaida;
 
@@ -54,7 +53,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
         lblTitulo.setText(idioma.Valor("tituloDesenvAcao"));
     }
-    
+
     public final void CarregarAcao() {
         txtNomeVariavel.setText(acao.getVariavel().getNome());
         jspValor.setToolTipText("Teste");
@@ -92,28 +91,25 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         }
 
     }
-    
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    public boolean ValidarDados()
-    {
+    public boolean ValidarDados() {
         boolean ok = true;
         ArrayList<String> mensagens = new ArrayList<>();
         String mensagem;
-        
-        double valor = (double)jspValor.getValue();
-        String operacao = (String)cbxOperacao.getSelectedItem();
-        if(cbxOperacao.getSelectedItem().equals(idioma.Valor("lblDividir")) && valor == 0)
-        {
+
+        double valor = (double) jspValor.getValue();
+        String operacao = (String) cbxOperacao.getSelectedItem();
+        if (cbxOperacao.getSelectedItem().equals(idioma.Valor("lblDividir")) && valor == 0) {
             ok = false;
             mensagem = idioma.Valor("msgDivisaoZero");
             mensagens.add(mensagem);
         }
-        
-        if(!ok)
-        {
+
+        if (!ok) {
             String mensagemJanela = "";
 
             for (String s : mensagens) {
