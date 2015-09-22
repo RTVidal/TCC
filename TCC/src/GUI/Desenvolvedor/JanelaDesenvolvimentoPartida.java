@@ -96,6 +96,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Label
         lblTitulo.setText(idioma.Valor("tituloDesenvPartidaNova"));
         lblAssistente.setText(idioma.Valor("lblAssistente"));
+        
+        //abas
+        painelConfiguracoes.setTitleAt(0, idioma.Valor("abaAssistente"));
+        painelConfiguracoes.setTitleAt(1, idioma.Valor("abaSituacoes"));
+        painelConfiguracoes.setTitleAt(2, idioma.Valor("abaVariaveis"));
+        painelConfiguracoes.setTitleAt(3, idioma.Valor("abaAvaliacoes"));
     }
 
     public final void AtualizarDados() {
