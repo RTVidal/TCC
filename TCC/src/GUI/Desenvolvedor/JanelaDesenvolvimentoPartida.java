@@ -21,6 +21,7 @@ import Modelo.Variavel;
 import Persistencia.IOPartida;
 import java.io.File;
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -39,6 +40,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private final ControladoraIdioma idioma;
 
     private boolean partidaSalva;
+
+    private ArrayList<ImageIcon> avatares;
+    private ImageIcon avatarSelecionado;
 
     private Object[] opcaoSimNao;
     private Object[] opcaoSimNaoCancelar;
@@ -65,8 +69,36 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         if (partidaDesenvolvimento.getAssistente() != null) {
             AtualizaAssistente();
         }
-
+        CarregaAvatares();
         partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
+
+    }
+
+    public final void CarregaAvatares() {
+
+        int itemSelecionado = 0;
+        lblImgAssistente.setText(idioma.Valor("lblSelecioneUmAvatar"));
+        DefaultListModel itens = new DefaultListModel<>();
+        avatares = new ArrayList<>();
+
+        //Recupera a quantidade de avatares disponiveis
+        File file = new File("./Recursos/Avatar");
+        File arquivos[] = file.listFiles();
+
+        for (int i = 0; i < arquivos.length; i++) {
+
+            ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
+            avatar.setDescription(arquivos[i].getAbsolutePath());
+            avatares.add(avatar);
+            if (partidaDesenvolvimento.getAssistente().getAvatarAssistente().equals(avatar.getDescription())) {
+                itemSelecionado = i;
+            }
+            itens.addElement(arquivos[i].getName());
+
+        }
+
+        lstAvatares.setModel(itens);
+        lstAvatares.setSelectedIndex(itemSelecionado);
 
     }
 
@@ -80,7 +112,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         //Botões
         btnNovaSituacao.setText(idioma.Valor("btnNovaSituacao"));
-        btnEditarAssistente.setText(idioma.Valor("btnEditarAssistente"));
         btnAjudaAvaliacoes.setText(idioma.Valor("btnAjuda"));
         btnAjudaSituacoes.setText(idioma.Valor("btnAjuda"));
         btnAjudaVariaveis.setText(idioma.Valor("btnAjuda"));
@@ -95,13 +126,18 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnExcluirAvaliacao.setText(idioma.Valor("btnExcluirAvaliacao"));
         //Label
         lblTitulo.setText(idioma.Valor("tituloDesenvPartidaNova"));
-        lblAssistente.setText(idioma.Valor("lblAssistente"));
-        
+
         //abas
         painelConfiguracoes.setTitleAt(0, idioma.Valor("abaAssistente"));
         painelConfiguracoes.setTitleAt(1, idioma.Valor("abaSituacoes"));
         painelConfiguracoes.setTitleAt(2, idioma.Valor("abaVariaveis"));
         painelConfiguracoes.setTitleAt(3, idioma.Valor("abaAvaliacoes"));
+
+        //assistente
+        lblApresentacao.setText(idioma.Valor("lblApresentacao"));
+        lblSelecioneAvatar.setText(idioma.Valor("lblSelecioneAvatar"));
+        lblNomeAssistente.setText(idioma.Valor("lblNomeAssistente"));
+        btnAjudaAssistente.setText(idioma.Valor("btnAjuda"));
     }
 
     public final void AtualizarDados() {
@@ -189,8 +225,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      * Atualiza as informações do assiste
      */
     public final void AtualizaAssistente() {
-        lblNomeAssistente.setText(partidaDesenvolvimento.getAssistente().getNome());
-
+        txtNomeAssistente.setText(partidaDesenvolvimento.getAssistente().getNome());
+        txaApresentacao.setText(partidaDesenvolvimento.getAssistente().getApresentacao());
         lblImgAssistente.setSize(100, 100);
         lblImgAssistente.setText(null);
 
@@ -309,27 +345,23 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jsj.setVisible(true);
     }
 
-    public void EditarAssistente() {
-        JanelaDesenvolvimentoAssistente jda = new JanelaDesenvolvimentoAssistente();
-        jda.setVisible(true);
-    }
-
     public void SalvarPartida() {
         boolean continuar = true;
         String mensagem = "";
+        ArrayList<String> mensagens = new ArrayList<>();
 
-        if (!partidaDesenvolvimento.getAssistente().isCriado()) {
-            mensagem = idioma.Valor("mensagemSemAssistente");
-
-            int opcao = JOptionPane.showConfirmDialog(null, mensagem, idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
-
-            if (opcao == 1) {
-
-                continuar = false;
-
-            }
-
+        if (txtNomeAssistente.getText().isEmpty()) {
+            continuar = false;
+            mensagem = "msgNomeAssistenteObrigatorio";
+            mensagens.add(mensagem);
         }
+
+        if (txaApresentacao.getText().isEmpty()) {
+            continuar = false;
+            mensagem = "msgApresentacaoObrigatoria";
+            mensagens.add(mensagem);
+        }
+
         if (continuar) {
             JFileChooser jFileChooser = new JFileChooser();
 
@@ -373,7 +405,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 //outra opcao
             }
         } else {
-            JOptionPane.showMessageDialog(this, mensagem);
+            String mensagemJanela = "";
+
+            for (String s : mensagens) {
+                mensagemJanela += s + "\n";
+            }
+
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
         }
     }
 
@@ -573,9 +611,15 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         painelConfiguracoes = new javax.swing.JTabbedPane();
         abaAssistente = new javax.swing.JPanel();
         lblImgAssistente = new javax.swing.JLabel();
-        lblAssistente = new javax.swing.JLabel();
+        btnAjudaAssistente = new javax.swing.JButton();
         lblNomeAssistente = new javax.swing.JLabel();
-        btnEditarAssistente = new javax.swing.JButton();
+        txtNomeAssistente = new javax.swing.JTextField();
+        lblApresentacao = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txaApresentacao = new javax.swing.JTextArea();
+        lblSelecioneAvatar = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        lstAvatares = new javax.swing.JList();
         abaSituacoes = new javax.swing.JPanel();
         btnNovaSituacao = new javax.swing.JButton();
         btnEditarSituacao = new javax.swing.JButton();
@@ -666,16 +710,35 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         lblImgAssistente.setText("imgAssistente");
 
-        lblAssistente.setText("lblAssistente");
+        btnAjudaAssistente.setText("btnAjuda");
 
-        lblNomeAssistente.setText("lblNomeAssistente");
+        lblNomeAssistente.setText("Nome do Assistente:");
 
-        btnEditarAssistente.setText("btnEditarAssistente");
-        btnEditarAssistente.addActionListener(new java.awt.event.ActionListener() {
+        txtNomeAssistente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarAssistenteActionPerformed(evt);
+                txtNomeAssistenteActionPerformed(evt);
             }
         });
+
+        lblApresentacao.setText("Apresentação:");
+
+        txaApresentacao.setColumns(20);
+        txaApresentacao.setRows(5);
+        jScrollPane4.setViewportView(txaApresentacao);
+
+        lblSelecioneAvatar.setText("Selecione um Avatar:");
+
+        lstAvatares.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        lstAvatares.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstAvataresValueChanged(evt);
+            }
+        });
+        jScrollPane5.setViewportView(lstAvatares);
 
         javax.swing.GroupLayout abaAssistenteLayout = new javax.swing.GroupLayout(abaAssistente);
         abaAssistente.setLayout(abaAssistenteLayout);
@@ -684,29 +747,44 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             .addGroup(abaAssistenteLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(abaAssistenteLayout.createSequentialGroup()
-                        .addComponent(lblAssistente)
+                        .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblNomeAssistente)
+                            .addComponent(lblApresentacao))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNomeAssistente)))
-                .addContainerGap(474, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaAssistenteLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEditarAssistente)
+                        .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNomeAssistente)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAjudaAssistente))
+                    .addGroup(abaAssistenteLayout.createSequentialGroup()
+                        .addComponent(lblSelecioneAvatar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         abaAssistenteLayout.setVerticalGroup(
             abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(abaAssistenteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAssistente)
-                    .addComponent(lblNomeAssistente))
-                .addGap(18, 18, 18)
-                .addComponent(btnEditarAssistente)
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(abaAssistenteLayout.createSequentialGroup()
+                        .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAjudaAssistente)
+                            .addComponent(lblNomeAssistente)
+                            .addComponent(txtNomeAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblApresentacao)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSelecioneAvatar))
+                .addGap(39, 39, 39))
         );
 
         painelConfiguracoes.addTab("abaAssistente", abaAssistente);
@@ -1009,10 +1087,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEditarAssistenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAssistenteActionPerformed
-        EditarAssistente();
-    }//GEN-LAST:event_btnEditarAssistenteActionPerformed
-
     private void btnNovaSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSituacaoActionPerformed
         NovaSituacao();
     }//GEN-LAST:event_btnNovaSituacaoActionPerformed
@@ -1085,6 +1159,22 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jti.setVisible(true);
     }//GEN-LAST:event_mniIdiomaActionPerformed
 
+    private void txtNomeAssistenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeAssistenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeAssistenteActionPerformed
+
+    private void lstAvataresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAvataresValueChanged
+        int index = lstAvatares.getSelectedIndex();
+        if (index > -1) {
+            ImageIcon icone = new ImageIcon();
+            icone.setImage(avatares.get(index).getImage().getScaledInstance(150, 150, 150));
+            lblImgAssistente.setText(null);
+            lblImgAssistente.setIcon(icone);
+            avatarSelecionado = avatares.get(index);
+
+        }
+    }//GEN-LAST:event_lstAvataresValueChanged
+
     public static JanelaDesenvolvimentoPartida getInstancia() {
         if (instancia == null) {
             instancia = new JanelaDesenvolvimentoPartida();
@@ -1102,10 +1192,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JPanel abaAvaliacoes;
     private javax.swing.JPanel abaSituacoes;
     private javax.swing.JPanel abaVariaveis;
+    private javax.swing.JButton btnAjudaAssistente;
     private javax.swing.JButton btnAjudaAvaliacoes;
     private javax.swing.JButton btnAjudaSituacoes;
     private javax.swing.JButton btnAjudaVariaveis;
-    private javax.swing.JButton btnEditarAssistente;
     private javax.swing.JButton btnEditarAvaliacao;
     private javax.swing.JButton btnEditarSituacao;
     private javax.swing.JButton btnEditarVariavel;
@@ -1139,15 +1229,21 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel lblAssistente;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JLabel lblApresentacao;
     private javax.swing.JLabel lblImgAssistente;
     private javax.swing.JLabel lblNomeAssistente;
+    private javax.swing.JLabel lblSelecioneAvatar;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JList lstAvatares;
     private javax.swing.JMenuItem mniIdioma;
     private javax.swing.JMenuItem mniSalvar;
     private javax.swing.JTabbedPane painelConfiguracoes;
     private javax.swing.JTable tblAvaliacoes;
     private javax.swing.JTable tblSituacoes;
     private javax.swing.JTable tblVariaveis;
+    private javax.swing.JTextArea txaApresentacao;
+    private javax.swing.JTextField txtNomeAssistente;
     // End of variables declaration//GEN-END:variables
 }

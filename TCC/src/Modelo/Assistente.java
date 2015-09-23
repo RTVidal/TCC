@@ -17,14 +17,11 @@ public class Assistente implements Serializable {
     private String nome;
     private String apresentacao;
     private String avatarAssistente;
-    private boolean criado;
     
     private static Assistente instancia;
 
-    public Assistente()
-    {
+    public Assistente() {
         avatarAssistente = "";
-        criado = false;
     }
     
     public String getNome() {
@@ -58,12 +55,5 @@ public class Assistente implements Serializable {
     public static void setInstancia(Assistente instancia) {
         Assistente.instancia = instancia;
     }
-
-    public boolean isCriado() {
-        return criado;
-    }
-
-    public void setCriado(boolean criado) {
-        this.criado = criado;
-    }        
+    
 }
