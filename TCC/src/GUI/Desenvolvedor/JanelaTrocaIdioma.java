@@ -71,6 +71,7 @@ public class JanelaTrocaIdioma extends javax.swing.JDialog {
     public void SalvarIdioma() {
         idioma.DefineIdioma((String) cbxIdiomas.getSelectedItem());
         jdp.CarregaIdioma();
+        jdp.AtualizarDados();
         dispose();
     }
 

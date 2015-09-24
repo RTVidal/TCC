@@ -411,7 +411,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 mensagemJanela += s + "\n";
             }
 
-            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
         }
     }
 
