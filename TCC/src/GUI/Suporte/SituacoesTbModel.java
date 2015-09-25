@@ -77,7 +77,7 @@ public class SituacoesTbModel extends AbstractTableModel {
         if (column == COL_DETALHE) {
             if(situacoes.get(rowIndex).isSituacaoInicial())
             {
-                return idioma.Valor("lblInicial");
+                return idioma.Valor("btnInicial");
             } else {
                 return "-";
             }

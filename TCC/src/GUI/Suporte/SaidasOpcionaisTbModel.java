@@ -44,7 +44,10 @@ public class SaidasOpcionaisTbModel extends AbstractTableModel {
     public String getColumnName(int column) {
         //Qual é o nome das nossas colunas?  
         if (column == COL_NOME) {
-            return "Nome";
+            return idioma.Valor("lblNome");
+        }
+        if (column == COL_DESTINO) {
+            return idioma.Valor("lblSituacaoDestino");
         }
         return ""; //Nunca deve ocorrer
     }

@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
+public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
     /**
      * Creates new form JanelaDesenvolvimentoSaida
@@ -48,7 +48,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     public JanelaDesenvolvimentoSaida(JanelaDesenvolvimentoSituacao jds, int modo, Situacao situacao, Object saidaSelecionada) {
         initComponents();
         setLocationRelativeTo(jds);
-
+        setModal(true);
+        
         janelaDevSituacao = jds;
 
         partidaDesenvolvimento = Partida.getInstancia();
@@ -57,7 +58,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         saida = situacao.getSaida();
         this.modo = modo;
 
-        CarregarRecursos();
+        CarregaIdioma();
 
         txaFalaAssistente.setWrapStyleWord(true);
 
@@ -95,8 +96,22 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     /**
      * Carrega os recursos da janela de acordo com o idioma selecionado
      */
-    public final void CarregarRecursos() {
+    public final void CarregaIdioma() {
+        lblTitulo.setText(idioma.Valor("tituloDesenvSaida"));
         msgSalvarSaidaHabAcoes.setText(idioma.Valor("msgSalvarSaidaHabAcoes"));
+        lblDescricao.setText(idioma.Valor("lblDescricao"));
+        btnConfirmar.setText(idioma.Valor("btnConfirmar"));
+        btnCancelar.setText(idioma.Valor("btnCancelar"));
+        btnAjuda.setText(idioma.Valor("btnAjuda"));
+        lblFalaAssistente.setText(idioma.Valor("lblFalaAssistente"));
+        lblSituacaoDestino.setText(idioma.Valor("lblSituacaoDestino") + ":");
+        lblSituacaoOrigem.setText(idioma.Valor("lblSituacaoOrigem"));
+        btnSalvarSaidaAcoes.setText(idioma.Valor("btnSalvarSaida"));
+        btnEditarAcao.setText(idioma.Valor("btnEditarAcao"));
+        chbPodeDesistir.setText(idioma.Valor("lblPodeDesistir"));
+        
+        opcaoSaida.setTitleAt(0, idioma.Valor("tabSaidaOpcoes"));
+        opcaoSaida.setTitleAt(1, idioma.Valor("tabSaidaNumerica"));
     }
 
     /**
@@ -403,12 +418,12 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
         cbxSituacaoDestino = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
+        lblSituacaoDestino = new javax.swing.JLabel();
         txtSituacaoOrigem = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        lblSituacaoOrigem = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaFalaAssistente = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
+        lblFalaAssistente = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblAcoes = new javax.swing.JTable();
         btnEditarAcao = new javax.swing.JButton();
@@ -512,7 +527,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Situação Destino:");
+        lblSituacaoDestino.setText("Situação Destino:");
 
         txtSituacaoOrigem.setEditable(false);
         txtSituacaoOrigem.addActionListener(new java.awt.event.ActionListener() {
@@ -521,14 +536,14 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Situação Origem:");
+        lblSituacaoOrigem.setText("Situação Origem:");
 
         txaFalaAssistente.setColumns(20);
         txaFalaAssistente.setLineWrap(true);
         txaFalaAssistente.setRows(5);
         jScrollPane1.setViewportView(txaFalaAssistente);
 
-        jLabel2.setText("Fala assistente:");
+        lblFalaAssistente.setText("Fala assistente:");
 
         tblAcoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -552,6 +567,9 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
 
         btnAjuda.setText("btnAjuda");
 
+        msgSalvarSaidaHabAcoes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        msgSalvarSaidaHabAcoes.setForeground(new java.awt.Color(255, 0, 0));
+        msgSalvarSaidaHabAcoes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         msgSalvarSaidaHabAcoes.setText("msgSalvarSaidaHabAcoes");
 
         btnSalvarSaidaAcoes.setText("btnSalvarSaida");
@@ -579,7 +597,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
+                                    .addComponent(lblFalaAssistente)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jScrollPane1))
                                 .addGroup(layout.createSequentialGroup()
@@ -587,8 +605,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel3)
+                                            .addComponent(lblSituacaoDestino)
+                                            .addComponent(lblSituacaoOrigem)
                                             .addComponent(txtSituacaoOrigem)
                                             .addComponent(cbxSituacaoDestino, 0, 300, Short.MAX_VALUE))
                                         .addComponent(chbPodeDesistir))))
@@ -601,20 +619,17 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnSalvarSaidaAcoes)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnEditarAcao))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(msgSalvarSaidaHabAcoes)
-                                    .addGap(201, 201, 201))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnSalvarSaidaAcoes)
+                                .addGap(118, 118, 118)
+                                .addComponent(btnEditarAcao)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnConfirmar, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnAjuda, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(btnAjuda, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(msgSalvarSaidaHabAcoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -631,11 +646,11 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
+                                        .addComponent(lblSituacaoOrigem)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtSituacaoOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel4)
+                                        .addComponent(lblSituacaoDestino)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(cbxSituacaoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -643,7 +658,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
                                     .addComponent(opcaoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
+                                    .addComponent(lblFalaAssistente)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(9, 9, 9)
@@ -719,15 +734,15 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JFrame {
     private javax.swing.JCheckBox chbPodeDesistir;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner jspValorMaximo;
     private javax.swing.JSpinner jspValorMinimo;
     private javax.swing.JLabel lblDescricao;
+    private javax.swing.JLabel lblFalaAssistente;
+    private javax.swing.JLabel lblSituacaoDestino;
+    private javax.swing.JLabel lblSituacaoOrigem;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel msgSalvarSaidaHabAcoes;
     private javax.swing.JTabbedPane opcaoSaida;

@@ -363,6 +363,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         }
 
         if (continuar) {
+            partidaDesenvolvimento.getAssistente().setNome(txtNomeAssistente.getText());
+            partidaDesenvolvimento.getAssistente().setAvatarAssistente(avatarSelecionado.getDescription());
+            partidaDesenvolvimento.getAssistente().setApresentacao(txaApresentacao.getText());
+            
             JFileChooser jFileChooser = new JFileChooser();
 
             //Selecionar apenas arquivos
@@ -723,6 +727,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         lblApresentacao.setText("Apresentação:");
 
         txaApresentacao.setColumns(20);
+        txaApresentacao.setLineWrap(true);
         txaApresentacao.setRows(5);
         jScrollPane4.setViewportView(txaApresentacao);
 
@@ -1014,12 +1019,15 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         jMenu1.setText("mniArquivo");
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("mniAbrirJogar");
         jMenu1.add(jMenuItem2);
 
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("mniAbrirEditar");
         jMenu1.add(jMenuItem3);
 
+        mniSalvar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         mniSalvar.setText("mniSalvar");
         mniSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1028,6 +1036,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         });
         jMenu1.add(mniSalvar);
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("mniSalvarComo");
         jMenu1.add(jMenuItem1);
 
@@ -1035,6 +1044,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         jMenu2.setText("mniConfigurar");
 
+        mniIdioma.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         mniIdioma.setText("mniIdioma");
         mniIdioma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1047,15 +1057,19 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         jMenu3.setText("mniAjuda");
 
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem4.setText("mniManualUtilizacao");
         jMenu3.add(jMenuItem4);
 
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem7.setText("mniProjetosExemploEditar");
         jMenu3.add(jMenuItem7);
 
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem8.setText("mniProjetosExemploJogar");
         jMenu3.add(jMenuItem8);
 
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setText("mniSobre");
         jMenu3.add(jMenuItem5);
 

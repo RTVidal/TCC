@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
+public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
 
     private final JanelaDesenvolvimentoSaida janelaDevSaida;
     private final ControladoraIdioma idioma;
@@ -29,7 +29,8 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
      */
     public JanelaDesenvolvimentoAcao(JanelaDesenvolvimentoSaida janelaDevSaida, Acao acao) {
         initComponents();
-
+        setModal(true);
+        
         setLocationRelativeTo(janelaDevSaida);
         idioma = ControladoraIdioma.getInstancia();
         CarregaIdioma();
@@ -161,6 +162,11 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         });
 
         btnCancelar.setText("btnCancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         lblVariavel.setText("lblVariavel");
 
@@ -242,6 +248,10 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JFrame {
         SalvarAcao();
 
     }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAjuda;
