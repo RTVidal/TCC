@@ -8,18 +8,9 @@ package GUI.Jogador;
 import Controle.ControladoraExecucao;
 import Controle.ControladoraIdioma;
 import GUI.Desenvolvedor.JanelaDesenvolvimentoPartida;
-import Modelo.Assistente;
 import Modelo.Partida;
-import Modelo.Saida;
-import Modelo.SaidaOpcional;
-import Modelo.Situacao;
 import Persistencia.IOPartida;
-import java.awt.Image;
-import java.io.File;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -56,7 +47,6 @@ public class JanelaInicial extends javax.swing.JFrame {
         btnNovoJogo.setText(idioma.Valor("principalBtnNovoJogo"));
         lblTituloPrincipal.setText(idioma.Valor("tituloTelaPrincipal"));
         lblIdioma.setText(idioma.Valor("principalLblIdioma"));
-        btnExemplo.setText(idioma.Valor("btnExemploInicial"));
         cbxIdiomas.setSelectedItem(idioma.getIdiomaAtual());
     }
 
@@ -130,7 +120,6 @@ public class JanelaInicial extends javax.swing.JFrame {
         btnAbrirJogo = new javax.swing.JButton();
         btnNovoJogo = new javax.swing.JButton();
         btnEditarJogo = new javax.swing.JButton();
-        btnExemplo = new javax.swing.JButton();
         cbxIdiomas = new javax.swing.JComboBox();
         lblIdioma = new javax.swing.JLabel();
         lblTituloPrincipal = new javax.swing.JLabel();
@@ -159,13 +148,6 @@ public class JanelaInicial extends javax.swing.JFrame {
             }
         });
 
-        btnExemplo.setText("Situação exemplo");
-        btnExemplo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExemploActionPerformed(evt);
-            }
-        });
-
         cbxIdiomas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxIdiomas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,8 +173,7 @@ public class JanelaInicial extends javax.swing.JFrame {
                     .addComponent(lblTituloPrincipal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                     .addComponent(btnEditarJogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNovoJogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbxIdiomas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnExemplo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cbxIdiomas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -206,13 +187,11 @@ public class JanelaInicial extends javax.swing.JFrame {
                 .addComponent(btnEditarJogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNovoJogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(lblIdioma)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbxIdiomas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnExemplo)
-                .addContainerGap())
+                .addGap(45, 45, 45))
         );
 
         pack();
@@ -226,78 +205,6 @@ public class JanelaInicial extends javax.swing.JFrame {
 
         dispose();
     }//GEN-LAST:event_btnNovoJogoActionPerformed
-
-    private void btnExemploActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExemploActionPerformed
-
-        try {
-            //Preenche a instancia do assistente
-            Assistente assistente = new Assistente();
-
-            assistente.setNome("Joselito");
-            assistente.setApresentacao("Oi amiguinho");
-            assistente.setAvatarAssistente("avatar1");
-
-            Assistente.setInstancia(assistente);
-
-            Situacao situacao = new Situacao();
-
-            File file = new File("./recursos/teste.jpg");
-            Image img = ImageIO.read(file);
-
-            ImageIcon image = new ImageIcon("./recursos/teste.jpg");
-
-            situacao.setNome("Teste");
-            situacao.setFundoSituacao(image);
-            situacao.setFalaAssistente("No menu está uma variedade de sanduíches com preparos, "
-                    + "apresentações e acompanhamentos criativos. Há hambúrguer de "
-                    + "kafta, joelho de porco, falafel, feijoada, barreado, "
-                    + "couve-flor e diversos cortes de carnes, inclusive premium. "
-                    + "Nos pães também há grande variedade. Tem pão folha, "
-                    + "integral, de aveia, batata, milho, brioche e de aipim, "
-                    + "apenas para citar alguns. Os acompanhamentos são outras "
-                    + "atrações. Além da tradicional batata frita, há guacamole, "
-                    + "nuggets de banana, palmito assado, minipastel de geleia de "
-                    + "pimenta, babaganoush e chips de banana.");
-
-            SaidaOpcional saida1 = new SaidaOpcional();
-            saida1.setNome("Saida 1");
-            saida1.setFalaAssistente("Você escolheu saida 1");
-
-            SaidaOpcional saida2 = new SaidaOpcional();
-            saida2.setNome("Saida 2");
-            saida2.setFalaAssistente("É a saída 2 que você escolheu");
-
-            SaidaOpcional saida3 = new SaidaOpcional();
-            saida3.setNome("Saída 3");
-            saida3.setFalaAssistente("Você quer a saída 3?");
-
-            SaidaOpcional saida4 = new SaidaOpcional();
-            saida4.setNome("Saida 4");
-            saida4.setFalaAssistente("Saída 4 então");
-
-            ArrayList<SaidaOpcional> saidasOpcao = new ArrayList<>();
-
-            saidasOpcao.add(saida1);
-            saidasOpcao.add(saida2);
-            saidasOpcao.add(saida3);
-            saidasOpcao.add(saida4);
-
-            Saida saida = new Saida();
-            saida.setTipoSaida(1);
-            saida.setsaidasOpcao(saidasOpcao);
-
-            situacao.setSaida(saida);
-
-            JanelaExecucaoPartida jsj = new JanelaExecucaoPartida(1);
-            jsj.CarregarPreviaSituacao(situacao, assistente);
-
-            jsj.setVisible(true);
-            jsj.setSize(1024, 768);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }//GEN-LAST:event_btnExemploActionPerformed
 
     private void btnEditarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarJogoActionPerformed
 
@@ -319,7 +226,6 @@ public class JanelaInicial extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrirJogo;
     private javax.swing.JButton btnEditarJogo;
-    private javax.swing.JButton btnExemplo;
     private javax.swing.JButton btnNovoJogo;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cbxIdiomas;

@@ -413,7 +413,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             int diferenca = f.getLimiteSuperior() - f.getLimiteInferior();
 
             switch (diferenca) {
-                case 0: //Sequência com apenas um valor                 
+                case 0: //Apenas um valor fora da Sequência
                     mensagem = idioma.Valor("msgValUnicoForaSeq1") + " "
                             + f.getLimiteSuperior() + " "
                             + idioma.Valor("msgValUnicoForaSeq2");
