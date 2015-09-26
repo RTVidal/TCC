@@ -17,6 +17,7 @@ import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import Modelo.Variavel;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -77,7 +78,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         idioma = ControladoraIdioma.getInstancia();
 
         this.modo = modo;
-
+        setLayout(new FlowLayout());  
+        
         partida = Partida.getInstancia();
 
         setLocationRelativeTo(null);
@@ -116,7 +118,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         }
 
         //Ajusta o tamanho da tela
-        painelPrincipal.setSize(1024, 768);
+        painelPrincipal.setSize(1024, 700);
         painelPrincipal.setOpaque(false);
 
         //Caso não haja imagem de fundo, adiciona uma imagem genérica
@@ -129,7 +131,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         }
 
         imgFundo.setOpaque(false);
-        imgFundo.setSize(1024, 768);
+        //imgFundo.setSize(1024, 768);
 
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
@@ -140,7 +142,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         painelBotoes = new JPanel();
 
-        painelBotoes.setOpaque(true);
+        painelBotoes.setOpaque(false);
         painelBotoes.setSize(500, 100);
         painelBotoes.setLocation(100, 600);
 
@@ -229,22 +231,23 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         //Exibe o texto do balão
         textoBalao = new JTextArea();
 
-        textoBalao.setLocation(30, 30);
+        textoBalao.setLocation(40, 40);
         textoBalao.setEditable(false);
         textoBalao.setDragEnabled(false);
         textoBalao.setFont(new Font("Serif", Font.ITALIC, 16));
         textoBalao.setLineWrap(true);
         textoBalao.setWrapStyleWord(true);
         textoBalao.setForeground(Color.black);
+        textoBalao.setOpaque(false);
 
         textoBalao.setText(texto);
 
         int caracteres = texto.length();
 
         //80 caracteres por linha
-        int altura = (caracteres / 80) * 16;
-
-        int largura = 600; //Largura máxima
+        int altura = (caracteres / 80) * 25;
+        
+        int largura = 700; //Largura máxima
 
         if (altura < 16) {
             altura = 22;
@@ -270,13 +273,13 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         int xBalao;
 
         //Se a largura for menor do que o máximo (600), posicionar o balão acima do avatar
-        if (largura < 600) {
+        if (largura < 700) {
             //Gerar o final do balão sempre rente a 2/3 do tamanho do avatar
             xBalao = (imgAvatar.getX() + (2 * (imgAvatar.getWidth() / 3))) - imgBalao.getWidth();
 
         } else {
 
-            xBalao = xAvatar - imgBalao.getWidth();
+            xBalao = (xAvatar - imgBalao.getWidth()) + 30;
 
         }
 
@@ -782,6 +785,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        painelPrincipal.setPreferredSize(new java.awt.Dimension(1024, 700));
+
         javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
         painelPrincipal.setLayout(painelPrincipalLayout);
         painelPrincipalLayout.setHorizontalGroup(
@@ -790,7 +795,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 768, Short.MAX_VALUE)
+            .addGap(0, 700, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

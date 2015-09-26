@@ -6,6 +6,7 @@
 package GUI.Desenvolvedor;
 
 import Controle.ControladoraIdioma;
+import GUI.Suporte.LimiteCaracteres;
 import GUI.Suporte.SaidasNumericasTbModel;
 import GUI.Suporte.SaidasOpcionaisTbModel;
 import Modelo.Faixa;
@@ -22,22 +23,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
-class MyCustomFilter extends javax.swing.filechooser.FileFilter {
-
-    @Override
-    public boolean accept(File file) {
-        // Allow only directories, or files with ".txt" extension
-        return file.isDirectory() || file.getAbsolutePath().endsWith(".jpg");
-    }
-
-    @Override
-    public String getDescription() {
-        // This description will be displayed in the dialog,
-        // hard-coded = ugly, should be done via I18N
-        return "Image (*.jpg)";
-    }
-}
 
 /**
  *
@@ -79,6 +64,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         partidaDesenvolvimento = Partida.getInstancia();
 
+        txaFalaAssistente.setDocument(new LimiteCaracteres(750));
         txaFalaAssistente.setWrapStyleWord(true);
 
         if (acao == 2) {
@@ -815,3 +801,26 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JTextField txtNomeSituacao;
     // End of variables declaration//GEN-END:variables
 }
+
+/**
+ * Classe responsável pela insersão do arquivo
+ *
+ * @author Rafael
+ */
+class MyCustomFilter extends javax.swing.filechooser.FileFilter {
+
+    @Override
+    public boolean accept(File file) {
+        // Allow only directories, or files with ".txt" extension
+        return file.isDirectory() || file.getAbsolutePath().endsWith(".jpg");
+    }
+
+    @Override
+    public String getDescription() {
+        // This description will be displayed in the dialog,
+        // hard-coded = ugly, should be done via I18N
+        return "Image (*.jpg)";
+    }
+}
+
+
