@@ -37,7 +37,6 @@
                   <Component id="btnEditarJogo" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnNovoJogo" alignment="0" max="32767" attributes="0"/>
                   <Component id="cbxIdiomas" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btnExemplo" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -54,13 +53,11 @@
               <Component id="btnEditarJogo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnNovoJogo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="54" max="32767" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
               <Component id="lblIdioma" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="cbxIdiomas" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="btnExemplo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -88,14 +85,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarJogoActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnExemplo">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Situa&#xe7;&#xe3;o exemplo"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExemploActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbxIdiomas">
