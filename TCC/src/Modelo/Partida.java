@@ -12,10 +12,10 @@ import java.util.ArrayList;
  *
  * @author Rafael
  */
-public class Partida implements Serializable{
-    
+public class Partida implements Serializable {
+
     private Situacao situacaoInicial;
-    private String nomeArquivo;
+    private ParametrosArquivo parametrosArquivo;
     private Assistente assistente;
     private ArrayList<Situacao> situacoes;
     private ArrayList<Variavel> variaveis;
@@ -24,15 +24,15 @@ public class Partida implements Serializable{
     private static Partida instancia;
 
     public Partida() {
-        
+
         situacoes = new ArrayList<>();
         variaveis = new ArrayList<>();
         avaliacoes = new ArrayList<>();
-        
+
         assistente = new Assistente();
-        
+
     }
-    
+
     public Situacao getSituacaoInicial() {
         return situacaoInicial;
     }
@@ -66,7 +66,7 @@ public class Partida implements Serializable{
     }
 
     public static Partida getInstancia() {
-        if(instancia == null) {
+        if (instancia == null) {
             instancia = new Partida();
         }
         return instancia;
@@ -84,12 +84,12 @@ public class Partida implements Serializable{
         this.idioma = idioma;
     }
 
-    public String getNomeArquivo() {
-        return nomeArquivo;
+    public ParametrosArquivo getParametrosArquivo() {
+        return parametrosArquivo;
     }
 
-    public void setNomeArquivo(String nomeArquivo) {
-        this.nomeArquivo = nomeArquivo;
+    public void setParametrosArquivo(ParametrosArquivo parametrosArquivo) {
+        this.parametrosArquivo = parametrosArquivo;
     }
 
     public ArrayList<Avaliacao> getAvaliacoes() {
@@ -98,5 +98,5 @@ public class Partida implements Serializable{
 
     public void setAvaliacoes(ArrayList<Avaliacao> avaliacoes) {
         this.avaliacoes = avaliacoes;
-    }    
+    }
 }

@@ -115,11 +115,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnEditarAvaliacao.setText(idioma.Valor("btnEditarAvaliacao"));
         btnExcluirAvaliacao.setText(idioma.Valor("btnExcluirAvaliacao"));
         //Label
-        if (partidaDesenvolvimento.getNomeArquivo() != null) {
+        if (partidaDesenvolvimento.getParametrosArquivo() != null) {
+            String nomeArquivo = partidaDesenvolvimento.getParametrosArquivo().getNomeDoArquivo();
             setTitle(idioma.Valor("tituloDesenvPartidaEdicao")
-                    + " " + partidaDesenvolvimento.getNomeArquivo());
+                    + " " + nomeArquivo);
             lblTitulo.setText(idioma.Valor("tituloDesenvPartidaEdicao")
-                    + " " + partidaDesenvolvimento.getNomeArquivo());
+                    + " " + nomeArquivo);
         } else {
             setTitle(idioma.Valor("tituloDesenvPartidaNova"));
             lblTitulo.setText(idioma.Valor("tituloDesenvPartidaNova"));
@@ -376,47 +377,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             partidaDesenvolvimento.getAssistente().setNome(txtNomeAssistente.getText());
             partidaDesenvolvimento.getAssistente().setAvatarAssistente(avatarSelecionado.getDescription());
             partidaDesenvolvimento.getAssistente().setApresentacao(txaApresentacao.getText());
-
-            JFileChooser jFileChooser = new JFileChooser();
-
-            //Selecionar apenas arquivos
-            jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-            //desabilita todos os tipos de arquivos
-            jFileChooser.setAcceptAllFileFilterUsed(false);
-
-            //filtra por extensao
-            jFileChooser.setFileFilter(new FileFilter() {
-                @Override
-                public String getDescription() {
-                    return "tcc";
-                }
-
-                @Override
-                public boolean accept(File f) {
-                    return f.getName().toLowerCase().endsWith("tcc");
-                }
-            });
-
-            //mostra janela para salvar
-            int acao = jFileChooser.showSaveDialog(null);
-
-            //executa acao conforme opcao selecionada
-            if (acao == JFileChooser.APPROVE_OPTION) {
-                //escolheu arquivo
-                partidaDesenvolvimento.setNomeArquivo(jFileChooser.getSelectedFile().getName());
-
-                String diretorio = jFileChooser.getSelectedFile().getAbsolutePath();
-                IOPartida iop = new IOPartida();
-                iop.SalvaPartida(diretorio);
+            IOPartida iop = new IOPartida();
+            boolean salvou = iop.SalvaPartida(partidaDesenvolvimento);
+            if (salvou) {
                 dispose();
                 Partida.setInstancia(null);
                 JanelaDesenvolvimentoPartida.setInstancia(null);
 
-            } else if (acao == JFileChooser.CANCEL_OPTION) {
-                //apertou botao cancelar
-            } else if (acao == JFileChooser.ERROR_OPTION) {
-                //outra opcao
             }
         } else {
             String mensagemJanela = "<html><center>";
