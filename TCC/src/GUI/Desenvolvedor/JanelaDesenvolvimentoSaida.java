@@ -288,7 +288,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
                 int valorMinimo = (int) jspValorMinimo.getValue();
                 int valorMaximo = (int) jspValorMaximo.getValue();
 
-                if (valorMinimo >= valorMaximo) {
+                if (valorMinimo > valorMaximo) {
                     ok = false;
                     mensagem = idioma.Valor("msgValorMinimoMenor");
                     mensagens.add(mensagem);

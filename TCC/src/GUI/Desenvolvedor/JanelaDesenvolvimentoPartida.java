@@ -9,6 +9,7 @@ import Controle.ControladoraIdioma;
 import GUI.Jogador.JanelaExecucaoPartida;
 import GUI.Jogador.JanelaInicial;
 import GUI.Suporte.AvaliacoesTbModel;
+import GUI.Suporte.LimiteCaracteres;
 import GUI.Suporte.SituacoesTbModel;
 import GUI.Suporte.VariaveisTbModel;
 import Modelo.Acao;
@@ -32,7 +33,7 @@ import javax.swing.JOptionPane;
  */
 public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
-    private Partida partidaDesenvolvimento;
+    private final Partida partidaDesenvolvimento;
 
     private static JanelaDesenvolvimentoPartida instancia;
 
@@ -50,6 +51,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      * Creates new form JanelaAdministrarJogo
      */
     public JanelaDesenvolvimentoPartida() {
+        
         initComponents();
         setLocationRelativeTo(null);
         partidaDesenvolvimento = Partida.getInstancia();
@@ -62,6 +64,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         CarregaAvatares();
         partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
         partidaSalva = true;
+        
+        //Limita os caracteres da apresentação do assistente
+        txaApresentacao.setDocument(new LimiteCaracteres(750));
+        
+        //Quebrar linhas com as palavras
+        txaApresentacao.setWrapStyleWord(true);
     }
 
     public final void CarregaAvatares() {
@@ -357,8 +365,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     }
 
     public void SalvarPartida() {
+        
         boolean continuar = true;
-        String mensagem = "";
         ArrayList<String> mensagens = new ArrayList<>();
 
         if (txtNomeAssistente.getText().isEmpty()) {
@@ -386,9 +394,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 ji.setVisible(true);
             }
         } else {
+            
             String mensagemJanela = "<html><center>";
-            for (String s : mensagens) {
-                mensagemJanela += s + "<br>";
+            for (String mensagem : mensagens) {
+                mensagemJanela += mensagem + "<br>";
             }
             JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
         }

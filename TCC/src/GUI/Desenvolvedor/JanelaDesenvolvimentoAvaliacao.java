@@ -145,7 +145,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         double valorInicial = (double) jspValorInicial.getValue();
         double valorFinal = (double) jspValorFinal.getValue();
 
-        if (valorInicial >= valorFinal) {
+        if (valorInicial > valorFinal) {
             ok = false;
             mensagem = idioma.Valor("msgValorInicialMenor");
             mensagens.add(mensagem);
