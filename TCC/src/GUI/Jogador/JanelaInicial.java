@@ -30,11 +30,17 @@ public class JanelaInicial extends javax.swing.JFrame {
      */
     public JanelaInicial() {
         initComponents();
-
         setLocationRelativeTo(jdp);
+
+        boolean primeiraExecucao = false;
+        if (ControladoraIdioma.getInstancia().getIdiomaAtual() == null) {
+            primeiraExecucao = true;
+        }
         idioma = ControladoraIdioma.getInstancia();
         PreencheComboIdiomas();
-        idioma.DefineIdioma("Português");
+        if (primeiraExecucao) {
+            idioma.DefineIdioma("Português");
+        }
         CarregaIdioma();
     }
 
@@ -92,11 +98,8 @@ public class JanelaInicial extends javax.swing.JFrame {
     }
 
     public void EditarJogo(Partida partidaDesenvolvimento) {
-        if (partidaDesenvolvimento == null) {
-            IOPartida iop = new IOPartida();
-            partidaDesenvolvimento = iop.LePartida();
-        }
-
+        IOPartida iop = new IOPartida();
+        partidaDesenvolvimento = iop.LePartida();
         if (partidaDesenvolvimento != null) {
             if (!(((String) cbxIdiomas.getSelectedItem()).equalsIgnoreCase(partidaDesenvolvimento.getIdioma()))) {
                 int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"), idioma.Valor("aviso"),
@@ -173,14 +176,14 @@ public class JanelaInicial extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTituloPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                    .addComponent(btnAbrirJogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditarJogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNovoJogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblIdioma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAbrirJogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblTituloPrincipal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                    .addComponent(btnEditarJogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNovoJogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbxIdiomas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cbxIdiomas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,29 +196,24 @@ public class JanelaInicial extends javax.swing.JFrame {
                 .addComponent(btnEditarJogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNovoJogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(lblIdioma)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbxIdiomas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoJogoActionPerformed
-
         jdp = JanelaDesenvolvimentoPartida.getInstancia();
-
         jdp.setVisible(true);
-
         dispose();
     }//GEN-LAST:event_btnNovoJogoActionPerformed
 
     private void btnEditarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarJogoActionPerformed
-
         EditarJogo(null);
-
     }//GEN-LAST:event_btnEditarJogoActionPerformed
 
     private void cbxIdiomasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxIdiomasActionPerformed
@@ -224,9 +222,7 @@ public class JanelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxIdiomasActionPerformed
 
     private void btnAbrirJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirJogoActionPerformed
-
         ExecutarJogo();
-
     }//GEN-LAST:event_btnAbrirJogoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

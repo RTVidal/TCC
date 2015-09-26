@@ -10,7 +10,9 @@ import Modelo.Partida;
 import Modelo.ParametrosArquivo;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JFileChooser;
@@ -24,13 +26,15 @@ import javax.swing.filechooser.FileFilter;
 public class IOPartida {
 
     private final ControladoraIdioma idioma;
+    private Object[] opcaoSimNao;
 
     public IOPartida() {
         idioma = ControladoraIdioma.getInstancia();
+        opcaoSimNao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
     }
 
     public ParametrosArquivo selecionadorDeArquivos() {
-        ParametrosArquivo sda = new ParametrosArquivo();
+        ParametrosArquivo pa = new ParametrosArquivo();
         JFileChooser jFileChooser = new JFileChooser();
         //Selecionar apenas arquivos
         jFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -52,15 +56,77 @@ public class IOPartida {
         int acao = jFileChooser.showSaveDialog(null);
         //executa acao conforme opcao selecionada
         if (acao == JFileChooser.APPROVE_OPTION) {
-            sda.setNomeDoArquivo(jFileChooser.getSelectedFile().getName());
-            sda.setPatchDoArquivo(jFileChooser.getSelectedFile().getAbsolutePath());
-            sda.setArquivoSelecionado(true);
+            String nome = jFileChooser.getSelectedFile().getName();
+            pa.setPatchDoArquivo(jFileChooser.getSelectedFile().getAbsolutePath());
+            pa.setArquivoSelecionado(true);
+            String finalNome = nome.substring(nome.length() - 4, nome.length());
+            if (finalNome.equalsIgnoreCase(".tcc")) {
+                pa.setNomeDoArquivo(nome.substring(0, nome.length() - 4));
+            } else {
+                pa.setNomeDoArquivo(nome);
+            }
         } else if (acao == JFileChooser.CANCEL_OPTION) {
-            sda.setArquivoSelecionado(false);
+            pa.setArquivoSelecionado(false);
         } else if (acao == JFileChooser.ERROR_OPTION) {
-            sda.setArquivoSelecionado(false);
+            pa.setArquivoSelecionado(false);
         }
-        return sda;
+        return pa;
+    }
+
+    public boolean SalvarDireto(Partida partidaSalvar) throws FileNotFoundException, IOException {
+        if (partidaSalvar.getParametrosArquivo() == null) {
+            return SalvarComo(partidaSalvar);
+        } else {
+            String diretorio = partidaSalvar.getParametrosArquivo().getPatchDoArquivo();
+            String finalNome = diretorio.substring(diretorio.length() - 4, diretorio.length());
+            FileOutputStream arquivoGrav;
+            if (finalNome.equalsIgnoreCase(".tcc")) {
+                File arquivo = new File(diretorio);
+                arquivo.delete();
+                arquivoGrav = new FileOutputStream(diretorio, true);
+            } else {
+                File arquivo = new File(diretorio + ".tcc");
+                arquivo.delete();
+                arquivoGrav = new FileOutputStream(diretorio + ".tcc", true);
+            }
+            ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
+            objGravar.writeObject(partidaSalvar);
+            objGravar.flush();
+            objGravar.close();
+            arquivoGrav.flush();
+            arquivoGrav.close();
+            Partida.setInstancia(partidaSalvar);
+            return true;
+        }
+    }
+
+    public boolean SalvarComo(Partida partidaSalvar) throws FileNotFoundException, IOException {
+        ParametrosArquivo pa = selecionadorDeArquivos();
+        if (pa.isArquivoSelecionado()) {
+            String diretorio = partidaSalvar.getParametrosArquivo().getPatchDoArquivo();
+            String finalNome = diretorio.substring(diretorio.length() - 4, diretorio.length());
+            partidaSalvar.setParametrosArquivo(pa);
+            FileOutputStream arquivoGrav;
+            if (finalNome.equalsIgnoreCase(".tcc")) {
+                File arquivo = new File(diretorio);
+                arquivo.delete();
+                arquivoGrav = new FileOutputStream(diretorio, true);
+            } else {
+                File arquivo = new File(diretorio + ".tcc");
+                arquivo.delete();
+                arquivoGrav = new FileOutputStream(diretorio + ".tcc", true);
+            }
+            ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
+            objGravar.writeObject(partidaSalvar);
+            objGravar.flush();
+            objGravar.close();
+            arquivoGrav.flush();
+            arquivoGrav.close();
+            Partida.setInstancia(partidaSalvar);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean SalvaPartida(Partida partidaSalvar) {

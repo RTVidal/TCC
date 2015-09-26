@@ -30,15 +30,15 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="lblIdioma" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="lblTituloPrincipal" pref="210" max="32767" attributes="0"/>
                   <Component id="btnAbrirJogo" alignment="0" max="32767" attributes="0"/>
-                  <Component id="lblTituloPrincipal" alignment="0" pref="225" max="32767" attributes="0"/>
                   <Component id="btnEditarJogo" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnNovoJogo" alignment="0" max="32767" attributes="0"/>
+                  <Component id="lblIdioma" max="32767" attributes="0"/>
                   <Component id="cbxIdiomas" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -53,11 +53,11 @@
               <Component id="btnEditarJogo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnNovoJogo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="29" max="32767" attributes="0"/>
+              <EmptySpace pref="20" max="32767" attributes="0"/>
               <Component id="lblIdioma" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="cbxIdiomas" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
