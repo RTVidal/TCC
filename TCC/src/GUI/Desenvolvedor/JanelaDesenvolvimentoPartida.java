@@ -23,9 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
 
 /**
  *
@@ -1109,7 +1107,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         if (!partidaSalva) {
             int selecionado = JOptionPane.showOptionDialog(null, idioma.Valor("msgDesejaSalvar"),
-                    idioma.Valor("aviso"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    idioma.Valor("tituloAviso"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
                     null, opcaoSimNaoCancelar, opcaoSimNaoCancelar[0]);
             switch (selecionado) {
                 case 0: //Salvar

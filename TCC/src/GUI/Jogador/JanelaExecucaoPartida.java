@@ -374,7 +374,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.removeAll();
         painelBotoes.revalidate();
 
-        btn = new JButton(idioma.Valor("lblTerminar"));
+        btn = new JButton(idioma.Valor("btnTerminar"));
 
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
@@ -390,7 +390,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         if (modo == 1) {
 
-            btn = new JButton(idioma.Valor("lblJogarNovamente"));
+            btn = new JButton(idioma.Valor("btnJogarNovamente"));
 
             btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
@@ -451,7 +451,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             painelBotoes.removeAll();
             painelBotoes.revalidate();
 
-            btn = new JButton(idioma.Valor("lblContemeMais"));
+            btn = new JButton(idioma.Valor("btnContemeMais"));
 
             btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
