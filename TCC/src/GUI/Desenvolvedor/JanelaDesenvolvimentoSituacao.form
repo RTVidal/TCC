@@ -52,11 +52,11 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="btnSelecionarImagem" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="30" max="32767" attributes="0"/>
-                                      <Component id="btnVisualizarImagem" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="lblResolucaoIdeal" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="txtNomeSituacao" max="32767" attributes="0"/>
-                                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane1" pref="296" max="32767" attributes="0"/>
                                   <Component id="txtArquivo" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -141,9 +141,9 @@
                                           <Component id="txtArquivo" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="btnSelecionarImagem" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnVisualizarImagem" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="btnSelecionarImagem" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblResolucaoIdeal" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -284,11 +284,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelecionarImagemActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnVisualizarImagem">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="btnVisualizarImagem"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JCheckBox" name="chbSituacaoInicial">
       <Properties>
         <Property name="text" type="java.lang.String" value="lblInicial"/>
@@ -359,6 +354,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirSaidaActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblResolucaoIdeal">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="lblResolucaoIdeal"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

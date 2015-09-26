@@ -88,7 +88,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
         btnAjuda.setText(idioma.Valor("btnAjuda"));
         btnSelecionarImagem.setText(idioma.Valor("btnSelecionarImagem"));
-        btnVisualizarImagem.setText(idioma.Valor("btnVisualizarImagem"));
         btnNovaSaida.setText(idioma.Valor("btnNovaSaida"));
         btnEditarSaida.setText(idioma.Valor("btnEditarSaida"));
         btnExcluirSaida.setText(idioma.Valor("btnExcluirSaida"));
@@ -99,6 +98,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         lblFalaAssistente.setText(idioma.Valor("lblFalaAssistente"));
         lblImgFundo.setText(idioma.Valor("lblImgFundo"));
         lblTipoSaida.setText(idioma.Valor("lblTipoSaida"));
+        lblResolucaoIdeal.setText(idioma.Valor("lblResolucaoIdeal"));
     }
 
     public final void CarregarComboTipoSaida() {
@@ -452,7 +452,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txaFalaAssistente = new javax.swing.JTextArea();
         txtArquivo = new javax.swing.JTextField();
         btnSelecionarImagem = new javax.swing.JButton();
-        btnVisualizarImagem = new javax.swing.JButton();
         chbSituacaoInicial = new javax.swing.JCheckBox();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblSaidas = new javax.swing.JTable();
@@ -461,6 +460,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         btnNovaSaida = new javax.swing.JButton();
         btnEditarSaida = new javax.swing.JButton();
         btnExcluirSaida = new javax.swing.JButton();
+        lblResolucaoIdeal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -511,8 +511,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             }
         });
 
-        btnVisualizarImagem.setText("btnVisualizarImagem");
-
         chbSituacaoInicial.setText("lblInicial");
 
         tblSaidas.setModel(new javax.swing.table.DefaultTableModel(
@@ -555,6 +553,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             }
         });
 
+        lblResolucaoIdeal.setText("lblResolucaoIdeal");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -584,10 +584,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnSelecionarImagem)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                        .addComponent(btnVisualizarImagem))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(lblResolucaoIdeal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(txtNomeSituacao)
-                                    .addComponent(jScrollPane1)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                                     .addComponent(txtArquivo))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -649,9 +649,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                             .addComponent(lblImgFundo)
                                             .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(btnSelecionarImagem)
-                                            .addComponent(btnVisualizarImagem)))
+                                            .addComponent(lblResolucaoIdeal)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(layout.createSequentialGroup()
@@ -782,7 +782,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JButton btnExcluirSaida;
     private javax.swing.JButton btnNovaSaida;
     private javax.swing.JButton btnSelecionarImagem;
-    private javax.swing.JButton btnVisualizarImagem;
     private javax.swing.JComboBox cbxTipoSaida;
     private javax.swing.JCheckBox chbSituacaoInicial;
     private javax.swing.JLabel jLabel6;
@@ -792,6 +791,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JLabel lblFalaAssistente;
     private javax.swing.JLabel lblImgFundo;
     private javax.swing.JLabel lblNome;
+    private javax.swing.JLabel lblResolucaoIdeal;
     private javax.swing.JLabel lblSaidasDessaSituacao;
     private javax.swing.JLabel lblTipoSaida;
     private javax.swing.JLabel lblTitulo;
