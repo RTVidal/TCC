@@ -53,25 +53,15 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     public JanelaDesenvolvimentoPartida() {
         initComponents();
         setLocationRelativeTo(null);
-
-        idioma = ControladoraIdioma.getInstancia();
-
-        CarregaIdioma();
-
         partidaDesenvolvimento = Partida.getInstancia();
-        if (partidaDesenvolvimento.getNomeArquivo() != null) {
-            setTitle(partidaDesenvolvimento.getNomeArquivo());
-            lblTitulo.setText(idioma.Valor("tituloDesenvPartidaEdicao")
-                    + " " + partidaDesenvolvimento.getNomeArquivo());
-        }
+        idioma = ControladoraIdioma.getInstancia();
+        CarregaIdioma();
         AtualizarDados();
-
         if (partidaDesenvolvimento.getAssistente() != null) {
             AtualizaAssistente();
         }
         CarregaAvatares();
         partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
-
     }
 
     public final void CarregaAvatares() {
@@ -125,7 +115,15 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnEditarAvaliacao.setText(idioma.Valor("btnEditarAvaliacao"));
         btnExcluirAvaliacao.setText(idioma.Valor("btnExcluirAvaliacao"));
         //Label
-        lblTitulo.setText(idioma.Valor("tituloDesenvPartidaNova"));
+        if (partidaDesenvolvimento.getNomeArquivo() != null) {
+            setTitle(idioma.Valor("tituloDesenvPartidaEdicao")
+                    + " " + partidaDesenvolvimento.getNomeArquivo());
+            lblTitulo.setText(idioma.Valor("tituloDesenvPartidaEdicao")
+                    + " " + partidaDesenvolvimento.getNomeArquivo());
+        } else {
+            setTitle(idioma.Valor("tituloDesenvPartidaNova"));
+            lblTitulo.setText(idioma.Valor("tituloDesenvPartidaNova"));
+        }
 
         //abas
         painelConfiguracoes.setTitleAt(0, idioma.Valor("abaAssistente"));
@@ -138,7 +136,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         lblSelecioneAvatar.setText(idioma.Valor("lblSelecioneAvatar"));
         lblNomeAssistente.setText(idioma.Valor("lblNomeAssistente"));
         btnAjudaAssistente.setText(idioma.Valor("btnAjuda"));
-        
+
         //menus
         menuArquivo.setText(idioma.Valor("mniArquivo"));
         menuItemAbrirJogar.setText(idioma.Valor("mniAbrirJogar"));
@@ -366,21 +364,19 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         if (txtNomeAssistente.getText().isEmpty()) {
             continuar = false;
-            mensagem = "msgNomeAssistenteObrigatorio";
-            mensagens.add(mensagem);
+            mensagens.add(idioma.Valor("msgNomeAssistenteObrigatorio"));
         }
 
         if (txaApresentacao.getText().isEmpty()) {
             continuar = false;
-            mensagem = "msgApresentacaoObrigatoria";
-            mensagens.add(mensagem);
+            mensagens.add(idioma.Valor("msgApresentacaoObrigatoria"));
         }
 
         if (continuar) {
             partidaDesenvolvimento.getAssistente().setNome(txtNomeAssistente.getText());
             partidaDesenvolvimento.getAssistente().setAvatarAssistente(avatarSelecionado.getDescription());
             partidaDesenvolvimento.getAssistente().setApresentacao(txaApresentacao.getText());
-            
+
             JFileChooser jFileChooser = new JFileChooser();
 
             //Selecionar apenas arquivos
@@ -423,10 +419,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 //outra opcao
             }
         } else {
-            String mensagemJanela = "";
+            String mensagemJanela = "<html><center>";
 
             for (String s : mensagens) {
-                mensagemJanela += s + "\n";
+                mensagemJanela += s + "<br>";
             }
 
             JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
@@ -1132,21 +1128,15 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPreviaSituacaoActionPerformed
 
     private void btnNovaVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaVariavelActionPerformed
-
         NovaVariavel();
-
     }//GEN-LAST:event_btnNovaVariavelActionPerformed
 
     private void btnEditarVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarVariavelActionPerformed
-
         EditarVariavel();
-
     }//GEN-LAST:event_btnEditarVariavelActionPerformed
 
     private void menuItemSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalvarActionPerformed
-
         SalvarPartida();
-
     }//GEN-LAST:event_menuItemSalvarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

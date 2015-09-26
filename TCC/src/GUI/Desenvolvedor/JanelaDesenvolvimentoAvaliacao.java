@@ -137,7 +137,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         }
         if (txaTextoAvaliacao.getText().isEmpty()) {
             ok = false;
-            mensagem = idioma.Valor("msgTextoObrigatorio");
+            mensagem = idioma.Valor("msgTextoAvaliacaoObrigatorio");
             mensagens.add(mensagem);
 
         }
@@ -153,13 +153,13 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
         //Exibe as mensagens
         if (!ok) {
-            String mensagemJanela = "";
+            String mensagemJanela = "<html><center>";
 
             for (String s : mensagens) {
-                mensagemJanela += s + "\n";
+                mensagemJanela += s + "<br>";
             }
 
-            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
         }
 
         return ok;

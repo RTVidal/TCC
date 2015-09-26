@@ -30,7 +30,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
     public JanelaDesenvolvimentoAcao(JanelaDesenvolvimentoSaida janelaDevSaida, Acao acao) {
         initComponents();
         setModal(true);
-        
+
         setLocationRelativeTo(janelaDevSaida);
         idioma = ControladoraIdioma.getInstancia();
         CarregaIdioma();
@@ -45,7 +45,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
     /**
      * Preenche os componentes da tela de acordo com o idioma selecionado
      */
-    public void CarregaIdioma() {
+    public final void CarregaIdioma() {
         lblAcao.setText(idioma.Valor("lblAcao"));
         lblValor.setText(idioma.Valor("lblValor"));
         lblVariavel.setText(idioma.Valor("lblVariavel"));
@@ -111,13 +111,13 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
         }
 
         if (!ok) {
-            String mensagemJanela = "";
+            String mensagemJanela = "<html><center>";
 
             for (String s : mensagens) {
-                mensagemJanela += s + "\n";
+                mensagemJanela += s + "<br>";
             }
 
-            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
         }
         return ok;
     }
@@ -240,13 +240,11 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjudaActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnAjudaActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-
         SalvarAcao();
-
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

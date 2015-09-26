@@ -14,18 +14,19 @@ import Controle.ControladoraIdioma;
 public class JanelaTexto extends javax.swing.JDialog {
 
     ControladoraIdioma idioma;
-    
+
     /**
      * Creates new form JanelaAjuda
+     *
      * @param textoAjuda
      */
     public JanelaTexto(String textoAjuda) {
         initComponents();
         setLocationRelativeTo(null);
         setModal(true);
-        
+
         idioma = ControladoraIdioma.getInstancia();
-        
+
         txaAjuda.setText(idioma.Valor(textoAjuda));
 
         btnOk.setText(idioma.Valor("btnOk"));
@@ -84,9 +85,7 @@ public class JanelaTexto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-        
         dispose();
-        
     }//GEN-LAST:event_btnOkActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -49,7 +49,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(jds);
         setModal(true);
-        
+
         janelaDevSituacao = jds;
 
         partidaDesenvolvimento = Partida.getInstancia();
@@ -109,7 +109,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         btnSalvarSaidaAcoes.setText(idioma.Valor("btnSalvarSaida"));
         btnEditarAcao.setText(idioma.Valor("btnEditarAcao"));
         chbPodeDesistir.setText(idioma.Valor("lblPodeDesistir"));
-        
+
         opcaoSaida.setTitleAt(0, idioma.Valor("tabSaidaOpcoes"));
         opcaoSaida.setTitleAt(1, idioma.Valor("tabSaidaNumerica"));
     }
@@ -192,13 +192,13 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         btnSalvarSaidaAcoes.setVisible(modo == 1);
 
         AcoesTbModel model;
-        
+
         if (saida.getTipoSaida() == 1) {
             model = new AcoesTbModel(saidaOpcao.getAcoes());
             btnEditarAcao.setEnabled(!saidaOpcao.getAcoes().isEmpty());
-            
+
             tblAcoes.setModel(model);
-            
+
             if (!saidaOpcao.getAcoes().isEmpty()) {
                 tblAcoes.setRowSelectionInterval(0, 0);
             }
@@ -208,13 +208,11 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             btnEditarAcao.setEnabled(!saidaNumerica.getAcoes().isEmpty());
 
             tblAcoes.setModel(model);
-            
+
             if (!saidaNumerica.getAcoes().isEmpty()) {
                 tblAcoes.setRowSelectionInterval(0, 0);
             }
         }
-
-        
 
         //Esconder a coluna contendo o objeto da situação
         tblAcoes.getColumnModel().getColumn(0).setMinWidth(0);
@@ -301,7 +299,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         if (ok) {
             //Sem fala de assistente
             if (txaFalaAssistente.getText().isEmpty()) {
-                int opcao = JOptionPane.showConfirmDialog(this, "msgSemFalaAssistente", idioma.Valor("lblAviso"),
+                int opcao = JOptionPane.showConfirmDialog(this, "msgSemFalaAssistente", idioma.Valor("aviso"),
                         JOptionPane.YES_NO_OPTION);
 
                 if (opcao == 1) {
@@ -313,7 +311,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
             //Situação destino = situação origem
             if (txtSituacaoOrigem.getText() == cbxSituacaoDestino.getSelectedItem()) {
-                int opcao = JOptionPane.showConfirmDialog(this, "msgMesmaSituacao", idioma.Valor("lblAviso"),
+                int opcao = JOptionPane.showConfirmDialog(this, "msgMesmaSituacao", idioma.Valor("aviso"),
                         JOptionPane.YES_NO_OPTION);
 
                 if (opcao == 1) {
@@ -324,13 +322,13 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             }
 
         } else {
-            String mensagemJanela = "";
+            String mensagemJanela = "<html><center>";
 
             for (String s : mensagens) {
-                mensagemJanela += s + "\n";
+                mensagemJanela += s + "<br>";
             }
 
-            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
         }
 
         return ok;
@@ -377,9 +375,9 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     public void CriarAcoesSaida(int tipoSaida) {
 
         Acao acao = new Acao();
-        
+
         for (Variavel variavel : partidaDesenvolvimento.getVariaveis()) {
-            
+
             acao.setNumero(0);
             acao.setOperacao(0);
             acao.setVariavel(variavel);
@@ -435,12 +433,6 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        opcaoSaida.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                opcaoSaidaMouseClicked(evt);
-            }
-        });
 
         lblDescricao.setText("lblDescricao");
 
@@ -530,11 +522,6 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         lblSituacaoDestino.setText("Situação Destino:");
 
         txtSituacaoOrigem.setEditable(false);
-        txtSituacaoOrigem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSituacaoOrigemActionPerformed(evt);
-            }
-        });
 
         lblSituacaoOrigem.setText("Situação Origem:");
 
@@ -699,29 +686,15 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     }//GEN-LAST:event_cbxSituacaoDestinoActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-
         SalvarSaida(true);
-
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
-    private void opcaoSaidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcaoSaidaMouseClicked
-
-    }//GEN-LAST:event_opcaoSaidaMouseClicked
-
-    private void txtSituacaoOrigemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSituacaoOrigemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSituacaoOrigemActionPerformed
-
     private void btnEditarAcaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAcaoActionPerformed
-
         EditarAcao();
-
     }//GEN-LAST:event_btnEditarAcaoActionPerformed
 
     private void btnSalvarSaidaAcoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarSaidaAcoesActionPerformed
-
         SalvarSaida(false);
-
     }//GEN-LAST:event_btnSalvarSaidaAcoesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

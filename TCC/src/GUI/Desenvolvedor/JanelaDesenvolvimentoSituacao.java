@@ -183,7 +183,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         boolean continuar = false;
 
         String mensagem = idioma.Valor("msgExclusaoAvaliacao");
-        int opcao = JOptionPane.showConfirmDialog(null, mensagem, idioma.Valor("lblAviso"), JOptionPane.YES_NO_OPTION);
+        int opcao = JOptionPane.showConfirmDialog(null, mensagem, idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
 
         if (opcao == 0) {
 
@@ -290,20 +290,20 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         //Imprime as mensgens
         if (!ok) {
-            String mensagemJanela = "";
+            String mensagemJanela = "<html><center>";
 
             for (String s : mensagens) {
-                mensagemJanela += s + "\n";
+                mensagemJanela += s + "<br>";
             }
 
-            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
 
         } else {
 
             //Exibe avisos
             if (txtArquivo.getText().isEmpty()) {
-                int opcao = JOptionPane.showConfirmDialog(null, "msgSemImagemFundo", idioma.Valor("lblAviso"),
-                        JOptionPane.YES_NO_OPTION);
+                int opcao = JOptionPane.showConfirmDialog(null, idioma.Valor("msgSemImagemFundo"),
+                        idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
 
                 if (opcao == 1) {
 
@@ -315,8 +315,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             //Caso já exista situação inicial
             if (chbSituacaoInicial.isSelected() && partidaDesenvolvimento.getSituacaoInicial() != null && !situacao.isSituacaoInicial()) {
 
-                int opcao = JOptionPane.showConfirmDialog(null, "msgJaExisteSituacaoInicial", idioma.Valor("Aviso"),
-                        JOptionPane.YES_NO_OPTION);
+                int opcao = JOptionPane.showConfirmDialog(null, idioma.Valor("msgJaExisteSituacaoInicial"),
+                        idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
 
                 if (opcao == 0) {
 
