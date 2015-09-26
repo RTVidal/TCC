@@ -41,7 +41,7 @@ public class JanelaInicial extends javax.swing.JFrame {
     public final void CarregaIdioma() {
         opcaoSimNao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
         opcaoSimNaoCancelar = new Object[]{idioma.Valor("sim"), idioma.Valor("nao"), idioma.Valor("btnCancelar")};
-        
+
         btnAbrirJogo.setText(idioma.Valor("principalBtnAbrirJogo"));
         btnEditarJogo.setText(idioma.Valor("principalBtnEditarJogo"));
         btnNovoJogo.setText(idioma.Valor("principalBtnNovoJogo"));
@@ -59,27 +59,33 @@ public class JanelaInicial extends javax.swing.JFrame {
     }
 
     public void ExecutarJogo() {
+
         IOPartida iop = new IOPartida();
         Partida partidaExecutar = iop.LePartida();
+
         if (partidaExecutar != null) {
+
             if (!(((String) cbxIdiomas.getSelectedItem()).equalsIgnoreCase(partidaExecutar.getIdioma()))) {
+
                 int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"), idioma.Valor("aviso"),
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcaoSimNao, opcaoSimNao[0]);
                 if (i == 0) {
                     idioma.DefineIdioma(partidaExecutar.getIdioma());
                     CarregaIdioma();
                 }
-                if (partidaExecutar.getSituacaoInicial() != null) {
-                    Partida.setInstancia(partidaExecutar);
-                    ControladoraExecucao ce = new ControladoraExecucao();
-                    ce.ExecutaPartida();
-                } else {
-                    int selecionada = JOptionPane.showOptionDialog(null, idioma.Valor("msgNaoHaSituacaoInicial"),
-                            idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-                            null, opcaoSimNao, opcaoSimNao[0]);
-                    if (selecionada == 0) {
-                        EditarJogo(partidaExecutar);
-                    }
+
+            }
+
+            if (partidaExecutar.getSituacaoInicial() != null) {
+                Partida.setInstancia(partidaExecutar);
+                ControladoraExecucao ce = new ControladoraExecucao();
+                ce.ExecutaPartida();
+            } else {
+                int selecionada = JOptionPane.showOptionDialog(null, idioma.Valor("msgNaoHaSituacaoInicial"),
+                        idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                        null, opcaoSimNao, opcaoSimNao[0]);
+                if (selecionada == 0) {
+                    EditarJogo(partidaExecutar);
                 }
             }
         }
