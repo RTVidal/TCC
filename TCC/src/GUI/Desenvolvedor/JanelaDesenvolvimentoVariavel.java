@@ -36,13 +36,13 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
      */
     public JanelaDesenvolvimentoVariavel(int modo, Variavel variavel) {
         initComponents();
-        
+
         partidaDesenvolvimento = Partida.getInstancia();
 
         janelaDesenvolvimento = JanelaDesenvolvimentoPartida.getInstancia();
 
         idioma = ControladoraIdioma.getInstancia();
-        
+
         CarregaIdioma();
 
         setLocationRelativeTo(janelaDesenvolvimento);
@@ -55,7 +55,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
             CarregarVariavel();
         }
     }
-    
+
     public final void CarregaIdioma() {
         chbOculta.setText(idioma.Valor("lblOculta"));
         lblNome.setText(idioma.Valor("lblNomeVariavel"));
@@ -73,11 +73,9 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     }
 
     public void SalvarVariavel() {
-
         boolean ok = ValidarDados();
 
         if (ok) {
-
             variavel.setNome(txtNomeVariavel.getText());
             variavel.setValorInicial((double) jspValorInicial.getValue());
             variavel.setOculta(chbOculta.isSelected());
@@ -88,13 +86,9 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
             }
 
             CriarAcoesVariavel();
-
             janelaDesenvolvimento.AtualizarDados();
-
             dispose();
-
         }
-
     }
 
     /**
@@ -104,25 +98,10 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
      */
     public boolean ValidarDados() {
         boolean ok = true;
-        ArrayList<String> mensagens = new ArrayList<>();
-        String mensagem;
-
         if (txtNomeVariavel.getText().isEmpty()) {
             ok = false;
-            mensagem = idioma.Valor("msgNomeVariavelObrigatorio");
-
+            JOptionPane.showMessageDialog(this, idioma.Valor("msgNomeVariavelObrigatorio"), idioma.Valor("aviso"), JOptionPane.OK_OPTION);
         }
-
-        if (!ok) {
-            String mensagemJanela = "";
-
-            for (String s : mensagens) {
-                mensagemJanela += s + "\n";
-            }
-
-            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("lblAviso"), JOptionPane.OK_OPTION);
-        }
-
         return ok;
     }
 
@@ -145,7 +124,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
                 }
 
             } else {
-                
+
                 ArrayList<SaidaNumerica> saidasN = situacao.getSaida().getSaidasNumerica();
 
                 for (SaidaNumerica saida : saidasN) {
@@ -200,12 +179,6 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfirmarActionPerformed(evt);
-            }
-        });
-
-        txtNomeVariavel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeVariavelActionPerformed(evt);
             }
         });
 
@@ -273,19 +246,11 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-
         SalvarVariavel();
-
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
-    private void txtNomeVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeVariavelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeVariavelActionPerformed
-
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
         dispose();
-
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

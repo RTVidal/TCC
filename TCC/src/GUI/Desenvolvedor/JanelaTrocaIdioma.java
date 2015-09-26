@@ -16,58 +16,52 @@ public class JanelaTrocaIdioma extends javax.swing.JDialog {
 
     private final ControladoraIdioma idioma;
     private final JanelaDesenvolvimentoPartida jdp;
+
     /**
      * Creates new form JanelaTrocaIdioma
      */
     public JanelaTrocaIdioma() {
         initComponents();
         setModal(true);
-        
+
         idioma = ControladoraIdioma.getInstancia();
         jdp = JanelaDesenvolvimentoPartida.getInstancia();
-        
+
         setLocationRelativeTo(jdp);
-        
+
         PreencheComboIdiomas();
-        
+
         CarregaIdiomaNessaJanela();
     }
-    
+
     public final void CarregaIdiomaNessaJanela() {
         jLabel1.setText(idioma.Valor("principalLblIdioma"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
     }
-    
+
     public final void PreencheComboIdiomas() {
-        
         int idiomaSelecionado = 0;
-        switch(idioma.getIdiomaAtual())
-        {
+        switch (idioma.getIdiomaAtual()) {
             case "English":
-                
                 idiomaSelecionado = 0;
                 break;
-                
             case "Español":
-                
                 idiomaSelecionado = 1;
                 break;
-                
             case "Português":
-                    
                 idiomaSelecionado = 2;
                 break;
         }
-        
+
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         model.addElement("English");
         model.addElement("Español");
         model.addElement("Português");
         cbxIdiomas.setModel(model);
         cbxIdiomas.setSelectedIndex(idiomaSelecionado);
-        
+
     }
-    
+
     public void SalvarIdioma() {
         idioma.DefineIdioma((String) cbxIdiomas.getSelectedItem());
         jdp.CarregaIdioma();
@@ -129,7 +123,7 @@ public class JanelaTrocaIdioma extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        SalvarIdioma();        
+        SalvarIdioma();
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

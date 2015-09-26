@@ -26,9 +26,7 @@ public class JanelaTexto extends javax.swing.JDialog {
         setModal(true);
 
         idioma = ControladoraIdioma.getInstancia();
-
         txaAjuda.setText(idioma.Valor(textoAjuda));
-
         btnOk.setText(idioma.Valor("btnOk"));
     }
 
@@ -47,7 +45,9 @@ public class JanelaTexto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        txaAjuda.setEditable(false);
         txaAjuda.setColumns(20);
+        txaAjuda.setLineWrap(true);
         txaAjuda.setRows(5);
         jScrollPane1.setViewportView(txaAjuda);
 
