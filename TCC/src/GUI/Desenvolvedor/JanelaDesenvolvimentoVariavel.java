@@ -83,9 +83,9 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
             //Caso o modo seja inserir, adiciona a variável à partida
             if (modo == 1) {
                 partidaDesenvolvimento.getVariaveis().add(variavel);
+                CriarAcoesVariavel();
             }
-
-            CriarAcoesVariavel();
+            
             janelaDesenvolvimento.AtualizarDados();
             dispose();
         }

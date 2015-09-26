@@ -210,6 +210,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             tblAcoes.setModel(model);
 
             if (!saidaNumerica.getAcoes().isEmpty()) {
+                System.out.println("intervalo selecionado");
                 tblAcoes.setRowSelectionInterval(0, 0);
             }
         }
@@ -374,25 +375,32 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
     public void CriarAcoesSaida(int tipoSaida) {
 
-        Acao acao = new Acao();
+        if (!partidaDesenvolvimento.getVariaveis().isEmpty()) {
 
-        for (Variavel variavel : partidaDesenvolvimento.getVariaveis()) {
+            Acao acao;
 
-            acao.setNumero(0);
-            acao.setOperacao(0);
-            acao.setVariavel(variavel);
+            for (Variavel variavel : partidaDesenvolvimento.getVariaveis()) {
+
+                acao = new Acao();
+
+                acao.setNumero(0);
+                acao.setOperacao(0);
+                acao.setVariavel(variavel);
+
+                if (tipoSaida == 1) {
+
+                    saidaOpcao.getAcoes().add(acao);
+
+                } else {
+
+                    saidaNumerica.getAcoes().add(acao);
+
+                }
+
+            }
 
         }
 
-        if (tipoSaida == 1) {
-
-            saidaOpcao.getAcoes().add(acao);
-
-        } else {
-
-            saidaNumerica.getAcoes().add(acao);
-
-        }
     }
 
     /**

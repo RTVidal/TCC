@@ -1149,6 +1149,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNomeAssistenteActionPerformed
 
     private void lstAvataresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAvataresValueChanged
+        
         int index = lstAvatares.getSelectedIndex();
         if (index > -1) {
             ImageIcon icone = new ImageIcon();
@@ -1158,6 +1159,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             avatarSelecionado = avatares.get(index);
 
         }
+        
+        partidaDesenvolvimento.getAssistente().setAvatarAssistente(avatarSelecionado.getDescription());
+        
     }//GEN-LAST:event_lstAvataresValueChanged
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
