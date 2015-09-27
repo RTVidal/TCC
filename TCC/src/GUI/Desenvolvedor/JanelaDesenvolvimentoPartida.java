@@ -70,10 +70,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         partidaSalva = true;
 
         //Limita os caracteres da apresentação do assistente
-        txaApresentacao.setDocument(new LimiteCaracteres(750));
+        txtApresentacao.setDocument(new LimiteCaracteres(750));
 
         //Quebrar linhas com as palavras
-        txaApresentacao.setWrapStyleWord(true);
+        txtApresentacao.setWrapStyleWord(true);
     }
 
     public final void CarregaAvatares() {
@@ -249,7 +249,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      */
     public final void AtualizaAssistente() {
         txtNomeAssistente.setText(partidaDesenvolvimento.getAssistente().getNome());
-        txaApresentacao.setText(partidaDesenvolvimento.getAssistente().getApresentacao());
+        txtApresentacao.setText(partidaDesenvolvimento.getAssistente().getApresentacao());
         lblImgAssistente.setSize(100, 100);
         lblImgAssistente.setText(null);
 
@@ -377,7 +377,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             mensagens.add(idioma.Valor("msgNomeAssistenteObrigatorio"));
         }
 
-        if (txaApresentacao.getText().isEmpty()) {
+        if (txtApresentacao.getText().isEmpty()) {
             continuar = false;
             mensagens.add(idioma.Valor("msgApresentacaoObrigatoria"));
         }
@@ -385,7 +385,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         if (continuar) {
             partidaDesenvolvimento.getAssistente().setNome(txtNomeAssistente.getText());
             partidaDesenvolvimento.getAssistente().setAvatarAssistente(avatarSelecionado.getDescription());
-            partidaDesenvolvimento.getAssistente().setApresentacao(txaApresentacao.getText());
+            partidaDesenvolvimento.getAssistente().setApresentacao(txtApresentacao.getText());
         } else {
             String mensagemJanela = "<html><center>";
             for (String mensagem : mensagens) {
@@ -675,7 +675,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         txtNomeAssistente = new javax.swing.JTextField();
         lblApresentacao = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        txaApresentacao = new javax.swing.JTextArea();
+        txtApresentacao = new javax.swing.JTextArea();
         lblSelecioneAvatar = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         lstAvatares = new javax.swing.JList();
@@ -785,15 +785,15 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         lblApresentacao.setText("Apresentação:");
 
-        txaApresentacao.setColumns(20);
-        txaApresentacao.setLineWrap(true);
-        txaApresentacao.setRows(5);
-        txaApresentacao.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtApresentacao.setColumns(20);
+        txtApresentacao.setLineWrap(true);
+        txtApresentacao.setRows(5);
+        txtApresentacao.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txaApresentacaoKeyPressed(evt);
+                txtApresentacaoKeyPressed(evt);
             }
         });
-        jScrollPane4.setViewportView(txaApresentacao);
+        jScrollPane4.setViewportView(txtApresentacao);
 
         lblSelecioneAvatar.setText("Selecione um Avatar:");
 
@@ -1211,14 +1211,19 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                     null, opcaoSimNaoCancelar, opcaoSimNaoCancelar[0]);
             switch (selecionado) {
                 case 0: //Salvar
-//                    SalvarPartida();
-                    break;
-                case 1: //Não salvar
+                    Salvar();
                     dispose();
                     Partida.setInstancia(null);
                     JanelaDesenvolvimentoPartida.setInstancia(null);
                     JanelaInicial ji = new JanelaInicial();
                     ji.setVisible(true);
+                    break;
+                case 1: //Não salvar
+                    dispose();
+                    Partida.setInstancia(null);
+                    JanelaDesenvolvimentoPartida.setInstancia(null);
+                    JanelaInicial ji2 = new JanelaInicial();
+                    ji2.setVisible(true);
                     break;
             }
         } else {
@@ -1275,9 +1280,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     }//GEN-LAST:event_lstAvataresValueChanged
 
-    private void txaApresentacaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txaApresentacaoKeyPressed
+    private void txtApresentacaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApresentacaoKeyPressed
         partidaSalva = false;
-    }//GEN-LAST:event_txaApresentacaoKeyPressed
+    }//GEN-LAST:event_txtApresentacaoKeyPressed
 
     private void txtNomeAssistenteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeAssistenteKeyPressed
         partidaSalva = false;
@@ -1358,7 +1363,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JTable tblAvaliacoes;
     private javax.swing.JTable tblSituacoes;
     private javax.swing.JTable tblVariaveis;
-    private javax.swing.JTextArea txaApresentacao;
+    private javax.swing.JTextArea txtApresentacao;
     private javax.swing.JTextField txtNomeAssistente;
     // End of variables declaration//GEN-END:variables
 }
