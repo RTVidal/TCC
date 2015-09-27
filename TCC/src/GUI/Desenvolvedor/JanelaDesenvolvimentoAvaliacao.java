@@ -6,6 +6,7 @@
 package GUI.Desenvolvedor;
 
 import Controle.ControladoraIdioma;
+import GUI.Suporte.LimiteCaracteres;
 import Modelo.Avaliacao;
 import Modelo.Partida;
 import Modelo.Variavel;
@@ -40,6 +41,12 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         idioma = ControladoraIdioma.getInstancia();
         CarregaIdioma();
 
+        //Limita os caracteres da avaliação em 750
+        txaTextoAvaliacao.setDocument(new LimiteCaracteres(750));
+        
+        txaTextoAvaliacao.setLineWrap(true);
+        txaTextoAvaliacao.setWrapStyleWord(true);
+        
         setLocationRelativeTo(janelaDevPartida);
 
         this.avaliacao = avaliacao;

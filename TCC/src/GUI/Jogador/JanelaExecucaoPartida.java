@@ -241,7 +241,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         textoBalao.setLocation(40, 40);
         textoBalao.setEditable(false);
         textoBalao.setDragEnabled(false);
-        textoBalao.setFont(new Font("Serif", Font.ITALIC, 16));
+        textoBalao.setFont(new Font("Serif", Font.ITALIC, 18));
         textoBalao.setLineWrap(true);
         textoBalao.setWrapStyleWord(true);
         textoBalao.setForeground(Color.black);
