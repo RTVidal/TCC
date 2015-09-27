@@ -92,6 +92,9 @@ public class JanelaInicial extends javax.swing.JFrame {
                         null, opcaoSimNao, opcaoSimNao[0]);
                 if (selecionada == 0) {
                     EditarJogo(partidaExecutar);
+                } else {
+                    JOptionPane.showMessageDialog(null, idioma.Valor("msgNaoExecutarSemInicial"),
+                                    idioma.Valor("aviso"), JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
@@ -99,7 +102,9 @@ public class JanelaInicial extends javax.swing.JFrame {
 
     public void EditarJogo(Partida partidaDesenvolvimento) {
         IOPartida iop = new IOPartida();
-        partidaDesenvolvimento = iop.LePartida();
+        if (partidaDesenvolvimento == null) {
+            partidaDesenvolvimento = iop.LePartida();
+        }
         if (partidaDesenvolvimento != null) {
             if (!(((String) cbxIdiomas.getSelectedItem()).equalsIgnoreCase(partidaDesenvolvimento.getIdioma()))) {
                 int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"), idioma.Valor("aviso"),

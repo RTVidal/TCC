@@ -6,6 +6,7 @@
 package Persistencia;
 
 import Controle.ControladoraIdioma;
+import GUI.Desenvolvedor.JanelaDesenvolvimentoPartida;
 import Modelo.Partida;
 import Modelo.ParametrosArquivo;
 import java.io.File;
@@ -26,34 +27,39 @@ import javax.swing.filechooser.FileFilter;
 public class IOPartida {
 
     private final ControladoraIdioma idioma;
-    private Object[] opcaoSimNao;
+    private Object[] opcaoSimNaoCancelar;
 
     public IOPartida() {
         idioma = ControladoraIdioma.getInstancia();
-        opcaoSimNao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
+        opcaoSimNaoCancelar = new Object[]{idioma.Valor("sim"), idioma.Valor("nao"), idioma.Valor("btnCancelar")};
     }
 
-    public ParametrosArquivo selecionadorDeArquivos() {
+    public ParametrosArquivo selecionadorDeArquivos(boolean paraSalvar) {
         ParametrosArquivo pa = new ParametrosArquivo();
         JFileChooser jFileChooser = new JFileChooser();
         //Selecionar apenas arquivos
-        jFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         //desabilita todos os tipos de arquivos
         jFileChooser.setAcceptAllFileFilterUsed(false);
         //filtra por extensao
         jFileChooser.setFileFilter(new FileFilter() {
             @Override
-            public String getDescription() {
-                return "tcc";
+            public boolean accept(File file) {
+                return file.isDirectory() || file.getAbsolutePath().endsWith(".tcc");
             }
 
             @Override
-            public boolean accept(File f) {
-                return f.getName().toLowerCase().endsWith("tcc");
+            public String getDescription() {
+                return idioma.Valor("descricaoArquivo") + " (*.tcc)";
             }
         });
-        //mostra janela para salvar
-        int acao = jFileChooser.showSaveDialog(null);
+        //mostra janela para de acordo com o parametro
+        int acao;
+        if (paraSalvar) {
+            acao = jFileChooser.showSaveDialog(null);
+        } else {
+            acao = jFileChooser.showOpenDialog(null);
+        }
         //executa acao conforme opcao selecionada
         if (acao == JFileChooser.APPROVE_OPTION) {
             String nome = jFileChooser.getSelectedFile().getName();
@@ -95,17 +101,39 @@ public class IOPartida {
             objGravar.close();
             arquivoGrav.flush();
             arquivoGrav.close();
-            Partida.setInstancia(partidaSalvar);
             return true;
         }
     }
 
     public boolean SalvarComo(Partida partidaSalvar) throws FileNotFoundException, IOException {
-        ParametrosArquivo pa = selecionadorDeArquivos();
-        if (pa.isArquivoSelecionado()) {
+        int selecao = 3;
+        ParametrosArquivo pa = new ParametrosArquivo();
+        for (;;) {
+            pa = selecionadorDeArquivos(true);
+            if (pa.isArquivoSelecionado()) {
+                if (partidaSalvar.getParametrosArquivo() == null) {
+                    selecao = 0;
+                } else {
+                    if (partidaSalvar.getParametrosArquivo().getPatchDoArquivo().equalsIgnoreCase(pa.getPatchDoArquivo())) {
+                        selecao = JOptionPane.showOptionDialog(null, idioma.Valor("msgSubstituirArquivo"),
+                                idioma.Valor("aviso"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                                null, opcaoSimNaoCancelar, opcaoSimNaoCancelar[0]);
+                    } else {
+                        selecao = 0;
+                    }
+                }
+            } else {
+                selecao = 2;
+            }
+            if (selecao == 0 || selecao ==2) {
+                break;
+            }
+        }
+
+        if (selecao == 0) {
+            partidaSalvar.setParametrosArquivo(pa);
             String diretorio = partidaSalvar.getParametrosArquivo().getPatchDoArquivo();
             String finalNome = diretorio.substring(diretorio.length() - 4, diretorio.length());
-            partidaSalvar.setParametrosArquivo(pa);
             FileOutputStream arquivoGrav;
             if (finalNome.equalsIgnoreCase(".tcc")) {
                 File arquivo = new File(diretorio);
@@ -123,44 +151,17 @@ public class IOPartida {
             arquivoGrav.flush();
             arquivoGrav.close();
             Partida.setInstancia(partidaSalvar);
+            JanelaDesenvolvimentoPartida jdp = JanelaDesenvolvimentoPartida.getInstancia();
+            jdp.CarregaIdioma();
+            jdp.AtualizarDados();
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean SalvaPartida(Partida partidaSalvar) {
-        try {
-            ParametrosArquivo pa = selecionadorDeArquivos();
-            if (pa.isArquivoSelecionado()) {
-                partidaSalvar.setParametrosArquivo(pa);
-                String diretorio = pa.getPatchDoArquivo();
-                String finalNome = diretorio.substring(diretorio.length() - 4, diretorio.length());
-                FileOutputStream arquivoGrav;
-                if (finalNome.equalsIgnoreCase(".tcc")) {
-                    arquivoGrav = new FileOutputStream(diretorio, true);
-                } else {
-                    arquivoGrav = new FileOutputStream(diretorio + ".tcc", true);
-                }
-                ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
-                objGravar.writeObject(partidaSalvar);
-                objGravar.flush();
-                objGravar.close();
-                arquivoGrav.flush();
-                arquivoGrav.close();
-                Partida.setInstancia(partidaSalvar);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public Partida LePartida() {
-        ParametrosArquivo pa = selecionadorDeArquivos();
+        ParametrosArquivo pa = selecionadorDeArquivos(false);
         Partida partida;
         try {
             if (pa.isArquivoSelecionado()) {

@@ -301,7 +301,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         if (ok) {
             //Sem fala de assistente
             if (txaFalaAssistente.getText().isEmpty()) {
-                int opcao = JOptionPane.showConfirmDialog(this, "msgSemFalaAssistente", idioma.Valor("aviso"),
+                int opcao = JOptionPane.showConfirmDialog(this, idioma.Valor("msgSemFalaAssistente"), idioma.Valor("aviso"),
                         JOptionPane.YES_NO_OPTION);
 
                 if (opcao == 1) {
@@ -313,7 +313,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
             //Situação destino = situação origem
             if (txtSituacaoOrigem.getText() == cbxSituacaoDestino.getSelectedItem()) {
-                int opcao = JOptionPane.showConfirmDialog(this, "msgMesmaSituacao", idioma.Valor("aviso"),
+                int opcao = JOptionPane.showConfirmDialog(this, idioma.Valor("msgMesmaSituacao"), idioma.Valor("aviso"),
                         JOptionPane.YES_NO_OPTION);
 
                 if (opcao == 1) {

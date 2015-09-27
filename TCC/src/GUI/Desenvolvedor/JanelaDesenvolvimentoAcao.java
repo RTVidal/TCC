@@ -64,7 +64,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
     public final void PreencheComboOperacoes() {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
 
-        model.addElement(idioma.Valor("lblNennhuma"));
+        model.addElement(idioma.Valor("lblNenhuma"));
         model.addElement(idioma.Valor("lblSomar"));
         model.addElement(idioma.Valor("lblSubtrair"));
         model.addElement(idioma.Valor("lblMultiplicar"));
