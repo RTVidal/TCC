@@ -62,9 +62,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         idioma = ControladoraIdioma.getInstancia();
         CarregaIdioma();
         AtualizarDados();
-<<<<<<< HEAD
-        
-=======
+
         if (partidaDesenvolvimento.getAssistente() != null) {
             AtualizaAssistente();
         }
@@ -72,13 +70,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
         partidaSalva = true;
 
->>>>>>> origin/master
         //Limita os caracteres da apresentação do assistente
         txtApresentacao.setDocument(new LimiteCaracteres(750));
 
         //Quebrar linhas com as palavras
-<<<<<<< HEAD
-        txaApresentacao.setWrapStyleWord(true);
+        txtApresentacao.setWrapStyleWord(true);
         
         if (partidaDesenvolvimento.getAssistente() != null) {
             AtualizaAssistente();
@@ -86,10 +82,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         CarregaAvatares();
         partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
         partidaSalva = true;
-                
-=======
-        txtApresentacao.setWrapStyleWord(true);
->>>>>>> origin/master
+
     }
 
     public final void CarregaAvatares() {
@@ -265,13 +258,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      */
     public final void AtualizaAssistente() {
         txtNomeAssistente.setText(partidaDesenvolvimento.getAssistente().getNome());
-<<<<<<< HEAD
-        txaApresentacao.setText(partidaDesenvolvimento.getAssistente().getApresentacao());
-        System.out.println("carregou " + partidaDesenvolvimento.getAssistente().getApresentacao());
-        
-=======
+
         txtApresentacao.setText(partidaDesenvolvimento.getAssistente().getApresentacao());
->>>>>>> origin/master
         lblImgAssistente.setSize(100, 100);
         lblImgAssistente.setText(null);
 
