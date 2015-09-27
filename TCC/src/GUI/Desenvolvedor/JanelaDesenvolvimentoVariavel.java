@@ -6,6 +6,7 @@
 package GUI.Desenvolvedor;
 
 import Controle.ControladoraIdioma;
+import GUI.Suporte.LimiteCaracteres;
 import Modelo.Acao;
 import Modelo.Partida;
 import Modelo.SaidaNumerica;
@@ -50,6 +51,9 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
         this.variavel = variavel;
         this.modo = modo;
 
+        //Limita o nome da variável em 30
+        txtNomeVariavel.setDocument(new LimiteCaracteres(20));
+        
         //Caso o modo seja edição, preenche os campos
         if (modo == 2) {
             CarregarVariavel();

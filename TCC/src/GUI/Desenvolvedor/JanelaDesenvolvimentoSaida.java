@@ -68,6 +68,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         if (modo == 1) {
 
+            chbPodeDesistir.setSelected(true);
             switch (saida.getTipoSaida()) {
                 case 1:
 

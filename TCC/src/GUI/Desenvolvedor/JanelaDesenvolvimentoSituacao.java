@@ -76,6 +76,12 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             saida = new Saida();
             saida.setTipoSaida(1);
             this.situacao.setSaida(saida);
+            
+            if(partidaDesenvolvimento.getSituacaoInicial() == null)
+            {
+                chbSituacaoInicial.setSelected(true);
+            }
+            
         }
 
         CarregarComboTipoSaida();

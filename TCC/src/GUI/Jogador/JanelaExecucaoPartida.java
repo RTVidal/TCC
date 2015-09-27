@@ -193,23 +193,30 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         model.addColumn("variavel");
         model.addColumn("valor");
 
+        int largura = 0;
+        
         for (Variavel v : variaveis) {
             //Adicionar na lista apenas caso a variável não seja oculta
             if (!v.isOculta()) {
                 model.addRow(new Object[]{v.getNome(), v.getValor()});
+                
+                if ((v.getNome().length()*2) > largura)
+                {
+                    largura = v.getNome().length()*10;
+                }
             }
         }
 
         //Calcula a altura da tabela de variáveis
         int altura = variaveis.size() * 16;
-
+        
         tblVariaveis.setModel(model);
-        tblVariaveis.setSize(150, altura);
+        tblVariaveis.setSize(largura + 50, altura);
         tblVariaveis.setLocation(10, 10);
 
         tblVariaveis.setModel(model);
 
-        tblVariaveis.getColumnModel().getColumn(0).setPreferredWidth(100);
+        tblVariaveis.getColumnModel().getColumn(0).setPreferredWidth(largura);
         tblVariaveis.getColumnModel().getColumn(1).setPreferredWidth(50);
 
         tblVariaveis.revalidate();
@@ -244,8 +251,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         int caracteres = texto.length();
 
-        //80 caracteres por linha
-        int altura = (caracteres / 80) * 25;
+        int altura = (caracteres / 50) * 25;
         
         int largura = 700; //Largura máxima
 
