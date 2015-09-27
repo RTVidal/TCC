@@ -16,6 +16,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
@@ -95,7 +97,10 @@ public class IOPartida {
                 arquivo.delete();
                 arquivoGrav = new FileOutputStream(diretorio + ".tcc", true);
             }
-            ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
+            
+            GZIPOutputStream gz = new GZIPOutputStream(arquivoGrav);
+            
+            ObjectOutputStream objGravar = new ObjectOutputStream(gz);
             objGravar.writeObject(partidaSalvar);
             objGravar.flush();
             objGravar.close();
@@ -144,7 +149,10 @@ public class IOPartida {
                 arquivo.delete();
                 arquivoGrav = new FileOutputStream(diretorio + ".tcc", true);
             }
-            ObjectOutputStream objGravar = new ObjectOutputStream(arquivoGrav);
+            
+            GZIPOutputStream gz = new GZIPOutputStream(arquivoGrav);
+            
+            ObjectOutputStream objGravar = new ObjectOutputStream(gz);
             objGravar.writeObject(partidaSalvar);
             objGravar.flush();
             objGravar.close();
@@ -166,8 +174,12 @@ public class IOPartida {
         try {
             if (pa.isArquivoSelecionado()) {
                 FileInputStream arquivoLeitura = new FileInputStream(pa.getPatchDoArquivo());
+                
+                GZIPInputStream gzi = new GZIPInputStream(arquivoLeitura);
+
                 //Classe responsavel por recuperar os objetos do arquivo
-                ObjectInputStream objLeitura = new ObjectInputStream(arquivoLeitura);
+                ObjectInputStream objLeitura = new ObjectInputStream(gzi);
+                
                 partida = (Partida) (objLeitura.readObject());
                 objLeitura.close();
                 arquivoLeitura.close();

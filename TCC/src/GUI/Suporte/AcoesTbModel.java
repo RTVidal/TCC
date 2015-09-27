@@ -79,6 +79,8 @@ public class AcoesTbModel extends AbstractTableModel {
                     return idioma.Valor("lblMultiplicar");
                 case 4:
                     return idioma.Valor("lblDividir");
+                case 5:
+                    return idioma.Valor("lblIgualar");
             }
         }
         

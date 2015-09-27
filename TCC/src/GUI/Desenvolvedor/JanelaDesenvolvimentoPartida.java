@@ -363,7 +363,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             partidaDesenvolvimento.getSituacoes().remove(situacao);
             AtualizarDados();
         }
-
     }
 
     public void PreviaSituacao() {

@@ -693,6 +693,11 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                         novoValor = a.getVariavel().getValor() / a.getNumero();
                         a.getVariavel().setValor(novoValor);
                         break;
+                        
+                    case 5: //Igualar
+                        
+                        novoValor = a.getNumero();
+                        a.getVariavel().setValor(novoValor);
 
                 }
             }

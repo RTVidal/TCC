@@ -69,6 +69,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
         model.addElement(idioma.Valor("lblSubtrair"));
         model.addElement(idioma.Valor("lblMultiplicar"));
         model.addElement(idioma.Valor("lblDividir"));
+        model.addElement(idioma.Valor("lblIgualar"));
 
         cbxOperacao.setModel(model);
 
