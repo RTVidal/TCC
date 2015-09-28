@@ -5,3 +5,5 @@ Bugs conhecidos
 - [BRTOK] Ao dar um "Salvar" em um arquivo que veio de outra máquina ou outra pasta ele não encontra o caminho do arquivo, porque eu (Bruno) pensei errado num detalhe do armazenamento.
 - [RTVIDAL] Erro ao carregar várias vezes. ([BRTOK] não aconteceu comigo)
 - [BRTOK] Torna label de texto da seleção numérica opaco para poder ver independente da cor da figura de fundo.
+- Não tem instalador [http://www.clubedaprogramacao.com/forum/index.php?/topic/871-como-criar-um-instalador-em-java/ , site bom mas ainda não deu tempo]
+- Não roda a partir do arquivo.
