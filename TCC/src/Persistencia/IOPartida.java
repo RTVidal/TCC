@@ -174,7 +174,7 @@ public class IOPartida {
         try {
             if (pa.isArquivoSelecionado()) {
                 FileInputStream arquivoLeitura = new FileInputStream(pa.getPatchDoArquivo());
-                
+
                 GZIPInputStream gzi = new GZIPInputStream(arquivoLeitura);
 
                 //Classe responsavel por recuperar os objetos do arquivo
@@ -183,6 +183,7 @@ public class IOPartida {
                 partida = (Partida) (objLeitura.readObject());
                 objLeitura.close();
                 arquivoLeitura.close();
+                partida.setParametrosArquivo(pa);
                 return partida;
             } else {
                 return null;

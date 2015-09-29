@@ -1,9 +1,9 @@
 Bugs conhecidos
 
-- [BRTOK] O exemplo Bolo Bolado roda sem assistente quando carregado em máquina diferente, pois ele está com o caminho do resource armazenado e o caminho muda de máquina para máquina.
-- [BRTOK] Ao dar um "Salvar como..." em um arquivo que veio de outra máquina ou outra pasta ele deixa sobreescrever sem perguntar, porque eu (Bruno) pensei errado num detalhe do armazenamento.
-- [BRTOK] Ao dar um "Salvar" em um arquivo que veio de outra máquina ou outra pasta ele não encontra o caminho do arquivo, porque eu (Bruno) pensei errado num detalhe do armazenamento.
+- [DEPOIS DE MOSTRAR O EXEMPLO JA DA PRA ARRUMAR] [BRTOK] O exemplo Bolo Bolado roda sem assistente quando carregado em máquina diferente, pois ele está com o caminho do resource armazenado e o caminho muda de máquina para máquina.
 - [RTVIDAL] Erro ao carregar várias vezes. ([BRTOK] não aconteceu comigo)
-- [BRTOK] Torna label de texto da seleção numérica opaco para poder ver independente da cor da figura de fundo.
+- [BRTOK] Tornar label de texto da seleção numérica opaco para poder ver independente da cor da figura de fundo.
 - Não tem instalador [http://www.clubedaprogramacao.com/forum/index.php?/topic/871-como-criar-um-instalador-em-java/ , site bom mas ainda não deu tempo]
 - Não roda a partir do arquivo.
+- Gerar o jar para executar o jogo direto.
+- Erro no Novo Jogo

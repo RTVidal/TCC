@@ -6,6 +6,7 @@
 package Início;
 
 import GUI.Jogador.JanelaInicial;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -23,7 +24,7 @@ public class TCC {
             JanelaInicial ji = new JanelaInicial();
             ji.setVisible(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 

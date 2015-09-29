@@ -12,18 +12,15 @@ import java.io.Serializable;
  * @author Rafael
  */
 public class Assistente implements Serializable {
-    
-    
+
     private String nome;
     private String apresentacao;
     private String avatarAssistente;
-    
-    private static Assistente instancia;
 
     public Assistente() {
-        avatarAssistente = "";
+     avatarAssistente = "";
     }
-    
+
     public String getNome() {
         return nome;
     }
@@ -48,12 +45,4 @@ public class Assistente implements Serializable {
         this.avatarAssistente = avatarAssistente;
     }
 
-    public static Assistente getInstancia() {
-        return instancia;
-    }
-
-    public static void setInstancia(Assistente instancia) {
-        Assistente.instancia = instancia;
-    }
-    
 }
