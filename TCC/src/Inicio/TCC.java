@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Início;
+package Inicio;
 
 import GUI.Jogador.JanelaInicial;
 import javax.swing.JOptionPane;
