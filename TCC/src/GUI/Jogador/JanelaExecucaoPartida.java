@@ -64,7 +64,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     private static JanelaExecucaoPartida instancia;
 
     private ArrayList<Variavel> variaveis;
-    
+
     private ArrayList<Avaliacao> avaliacoesRealizar;
 
     private int tipoSaida;
@@ -78,8 +78,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         idioma = ControladoraIdioma.getInstancia();
 
         this.modo = modo;
-        setLayout(new FlowLayout());  
-        
+        setLayout(new FlowLayout());
+
         partida = Partida.getInstancia();
 
         setLocationRelativeTo(null);
@@ -194,22 +194,21 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         model.addColumn("valor");
 
         int largura = 0;
-        
+
         for (Variavel v : variaveis) {
             //Adicionar na lista apenas caso a variável não seja oculta
             if (!v.isOculta()) {
                 model.addRow(new Object[]{v.getNome(), v.getValor()});
-                
-                if ((v.getNome().length()*2) > largura)
-                {
-                    largura = v.getNome().length()*10;
+
+                if ((v.getNome().length() * 2) > largura) {
+                    largura = v.getNome().length() * 10;
                 }
             }
         }
 
         //Calcula a altura da tabela de variáveis
         int altura = variaveis.size() * 16;
-        
+
         tblVariaveis.setModel(model);
         tblVariaveis.setSize(largura + 50, altura);
         tblVariaveis.setLocation(10, 10);
@@ -252,7 +251,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         int caracteres = texto.length();
 
         int altura = (caracteres / 50) * 25;
-        
+
         int largura = 700; //Largura máxima
 
         if (altura < 16) {
@@ -342,16 +341,34 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 break;
         }
 
-        //Se não houver saídas então a situação é final
+        //Se não houver saídas então a situação é final                
         if (naoHaSaidas) {
-            if (partida.getAvaliacoes().isEmpty()) {
-                System.out.println("Não tem avaliações");
-                GerarSaidaFinal();
-            } else {
-                System.out.println("Tem avaliações");
-                VerificarAvaliacoes();
 
-                //GerarSaidaAvaliacao(partida.getAvaliacoes().get(0), 0, false);
+            Situacao ultimaSituacao = partida.getSituacoes().get(partida.getSituacoes().size() - 1);
+
+            //A situação é final se estiver marcada como final ou for a ultima da partida
+            boolean situacaoFinal = situacao.isSituacaoFinal() || (situacao == ultimaSituacao);
+
+            if (situacaoFinal) {
+                if (partida.getAvaliacoes().isEmpty()) {
+                    GerarSaidaFinal();
+                } else {
+                    VerificarAvaliacoes();
+                }
+            } else {
+                
+                int index = 0;
+                for(Situacao s : partida.getSituacoes())
+                {
+                    if(s == situacao)
+                    {
+                        break;
+                    }
+                    index++;
+                }
+                int proxima = index + 1;
+                
+                GerarSaidaProximaSituacao(proxima);
             }
 
         }
@@ -370,6 +387,26 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         });
         painelBotoes.add(btn);
 
+    }
+    
+    /**
+     * Gera a saída para a próxima situação
+     * @param proxima
+     */
+    public void GerarSaidaProximaSituacao(int proxima)
+    {
+        painelBotoes.removeAll();
+        painelBotoes.revalidate();        
+        
+        btn = new JButton(idioma.Valor("btnProxima"));
+        btn.setLocation(0, 0);
+        btn.setSize(20, 30);
+        btn.addActionListener((java.awt.event.ActionEvent e) -> {
+            
+            CarregaSituacao(partida.getSituacoes().get(proxima), 2);
+            
+        });
+        painelBotoes.add(btn);
     }
 
     /**
@@ -419,7 +456,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         avaliacoesRealizar = new ArrayList<>();
 
         for (Avaliacao avaliacao : partida.getAvaliacoes()) {
-            
+
             //Exibe a avaliação apenas caso o valor da variável esteja dentro do range da avaliação
             if (avaliacao.getVariavel().getValor() >= avaliacao.getValorInicial()
                     && avaliacao.getVariavel().getValor() <= avaliacao.getValorFinal()) {
@@ -474,7 +511,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             btn.repaint();
 
         }
-        
+
         RecarregarComponentes();
 
     }
@@ -693,9 +730,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                         novoValor = a.getVariavel().getValor() / a.getNumero();
                         a.getVariavel().setValor(novoValor);
                         break;
-                        
+
                     case 5: //Igualar
-                        
+
                         novoValor = a.getNumero();
                         a.getVariavel().setValor(novoValor);
 

@@ -191,6 +191,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         tblSituacoes.getColumnModel().getColumn(0).setMinWidth(0);
         tblSituacoes.getColumnModel().getColumn(0).setMaxWidth(0);
         tblSituacoes.getColumnModel().getColumn(0).setPreferredWidth(0);
+        
+        tblSituacoes.getColumnModel().getColumn(1).setMinWidth(30);
+        tblSituacoes.getColumnModel().getColumn(1).setMaxWidth(30);
+        tblSituacoes.getColumnModel().getColumn(1).setPreferredWidth(30);
 
         //Habilitar o botão de editar e excluir apenas quando houverem registros na lista
         btnEditarSituacao.setEnabled(!partidaDesenvolvimento.getSituacoes().isEmpty());
@@ -272,7 +276,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     }
 
     public void NovaSituacao() {
-        JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao(1, null);
+        
+        int ordem = partidaDesenvolvimento.getSituacoes().size() + 1;
+        
+        JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao(1, null, ordem);
         jds.setVisible(true);
     }
 
@@ -283,7 +290,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Recupera o objeto na tabela
         Situacao situacao = (Situacao) tblSituacoes.getValueAt(index, 0);
 
-        JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao(2, situacao);
+        JanelaDesenvolvimentoSituacao jds = new JanelaDesenvolvimentoSituacao(2, situacao, index + 1);
         jds.setVisible(true);
 
     }
@@ -384,11 +391,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         if (txtNomeAssistente.getText().isEmpty()) {
             continuar = false;
             mensagens.add(idioma.Valor("msgNomeAssistenteObrigatorio"));
-        }
-
-        if (txtApresentacao.getText().isEmpty()) {
-            continuar = false;
-            mensagens.add(idioma.Valor("msgApresentacaoObrigatoria"));
         }
 
         if (continuar) {
@@ -688,6 +690,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         lblSelecioneAvatar = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         lstAvatares = new javax.swing.JList();
+        jLabel1 = new javax.swing.JLabel();
         abaSituacoes = new javax.swing.JPanel();
         btnNovaSituacao = new javax.swing.JButton();
         btnEditarSituacao = new javax.swing.JButton();
@@ -818,6 +821,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(lstAvatares);
 
+        jLabel1.setText("msgSemApresentacao");
+
         javax.swing.GroupLayout abaAssistenteLayout = new javax.swing.GroupLayout(abaAssistente);
         abaAssistente.setLayout(abaAssistenteLayout);
         abaAssistenteLayout.setHorizontalGroup(
@@ -826,21 +831,26 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(abaAssistenteLayout.createSequentialGroup()
+                        .addComponent(lblSelecioneAvatar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(abaAssistenteLayout.createSequentialGroup()
                         .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblNomeAssistente)
                             .addComponent(lblApresentacao))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNomeAssistente)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAjudaAssistente))
-                    .addGroup(abaAssistenteLayout.createSequentialGroup()
-                        .addComponent(lblSelecioneAvatar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGroup(abaAssistenteLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(abaAssistenteLayout.createSequentialGroup()
+                                .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNomeAssistente)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAjudaAssistente)))))
                 .addContainerGap())
         );
         abaAssistenteLayout.setVerticalGroup(
@@ -858,7 +868,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblApresentacao)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSelecioneAvatar))
@@ -924,7 +936,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         .addComponent(btnEditarSituacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExcluirSituacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                         .addComponent(btnPreviaSituacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAjudaSituacoes)))
@@ -990,7 +1002,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             .addGroup(abaVariaveisLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(abaVariaveisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
                     .addGroup(abaVariaveisLayout.createSequentialGroup()
                         .addComponent(btnNovaVariavel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1067,7 +1079,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         .addComponent(btnEditarAvaliacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExcluirAvaliacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                         .addComponent(btnAjudaAvaliacoes)))
                 .addContainerGap())
         );
@@ -1340,6 +1352,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JFrame jFrame3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenu2;

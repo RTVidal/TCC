@@ -19,9 +19,10 @@ public class SituacoesTbModel extends AbstractTableModel {
     private final ControladoraIdioma idioma;
 
     private static final int COL_SITUACAO = 0;
-    private static final int COL_NOME = 1;
-    private static final int COL_TIPOSAIDA = 2;
-    private static final int COL_DETALHE = 3;
+    private static final int COL_ORDEM = 1;
+    private static final int COL_NOME = 2;
+    private static final int COL_TIPOSAIDA = 3;
+    private static final int COL_DETALHE = 4;
 
     private final ArrayList<Situacao> situacoes;
 
@@ -39,7 +40,7 @@ public class SituacoesTbModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 5;
     }
 
     public String getColumnName(int column) {
@@ -62,6 +63,10 @@ public class SituacoesTbModel extends AbstractTableModel {
         if (column == COL_SITUACAO) {
             return situacoes.get(rowIndex);
         }
+        if (column == COL_ORDEM)
+        {
+            return rowIndex + 1;
+        }
         if (column == COL_NOME) {
             return situacoes.get(rowIndex).getNome();
         }
@@ -78,9 +83,12 @@ public class SituacoesTbModel extends AbstractTableModel {
             if(situacoes.get(rowIndex).isSituacaoInicial())
             {
                 return idioma.Valor("btnInicial");
-            } else {
-                return "-";
             }
+            if(situacoes.get(rowIndex).isSituacaoFinal())
+            {
+                return idioma.Valor("lblFinal");
+            }
+            return "-";
         }
         return "";
 

@@ -35,7 +35,12 @@ public class ControladoraExecucao {
         jsj.setControladora(this);
 
         //Carrega a situação inicial
-        jsj.CarregaSituacao(partida.getSituacaoInicial(), 1);
+        if(!partida.getAssistente().getApresentacao().isEmpty())
+        {
+            jsj.CarregaSituacao(partida.getSituacaoInicial(), 1);
+        } else {
+            IniciarJogo();
+        }
     }
 
     /**
