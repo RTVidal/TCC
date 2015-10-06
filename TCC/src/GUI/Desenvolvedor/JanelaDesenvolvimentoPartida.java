@@ -691,6 +691,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         lstAvatares = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         abaSituacoes = new javax.swing.JPanel();
         btnNovaSituacao = new javax.swing.JButton();
         btnEditarSituacao = new javax.swing.JButton();
@@ -823,6 +824,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         jLabel1.setText("msgSemApresentacao");
 
+        jButton1.setText("btnProximo >");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout abaAssistenteLayout = new javax.swing.GroupLayout(abaAssistente);
         abaAssistente.setLayout(abaAssistenteLayout);
         abaAssistenteLayout.setHorizontalGroup(
@@ -850,7 +858,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                                     .addComponent(txtNomeAssistente)
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
-                                .addComponent(btnAjudaAssistente)))))
+                                .addComponent(btnAjudaAssistente))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaAssistenteLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         abaAssistenteLayout.setVerticalGroup(
@@ -874,7 +885,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSelecioneAvatar))
-                .addGap(39, 39, 39))
+                .addGap(5, 5, 5)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         painelConfiguracoes.addTab("abaAssistente", abaAssistente);
@@ -1317,6 +1330,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         SalvarComo();
     }//GEN-LAST:event_menuItemSalvarComoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static JanelaDesenvolvimentoPartida getInstancia() {
         if (instancia == null) {
             instancia = new JanelaDesenvolvimentoPartida();
@@ -1348,6 +1365,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JButton btnNovaSituacao;
     private javax.swing.JButton btnNovaVariavel;
     private javax.swing.JButton btnPreviaSituacao;
+    private javax.swing.JButton jButton1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;

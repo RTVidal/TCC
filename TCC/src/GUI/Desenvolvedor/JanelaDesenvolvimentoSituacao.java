@@ -18,7 +18,6 @@ import Modelo.Situacao;
 import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -41,7 +40,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     //1. Inserir, 2. Editar
     private int acao;
-    
+
     private int ordem;
     private int novaOrdem;
 
@@ -76,6 +75,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         jspOrdem.setValue(ordem);
         
+        //Por default, o seleciona o lado do assistente como direito
+        rbtDireito.setSelected(true);
+
         if (acao == 2) {
             this.situacao = situacao;
             saida = situacao.getSaida();
@@ -85,16 +87,17 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             saida = new Saida();
             saida.setTipoSaida(1);
             this.situacao.setSaida(saida);
-            
-            if(partidaDesenvolvimento.getSituacaoInicial() == null)
-            {
+
+            if (partidaDesenvolvimento.getSituacaoInicial() == null) {
                 chbSituacaoInicial.setSelected(true);
             }
-            
+
         }
 
         CarregarComboTipoSaida();
         AtualizaTabelaSaidas();
+
+        HabilitarDesabilitarAssistenteP();
     }
 
     public final void CarregaIdioma() {
@@ -130,28 +133,39 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }
 
     public final void CarregarSituacao() {
-        
+
         txtNomeSituacao.setText(situacao.getNome());
         txaFalaAssistente.setText(situacao.getFalaAssistente());
         txtArquivo.setText(situacao.getFundoSituacao().getDescription());
         chbSituacaoInicial.setSelected(situacao.isSituacaoInicial());
         chbSituacaoFinal.setSelected(situacao.isSituacaoFinal());
-        
+
         AtualizaTabelaSaidas();
 
     }
 
+    /**
+     * Desabilita e habilita os campos do assistente personalizado
+     */
+    public final void HabilitarDesabilitarAssistenteP() {
+        boolean habilitar = cbxAssistenteP.isSelected();
+
+        lstAvatares.setEnabled(habilitar);
+        imgAvatar.setEnabled(habilitar);
+        lblGerarNoLado.setEnabled(habilitar);
+    }
+
     public final void AtualizaTabelaSaidas() {
-        
+
         //Atualiza a tabela conforme o tipo de saída
         boolean naoHaSaidas = saida.getSaidasNumerica().isEmpty() && saida.getSaidasOpcao().isEmpty();
 
         //Habilitar o combobox apenas quando não houverem saídas cadastradas
         cbxTipoSaida.setEnabled(naoHaSaidas);
-        
+
         //Habilitar para marcar como situação final apenas quando não hoverem saídas
         chbSituacaoFinal.setEnabled(naoHaSaidas);
-        
+
         btnEditarSaida.setEnabled(!(saida.getSaidasOpcao().isEmpty() && saida.getSaidasNumerica().isEmpty()));
         btnExcluirSaida.setEnabled(!(saida.getSaidasOpcao().isEmpty() && saida.getSaidasNumerica().isEmpty()));
 
@@ -241,9 +255,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             situacao.setNome(txtNomeSituacao.getText());
             situacao.setSituacaoInicial(chbSituacaoInicial.isSelected());
             situacao.setSituacaoFinal(chbSituacaoFinal.isSelected());
-            
-            novaOrdem = (int)jspOrdem.getValue();
-            
+
+            novaOrdem = (int) jspOrdem.getValue();
 
             if (situacao.isSituacaoInicial()) {
                 partidaDesenvolvimento.setSituacaoInicial(situacao);
@@ -253,10 +266,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             if (acao == 1) {
                 partidaDesenvolvimento.getSituacoes().add(situacao);
             }
-            
+
             //Se tiver mudado a ordem, efetua o tratamento
-            if(ordem != novaOrdem)
-            {
+            if (ordem != novaOrdem) {
                 AlterarOrdem();
             }
 
@@ -351,40 +363,47 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         }
         return ok;
     }
-    
+
     /**
      * Alterar a ordem da situação na lista de situações da partida
      */
-    public void AlterarOrdem()
-    {
+    public void AlterarOrdem() {
         ArrayList<Situacao> situacoes = new ArrayList<>();
-        
+
         boolean adicionou = false;
-        
+
         //Remove a situação atual da lista
-         partidaDesenvolvimento.getSituacoes().remove(situacao);
-        
+        partidaDesenvolvimento.getSituacoes().remove(situacao);
+
         int qtdSituacoes = partidaDesenvolvimento.getSituacoes().size() - 1;
-        
+
         //Cria uma nova lista, adicionando a situação na posição desejada
-        for(int i = 0; i <= qtdSituacoes; i++)
-        {
-            if(i + 1 == novaOrdem)
-            {
+        for (int i = 0; i <= qtdSituacoes; i++) {
+            if (i + 1 == novaOrdem) {
                 situacoes.add(situacao);
                 adicionou = true;
             }
             situacoes.add(partidaDesenvolvimento.getSituacoes().get(i));
         }
-        
+
         //Caso não tenha adicionado a situação na lista, apenas adiciona na ultima posição
-        if(!adicionou)
-        {
+        if (!adicionou) {
             situacoes.add(situacao);
         }
-        
+
         //Atualiza a lista
         partidaDesenvolvimento.setSituacoes(situacoes);
+
+    }
+
+    /**
+     * Seleciona o lado do assistente personalizado conforme o que está marcado
+     * nos radios
+     */
+    public void SelecionarLadoAssistenteP(int lado) {
+        
+        rbtEsquerdo.setSelected(lado == 1);
+        rbtDireito.setSelected(lado == 2);
         
     }
 
@@ -508,12 +527,12 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         btnConfirmar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         btnAjuda = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        lblSaidasDessaSituacao = new javax.swing.JLabel();
         lblDescricaoDaSituacao = new javax.swing.JLabel();
         lblNome = new javax.swing.JLabel();
         lblFalaAssistente = new javax.swing.JLabel();
@@ -535,6 +554,15 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         chbSituacaoFinal = new javax.swing.JCheckBox();
         jspOrdem = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
+        pnlAssistenteP = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lstAvatares = new javax.swing.JList();
+        imgAvatar = new javax.swing.JLabel();
+        cbxAssistenteP = new javax.swing.JCheckBox();
+        lblSaidasDessaSituacao = new javax.swing.JLabel();
+        lblGerarNoLado = new javax.swing.JLabel();
+        rbtDireito = new javax.swing.JRadioButton();
+        rbtEsquerdo = new javax.swing.JRadioButton();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -562,9 +590,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         btnAjuda.setText("btnAjuda");
 
         jLabel6.setText("<html>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|");
-
-        lblSaidasDessaSituacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblSaidasDessaSituacao.setText("lblSaidasDessaSituacao");
 
         lblDescricaoDaSituacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDescricaoDaSituacao.setText("lblDescricaoDaSituacao");
@@ -639,6 +664,63 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         jLabel1.setText("lblOrdem");
 
+        lstAvatares.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(lstAvatares);
+
+        imgAvatar.setText("imgAvatar");
+
+        javax.swing.GroupLayout pnlAssistentePLayout = new javax.swing.GroupLayout(pnlAssistenteP);
+        pnlAssistenteP.setLayout(pnlAssistentePLayout);
+        pnlAssistentePLayout.setHorizontalGroup(
+            pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAssistentePLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(imgAvatar)
+                .addContainerGap(91, Short.MAX_VALUE))
+        );
+        pnlAssistentePLayout.setVerticalGroup(
+            pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAssistentePLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(imgAvatar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlAssistentePLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 13, Short.MAX_VALUE))
+        );
+
+        cbxAssistenteP.setText("lblAssistentePersonalizado");
+        cbxAssistenteP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxAssistentePActionPerformed(evt);
+            }
+        });
+
+        lblSaidasDessaSituacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblSaidasDessaSituacao.setText("lblSaidasDessaSituacao");
+
+        lblGerarNoLado.setText("lblGerarNoLado");
+
+        rbtDireito.setText("lblDireito");
+        rbtDireito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtDireitoActionPerformed(evt);
+            }
+        });
+
+        rbtEsquerdo.setText("lblEsquerdo");
+        rbtEsquerdo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtEsquerdoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -653,55 +735,79 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCancelar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(chbSituacaoInicial))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblDescricaoDaSituacao)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblNome)
-                                    .addComponent(lblFalaAssistente)
-                                    .addComponent(lblImgFundo)
-                                    .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnSelecionarImagem)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(lblResolucaoIdeal, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
-                                    .addComponent(txtNomeSituacao)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                                    .addComponent(txtArquivo)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lblNome)
+                                            .addComponent(lblFalaAssistente)
+                                            .addComponent(lblImgFundo)
+                                            .addComponent(jLabel1))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(btnSelecionarImagem)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(lblResolucaoIdeal, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+                                            .addComponent(txtNomeSituacao)
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                                            .addComponent(txtArquivo)
+                                            .addComponent(jspOrdem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jspOrdem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnCancelar)
+                                            .addComponent(lblDescricaoDaSituacao))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(10, 10, 10))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(chbSituacaoFinal)
+                                            .addComponent(chbSituacaoInicial))
+                                        .addGap(66, 66, 66))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(lblGerarNoLado)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(rbtEsquerdo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rbtDireito)
+                                        .addGap(18, 18, 18)))))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(lblSaidasDessaSituacao))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                                .addGap(12, 12, 12)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(chbSituacaoFinal)
-                                        .addGap(208, 208, 208)
-                                        .addComponent(btnConfirmar))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(lblTipoSaida)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(cbxTipoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(btnNovaSaida))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(btnEditarSaida)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(btnExcluirSaida))))))))
+                                        .addComponent(cbxAssistenteP)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(lblTipoSaida)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(cbxTipoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnNovaSaida))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(btnEditarSaida)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnExcluirSaida)))
+                                        .addGap(15, 15, 15))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnConfirmar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblSaidasDessaSituacao)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(pnlAssistenteP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -713,62 +819,68 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnAjuda)
                             .addComponent(lblTitulo))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblDescricaoDaSituacao)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblSaidasDessaSituacao)
+                                .addGap(19, 19, 19)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblNome)
+                                    .addComponent(txtNomeSituacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(16, 16, 16)
-                                        .addComponent(lblSaidasDessaSituacao))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(lblDescricaoDaSituacao)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(lblFalaAssistente)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblImgFundo)
+                                    .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(lblNome)
-                                            .addComponent(txtNomeSituacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblFalaAssistente)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(lblImgFundo)
-                                            .addComponent(txtArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnSelecionarImagem)
-                                            .addComponent(lblResolucaoIdeal)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(btnNovaSaida))
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(cbxTipoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(lblTipoSaida)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(btnExcluirSaida)
-                                            .addComponent(btnEditarSaida))))
+                                    .addComponent(btnSelecionarImagem)
+                                    .addComponent(lblResolucaoIdeal))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jspOrdem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnCancelar)
-                                    .addComponent(chbSituacaoInicial)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addComponent(chbSituacaoInicial)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(chbSituacaoFinal)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnConfirmar)
-                                    .addComponent(chbSituacaoFinal)))))
-                    .addGroup(layout.createSequentialGroup()
+                                    .addComponent(rbtEsquerdo)
+                                    .addComponent(rbtDireito)
+                                    .addComponent(lblGerarNoLado))
+                                .addGap(11, 11, 11)
+                                .addComponent(btnCancelar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnNovaSaida)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(cbxTipoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblTipoSaida)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnExcluirSaida)
+                                    .addComponent(btnEditarSaida))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbxAssistenteP)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(pnlAssistenteP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnConfirmar)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -868,6 +980,24 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         ExcluirSaida();
     }//GEN-LAST:event_btnExcluirSaidaActionPerformed
 
+    private void rbtDireitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtDireitoActionPerformed
+
+        SelecionarLadoAssistenteP(2);
+
+    }//GEN-LAST:event_rbtDireitoActionPerformed
+
+    private void cbxAssistentePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAssistentePActionPerformed
+
+        HabilitarDesabilitarAssistenteP();
+
+    }//GEN-LAST:event_cbxAssistentePActionPerformed
+
+    private void rbtEsquerdoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtEsquerdoActionPerformed
+
+        SelecionarLadoAssistenteP(1);
+
+    }//GEN-LAST:event_rbtEsquerdoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAjuda;
     private javax.swing.JButton btnCancelar;
@@ -876,24 +1006,33 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JButton btnExcluirSaida;
     private javax.swing.JButton btnNovaSaida;
     private javax.swing.JButton btnSelecionarImagem;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox cbxAssistenteP;
     private javax.swing.JComboBox cbxTipoSaida;
     private javax.swing.JCheckBox chbSituacaoFinal;
     private javax.swing.JCheckBox chbSituacaoInicial;
+    private javax.swing.JLabel imgAvatar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JSpinner jspOrdem;
     private javax.swing.JLabel lblDescricaoDaSituacao;
     private javax.swing.JLabel lblFalaAssistente;
+    private javax.swing.JLabel lblGerarNoLado;
     private javax.swing.JLabel lblImgFundo;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblResolucaoIdeal;
     private javax.swing.JLabel lblSaidasDessaSituacao;
     private javax.swing.JLabel lblTipoSaida;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JList lstAvatares;
+    private javax.swing.JPanel pnlAssistenteP;
+    private javax.swing.JRadioButton rbtDireito;
+    private javax.swing.JRadioButton rbtEsquerdo;
     private javax.swing.JTable tblSaidas;
     private javax.swing.JTextArea txaFalaAssistente;
     private javax.swing.JTextField txtArquivo;
@@ -921,5 +1060,3 @@ class MyCustomFilter extends javax.swing.filechooser.FileFilter {
         return "Image (*.jpg)";
     }
 }
-
-
