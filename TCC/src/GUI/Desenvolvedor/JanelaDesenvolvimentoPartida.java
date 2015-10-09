@@ -76,12 +76,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Quebrar linhas com as palavras
         txtApresentacao.setWrapStyleWord(true);
         
-        if (partidaDesenvolvimento.getAssistente() != null) {
-            AtualizaAssistente();
-        }
-        CarregaAvatares();
-        partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
-        partidaSalva = true;
+//        if (partidaDesenvolvimento.getAssistente() != null) {
+//            AtualizaAssistente();
+//        }
+//        CarregaAvatares();
+//        partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
+//        partidaSalva = true;
 
     }
 

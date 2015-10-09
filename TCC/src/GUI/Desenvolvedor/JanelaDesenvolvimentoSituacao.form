@@ -111,7 +111,7 @@
                               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="cbxAssistenteP" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chbAssistenteP" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
@@ -235,7 +235,7 @@
                                   <Component id="btnEditarSaida" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cbxAssistenteP" min="-2" max="-2" attributes="0"/>
+                              <Component id="chbAssistenteP" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="pnlAssistenteP" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -484,6 +484,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="lstAvataresValueChanged"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -494,12 +497,12 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JCheckBox" name="cbxAssistenteP">
+    <Component class="javax.swing.JCheckBox" name="chbAssistenteP">
       <Properties>
         <Property name="text" type="java.lang.String" value="lblAssistentePersonalizado"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxAssistentePActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chbAssistentePActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblSaidasDessaSituacao">

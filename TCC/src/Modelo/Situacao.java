@@ -34,6 +34,7 @@ public class Situacao implements Serializable{
         saida = new Saida();
         fundoSituacao = new ImageIcon();
         fundoSituacao.setDescription("");
+        assistenteP = new Assistente();
     }
 
     public boolean isSituacaoInicial() {

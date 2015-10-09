@@ -9,6 +9,7 @@ import Controle.ControladoraIdioma;
 import GUI.Suporte.LimiteCaracteres;
 import GUI.Suporte.SaidasNumericasTbModel;
 import GUI.Suporte.SaidasOpcionaisTbModel;
+import Modelo.Assistente;
 import Modelo.Faixa;
 import Modelo.Partida;
 import Modelo.Saida;
@@ -20,6 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -34,6 +36,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private final Situacao situacao;
     private final Partida partidaDesenvolvimento;
 
+    private ArrayList<ImageIcon> avatares;
+
     private final Saida saida;
 
     private final ControladoraIdioma idioma;
@@ -41,8 +45,12 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     //1. Inserir, 2. Editar
     private int acao;
 
-    private int ordem;
+    private final int ordem;
     private int novaOrdem;
+
+    private ImageIcon avatarSelecionado;
+    
+    private Assistente assistenteP;
 
     //private static JanelaDesenvolvimentoSituacao instancia;
     JanelaDesenvolvimentoPartida jdp;
@@ -74,7 +82,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txaFalaAssistente.setWrapStyleWord(true);
 
         jspOrdem.setValue(ordem);
-        
+
         //Por default, o seleciona o lado do assistente como direito
         rbtDireito.setSelected(true);
 
@@ -93,6 +101,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             }
 
         }
+
+        CarregaAvatares();
 
         CarregarComboTipoSaida();
         AtualizaTabelaSaidas();
@@ -118,6 +128,36 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         lblImgFundo.setText(idioma.Valor("lblImgFundo"));
         lblTipoSaida.setText(idioma.Valor("lblTipoSaida"));
         lblResolucaoIdeal.setText(idioma.Valor("lblResolucaoIdeal"));
+    }
+
+    /**
+     * Carrega os avatares do assistente
+     */
+    public final void CarregaAvatares() {
+        int itemSelecionado = 0;
+        imgAvatar.setText(idioma.Valor("lblSelecioneUmAvatar"));
+        DefaultListModel itens = new DefaultListModel<>();
+        avatares = new ArrayList<>();
+
+        //Recupera a quantidade de avatares disponiveis
+        File file = new File("./Recursos/Avatar");
+        File arquivos[] = file.listFiles();
+
+        for (int i = 0; i < arquivos.length; i++) {
+
+            ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
+            avatar.setDescription(arquivos[i].getAbsolutePath());
+            avatares.add(avatar);
+            if (situacao.getAssistenteP().getAvatarAssistente().equals(avatar.getDescription())) {
+                itemSelecionado = i;
+            }
+            itens.addElement(arquivos[i].getName());
+
+        }
+
+        lstAvatares.setModel(itens);
+        lstAvatares.setSelectedIndex(itemSelecionado);
+
     }
 
     public final void CarregarComboTipoSaida() {
@@ -148,7 +188,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
      * Desabilita e habilita os campos do assistente personalizado
      */
     public final void HabilitarDesabilitarAssistenteP() {
-        boolean habilitar = cbxAssistenteP.isSelected();
+        boolean habilitar = chbAssistenteP.isSelected();
 
         lstAvatares.setEnabled(habilitar);
         imgAvatar.setEnabled(habilitar);
@@ -260,6 +300,15 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
             if (situacao.isSituacaoInicial()) {
                 partidaDesenvolvimento.setSituacaoInicial(situacao);
+            }
+
+            //Caso o assistente seja personalizado, o salva
+            if (chbAssistenteP.isSelected()) {
+                
+                situacao.getAssistenteP().setAvatarAssistente(avatarSelecionado.getDescription());
+                System.out.println("salvou " + avatarSelecionado.getDescription());
+                situacao.setAssistentePersonalizado(true);
+
             }
 
             //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
@@ -401,10 +450,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
      * nos radios
      */
     public void SelecionarLadoAssistenteP(int lado) {
-        
+
         rbtEsquerdo.setSelected(lado == 1);
         rbtDireito.setSelected(lado == 2);
-        
+
     }
 
     /**
@@ -516,6 +565,20 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         return mensagens;
     }
 
+    public void SelecionarAvatar() {
+        int index = lstAvatares.getSelectedIndex();
+        if (index > -1) {
+            ImageIcon icone = new ImageIcon();
+            icone.setImage(avatares.get(index).getImage().getScaledInstance(100, 100, 100));
+            imgAvatar.setText(null);
+            imgAvatar.setIcon(icone);
+            avatarSelecionado = avatares.get(index);
+
+        }
+
+        situacao.getAssistenteP().setAvatarAssistente(avatarSelecionado.getDescription());
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -558,7 +621,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         lstAvatares = new javax.swing.JList();
         imgAvatar = new javax.swing.JLabel();
-        cbxAssistenteP = new javax.swing.JCheckBox();
+        chbAssistenteP = new javax.swing.JCheckBox();
         lblSaidasDessaSituacao = new javax.swing.JLabel();
         lblGerarNoLado = new javax.swing.JLabel();
         rbtDireito = new javax.swing.JRadioButton();
@@ -669,6 +732,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        lstAvatares.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstAvataresValueChanged(evt);
+            }
+        });
         jScrollPane3.setViewportView(lstAvatares);
 
         imgAvatar.setText("imgAvatar");
@@ -695,10 +763,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 .addGap(0, 13, Short.MAX_VALUE))
         );
 
-        cbxAssistenteP.setText("lblAssistentePersonalizado");
-        cbxAssistenteP.addActionListener(new java.awt.event.ActionListener() {
+        chbAssistenteP.setText("lblAssistentePersonalizado");
+        chbAssistenteP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxAssistentePActionPerformed(evt);
+                chbAssistentePActionPerformed(evt);
             }
         });
 
@@ -779,7 +847,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cbxAssistenteP)
+                                        .addComponent(chbAssistenteP)
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
@@ -872,7 +940,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                     .addComponent(btnExcluirSaida)
                                     .addComponent(btnEditarSaida))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxAssistenteP)
+                                .addComponent(chbAssistenteP)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(pnlAssistenteP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -986,17 +1054,23 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     }//GEN-LAST:event_rbtDireitoActionPerformed
 
-    private void cbxAssistentePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAssistentePActionPerformed
+    private void chbAssistentePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbAssistentePActionPerformed
 
         HabilitarDesabilitarAssistenteP();
 
-    }//GEN-LAST:event_cbxAssistentePActionPerformed
+    }//GEN-LAST:event_chbAssistentePActionPerformed
 
     private void rbtEsquerdoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtEsquerdoActionPerformed
 
         SelecionarLadoAssistenteP(1);
 
     }//GEN-LAST:event_rbtEsquerdoActionPerformed
+
+    private void lstAvataresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAvataresValueChanged
+
+        SelecionarAvatar();
+
+    }//GEN-LAST:event_lstAvataresValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAjuda;
@@ -1007,8 +1081,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JButton btnNovaSaida;
     private javax.swing.JButton btnSelecionarImagem;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JCheckBox cbxAssistenteP;
     private javax.swing.JComboBox cbxTipoSaida;
+    private javax.swing.JCheckBox chbAssistenteP;
     private javax.swing.JCheckBox chbSituacaoFinal;
     private javax.swing.JCheckBox chbSituacaoInicial;
     private javax.swing.JLabel imgAvatar;
