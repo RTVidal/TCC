@@ -97,9 +97,9 @@ public class IOPartida {
                 arquivo.delete();
                 arquivoGrav = new FileOutputStream(diretorio + ".tcc", true);
             }
-            
+
             GZIPOutputStream gz = new GZIPOutputStream(arquivoGrav);
-            
+
             ObjectOutputStream objGravar = new ObjectOutputStream(gz);
             objGravar.writeObject(partidaSalvar);
             objGravar.flush();
@@ -130,7 +130,7 @@ public class IOPartida {
             } else {
                 selecao = 2;
             }
-            if (selecao == 0 || selecao ==2) {
+            if (selecao == 0 || selecao == 2) {
                 break;
             }
         }
@@ -149,9 +149,9 @@ public class IOPartida {
                 arquivo.delete();
                 arquivoGrav = new FileOutputStream(diretorio + ".tcc", true);
             }
-            
+
             GZIPOutputStream gz = new GZIPOutputStream(arquivoGrav);
-            
+
             ObjectOutputStream objGravar = new ObjectOutputStream(gz);
             objGravar.writeObject(partidaSalvar);
             objGravar.flush();
@@ -179,7 +179,7 @@ public class IOPartida {
 
                 //Classe responsavel por recuperar os objetos do arquivo
                 ObjectInputStream objLeitura = new ObjectInputStream(gzi);
-                
+
                 partida = (Partida) (objLeitura.readObject());
                 objLeitura.close();
                 arquivoLeitura.close();
@@ -193,6 +193,23 @@ public class IOPartida {
             JOptionPane.showMessageDialog(null, mensagem, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
             return null;
         }
+    }
+
+    public boolean SalvarParaExportacao(Partida partidaSalvar) throws FileNotFoundException, IOException {
+        String diretorio = "geraJar/Arquivos/proj.tcc";
+        File arquivo = new File(diretorio);
+        if (arquivo.exists()) {
+            arquivo.delete();
+        }
+        FileOutputStream arquivoGrav = new FileOutputStream(diretorio, true);
+        GZIPOutputStream gz = new GZIPOutputStream(arquivoGrav);
+        ObjectOutputStream objGravar = new ObjectOutputStream(gz);
+        objGravar.writeObject(partidaSalvar);
+        objGravar.flush();
+        objGravar.close();
+        arquivoGrav.flush();
+        arquivoGrav.close();
+        return true;
     }
 
 }
