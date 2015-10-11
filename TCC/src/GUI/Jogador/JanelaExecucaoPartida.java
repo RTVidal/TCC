@@ -88,7 +88,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         assistente = partida.getAssistente();
         variaveis = partida.getVariaveis();
 
-        CarregaAssistente();
+        //CarregaAssistente();
         CarregarTabelaVariaveis();
         CarregaPainelSaida();
         ResetarVariaveis();
@@ -152,11 +152,27 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     /**
      * Carrega assistente
+     * @param assistenteP
      */
-    public void CarregaAssistente() {
+    public void CarregaAssistente(boolean assistenteP) {
+        
+        if (imgAvatar != null) {
+            painelPrincipal.remove(imgAvatar);
+        }
+        
         //Obtem o avatar do assistente (caso não haja assistente/avatar, preenche com um avatar genérico)
         if (!assistente.getAvatarAssistente().equals("")) {
-            imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
+            
+            if(assistenteP)
+            {
+                System.out.println("assistente p");
+                imagemAvatar = new ImageIcon(situacao.getAssistenteP().getAvatarAssistente());
+                
+            } else 
+            {
+                imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
+            }
+            
         } else {
             imagemAvatar = new ImageIcon("./Recursos/avatar1.gif");
         }
@@ -167,9 +183,25 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         imgAvatar.setOpaque(false);
 
         //Exibe o avatar do assistente
-        imgAvatar.setLocation(700, 500);
+        if(situacao.getLadoGeracao() == 1)
+        {
+            //Gera o assistente na esquerdsa
+            imgAvatar.setLocation(50, 500);
+            
+        } else 
+        {
+            //Gera o assistente na direita
+            imgAvatar.setLocation(700, 500);
+        }
+        
 
         painelPrincipal.add(imgAvatar);
+        
+        //O balão precisa ser adicionado antes da imagem de fundo para ser exibido
+        if (imgFundo != null) {
+            painelPrincipal.remove(imgFundo);
+            painelPrincipal.add(imgFundo);
+        }
     }
 
     public void CarregarTabelaVariaveis() {
@@ -271,10 +303,59 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         imgRedimensionada.setImage(imgRedimensionada.getImage().getScaledInstance(larguraTexto + 80, alturaTexto + 80, 300));
 
+        if(situacao.getLadoGeracao() == 1)
+        {
+            GerarBalaoEsrquerda(imgRedimensionada, xAvatar, yAvatar, largura);
+        } else 
+        {
+            GerarBalaoDireita(imgRedimensionada, xAvatar, yAvatar, largura);
+        }
+        //O balão precisa ser adicionado antes da imagem de fundo para ser exibido
+        if (imgFundo != null) {
+            painelPrincipal.remove(imgFundo);
+            painelPrincipal.add(imgFundo);
+        }
+
+    }
+    
+    public void GerarBalaoEsrquerda(ImageIcon imgRedimensionada, int xAvatar, int yAvatar, int largura)
+    {
+        imgBalao = new PainelImagem(imgRedimensionada.getImage());
+
+        //Posicionar o balão sempre acima do avatar e mais a esquerda possível
+        int yBalao = yAvatar - imgBalao.getHeight();
+        
+        int xBalao;
+
+        //Se a largura for menor do que o máximo (600), posicionar o balão acima do avatar
+        if (largura < 700) {
+            
+            //Gerar o final do balão sempre rente a 2/3 do tamanho do avatar
+            //xBalao = (imgAvatar.getX() + (2 * (imgAvatar.getWidth() / 3))) - imgBalao.getWidth();
+            xBalao = xAvatar - 300;
+            
+        } else {
+
+            //xBalao = (xAvatar - imgBalao.getWidth()) + 30;
+            xBalao = xAvatar - 300;
+
+        }
+
+        imgBalao.setLocation(xBalao, yBalao);
+        imgBalao.setLayout(null);
+
+        imgBalao.add(textoBalao);
+
+        painelPrincipal.add(imgBalao);
+    }
+    
+    public void GerarBalaoDireita(ImageIcon imgRedimensionada, int xAvatar, int yAvatar, int largura)
+    {
         imgBalao = new PainelImagem(imgRedimensionada.getImage());
 
         //Posicionar o balão sempre acima do avatar e mais a direita possível
         int yBalao = yAvatar - imgBalao.getHeight();
+        
         int xBalao;
 
         //Se a largura for menor do que o máximo (600), posicionar o balão acima do avatar
@@ -294,13 +375,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         imgBalao.add(textoBalao);
 
         painelPrincipal.add(imgBalao);
-
-        //O balão precisa ser adicionado antes da imagem de fundo para ser exibido
-        if (imgFundo != null) {
-            painelPrincipal.remove(imgFundo);
-            painelPrincipal.add(imgFundo);
-        }
-
     }
 
     /**
@@ -787,11 +861,20 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         switch (etapa) {
 
             case 1:
+                
+                CarregaAssistente(false);
                 CarregaFalaAssistente(assistente.getApresentacao());
                 GerarSaidaApresentacao();
                 break;
 
             case 2:
+                
+                if(situacao.isAssistentePersonalizado())
+                {
+                    CarregaAssistente(true);
+                } else {
+                    CarregaAssistente(false);
+                }
 
                 CarregaFalaAssistente(situacao.getFalaAssistente());
                 GerarSaidas(situacao);

@@ -83,14 +83,15 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         jspOrdem.setValue(ordem);
 
-        //Por default, o seleciona o lado do assistente como direito
-        rbtDireito.setSelected(true);
-
         if (acao == 2) {
             this.situacao = situacao;
             saida = situacao.getSaida();
             CarregarSituacao();
         } else {
+            
+            //Por default seleciona o lado do assistente como direito
+            rbtDireito.setSelected(true);
+            
             this.situacao = new Situacao();
             saida = new Saida();
             saida.setTipoSaida(1);
@@ -179,6 +180,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txtArquivo.setText(situacao.getFundoSituacao().getDescription());
         chbSituacaoInicial.setSelected(situacao.isSituacaoInicial());
         chbSituacaoFinal.setSelected(situacao.isSituacaoFinal());
+        
+        rbtEsquerdo.setSelected(situacao.getLadoGeracao() == 1);
+        rbtDireito.setSelected(situacao.getLadoGeracao() == 2);
 
         AtualizaTabelaSaidas();
 
@@ -295,7 +299,15 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             situacao.setNome(txtNomeSituacao.getText());
             situacao.setSituacaoInicial(chbSituacaoInicial.isSelected());
             situacao.setSituacaoFinal(chbSituacaoFinal.isSelected());
-
+            
+            if(rbtEsquerdo.isSelected())
+            {
+                situacao.setLadoGeracao(1);
+            } else
+            {
+                situacao.setLadoGeracao(2);
+            }
+            
             novaOrdem = (int) jspOrdem.getValue();
 
             if (situacao.isSituacaoInicial()) {
