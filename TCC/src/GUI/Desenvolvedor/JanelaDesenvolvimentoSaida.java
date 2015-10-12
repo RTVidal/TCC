@@ -234,7 +234,6 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             tblAcoes.setModel(model);
 
             if (!saidaNumerica.getAcoes().isEmpty()) {
-                System.out.println("intervalo selecionado");
                 tblAcoes.setRowSelectionInterval(0, 0);
             }
         }
