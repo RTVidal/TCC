@@ -36,7 +36,9 @@ public class IOPartida {
         opcaoSimNaoCancelar = new Object[]{idioma.Valor("sim"), idioma.Valor("nao"), idioma.Valor("btnCancelar")};
     }
 
-    public ParametrosArquivo selecionadorDeArquivos(boolean paraSalvar) {
+    public ParametrosArquivo selecionadorDeArquivos(int parametro) {
+        //Parametro = (1) para ler, (2) para salvar .tcc, (3) para salvar .jar
+
         ParametrosArquivo pa = new ParametrosArquivo();
         JFileChooser jFileChooser = new JFileChooser();
         //Selecionar apenas arquivos
@@ -44,23 +46,38 @@ public class IOPartida {
         //desabilita todos os tipos de arquivos
         jFileChooser.setAcceptAllFileFilterUsed(false);
         //filtra por extensao
-        jFileChooser.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                return file.isDirectory() || file.getAbsolutePath().endsWith(".tcc");
-            }
+        if (parametro == 1 || parametro == 2) {
+            jFileChooser.setFileFilter(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    return file.isDirectory() || file.getAbsolutePath().endsWith(".tcc");
+                }
 
-            @Override
-            public String getDescription() {
-                return idioma.Valor("descricaoArquivo") + " (*.tcc)";
-            }
-        });
+                @Override
+                public String getDescription() {
+                    return idioma.Valor("descricaoArquivoTcc") + " (*.tcc)";
+                }
+            });
+        }
+        if (parametro == 3) {
+            jFileChooser.setFileFilter(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    return file.isDirectory() || file.getAbsolutePath().endsWith(".jar");
+                }
+
+                @Override
+                public String getDescription() {
+                    return idioma.Valor("descricaoArquivoJar") + " (*.jar)";
+                }
+            });
+        }
         //mostra janela para de acordo com o parametro
         int acao;
-        if (paraSalvar) {
-            acao = jFileChooser.showSaveDialog(null);
-        } else {
+        if (parametro == 1) {
             acao = jFileChooser.showOpenDialog(null);
+        } else {
+            acao = jFileChooser.showSaveDialog(null);
         }
         //executa acao conforme opcao selecionada
         if (acao == JFileChooser.APPROVE_OPTION) {
@@ -114,7 +131,7 @@ public class IOPartida {
         int selecao = 3;
         ParametrosArquivo pa = new ParametrosArquivo();
         for (;;) {
-            pa = selecionadorDeArquivos(true);
+            pa = selecionadorDeArquivos(2);
             if (pa.isArquivoSelecionado()) {
                 if (partidaSalvar.getParametrosArquivo() == null) {
                     selecao = 0;
@@ -169,7 +186,7 @@ public class IOPartida {
     }
 
     public Partida LePartida() {
-        ParametrosArquivo pa = selecionadorDeArquivos(false);
+        ParametrosArquivo pa = selecionadorDeArquivos(1);
         Partida partida;
         try {
             if (pa.isArquivoSelecionado()) {

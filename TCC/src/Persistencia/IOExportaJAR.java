@@ -5,6 +5,8 @@
  */
 package Persistencia;
 
+import Controle.ControladoraIdioma;
+import Modelo.ParametrosArquivo;
 import Modelo.Partida;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -21,20 +23,33 @@ import javax.swing.JOptionPane;
  */
 public class IOExportaJAR {
 
+    ControladoraIdioma idioma;
+    
+    public IOExportaJAR() {
+        idioma = ControladoraIdioma.getInstancia();
+    }
+    
     public void criarJAR(Partida partida) throws IOException {
         if (new File("geraJar").exists()) { // Verifica se o diretório existe.
             IOPartida iop = new IOPartida();
             boolean salvou = iop.SalvarParaExportacao(partida);
             if (salvou) {
-                try {
-                    String nomeLocalArquivo = partida.getParametrosArquivo().getPatchDoArquivo().replaceAll(".tcc", ".jar");
-                    JarOutputStream target = new JarOutputStream(new FileOutputStream(nomeLocalArquivo));
-                    add(new File("geraJar"), target);
-                    target.close();
-                    JOptionPane.showMessageDialog(null, "Sucesso");
-                } catch (IOException io) {
-                    JOptionPane.showMessageDialog(null, "erro");
-                    io.printStackTrace();
+                ParametrosArquivo pa = iop.selecionadorDeArquivos(3);
+                if (pa.isArquivoSelecionado()) {
+                    try {
+                        String diretorio = pa.getPatchDoArquivo();
+                        String finalNome = diretorio.substring(diretorio.length() - 4, diretorio.length());
+                        if (!(finalNome.equalsIgnoreCase(".jar"))) {
+                            diretorio = diretorio.concat(".jar");
+                        }
+                        JarOutputStream target = new JarOutputStream(new FileOutputStream(diretorio));
+                        add(new File("geraJar"), target);
+                        target.close();
+                        JOptionPane.showMessageDialog(null, idioma.Valor("msgExportacaoSucesso"), idioma.Valor("aviso"), JOptionPane.OK_OPTION);
+                    } catch (Exception e) {
+                        String mensagem = "<html><center>" + idioma.Valor("msgExportacaoFalha") + "<br>Erro:" + e.getMessage();
+                        JOptionPane.showMessageDialog(null, mensagem, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
+                    }
                 }
             }
         }
@@ -68,5 +83,5 @@ public class IOExportaJAR {
             }
         }
     }
-    
+
 }
