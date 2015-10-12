@@ -23,12 +23,16 @@ import javax.swing.JOptionPane;
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
+public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
     /**
      * Creates new form JanelaDesenvolvimentoSaida
      */
     private int modo;
+    
+    private int destinoSelecionado;
+
+    private String descricaoSaida;
 
     private final Partida partidaDesenvolvimento;
 
@@ -46,6 +50,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     private final JanelaDesenvolvimentoSituacao janelaDevSituacao;
 
     public JanelaDesenvolvimentoSaida(JanelaDesenvolvimentoSituacao jds, int modo, Situacao situacao, Object saidaSelecionada) {
+
         initComponents();
         setLocationRelativeTo(jds);
         setModal(true);
@@ -66,8 +71,11 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         txtSituacaoOrigem.setText(situacaoOrigem.getNome());
 
+        destinoSelecionado = 0;
+        
         if (modo == 1) {
 
+            descricaoSaida = "";
             chbPodeDesistir.setSelected(true);
             switch (saida.getTipoSaida()) {
                 case 1:
@@ -92,6 +100,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         PreencheListaSituacoes();
         AtualizarAcoes();
+
     }
 
     /**
@@ -129,6 +138,8 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
                 txaFalaAssistente.setText(saidaOpcao.getFalaAssistente());
                 txtDescricaoSO.setText(saidaOpcao.getNome());
+                
+                descricaoSaida = saidaOpcao.getNome();
 
                 opcaoSaida.setSelectedComponent(pnlSaidaOpcao);
 
@@ -153,25 +164,37 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
     }
 
-    public final void PreencheListaSituacoes() {
+    public void PreencheListaSituacoes() {
 
         final DefaultComboBoxModel modelDestino = new DefaultComboBoxModel();
 
-        int itemSelecionadoDestino = 0;
-        int cont = 0;
+        int cont = 1;
+
+        //Adiciona a opção nova situação 
+        if (saida.getTipoSaida() == 1) {
+
+            modelDestino.addElement(idioma.Valor("lblNovaSituacao") + ": " + descricaoSaida);
+
+        } else {
+            
+            descricaoSaida = situacaoOrigem.getNome() + " " + jspValorMinimo.getValue() + " - " + jspValorMaximo.getValue();
+            
+            modelDestino.addElement(idioma.Valor("lblNovaSituacao") + ": " + descricaoSaida);
+
+        }
 
         for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
 
             if (saida.getTipoSaida() == 1) {
 
                 if (s == saidaOpcao.getSituacaoDestino()) {
-                    itemSelecionadoDestino = cont;
+                    destinoSelecionado = cont;
                 }
 
             } else {
 
                 if (s == saidaNumerica.getSituacaoDestino()) {
-                    itemSelecionadoDestino = cont;
+                    destinoSelecionado = cont;
                 }
 
             }
@@ -183,7 +206,7 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         cbxSituacaoDestino.setModel(modelDestino);
 
-        cbxSituacaoDestino.setSelectedIndex(itemSelecionadoDestino);
+        cbxSituacaoDestino.setSelectedIndex(destinoSelecionado);
 
     }
 
@@ -343,7 +366,33 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         saidaOpcao.setFalaAssistente(txaFalaAssistente.getText());
         saidaOpcao.setNome(txtDescricaoSO.getText());
-        saidaOpcao.setSituacaoDestino(situacaoDestino);
+        
+        if(cbxSituacaoDestino.getSelectedIndex() > 0)
+        {
+            saidaOpcao.setSituacaoDestino(situacaoDestino);
+        } else 
+        {            
+            //Cria a nova situação
+            Situacao novaSituacao = new Situacao();
+            novaSituacao.setAssistentePersonalizado(false);
+            novaSituacao.setFalaAssistente(descricaoSaida);
+            novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
+            novaSituacao.setNome(descricaoSaida);
+            novaSituacao.setSituacaoFinal(false);
+            
+            Saida saidaNovaSituacao = new Saida();
+            
+            saidaNovaSituacao.setSituacaoOrigem(novaSituacao);
+            saidaNovaSituacao.setTipoSaida(saida.getTipoSaida());
+            
+            novaSituacao.setSaida(saidaNovaSituacao);
+            
+            //Adiciona às situações da partida
+            partidaDesenvolvimento.getSituacoes().add(novaSituacao);
+            
+            saidaOpcao.setSituacaoDestino(novaSituacao);
+        }        
+        
         saidaOpcao.setPodeDesistir(chbPodeDesistir.isSelected());
 
         if (modo == 1) {
@@ -357,7 +406,33 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     public void SalvarSaidaNumerica() {
 
         saidaNumerica.setFalaAssistente(txaFalaAssistente.getText());
-        saidaNumerica.setSituacaoDestino(situacaoDestino);
+        
+        if(cbxSituacaoDestino.getSelectedIndex() > 0)
+        {
+            saidaNumerica.setSituacaoDestino(situacaoDestino);
+        } else 
+        {            
+            //Cria a nova situação
+            Situacao novaSituacao = new Situacao();
+            novaSituacao.setAssistentePersonalizado(false);
+            novaSituacao.setFalaAssistente(descricaoSaida);
+            novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
+            novaSituacao.setNome(descricaoSaida);
+            novaSituacao.setSituacaoFinal(false);
+            
+            Saida saidaNovaSituacao = new Saida();
+            
+            saidaNovaSituacao.setSituacaoOrigem(novaSituacao);
+            saidaNovaSituacao.setTipoSaida(saida.getTipoSaida());
+            
+            novaSituacao.setSaida(saidaNovaSituacao);
+            
+            //Adiciona às situações da partida
+            partidaDesenvolvimento.getSituacoes().add(novaSituacao);
+            
+            saidaNumerica.setSituacaoDestino(novaSituacao);
+        }        
+        
         saidaNumerica.setPodeDesistir(chbPodeDesistir.isSelected());
 
         Faixa faixa = new Faixa();
@@ -445,6 +520,22 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         lblDescricao.setText("lblDescricao");
 
+        txtDescricaoSO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDescricaoSOActionPerformed(evt);
+            }
+        });
+        txtDescricaoSO.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDescricaoSOFocusLost(evt);
+            }
+        });
+        txtDescricaoSO.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtDescricaoSOPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlSaidaOpcaoLayout = new javax.swing.GroupLayout(pnlSaidaOpcao);
         pnlSaidaOpcao.setLayout(pnlSaidaOpcaoLayout);
         pnlSaidaOpcaoLayout.setHorizontalGroup(
@@ -471,8 +562,28 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         jLabel10.setText("lblValorMinimo");
 
         jspValorMinimo.setModel(new javax.swing.SpinnerNumberModel());
+        jspValorMinimo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jspValorMinimoStateChanged(evt);
+            }
+        });
+        jspValorMinimo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jspValorMinimoFocusLost(evt);
+            }
+        });
 
         jspValorMaximo.setModel(new javax.swing.SpinnerNumberModel());
+        jspValorMaximo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jspValorMaximoStateChanged(evt);
+            }
+        });
+        jspValorMaximo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jspValorMaximoFocusLost(evt);
+            }
+        });
 
         jLabel11.setText("lblValorMaximo");
 
@@ -685,12 +796,12 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     private void cbxSituacaoDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSituacaoDestinoActionPerformed
 
         //Recupera o index do item
-        int index = cbxSituacaoDestino.getSelectedIndex();
+        destinoSelecionado = cbxSituacaoDestino.getSelectedIndex();
 
-        if (index >= 0) {
+        if (destinoSelecionado > 0) {
             //Recupera o item na lista e associa a saída
-            situacaoDestino = partidaDesenvolvimento.getSituacoes().get(index);
-        }
+            situacaoDestino = partidaDesenvolvimento.getSituacoes().get(destinoSelecionado - 1);
+        }            
 
     }//GEN-LAST:event_cbxSituacaoDestinoActionPerformed
 
@@ -705,6 +816,41 @@ public class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     private void btnSalvarSaidaAcoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarSaidaAcoesActionPerformed
         SalvarSaida(false);
     }//GEN-LAST:event_btnSalvarSaidaAcoesActionPerformed
+
+    private void txtDescricaoSOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoSOActionPerformed
+
+    }//GEN-LAST:event_txtDescricaoSOActionPerformed
+
+    private void txtDescricaoSOPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtDescricaoSOPropertyChange
+
+    }//GEN-LAST:event_txtDescricaoSOPropertyChange
+
+    private void txtDescricaoSOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescricaoSOFocusLost
+
+        descricaoSaida = txtDescricaoSO.getText();
+        PreencheListaSituacoes();
+
+    }//GEN-LAST:event_txtDescricaoSOFocusLost
+
+    private void jspValorMinimoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jspValorMinimoFocusLost
+        
+    }//GEN-LAST:event_jspValorMinimoFocusLost
+
+    private void jspValorMaximoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jspValorMaximoFocusLost
+
+    }//GEN-LAST:event_jspValorMaximoFocusLost
+
+    private void jspValorMinimoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jspValorMinimoStateChanged
+        
+        PreencheListaSituacoes();
+        
+    }//GEN-LAST:event_jspValorMinimoStateChanged
+
+    private void jspValorMaximoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jspValorMaximoStateChanged
+        
+        PreencheListaSituacoes();
+        
+    }//GEN-LAST:event_jspValorMaximoStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAjuda;

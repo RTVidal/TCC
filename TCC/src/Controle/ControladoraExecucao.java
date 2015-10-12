@@ -37,7 +37,7 @@ public class ControladoraExecucao {
         //Carrega a situação inicial
         if(!partida.getAssistente().getApresentacao().isEmpty())
         {
-            jsj.CarregaSituacao(partida.getSituacaoInicial(), 1);
+            jsj.CarregaSituacao(partida.getSituacoes().get(0), 1);
         } else {
             IniciarJogo();
         }
@@ -47,7 +47,7 @@ public class ControladoraExecucao {
      *
      */
     public void IniciarJogo() {
-        jsj.CarregaSituacao(partida.getSituacaoInicial(), 2);
+        jsj.CarregaSituacao(partida.getSituacoes().get(0), 2);
     }
 
     //public void Carregar
