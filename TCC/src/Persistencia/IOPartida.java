@@ -196,6 +196,10 @@ public class IOPartida {
     }
 
     public boolean SalvarParaExportacao(Partida partidaSalvar) throws FileNotFoundException, IOException {
+        File pasta = new File("geraJar/Arquivos");
+        if (!pasta.exists()) {
+            pasta.mkdir();
+        }
         String diretorio = "geraJar/Arquivos/proj.tcc";
         File arquivo = new File(diretorio);
         if (arquivo.exists()) {

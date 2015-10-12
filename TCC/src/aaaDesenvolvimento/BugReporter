@@ -4,6 +4,4 @@ Bugs conhecidos
 - [RTVIDAL] Erro ao carregar várias vezes. ([BRTOK] não aconteceu comigo)
 - [BRTOK] Tornar label de texto da seleção numérica opaco para poder ver independente da cor da figura de fundo.
 - Não tem instalador [http://www.clubedaprogramacao.com/forum/index.php?/topic/871-como-criar-um-instalador-em-java/ , site bom mas ainda não deu tempo]
-- Não roda a partir do arquivo.
-- Gerar o jar para executar o jogo direto.
 - Erro no Novo Jogo

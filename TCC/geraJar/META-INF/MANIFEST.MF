@@ -3,5 +3,5 @@ Ant-Version: Apache Ant 1.9.4
 Created-By: 1.8.0_40-b26 (Oracle Corporation)
 Class-Path: 
 X-COMMENT: Main-Class will be added automatically by build
-Main-Class: Play.GerarInicial
+Main-Class: Play.Play
 
