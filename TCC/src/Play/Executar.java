@@ -34,7 +34,7 @@ public class Executar extends Thread {
                 ControladoraIdioma idioma = new ControladoraIdioma();
                 idioma.DefineIdioma(partida.getIdioma());
 
-                if (partida.getSituacaoInicial() != null) {
+                if (!partida.getSituacoes().isEmpty()) {
                     Partida.setInstancia(partida);
                     ControladoraExecucao ce = new ControladoraExecucao();
                     ce.ExecutaPartida();
@@ -51,5 +51,5 @@ public class Executar extends Thread {
         }
 
     }
-    
+
 }

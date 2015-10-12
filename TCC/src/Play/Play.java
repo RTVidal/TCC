@@ -5,16 +5,8 @@
  */
 package Play;
 
-import Controle.ControladoraExecucao;
-import Controle.ControladoraIdioma;
-import Modelo.Partida;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.GZIPInputStream;
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 

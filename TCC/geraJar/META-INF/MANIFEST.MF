@@ -4,4 +4,3 @@ Created-By: 1.8.0_40-b26 (Oracle Corporation)
 Class-Path: 
 X-COMMENT: Main-Class will be added automatically by build
 Main-Class: Play.Play
-
