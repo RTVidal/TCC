@@ -17,8 +17,6 @@ public class Situacao implements Serializable{
     private boolean situacaoFinal;
     private ImageIcon fundoSituacao;
     
-    private boolean assistentePersonalizado;
-    
     private Assistente assistenteP;
     
     //1. Esquerdo, 2. Direito
@@ -31,9 +29,6 @@ public class Situacao implements Serializable{
 
     public Situacao() {
         saida = new Saida();
-        fundoSituacao = new ImageIcon();
-        fundoSituacao.setDescription("");
-        assistenteP = new Assistente();
     }
 
     public boolean isSituacaoFinal() {
@@ -74,14 +69,6 @@ public class Situacao implements Serializable{
 
     public void setSaida(Saida saida) {
         this.saida = saida;
-    }
-
-    public boolean isAssistentePersonalizado() {
-        return assistentePersonalizado;
-    }
-
-    public void setAssistentePersonalizado(boolean assistentePersonalizado) {
-        this.assistentePersonalizado = assistentePersonalizado;
     }
 
     public Assistente getAssistenteP() {

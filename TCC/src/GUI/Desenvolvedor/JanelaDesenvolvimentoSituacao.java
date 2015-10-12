@@ -48,9 +48,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private final int ordem;
     private int novaOrdem;
 
+    private Assistente assistentePers;
     private ImageIcon avatarSelecionado;
-    
-    private Assistente assistenteP;
 
     //private static JanelaDesenvolvimentoSituacao instancia;
     JanelaDesenvolvimentoPartida jdp;
@@ -88,10 +87,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             saida = situacao.getSaida();
             CarregarSituacao();
         } else {
-            
+
             //Por default seleciona o lado do assistente como direito
             rbtDireito.setSelected(true);
-            
+
             this.situacao = new Situacao();
             saida = new Saida();
             saida.setTipoSaida(1);
@@ -136,7 +135,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         avatares = new ArrayList<>();
 
         //Recupera a quantidade de avatares disponiveis
-        File file = new File("./Recursos/Avatar");
+        File file = new File("./Avatares");
         File arquivos[] = file.listFiles();
 
         for (int i = 0; i < arquivos.length; i++) {
@@ -144,8 +143,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
             avatar.setDescription(arquivos[i].getAbsolutePath());
             avatares.add(avatar);
-            if (situacao.getAssistenteP().getAvatarAssistente().equals(avatar.getDescription())) {
-                itemSelecionado = i;
+            if (situacao.getAssistenteP() != null) {
+                if (situacao.getAssistenteP().getAvatarAssistente().getDescription().equals(avatar.getDescription())) {
+                    itemSelecionado = i;
+                }
             }
             itens.addElement(arquivos[i].getName());
 
@@ -172,11 +173,19 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         txtNomeSituacao.setText(situacao.getNome());
         txaFalaAssistente.setText(situacao.getFalaAssistente());
-        txtArquivo.setText(situacao.getFundoSituacao().getDescription());
+        if (situacao.getFundoSituacao() != null) {
+            txtArquivo.setText(situacao.getFundoSituacao().getDescription());
+        }
         chbSituacaoFinal.setSelected(situacao.isSituacaoFinal());
-        
+
+        assistentePers = situacao.getAssistenteP();
         rbtEsquerdo.setSelected(situacao.getLadoGeracao() == 1);
         rbtDireito.setSelected(situacao.getLadoGeracao() == 2);
+
+        if (situacao.getAssistenteP() != null) {
+            chbAssistenteP.setSelected(true);
+            HabilitarDesabilitarAssistenteP();
+        }
 
         AtualizaTabelaSaidas();
 
@@ -187,10 +196,13 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
      */
     public final void HabilitarDesabilitarAssistenteP() {
         boolean habilitar = chbAssistenteP.isSelected();
-
         lstAvatares.setEnabled(habilitar);
         imgAvatar.setEnabled(habilitar);
-        lblGerarNoLado.setEnabled(habilitar);
+        if (habilitar) {
+            assistentePers = new Assistente();
+        } else {
+            assistentePers = null;
+        }
     }
 
     public final void AtualizaTabelaSaidas() {
@@ -291,23 +303,24 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             situacao.setFalaAssistente(txaFalaAssistente.getText());
             situacao.setNome(txtNomeSituacao.getText());
             situacao.setSituacaoFinal(chbSituacaoFinal.isSelected());
-            
-            if(rbtEsquerdo.isSelected())
-            {
+
+            if (rbtEsquerdo.isSelected()) {
                 situacao.setLadoGeracao(1);
-            } else
-            {
+            } else {
                 situacao.setLadoGeracao(2);
             }
-            
+
             novaOrdem = (int) jspOrdem.getValue();
+
+            //Caso não tenha fundo, torna o fundo vazio
+            if (txtArquivo.getText().isEmpty()) {
+                situacao.setFundoSituacao(null);
+            }
 
             //Caso o assistente seja personalizado, o salva
             if (chbAssistenteP.isSelected()) {
-                
-                situacao.getAssistenteP().setAvatarAssistente(avatarSelecionado.getDescription());
-                situacao.setAssistentePersonalizado(true);
-
+                assistentePers.setAvatarAssistente(avatarSelecionado);
+                situacao.setAssistenteP(assistentePers);
             }
 
             //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
@@ -551,10 +564,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             imgAvatar.setText(null);
             imgAvatar.setIcon(icone);
             avatarSelecionado = avatares.get(index);
-
         }
-
-        situacao.getAssistenteP().setAvatarAssistente(avatarSelecionado.getDescription());
     }
 
     /**
@@ -937,7 +947,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         fileChooser.setDialogTitle(idioma.Valor("lblSelImagem"));
         fileChooser.setFileFilter(new MyCustomFilter());
 
-        int returnVal = fileChooser.showOpenDialog(this);
+        int returnVal = fileChooser.showDialog(this, idioma.Valor("btnSelecionar"));
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             try {
@@ -1026,9 +1036,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }//GEN-LAST:event_rbtDireitoActionPerformed
 
     private void chbAssistentePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbAssistentePActionPerformed
-
         HabilitarDesabilitarAssistenteP();
-
     }//GEN-LAST:event_chbAssistentePActionPerformed
 
     private void rbtEsquerdoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtEsquerdoActionPerformed
@@ -1038,9 +1046,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }//GEN-LAST:event_rbtEsquerdoActionPerformed
 
     private void lstAvataresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAvataresValueChanged
-
         SelecionarAvatar();
-
     }//GEN-LAST:event_lstAvataresValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,6 +6,7 @@
 package Modelo;
 
 import java.io.Serializable;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -15,11 +16,7 @@ public class Assistente implements Serializable {
 
     private String nome;
     private String apresentacao;
-    private String avatarAssistente;
-
-    public Assistente() {
-     avatarAssistente = "";
-    }
+    private ImageIcon avatarAssistente;
 
     public String getNome() {
         return nome;
@@ -37,11 +34,11 @@ public class Assistente implements Serializable {
         this.apresentacao = apresentacao;
     }
 
-    public String getAvatarAssistente() {
+    public ImageIcon getAvatarAssistente() {
         return avatarAssistente;
     }
 
-    public void setAvatarAssistente(String avatarAssistente) {
+    public void setAvatarAssistente(ImageIcon avatarAssistente) {
         this.avatarAssistente = avatarAssistente;
     }
 

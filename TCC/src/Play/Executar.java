@@ -33,6 +33,7 @@ public class Executar extends Thread {
 
                 ControladoraIdioma idioma = new ControladoraIdioma();
                 idioma.DefineIdioma(partida.getIdioma());
+                ControladoraIdioma.setInstancia(idioma);
 
                 if (!partida.getSituacoes().isEmpty()) {
                     Partida.setInstancia(partida);

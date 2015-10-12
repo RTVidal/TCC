@@ -373,7 +373,6 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         {            
             //Cria a nova situação
             Situacao novaSituacao = new Situacao();
-            novaSituacao.setAssistentePersonalizado(false);
             novaSituacao.setFalaAssistente(descricaoSaida);
             novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
             novaSituacao.setNome(descricaoSaida);
@@ -413,7 +412,6 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         {            
             //Cria a nova situação
             Situacao novaSituacao = new Situacao();
-            novaSituacao.setAssistentePersonalizado(false);
             novaSituacao.setFalaAssistente(descricaoSaida);
             novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
             novaSituacao.setNome(descricaoSaida);

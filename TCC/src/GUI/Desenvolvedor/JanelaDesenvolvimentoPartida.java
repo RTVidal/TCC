@@ -14,6 +14,7 @@ import GUI.Suporte.LimiteCaracteres;
 import GUI.Suporte.SituacoesTbModel;
 import GUI.Suporte.VariaveisTbModel;
 import Modelo.Acao;
+import Modelo.Assistente;
 import Modelo.Avaliacao;
 import Modelo.Partida;
 import Modelo.Saida;
@@ -92,7 +93,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         avatares = new ArrayList<>();
 
         //Recupera a quantidade de avatares disponiveis
-        File file = new File("./Recursos/Avatar");
+        File file = new File("./Avatares");
         File arquivos[] = file.listFiles();
 
         for (int i = 0; i < arquivos.length; i++) {
@@ -100,8 +101,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
             avatar.setDescription(arquivos[i].getAbsolutePath());
             avatares.add(avatar);
-            if (partidaDesenvolvimento.getAssistente().getAvatarAssistente().equals(avatar.getDescription())) {
-                itemSelecionado = i;
+            if (partidaDesenvolvimento.getAssistente() != null) {
+                if (partidaDesenvolvimento.getAssistente().getAvatarAssistente().getDescription().equals(avatar.getDescription())) {
+                    itemSelecionado = i;
+                }
             }
             itens.addElement(arquivos[i].getName());
 
@@ -134,6 +137,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnNovaAvaliacao.setText(idioma.Valor("btnNovaAvaliacao"));
         btnEditarAvaliacao.setText(idioma.Valor("btnEditarAvaliacao"));
         btnExcluirAvaliacao.setText(idioma.Valor("btnExcluirAvaliacao"));
+        btnProximo.setText(idioma.Valor("btnProxima") + " >");
+
         //Label
         if (partidaDesenvolvimento.getParametrosArquivo() != null) {
             String nomeArquivo = partidaDesenvolvimento.getParametrosArquivo().getNomeDoArquivo();
@@ -267,7 +272,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         lblImgAssistente.setSize(100, 100);
         lblImgAssistente.setText(null);
 
-        ImageIcon imgAssistente = new ImageIcon(partidaDesenvolvimento.getAssistente().getAvatarAssistente());
+        ImageIcon imgAssistente = partidaDesenvolvimento.getAssistente().getAvatarAssistente();
 
         ImageIcon icone = new ImageIcon();
         icone.setImage(imgAssistente.getImage().getScaledInstance(100, 100, 100));
@@ -394,9 +399,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         }
 
         if (continuar) {
-            partidaDesenvolvimento.getAssistente().setNome(txtNomeAssistente.getText());
-            partidaDesenvolvimento.getAssistente().setAvatarAssistente(avatarSelecionado.getDescription());
-            partidaDesenvolvimento.getAssistente().setApresentacao(txtApresentacao.getText());
+            Assistente assist = new Assistente();
+            assist.setNome(txtNomeAssistente.getText());
+            assist.setAvatarAssistente(avatarSelecionado);
+            assist.setApresentacao(txtApresentacao.getText());
+            partidaDesenvolvimento.setAssistente(assist);
         } else {
             String mensagemJanela = "<html><center>";
             for (String mensagem : mensagens) {
@@ -412,6 +419,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         try {
             boolean assistenteOk = VerificaAssistente();
             if (assistenteOk) {
+                partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
                 IOPartida iop = new IOPartida();
                 boolean salvou = iop.SalvarDireto(partidaDesenvolvimento);
                 if (salvou) {
@@ -427,6 +435,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         try {
             boolean assistenteOk = VerificaAssistente();
             if (assistenteOk) {
+                partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
                 IOPartida iop = new IOPartida();
                 boolean salvou = iop.SalvarComo(partidaDesenvolvimento);
                 if (salvou) {
@@ -442,6 +451,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         try {
             boolean assistenteOk = VerificaAssistente();
             if (assistenteOk) {
+                partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
                 IOPartida iop = new IOPartida();
                 boolean salvou = iop.SalvarDireto(partidaDesenvolvimento);
                 if (salvou) {
@@ -1317,11 +1327,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             lblImgAssistente.setText(null);
             lblImgAssistente.setIcon(icone);
             avatarSelecionado = avatares.get(index);
-
         }
-
-        partidaDesenvolvimento.getAssistente().setAvatarAssistente(avatarSelecionado.getDescription());
-
     }//GEN-LAST:event_lstAvataresValueChanged
 
     private void txtApresentacaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApresentacaoKeyPressed
@@ -1349,8 +1355,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             if (!partidaSalva) {
                 Salvar();
             }
-            IOExportaJAR ioJar = new IOExportaJAR();
-            ioJar.criarJAR(partidaDesenvolvimento);
+            if (partidaSalva) {
+                IOExportaJAR ioJar = new IOExportaJAR();
+                ioJar.criarJAR(partidaDesenvolvimento);
+            }
         } catch (IOException ex) {
             Logger.getLogger(JanelaDesenvolvimentoPartida.class.getName()).log(Level.SEVERE, null, ex);
         }

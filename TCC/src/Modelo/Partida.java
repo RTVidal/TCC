@@ -23,13 +23,9 @@ public class Partida implements Serializable {
     private static Partida instancia;
 
     public Partida() {
-
         situacoes = new ArrayList<>();
         variaveis = new ArrayList<>();
         avaliacoes = new ArrayList<>();
-
-        assistente = new Assistente();
-
     }
 
     public Assistente getAssistente() {

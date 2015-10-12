@@ -122,12 +122,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelPrincipal.setOpaque(false);
 
         //Caso não haja imagem de fundo, adiciona uma imagem genérica
-        if (situacao.getFundoSituacao().getDescription().equals("")) {
-            ImageIcon fundoGenerico = new ImageIcon("./Recursos/fundo.jpg");
-            imgFundo = new PainelImagem(fundoGenerico.getImage());
+        if (situacao.getFundoSituacao() == null) {
+            ImageIcon fundoGenerico = new ImageIcon(getClass().getResource("/Recursos/fundo.jpg"));
+            imgFundo = new PainelImagem(fundoGenerico.getImage().getScaledInstance(1024, 700, 1024));
         } else {
             //Desenha a imagem de fundo
-            imgFundo = new PainelImagem(situacao.getFundoSituacao().getImage());
+            imgFundo = new PainelImagem(situacao.getFundoSituacao().getImage().getScaledInstance(1024, 700, 1024));
         }
 
         imgFundo.setOpaque(false);
@@ -135,7 +135,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         //Adiciona a imagem de fundo à tela
         painelPrincipal.add(imgFundo);
-
+        imgFundo.repaint();
     }
 
     public void CarregaPainelSaida() {
@@ -161,20 +161,23 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         }
         
         //Obtem o avatar do assistente (caso não haja assistente/avatar, preenche com um avatar genérico)
-        if (!assistente.getAvatarAssistente().equals("")) {
+        if (assistente.getAvatarAssistente() != null) {
             
-            if(assistenteP)
-            {
+            if(assistenteP) {
                 System.out.println("assistente p");
-                imagemAvatar = new ImageIcon(situacao.getAssistenteP().getAvatarAssistente());
-                
-            } else 
-            {
-                imagemAvatar = new ImageIcon(assistente.getAvatarAssistente());
+                ImageIcon imagemProvisoria = new ImageIcon();
+                imagemProvisoria.setImage(situacao.getAssistenteP().getAvatarAssistente().getImage().getScaledInstance(150, 150, 150));
+                imagemAvatar = imagemProvisoria;
+            } else {
+                ImageIcon imagemProvisoria = new ImageIcon();
+                imagemProvisoria.setImage(assistente.getAvatarAssistente().getImage().getScaledInstance(150, 150, 150));
+                imagemAvatar = imagemProvisoria;
             }
             
         } else {
-            imagemAvatar = new ImageIcon("./Recursos/avatar1.gif");
+            ImageIcon imagemProvisoria = new ImageIcon(getClass().getResource("/Recursos/avatar1.gif"));
+            imagemProvisoria.setImage(imagemProvisoria.getImage().getScaledInstance(150, 150, 150));
+            imagemAvatar = imagemProvisoria;
         }
 
         //Exibe o balão
@@ -186,12 +189,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         if(situacao.getLadoGeracao() == 1)
         {
             //Gera o assistente na esquerdsa
-            imgAvatar.setLocation(50, 500);
+            imgAvatar.setLocation(60, 550);
             
         } else 
         {
             //Gera o assistente na direita
-            imgAvatar.setLocation(700, 500);
+            imgAvatar.setLocation(720, 550);
         }
         
 
@@ -262,7 +265,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             painelPrincipal.remove(imgBalao);
         }
 
-        imagemBalao = new ImageIcon("./Recursos/balao.gif");
+        imagemBalao = new ImageIcon(getClass().getResource("/Recursos/balao.gif"));
 
         imgBalao = new PainelImagem(imagemBalao.getImage());
 
@@ -869,7 +872,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
             case 2:
                 
-                if(situacao.isAssistentePersonalizado())
+                if(situacao.getAssistenteP() != null)
                 {
                     CarregaAssistente(true);
                 } else {
