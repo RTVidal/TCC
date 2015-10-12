@@ -97,10 +97,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             saida.setTipoSaida(1);
             this.situacao.setSaida(saida);
 
-            if (partidaDesenvolvimento.getSituacaoInicial() == null) {
-                chbSituacaoInicial.setSelected(true);
-            }
-
         }
 
         CarregaAvatares();
@@ -120,7 +116,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         btnNovaSaida.setText(idioma.Valor("btnNovaSaida"));
         btnEditarSaida.setText(idioma.Valor("btnEditarSaida"));
         btnExcluirSaida.setText(idioma.Valor("btnExcluirSaida"));
-        chbSituacaoInicial.setText(idioma.Valor("checkSituacaoInicial"));
         chbSituacaoFinal.setText(idioma.Valor("lblSituacaoFinal"));
         lblNome.setText(idioma.Valor("lblNome"));
         lblDescricaoDaSituacao.setText(idioma.Valor("lblDescricaoDaSituacao"));
@@ -178,7 +173,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txtNomeSituacao.setText(situacao.getNome());
         txaFalaAssistente.setText(situacao.getFalaAssistente());
         txtArquivo.setText(situacao.getFundoSituacao().getDescription());
-        chbSituacaoInicial.setSelected(situacao.isSituacaoInicial());
         chbSituacaoFinal.setSelected(situacao.isSituacaoFinal());
         
         rbtEsquerdo.setSelected(situacao.getLadoGeracao() == 1);
@@ -237,7 +231,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         if (!naoHaSaidas) {
             tblSaidas.setRowSelectionInterval(0, 0);
-        } else {
             chbSituacaoFinal.setSelected(false);
         }
     }
@@ -297,7 +290,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
             situacao.setFalaAssistente(txaFalaAssistente.getText());
             situacao.setNome(txtNomeSituacao.getText());
-            situacao.setSituacaoInicial(chbSituacaoInicial.isSelected());
             situacao.setSituacaoFinal(chbSituacaoFinal.isSelected());
             
             if(rbtEsquerdo.isSelected())
@@ -310,15 +302,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             
             novaOrdem = (int) jspOrdem.getValue();
 
-            if (situacao.isSituacaoInicial()) {
-                partidaDesenvolvimento.setSituacaoInicial(situacao);
-            }
-
             //Caso o assistente seja personalizado, o salva
             if (chbAssistenteP.isSelected()) {
                 
                 situacao.getAssistenteP().setAvatarAssistente(avatarSelecionado.getDescription());
-                System.out.println("salvou " + avatarSelecionado.getDescription());
                 situacao.setAssistentePersonalizado(true);
 
             }
@@ -390,7 +377,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         } else {
 
             //Exibe avisos
-            if (txtArquivo.getText().isEmpty()) {
+            if (txtArquivo.getText().isEmpty() && acao == 1) {
                 int opcao = JOptionPane.showConfirmDialog(null, idioma.Valor("msgSemImagemFundo"),
                         idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
 
@@ -399,27 +386,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                     ok = false;
 
                 }
-            }
-
-            //Caso já exista situação inicial
-            if (chbSituacaoInicial.isSelected() && partidaDesenvolvimento.getSituacaoInicial() != null && !situacao.isSituacaoInicial()) {
-
-                int opcao = JOptionPane.showConfirmDialog(null, idioma.Valor("msgJaExisteSituacaoInicial"),
-                        idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
-
-                if (opcao == 0) {
-
-                    //Marca todas as situações como não inicial
-                    for (Situacao s : partidaDesenvolvimento.getSituacoes()) {
-                        s.setSituacaoInicial(false);
-                    }
-
-                } else {
-
-                    ok = false;
-
-                }
-
             }
         }
         return ok;
@@ -617,7 +583,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txaFalaAssistente = new javax.swing.JTextArea();
         txtArquivo = new javax.swing.JTextField();
         btnSelecionarImagem = new javax.swing.JButton();
-        chbSituacaoInicial = new javax.swing.JCheckBox();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblSaidas = new javax.swing.JTable();
         lblTipoSaida = new javax.swing.JLabel();
@@ -688,8 +653,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 btnSelecionarImagemActionPerformed(evt);
             }
         });
-
-        chbSituacaoInicial.setText("lblInicial");
 
         tblSaidas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -842,9 +805,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(chbSituacaoFinal)
-                                            .addComponent(chbSituacaoInicial))
+                                        .addComponent(chbSituacaoFinal)
                                         .addGap(66, 66, 66))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(lblGerarNoLado)
@@ -928,9 +889,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jspOrdem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1))
-                                .addGap(5, 5, 5)
-                                .addComponent(chbSituacaoInicial)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(31, 31, 31)
                                 .addComponent(chbSituacaoFinal)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1096,7 +1055,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JComboBox cbxTipoSaida;
     private javax.swing.JCheckBox chbAssistenteP;
     private javax.swing.JCheckBox chbSituacaoFinal;
-    private javax.swing.JCheckBox chbSituacaoInicial;
     private javax.swing.JLabel imgAvatar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;

@@ -82,7 +82,7 @@ public class JanelaInicial extends javax.swing.JFrame {
 
             }
 
-            if (partidaExecutar.getSituacaoInicial() != null) {
+            if (!partidaExecutar.getSituacoes().isEmpty()) {
                 Partida.setInstancia(partidaExecutar);
                 ControladoraExecucao ce = new ControladoraExecucao();
                 ce.ExecutaPartida();

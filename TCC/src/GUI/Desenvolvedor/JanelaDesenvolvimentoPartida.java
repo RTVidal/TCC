@@ -457,26 +457,26 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                                 CarregaIdioma();
                             }
                         }
-                        if (partidaExecutar.getSituacaoInicial() != null) {
-                            Partida.setInstancia(partidaExecutar);
-                            ControladoraExecucao ce = new ControladoraExecucao();
-                            ce.ExecutaPartida();
-                            JanelaDesenvolvimentoPartida.setInstancia(null);
-                        } else {
-                            int selecionada = JOptionPane.showOptionDialog(null, idioma.Valor("msgNaoHaSituacaoInicial"),
-                                    idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-                                    null, opcaoSimNao, opcaoSimNao[0]);
-                            if (selecionada == 0) {
-                                this.setVisible(true);
-                            } else {
-                                Partida.setInstancia(null);
-                                JanelaDesenvolvimentoPartida.setInstancia(null);
-                                JanelaInicial ji = new JanelaInicial();
-                                ji.setVisible(true);
-                                JOptionPane.showMessageDialog(null, idioma.Valor("msgNaoExecutarSemInicial"),
-                                        idioma.Valor("aviso"), JOptionPane.WARNING_MESSAGE);
-                            }
-                        }
+//                        if (partidaExecutar.getSituacaoInicial() != null) {
+                        Partida.setInstancia(partidaExecutar);
+                        ControladoraExecucao ce = new ControladoraExecucao();
+                        ce.ExecutaPartida();
+                        JanelaDesenvolvimentoPartida.setInstancia(null);
+//                        } else {
+//                            int selecionada = JOptionPane.showOptionDialog(null, idioma.Valor("msgNaoHaSituacaoInicial"),
+//                                    idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+//                                    null, opcaoSimNao, opcaoSimNao[0]);
+//                            if (selecionada == 0) {
+//                                this.setVisible(true);
+//                            } else {
+//                                Partida.setInstancia(null);
+//                                JanelaDesenvolvimentoPartida.setInstancia(null);
+//                                JanelaInicial ji = new JanelaInicial();
+//                                ji.setVisible(true);
+//                                JOptionPane.showMessageDialog(null, idioma.Valor("msgNaoExecutarSemInicial"),
+//                                        idioma.Valor("aviso"), JOptionPane.WARNING_MESSAGE);
+//                            }
+//                        }
                     }
                 }
             }

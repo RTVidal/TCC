@@ -22,7 +22,7 @@ public class SituacoesTbModel extends AbstractTableModel {
     private static final int COL_ORDEM = 1;
     private static final int COL_NOME = 2;
     private static final int COL_TIPOSAIDA = 3;
-    private static final int COL_DETALHE = 4;
+    private static final int COL_SITUACAOFINAL = 4;
 
     private final ArrayList<Situacao> situacoes;
 
@@ -43,6 +43,7 @@ public class SituacoesTbModel extends AbstractTableModel {
         return 5;
     }
 
+    @Override
     public String getColumnName(int column) {
         //Qual é o nome das nossas colunas?  
         if (column == COL_NOME) {
@@ -51,7 +52,7 @@ public class SituacoesTbModel extends AbstractTableModel {
         if (column == COL_TIPOSAIDA) {
             return idioma.Valor("lblTipoSaida");
         }
-        if (column == COL_DETALHE) {
+        if (column == COL_SITUACAOFINAL) {
             return idioma.Valor("lblDetalhe");
         }
         return ""; //Nunca deve ocorrer
@@ -79,14 +80,10 @@ public class SituacoesTbModel extends AbstractTableModel {
                     return idioma.Valor("lblNumerica");
             }
         }
-        if (column == COL_DETALHE) {
-            if(situacoes.get(rowIndex).isSituacaoInicial())
-            {
-                return idioma.Valor("btnInicial");
-            }
+        if (column == COL_SITUACAOFINAL) {
             if(situacoes.get(rowIndex).isSituacaoFinal())
             {
-                return idioma.Valor("lblFinal");
+                return "✓";
             }
             return "-";
         }

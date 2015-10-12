@@ -14,7 +14,6 @@ import javax.swing.ImageIcon;
  */
 public class Situacao implements Serializable{
 
-    private boolean situacaoInicial;
     private boolean situacaoFinal;
     private ImageIcon fundoSituacao;
     
@@ -35,14 +34,6 @@ public class Situacao implements Serializable{
         fundoSituacao = new ImageIcon();
         fundoSituacao.setDescription("");
         assistenteP = new Assistente();
-    }
-
-    public boolean isSituacaoInicial() {
-        return situacaoInicial;
-    }
-
-    public void setSituacaoInicial(boolean situacaoInicial) {
-        this.situacaoInicial = situacaoInicial;
     }
 
     public boolean isSituacaoFinal() {
