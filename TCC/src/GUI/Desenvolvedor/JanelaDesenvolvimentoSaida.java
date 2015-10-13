@@ -660,6 +660,11 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblAcoes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAcoesMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblAcoes);
 
         btnEditarAcao.setText("btnEditarAcao");
@@ -848,6 +853,15 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         PreencheListaSituacoes();
         
     }//GEN-LAST:event_jspValorMaximoStateChanged
+
+    private void tblAcoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAcoesMouseClicked
+        
+        if(evt.getClickCount() == 2)
+        {
+            EditarAcao();
+        }
+        
+    }//GEN-LAST:event_tblAcoesMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAjuda;

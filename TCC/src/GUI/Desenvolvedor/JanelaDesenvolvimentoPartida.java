@@ -942,6 +942,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblSituacoes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSituacoesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSituacoes);
 
         btnAjudaSituacoes.setText("btnAjuda");
@@ -994,6 +999,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblVariaveis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVariaveisMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblVariaveis);
 
         btnNovaVariavel.setText("btnNovaVariavel");
@@ -1064,6 +1074,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblAvaliacoes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAvaliacoesMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblAvaliacoes);
 
         btnAjudaAvaliacoes.setText("btnAjuda");
@@ -1363,6 +1378,36 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             Logger.getLogger(JanelaDesenvolvimentoPartida.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnItemExportarExecutavelActionPerformed
+
+    private void tblSituacoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSituacoesMouseClicked
+        
+        if (evt.getClickCount() == 2)
+        {
+            partidaSalva = false;
+            EditarSituacao();
+        }
+        
+    }//GEN-LAST:event_tblSituacoesMouseClicked
+
+    private void tblVariaveisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVariaveisMouseClicked
+        
+        if (evt.getClickCount() == 2)
+        {
+            partidaSalva = false;
+            EditarVariavel();
+        }
+        
+    }//GEN-LAST:event_tblVariaveisMouseClicked
+
+    private void tblAvaliacoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAvaliacoesMouseClicked
+        
+        if (evt.getClickCount() == 2)
+        {
+            partidaSalva = false;
+            EditarAvaliacao(2);
+        }
+        
+    }//GEN-LAST:event_tblAvaliacoesMouseClicked
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
         if (instancia == null) {

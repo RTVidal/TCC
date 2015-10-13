@@ -53,7 +53,7 @@ public class SituacoesTbModel extends AbstractTableModel {
             return idioma.Valor("lblTipoSaida");
         }
         if (column == COL_SITUACAOFINAL) {
-            return idioma.Valor("lblDetalhe");
+            return idioma.Valor("lblSituacaoFinal");
         }
         return ""; //Nunca deve ocorrer
     }

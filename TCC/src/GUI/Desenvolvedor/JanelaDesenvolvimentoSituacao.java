@@ -566,6 +566,24 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             avatarSelecionado = avatares.get(index);
         }
     }
+    
+    public void EditarSaida()
+    {
+        JanelaDesenvolvimentoSaida jds;
+
+        switch (saida.getTipoSaida()) {
+            case 1:
+                SaidaOpcional saidaOpcional = (SaidaOpcional) tblSaidas.getValueAt(tblSaidas.getSelectedRow(), 0);
+                jds = new JanelaDesenvolvimentoSaida(this, 2, situacao, saidaOpcional);
+                jds.setVisible(true);
+                break;
+            case 2:
+                SaidaNumerica saidaNumerica = (SaidaNumerica) tblSaidas.getValueAt(tblSaidas.getSelectedRow(), 0);
+                jds = new JanelaDesenvolvimentoSaida(this, 2, situacao, saidaNumerica);
+                jds.setVisible(true);
+                break;
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -672,6 +690,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
             }
         ));
+        tblSaidas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSaidasMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblSaidas);
 
         lblTipoSaida.setText("lblTipoSaida");
@@ -972,20 +995,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void btnEditarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSaidaActionPerformed
-        JanelaDesenvolvimentoSaida jds;
-
-        switch (saida.getTipoSaida()) {
-            case 1:
-                SaidaOpcional saidaOpcional = (SaidaOpcional) tblSaidas.getValueAt(tblSaidas.getSelectedRow(), 0);
-                jds = new JanelaDesenvolvimentoSaida(this, 2, situacao, saidaOpcional);
-                jds.setVisible(true);
-                break;
-            case 2:
-                SaidaNumerica saidaNumerica = (SaidaNumerica) tblSaidas.getValueAt(tblSaidas.getSelectedRow(), 0);
-                jds = new JanelaDesenvolvimentoSaida(this, 2, situacao, saidaNumerica);
-                jds.setVisible(true);
-                break;
-        }
+        
+        EditarSaida();
+        
     }//GEN-LAST:event_btnEditarSaidaActionPerformed
 
     private void btnNovaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSaidaActionPerformed
@@ -1048,6 +1060,15 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private void lstAvataresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAvataresValueChanged
         SelecionarAvatar();
     }//GEN-LAST:event_lstAvataresValueChanged
+
+    private void tblSaidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSaidasMouseClicked
+        
+        if (evt.getClickCount() == 2)
+        {
+            EditarSaida();
+        }
+        
+    }//GEN-LAST:event_tblSaidasMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAjuda;

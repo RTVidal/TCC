@@ -45,7 +45,7 @@ public class IOExportaJAR {
                         JarOutputStream target = new JarOutputStream(new FileOutputStream(diretorio));
                         add(new File("geraJar"), target);
                         target.close();
-                        JOptionPane.showMessageDialog(null, idioma.Valor("msgExportacaoSucesso"), idioma.Valor("aviso"), JOptionPane.OK_OPTION);
+                        JOptionPane.showMessageDialog(null, idioma.Valor("msgExportacaoSucesso"), idioma.Valor("aviso"), JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception e) {
                         String mensagem = "<html><center>" + idioma.Valor("msgExportacaoFalha") + "<br>Erro:" + e.getMessage();
                         JOptionPane.showMessageDialog(null, mensagem, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
