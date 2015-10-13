@@ -152,35 +152,27 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     /**
      * Carrega assistente
+     *
      * @param assistenteP
      */
     public void CarregaAssistente(boolean assistenteP) {
-        
+
         if (imgAvatar != null) {
             painelPrincipal.remove(imgAvatar);
         }
-        
-        //Obtem o avatar do assistente (caso não haja assistente/avatar, preenche com um avatar genérico)
-        if (assistente.getAvatarAssistente() != null) {
-            
-            if(assistenteP) {
-                
-                ImageIcon imagemProvisoria = new ImageIcon();
-                imagemProvisoria.setImage(situacao.getAssistenteP().getAvatarAssistente().getImage().getScaledInstance(150, 150, 150));
-                imagemAvatar = imagemProvisoria;
-                
-            } else {
-                
-                ImageIcon imagemProvisoria = new ImageIcon();
-                imagemProvisoria.setImage(assistente.getAvatarAssistente().getImage().getScaledInstance(150, 150, 150));
-                imagemAvatar = imagemProvisoria;
-                
-            }
-            
-        } else {
-            ImageIcon imagemProvisoria = new ImageIcon(getClass().getResource("/Recursos/avatar1.gif"));
-            imagemProvisoria.setImage(imagemProvisoria.getImage().getScaledInstance(150, 150, 150));
+
+        if (assistenteP) {
+
+            ImageIcon imagemProvisoria = new ImageIcon();
+            imagemProvisoria.setImage(situacao.getAssistenteP().getAvatarAssistente().getImage().getScaledInstance(150, 150, 150));
             imagemAvatar = imagemProvisoria;
+
+        } else {
+
+            ImageIcon imagemProvisoria = new ImageIcon();
+            imagemProvisoria.setImage(assistente.getAvatarAssistente().getImage().getScaledInstance(150, 150, 150));
+            imagemAvatar = imagemProvisoria;
+
         }
 
         //Exibe o avatar
@@ -189,19 +181,17 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         imgAvatar.setOpaque(false);
 
         //Exibe o avatar do assistente
-        if(situacao.getLadoGeracao() == 1)
-        {
+        if (situacao.getLadoGeracao() == 1) {
             //Gera o assistente na esquerdsa
             imgAvatar.setLocation(60, 550);
-            
-        } else 
-        {
+
+        } else {
             //Gera o assistente na direita
-            imgAvatar.setLocation(800, 550);
-        }        
+            imgAvatar.setLocation(750, 550);
+        }
 
         painelPrincipal.add(imgAvatar);
-        
+
         //O avatar precisa ser adicionado antes da imagem de fundo para ser exibido
         if (imgFundo != null) {
             painelPrincipal.remove(imgFundo);
@@ -232,6 +222,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         int largura = 0;
 
+        int cont = 0;
         for (Variavel v : variaveis) {
             //Adicionar na lista apenas caso a variável não seja oculta
             if (!v.isOculta()) {
@@ -240,24 +231,28 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 if ((v.getNome().length() * 2) > largura) {
                     largura = v.getNome().length() * 10;
                 }
+                cont++;
             }
         }
 
-        //Calcula a altura da tabela de variáveis
-        int altura = variaveis.size() * 16;
+        if (cont > 0) {
+            
+            //Calcula a altura da tabela de variáveis
+            int altura = cont * 16;
 
-        tblVariaveis.setModel(model);
-        tblVariaveis.setSize(largura + 50, altura);
-        tblVariaveis.setLocation(10, 10);
+            tblVariaveis.setModel(model);
+            tblVariaveis.setSize(largura + 50, altura);
+            tblVariaveis.setLocation(10, 10);
 
-        tblVariaveis.setModel(model);
+            tblVariaveis.setModel(model);
 
-        tblVariaveis.getColumnModel().getColumn(0).setPreferredWidth(largura);
-        tblVariaveis.getColumnModel().getColumn(1).setPreferredWidth(50);
+            tblVariaveis.getColumnModel().getColumn(0).setPreferredWidth(largura);
+            tblVariaveis.getColumnModel().getColumn(1).setPreferredWidth(50);
 
-        tblVariaveis.revalidate();
+            tblVariaveis.revalidate();
 
-        painelPrincipal.add(tblVariaveis);
+            painelPrincipal.add(tblVariaveis);
+        }
 
     }
 
@@ -308,28 +303,25 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         imgRedimensionada.setImage(imgRedimensionada.getImage().getScaledInstance(larguraTexto + 80, alturaTexto + 80, 300));
 
-        if(situacao.getLadoGeracao() == 1)
-        {
+        if (situacao.getLadoGeracao() == 1) {
             GerarBalaoEsquerda(imgRedimensionada, xAvatar, yAvatar, largura);
-        } else 
-        {
+        } else {
             GerarBalaoDireita(imgRedimensionada, xAvatar, yAvatar, largura);
         }
         //O balão precisa ser adicionado antes da imagem de fundo para ser exibido
         if (imgFundo != null) {
             painelPrincipal.remove(imgFundo);
             painelPrincipal.add(imgFundo);
-        }      
+        }
 
     }
-    
-    public void GerarBalaoEsquerda(ImageIcon imgRedimensionada, int xAvatar, int yAvatar, int largura)
-    {
+
+    public void GerarBalaoEsquerda(ImageIcon imgRedimensionada, int xAvatar, int yAvatar, int largura) {
         imgBalao = new PainelImagem(imgRedimensionada.getImage());
 
         //Posicionar o balão sempre acima do avatar e mais a esquerda possível (com 50px de correção)
         int yBalao = yAvatar - imgBalao.getHeight() - 50;
-        
+
         int xBalao = xAvatar - 300;
 
         imgBalao.setLocation(xBalao, yBalao);
@@ -339,24 +331,24 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         painelPrincipal.add(imgBalao);
     }
-    
-    public void GerarBalaoDireita(ImageIcon imgRedimensionada, int xAvatar, int yAvatar, int largura)
-    {
+
+    public void GerarBalaoDireita(ImageIcon imgRedimensionada, int xAvatar, int yAvatar, int largura) {
         imgBalao = new PainelImagem(imgRedimensionada.getImage());
 
         //Posicionar o balão sempre acima do avatar e mais a direita possível
         int yBalao = yAvatar - imgBalao.getHeight() - 50;
-        
+
         int xBalao;
 
         //Se a largura for menor do que o máximo (600), posicionar o balão acima do avatar
         if (largura < 700) {
+
             //Gerar o final do balão sempre rente a 2/3 do tamanho do avatar
-            xBalao = (imgAvatar.getX() + (2 * (imgAvatar.getWidth() / 3))) - imgBalao.getWidth();
+            xBalao = (imgAvatar.getX() + (1 * (imgAvatar.getWidth() / 3))) - imgBalao.getWidth();
 
         } else {
 
-            xBalao = (xAvatar - imgBalao.getWidth()) + 30;
+            xBalao = (xAvatar - imgBalao.getWidth()) - 30;
 
         }
 
@@ -378,7 +370,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         boolean naoHaSaidas = false;
 
         tipoSaida = situacao.getSaida().getTipoSaida();
-        
+
         switch (tipoSaida) {
             case 0:
 
@@ -421,18 +413,16 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                     VerificarAvaliacoes();
                 }
             } else {
-                
+
                 int index = 0;
-                for(Situacao s : partida.getSituacoes())
-                {
-                    if(s == situacao)
-                    {
+                for (Situacao s : partida.getSituacoes()) {
+                    if (s == situacao) {
                         break;
                     }
                     index++;
                 }
                 int proxima = index + 1;
-                
+
                 GerarSaidaProximaSituacao(proxima);
             }
 
@@ -453,23 +443,23 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.add(btn);
 
     }
-    
+
     /**
      * Gera a saída para a próxima situação
+     *
      * @param proxima
      */
-    public void GerarSaidaProximaSituacao(int proxima)
-    {
+    public void GerarSaidaProximaSituacao(int proxima) {
         painelBotoes.removeAll();
-        painelBotoes.revalidate();        
-        
+        painelBotoes.revalidate();
+
         btn = new JButton(idioma.Valor("btnProxima"));
         btn.setLocation(0, 0);
         btn.setSize(20, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
-            
+
             CarregaSituacao(partida.getSituacoes().get(proxima), 2);
-            
+
         });
         painelBotoes.add(btn);
     }
@@ -852,16 +842,15 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         switch (etapa) {
 
             case 1:
-                
+
                 CarregaAssistente(false);
                 CarregaFalaAssistente(assistente.getApresentacao(), false);
                 GerarSaidaApresentacao();
                 break;
 
             case 2:
-                
-                if(situacao.getAssistenteP() != null)
-                {
+
+                if (situacao.getAssistenteP() != null) {
                     CarregaAssistente(true);
                 } else {
                     CarregaAssistente(false);

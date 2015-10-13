@@ -321,6 +321,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             if (chbAssistenteP.isSelected()) {
                 assistentePers.setAvatarAssistente(avatarSelecionado);
                 situacao.setAssistenteP(assistentePers);
+            } else {
+                situacao.setAssistenteP(null);
             }
 
             //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
