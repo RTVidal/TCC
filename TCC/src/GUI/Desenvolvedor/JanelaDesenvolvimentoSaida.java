@@ -8,6 +8,7 @@ package GUI.Desenvolvedor;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.AcoesTbModel;
 import Modelo.Acao;
+import Modelo.Assistente;
 import Modelo.Faixa;
 import Modelo.Partida;
 import Modelo.Saida;
@@ -48,6 +49,8 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     private final ControladoraIdioma idioma;
 
     private final JanelaDesenvolvimentoSituacao janelaDevSituacao;
+    
+    private Situacao situacao;
 
     public JanelaDesenvolvimentoSaida(JanelaDesenvolvimentoSituacao jds, int modo, Situacao situacao, Object saidaSelecionada) {
 
@@ -56,6 +59,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         setModal(true);
 
         janelaDevSituacao = jds;
+        this.situacao = situacao;
 
         partidaDesenvolvimento = Partida.getInstancia();
         idioma = ControladoraIdioma.getInstancia();
@@ -76,7 +80,6 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         if (modo == 1) {
 
             descricaoSaida = "";
-            chbPodeDesistir.setSelected(true);
             switch (saida.getTipoSaida()) {
                 case 1:
 
@@ -371,10 +374,20 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         } else {
             //Cria a nova situação
             Situacao novaSituacao = new Situacao();
+            
+            Assistente assistente  = new Assistente();
+            assistente.setAvatarAssistente(situacao.getAssistenteP().getAvatarAssistente());
+            novaSituacao.setAssistenteP(assistente);
+            
             novaSituacao.setFalaAssistente(descricaoSaida);
             novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
             novaSituacao.setNome(descricaoSaida);
             novaSituacao.setSituacaoFinal(false);
+            
+            if(situacao.getFundoSituacao() != null)
+            {
+                novaSituacao.setFundoSituacao(situacao.getFundoSituacao());
+            }
 
             Saida saidaNovaSituacao = new Saida();
 
@@ -411,6 +424,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         variavel.setNome(saidaOpcao.getNome());
         variavel.setValorInicial(0);
 
+        saidaOpcao.setVariavelSaida(variavel);
         partidaDesenvolvimento.getVariaveis().add(variavel);
 
         Acao acao = new Acao();

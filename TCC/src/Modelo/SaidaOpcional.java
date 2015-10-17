@@ -23,6 +23,8 @@ public class SaidaOpcional implements Serializable{
     private Situacao situacaoDestino;
     
     private boolean podeDesistir;
+    
+    private Variavel variavelSaida;
 
     public SaidaOpcional()
     {
@@ -70,5 +72,13 @@ public class SaidaOpcional implements Serializable{
 
     public void setPodeDesistir(boolean podeDesistir) {
         this.podeDesistir = podeDesistir;
+    }
+
+    public Variavel getVariavelSaida() {
+        return variavelSaida;
+    }
+
+    public void setVariavelSaida(Variavel variavelSaida) {
+        this.variavelSaida = variavelSaida;
     }
 }

@@ -10,12 +10,14 @@ import GUI.Suporte.LimiteCaracteres;
 import GUI.Suporte.SaidasNumericasTbModel;
 import GUI.Suporte.SaidasOpcionaisTbModel;
 import Modelo.Assistente;
+import Modelo.Avaliacao;
 import Modelo.Faixa;
 import Modelo.Partida;
 import Modelo.Saida;
 import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
+import Modelo.Variavel;
 import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
@@ -86,10 +88,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             this.situacao = situacao;
             saida = situacao.getSaida();
             CarregarSituacao();
-            
+
         } else {
-            
-            assistentePers = new Assistente(); 
+
+            assistentePers = new Assistente();
 
             //Por default seleciona o lado do assistente como direito
             rbtDireito.setSelected(true);
@@ -131,7 +133,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
      * Carrega os avatares do assistente
      */
     public final void CarregaAvatares() {
-        
+
         int itemSelecionado = 0;
         imgAvatar.setText(idioma.Valor("lblSelecioneUmAvatar"));
         DefaultListModel itens = new DefaultListModel<>();
@@ -142,11 +144,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         File arquivos[] = file.listFiles();
 
         String avatarSituacaoAnterior = "";
-        
+
         for (int i = 0; i < arquivos.length; i++) {
-                        
-            if (ordem > 1)
-            {
+
+            if (ordem > 1) {
                 Situacao situacaoAnterior = partidaDesenvolvimento.getSituacoes().get(ordem - 2);
                 avatarSituacaoAnterior = situacaoAnterior.getAssistenteP().getAvatarAssistente().getDescription();
             }
@@ -200,7 +201,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         AtualizaTabelaSaidas();
 
     }
-
 
     public final void AtualizaTabelaSaidas() {
 
@@ -262,6 +262,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         if (continuar) {
 
             int index = tblSaidas.getSelectedRow();
+            ArrayList<Integer> itensRemover = new ArrayList<>();
+            int cont;
 
             switch (saida.getTipoSaida()) {
                 case 0: //Não há tipo de saída definido, não faz nada
@@ -271,6 +273,22 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 case 1:
 
                     SaidaOpcional saidaO = (SaidaOpcional) tblSaidas.getValueAt(index, 0);
+
+                    //Excluir todas as avaliações envolvendo a variável
+                    cont = 0;
+                    for (Avaliacao a : partidaDesenvolvimento.getAvaliacoes()) {
+                        if (a.getVariavel() == saidaO.getVariavelSaida()) {
+                            itensRemover.add(cont);
+
+                        }
+                        cont++;
+                    }
+                    for (int i : itensRemover) {
+                        partidaDesenvolvimento.getAvaliacoes().remove(i);
+                    }
+                    
+                    partidaDesenvolvimento.getVariaveis().remove(saidaO.getVariavelSaida());
+
                     saida.getsaidasOpcao().remove(saidaO);
                     break;
 
@@ -433,6 +451,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     /**
      * Seleciona o lado do assistente personalizado conforme o que está marcado
      * nos radios
+     *
+     * @param lado
      */
     public void SelecionarLadoAssistenteP(int lado) {
 
@@ -560,9 +580,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             avatarSelecionado = avatares.get(index);
         }
     }
-    
-    public void EditarSaida()
-    {
+
+    public void EditarSaida() {
         JanelaDesenvolvimentoSaida jds;
 
         switch (saida.getTipoSaida()) {
@@ -982,9 +1001,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void btnEditarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSaidaActionPerformed
-        
+
         EditarSaida();
-        
+
     }//GEN-LAST:event_btnEditarSaidaActionPerformed
 
     private void btnNovaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSaidaActionPerformed
@@ -1045,12 +1064,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }//GEN-LAST:event_lstAvataresValueChanged
 
     private void tblSaidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSaidasMouseClicked
-        
-        if (evt.getClickCount() == 2)
-        {
+
+        if (evt.getClickCount() == 2) {
             EditarSaida();
         }
-        
+
     }//GEN-LAST:event_tblSaidasMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

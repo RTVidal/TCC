@@ -153,27 +153,18 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     /**
      * Carrega assistente
      *
-     * @param assistenteP
      */
-    public void CarregaAssistente(boolean assistenteP) {
+    public void CarregaAssistente() {
 
         if (imgAvatar != null) {
             painelPrincipal.remove(imgAvatar);
         }
-
-        if (assistenteP) {
-
-            ImageIcon imagemProvisoria = new ImageIcon();
-            imagemProvisoria.setImage(situacao.getAssistenteP().getAvatarAssistente().getImage().getScaledInstance(150, 150, 150));
-            imagemAvatar = imagemProvisoria;
-
-        } else {
-
-            ImageIcon imagemProvisoria = new ImageIcon();
-            imagemProvisoria.setImage(assistente.getAvatarAssistente().getImage().getScaledInstance(150, 150, 150));
-            imagemAvatar = imagemProvisoria;
-
-        }
+        
+        assistente = situacao.getAssistenteP();
+        
+        ImageIcon imagemProvisoria = new ImageIcon();
+        imagemProvisoria.setImage(assistente.getAvatarAssistente().getImage().getScaledInstance(150, 150, 150));
+        imagemAvatar = imagemProvisoria;
 
         //Exibe o avatar
         imgAvatar = new PainelImagem(imagemAvatar.getImage());
@@ -343,8 +334,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         //Se a largura for menor do que o máximo (600), posicionar o balão acima do avatar
         if (largura < 700) {
 
-            //Gerar o final do balão sempre rente a 2/3 do tamanho do avatar
-            xBalao = (imgAvatar.getX() + (1 * (imgAvatar.getWidth() / 3))) - imgBalao.getWidth();
+            //Gerar o final do balão sempre rente a 3/4 do tamanho do avatar
+            xBalao = (imgAvatar.getX() + (3 * (imgAvatar.getWidth() / 4))) - imgBalao.getWidth();
 
         } else {
 
@@ -838,11 +829,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         this.situacao = situacao;
 
-        if (situacao.getAssistenteP() != null) {
-            CarregaAssistente(true);
-        } else {
-            CarregaAssistente(false);
-        }
+        CarregaAssistente();
 
         CarregaFalaAssistente(situacao.getFalaAssistente(), false);
         GerarSaidas(situacao);

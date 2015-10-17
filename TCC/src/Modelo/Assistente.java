@@ -14,25 +14,7 @@ import javax.swing.ImageIcon;
  */
 public class Assistente implements Serializable {
 
-    private String nome;
-    private String apresentacao;
     private ImageIcon avatarAssistente;
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getApresentacao() {
-        return apresentacao;
-    }
-
-    public void setApresentacao(String apresentacao) {
-        this.apresentacao = apresentacao;
-    }
 
     public ImageIcon getAvatarAssistente() {
         return avatarAssistente;

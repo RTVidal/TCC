@@ -27,6 +27,8 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
     private Variavel variavel;
     private final ControladoraIdioma idioma;
 
+    private int tipoVariavel;
+
     /**
      * Creates new form JanelaDesenvolvimentoAvaliacao
      *
@@ -35,7 +37,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
      */
     public JanelaDesenvolvimentoAvaliacao(int modo, Avaliacao avaliacao) {
         initComponents();
-        
+
         janelaDevPartida = JanelaDesenvolvimentoPartida.getInstancia();
         partidaDesenvolvimento = Partida.getInstancia();
         idioma = ControladoraIdioma.getInstancia();
@@ -43,10 +45,10 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
         //Limita os caracteres da avaliação em 750
         txaTextoAvaliacao.setDocument(new LimiteCaracteres(750));
-        
+
         txaTextoAvaliacao.setLineWrap(true);
         txaTextoAvaliacao.setWrapStyleWord(true);
-        
+
         setLocationRelativeTo(janelaDevPartida);
 
         this.avaliacao = avaliacao;
@@ -54,6 +56,9 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
         if (modo == 2) {
             CarregarAvaliacao();
+        } else {
+            tipoVariavel = 1;
+            rbtPadrao.setSelected(true);
         }
         CarregarVariaveis();
 
@@ -94,7 +99,21 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
 
         for (Variavel v : partidaDesenvolvimento.getVariaveis()) {
-            model.addElement(v.getNome());
+
+            switch (tipoVariavel) {
+                case 1: //Padrão
+                    if (!v.isAutodefinida()) {
+                        model.addElement(v.getNome());
+                    }
+                    break;
+
+                case 2: //Autodefinida
+                    if (v.isAutodefinida()) {
+                        model.addElement(v.getNome());
+                    }
+                    break;
+
+            }
 
             if (v == avaliacao.getVariavel()) {
                 itemSelecionado = index;
@@ -102,9 +121,23 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
             index++;
         }
 
-        cbxVariavel.setModel(model);
-        cbxVariavel.setSelectedIndex(itemSelecionado);
-        variavel = partidaDesenvolvimento.getVariaveis().get(itemSelecionado);
+        //Caso não haja nenhuma variável do tipo selecionado, seleciona o outro tipo
+        if (model.getSize() == 0) {
+            if (tipoVariavel == 1) {
+                tipoVariavel = 2;
+
+            } else {
+                tipoVariavel = 1;
+            }
+            SelecionarTipoVariavel();
+        } else {
+
+            cbxVariavel.setModel(model);
+            cbxVariavel.setSelectedIndex(itemSelecionado);
+            variavel = partidaDesenvolvimento.getVariaveis().get(itemSelecionado);
+
+        }
+
     }
 
     public void SalvarAvaliacao() {
@@ -113,8 +146,17 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
         if (ok) {
             avaliacao.setDescricao(txtDescricao.getText());
-            avaliacao.setValorInicial((double) jspValorInicial.getValue());
-            avaliacao.setValorFinal((double) jspValorFinal.getValue());
+            
+            if(tipoVariavel == 1)
+            {
+                avaliacao.setValorInicial((double) jspValorInicial.getValue());
+                avaliacao.setValorFinal((double) jspValorFinal.getValue());
+            }else
+            {
+                avaliacao.setValorInicial(1);
+                avaliacao.setValorFinal(1);
+            }            
+            
             avaliacao.setVariavel(variavel);
             avaliacao.setTexto(txaTextoAvaliacao.getText());
 
@@ -130,6 +172,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
     /**
      * Validação dos dados
+     * @return 
      */
     public boolean ValidarDados() {
         boolean ok = true;
@@ -149,13 +192,15 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
         }
 
-        double valorInicial = (double) jspValorInicial.getValue();
-        double valorFinal = (double) jspValorFinal.getValue();
+        if (tipoVariavel == 1) {
+            double valorInicial = (double) jspValorInicial.getValue();
+            double valorFinal = (double) jspValorFinal.getValue();
 
-        if (valorInicial > valorFinal) {
-            ok = false;
-            mensagem = idioma.Valor("msgValorInicialMenor");
-            mensagens.add(mensagem);
+            if (valorInicial > valorFinal) {
+                ok = false;
+                mensagem = idioma.Valor("msgValorInicialMenor");
+                mensagens.add(mensagem);
+            }
         }
 
         //Exibe as mensagens
@@ -170,6 +215,21 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         }
 
         return ok;
+    }
+
+    public void SelecionarTipoVariavel() {
+        rbtPadrao.setSelected(tipoVariavel == 1);
+        rbtAutoDefinida.setSelected(tipoVariavel == 2);
+
+        CarregarVariaveis();
+
+        jspValorInicial.setEnabled(tipoVariavel == 1);
+        jspValorFinal.setEnabled(tipoVariavel == 1);
+
+        if (tipoVariavel == 2) {
+            jspValorInicial.setValue(1);
+            jspValorFinal.setValue(1);
+        }
     }
 
     /**
@@ -195,8 +255,8 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         jspValorFinal = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaTextoAvaliacao = new javax.swing.JTextArea();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rbtPadrao = new javax.swing.JRadioButton();
+        rbtAutoDefinida = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -243,9 +303,19 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         txaTextoAvaliacao.setRows(5);
         jScrollPane1.setViewportView(txaTextoAvaliacao);
 
-        jRadioButton1.setText("lblPadrao");
+        rbtPadrao.setText("lblPadrao");
+        rbtPadrao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtPadraoActionPerformed(evt);
+            }
+        });
 
-        jRadioButton2.setText("lblAutoDefinida");
+        rbtAutoDefinida.setText("lblAutoDefinida");
+        rbtAutoDefinida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtAutoDefinidaActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("btnAjuda");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -280,9 +350,9 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jRadioButton1)
+                                        .addComponent(rbtPadrao)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jRadioButton2))
+                                        .addComponent(rbtAutoDefinida))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jButton1)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -295,7 +365,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
                                             .addComponent(txtDescricao)
                                             .addComponent(cbxVariavel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE))))))
-                        .addGap(0, 17, Short.MAX_VALUE))))
+                        .addGap(0, 70, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,8 +380,8 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
                     .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
+                    .addComponent(rbtPadrao)
+                    .addComponent(rbtAutoDefinida)
                     .addComponent(lblVariavel))
                 .addGap(7, 7, 7)
                 .addComponent(cbxVariavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -359,13 +429,27 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void rbtPadraoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtPadraoActionPerformed
+
+        tipoVariavel = 1;
+
+        SelecionarTipoVariavel();
+
+    }//GEN-LAST:event_rbtPadraoActionPerformed
+
+    private void rbtAutoDefinidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtAutoDefinidaActionPerformed
+
+        tipoVariavel = 2;
+
+        SelecionarTipoVariavel();
+
+    }//GEN-LAST:event_rbtAutoDefinidaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JComboBox cbxVariavel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jspValorFinal;
     private javax.swing.JSpinner jspValorInicial;
@@ -375,6 +459,8 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
     private javax.swing.JLabel lblValorFinal;
     private javax.swing.JLabel lblValorInicial;
     private javax.swing.JLabel lblVariavel;
+    private javax.swing.JRadioButton rbtAutoDefinida;
+    private javax.swing.JRadioButton rbtPadrao;
     private javax.swing.JTextArea txaTextoAvaliacao;
     private javax.swing.JTextField txtDescricao;
     // End of variables declaration//GEN-END:variables

@@ -10,11 +10,9 @@ import Controle.ControladoraIdioma;
 import GUI.Jogador.JanelaExecucaoPartida;
 import GUI.Jogador.JanelaInicial;
 import GUI.Suporte.AvaliacoesTbModel;
-import GUI.Suporte.LimiteCaracteres;
 import GUI.Suporte.SituacoesTbModel;
 import GUI.Suporte.VariaveisTbModel;
 import Modelo.Acao;
-import Modelo.Assistente;
 import Modelo.Avaliacao;
 import Modelo.Partida;
 import Modelo.Saida;
@@ -24,13 +22,10 @@ import Modelo.Situacao;
 import Modelo.Variavel;
 import Persistencia.IOExportaJAR;
 import Persistencia.IOPartida;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -47,9 +42,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     private boolean partidaSalva;
 
-    private ArrayList<ImageIcon> avatares;
-    private ImageIcon avatarSelecionado;
-
     private Object[] opcaoSimNao;
     private Object[] opcaoSimNaoCancelar;
 
@@ -65,49 +57,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         CarregaIdioma();
         AtualizarDados();
 
-//        if (partidaDesenvolvimento.getAssistente() != null) {
-//            AtualizaAssistente();
-//        }
-//        CarregaAvatares();
         partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
         partidaSalva = true;
 
-//        if (partidaDesenvolvimento.getAssistente() != null) {
-//            AtualizaAssistente();
-//        }
-//        CarregaAvatares();
-//        partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
-//        partidaSalva = true;
     }
 
-//    public final void CarregaAvatares() {
-//        int itemSelecionado = 0;
-//        lblImgAssistente.setText(idioma.Valor("lblSelecioneUmAvatar"));
-//        DefaultListModel itens = new DefaultListModel<>();
-//        avatares = new ArrayList<>();
-//
-//        //Recupera a quantidade de avatares disponiveis
-//        File file = new File("./Avatares");
-//        File arquivos[] = file.listFiles();
-//
-//        for (int i = 0; i < arquivos.length; i++) {
-//
-//            ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
-//            avatar.setDescription(arquivos[i].getAbsolutePath());
-//            avatares.add(avatar);
-//            if (partidaDesenvolvimento.getAssistente() != null) {
-//                if (partidaDesenvolvimento.getAssistente().getAvatarAssistente().getDescription().equals(avatar.getDescription())) {
-//                    itemSelecionado = i;
-//                }
-//            }
-//            itens.addElement(arquivos[i].getName());
-//
-//        }
-//
-//        lstAvatares.setModel(itens);
-//        lstAvatares.setSelectedIndex(itemSelecionado);
-//
-//    }
     /**
      * Preenche os componentes da tela de acordo com o idioma selecionado
      */
@@ -233,6 +187,14 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Selecionar o primeiro item
         if (!partidaDesenvolvimento.getVariaveis().isEmpty()) {
             tblVariaveis.setRowSelectionInterval(0, 0);
+
+            //Caso o primeiro item seja uma variável auto definida, desabilitar o botão editar
+            int index = tblVariaveis.getSelectedRow();
+
+            Variavel variavel = (Variavel) tblVariaveis.getValueAt(index, 0);
+
+            btnEditarVariavel.setEnabled(!variavel.isAutodefinida());
+            btnExcluirVariavel.setEnabled(!variavel.isAutodefinida());
         }
 
     }
@@ -264,23 +226,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * Atualiza as informações do assiste
-     */
-//    public final void AtualizaAssistente() {
-//        txtNomeAssistente.setText(partidaDesenvolvimento.getAssistente().getNome());
-//
-//        txtApresentacao.setText(partidaDesenvolvimento.getAssistente().getApresentacao());
-//        lblImgAssistente.setSize(100, 100);
-//        lblImgAssistente.setText(null);
-//
-//        ImageIcon imgAssistente = partidaDesenvolvimento.getAssistente().getAvatarAssistente();
-//
-//        ImageIcon icone = new ImageIcon();
-//        icone.setImage(imgAssistente.getImage().getScaledInstance(100, 100, 100));
-//
-//        lblImgAssistente.setIcon(icone);
-//    }
     public void NovaSituacao() {
 
         int ordem = partidaDesenvolvimento.getSituacoes().size() + 1;
@@ -342,8 +287,28 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         for (SaidaOpcional so : saidasO) {
                             if (so.getSituacaoDestino() == situacao) {
                                 itensRemover.add(cont);
+                                
+                                ArrayList<Integer> avaliacoesRemover = new ArrayList<>();
+                                
+                                //Excluir todas as avaliações envolvendo a variável vinculada à saida
+                                int aux = 0;
+                                for (Avaliacao a : partidaDesenvolvimento.getAvaliacoes()) {
+                                    if (a.getVariavel() == so.getVariavelSaida()) {
+                                        avaliacoesRemover.add(aux);
+
+                                    }
+                                    aux++;
+                                }
+                                for (int i : avaliacoesRemover) {
+                                    partidaDesenvolvimento.getAvaliacoes().remove(i);
+                                }
+                                
+                                //Exclui a variavel vinculada à saída
+                                partidaDesenvolvimento.getVariaveis().remove(so.getVariavelSaida());
+
                             }
                             cont++;
+
                         }
 
                         for (int i : itensRemover) {
@@ -390,42 +355,14 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jsj.setVisible(true);
     }
 
-//    public boolean VerificaAssistente() {
-//        boolean continuar = true;
-//        ArrayList<String> mensagens = new ArrayList<>();
-//
-//        if (txtNomeAssistente.getText().isEmpty()) {
-//            continuar = false;
-//            mensagens.add(idioma.Valor("msgNomeAssistenteObrigatorio"));
-//        }
-//
-//        if (continuar) {
-//            Assistente assist = new Assistente();
-//            assist.setNome(txtNomeAssistente.getText());
-//            assist.setAvatarAssistente(avatarSelecionado);
-//            assist.setApresentacao(txtApresentacao.getText());
-//            partidaDesenvolvimento.setAssistente(assist);
-//        } else {
-//            String mensagemJanela = "<html><center>";
-//            for (String mensagem : mensagens) {
-//                mensagemJanela += mensagem + "<br>";
-//            }
-//            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
-//        }
-//
-//        return continuar;
-//    }
     public void Salvar() {
         try {
-            //boolean assistenteOk = VerificaAssistente();
-            //if (assistenteOk) {
             partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
             IOPartida iop = new IOPartida();
             boolean salvou = iop.SalvarDireto(partidaDesenvolvimento);
             if (salvou) {
                 partidaSalva = true;
             }
-            //}
         } catch (IOException ex) {
             Logger.getLogger(JanelaDesenvolvimentoPartida.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -433,15 +370,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     public void SalvarComo() {
         try {
-            //boolean assistenteOk = VerificaAssistente();
-            //if (assistenteOk) {
+
             partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
             IOPartida iop = new IOPartida();
             boolean salvou = iop.SalvarComo(partidaDesenvolvimento);
             if (salvou) {
                 partidaSalva = true;
             }
-            //}
         } catch (IOException ex) {
             Logger.getLogger(JanelaDesenvolvimentoPartida.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -449,8 +384,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     public void SalvarJogar() {
         try {
-            //boolean assistenteOk = VerificaAssistente();
-            //if (assistenteOk) {
             partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
             IOPartida iop = new IOPartida();
             boolean salvou = iop.SalvarDireto(partidaDesenvolvimento);
@@ -467,29 +400,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                             CarregaIdioma();
                         }
                     }
-//                        if (partidaExecutar.getSituacaoInicial() != null) {
                     Partida.setInstancia(partidaExecutar);
                     ControladoraExecucao ce = new ControladoraExecucao();
                     ce.ExecutaPartida();
                     JanelaDesenvolvimentoPartida.setInstancia(null);
-//                        } else {
-//                            int selecionada = JOptionPane.showOptionDialog(null, idioma.Valor("msgNaoHaSituacaoInicial"),
-//                                    idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-//                                    null, opcaoSimNao, opcaoSimNao[0]);
-//                            if (selecionada == 0) {
-//                                this.setVisible(true);
-//                            } else {
-//                                Partida.setInstancia(null);
-//                                JanelaDesenvolvimentoPartida.setInstancia(null);
-//                                JanelaInicial ji = new JanelaInicial();
-//                                ji.setVisible(true);
-//                                JOptionPane.showMessageDialog(null, idioma.Valor("msgNaoExecutarSemInicial"),
-//                                        idioma.Valor("aviso"), JOptionPane.WARNING_MESSAGE);
-//                            }
-//                        }
                 }
             }
-            //}
         } catch (IOException ex) {
             Logger.getLogger(JanelaDesenvolvimentoPartida.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1220,6 +1136,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         Variavel variavel = (Variavel) tblVariaveis.getValueAt(index, 0);
 
         btnEditarVariavel.setEnabled(!variavel.isAutodefinida());
+        btnExcluirVariavel.setEnabled(!variavel.isAutodefinida());
 
         if ((evt.getClickCount() == 2) && (!variavel.isAutodefinida())) {
             partidaSalva = false;
