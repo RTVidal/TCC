@@ -65,18 +65,12 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         CarregaIdioma();
         AtualizarDados();
 
-        if (partidaDesenvolvimento.getAssistente() != null) {
-            AtualizaAssistente();
-        }
-        CarregaAvatares();
+//        if (partidaDesenvolvimento.getAssistente() != null) {
+//            AtualizaAssistente();
+//        }
+//        CarregaAvatares();
         partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
         partidaSalva = true;
-
-        //Limita os caracteres da apresentação do assistente
-        txtApresentacao.setDocument(new LimiteCaracteres(750));
-
-        //Quebrar linhas com as palavras
-        txtApresentacao.setWrapStyleWord(true);
 
 //        if (partidaDesenvolvimento.getAssistente() != null) {
 //            AtualizaAssistente();
@@ -86,35 +80,34 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 //        partidaSalva = true;
     }
 
-    public final void CarregaAvatares() {
-        int itemSelecionado = 0;
-        lblImgAssistente.setText(idioma.Valor("lblSelecioneUmAvatar"));
-        DefaultListModel itens = new DefaultListModel<>();
-        avatares = new ArrayList<>();
-
-        //Recupera a quantidade de avatares disponiveis
-        File file = new File("./Avatares");
-        File arquivos[] = file.listFiles();
-
-        for (int i = 0; i < arquivos.length; i++) {
-
-            ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
-            avatar.setDescription(arquivos[i].getAbsolutePath());
-            avatares.add(avatar);
-            if (partidaDesenvolvimento.getAssistente() != null) {
-                if (partidaDesenvolvimento.getAssistente().getAvatarAssistente().getDescription().equals(avatar.getDescription())) {
-                    itemSelecionado = i;
-                }
-            }
-            itens.addElement(arquivos[i].getName());
-
-        }
-
-        lstAvatares.setModel(itens);
-        lstAvatares.setSelectedIndex(itemSelecionado);
-
-    }
-
+//    public final void CarregaAvatares() {
+//        int itemSelecionado = 0;
+//        lblImgAssistente.setText(idioma.Valor("lblSelecioneUmAvatar"));
+//        DefaultListModel itens = new DefaultListModel<>();
+//        avatares = new ArrayList<>();
+//
+//        //Recupera a quantidade de avatares disponiveis
+//        File file = new File("./Avatares");
+//        File arquivos[] = file.listFiles();
+//
+//        for (int i = 0; i < arquivos.length; i++) {
+//
+//            ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
+//            avatar.setDescription(arquivos[i].getAbsolutePath());
+//            avatares.add(avatar);
+//            if (partidaDesenvolvimento.getAssistente() != null) {
+//                if (partidaDesenvolvimento.getAssistente().getAvatarAssistente().getDescription().equals(avatar.getDescription())) {
+//                    itemSelecionado = i;
+//                }
+//            }
+//            itens.addElement(arquivos[i].getName());
+//
+//        }
+//
+//        lstAvatares.setModel(itens);
+//        lstAvatares.setSelectedIndex(itemSelecionado);
+//
+//    }
     /**
      * Preenche os componentes da tela de acordo com o idioma selecionado
      */
@@ -137,7 +130,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnNovaAvaliacao.setText(idioma.Valor("btnNovaAvaliacao"));
         btnEditarAvaliacao.setText(idioma.Valor("btnEditarAvaliacao"));
         btnExcluirAvaliacao.setText(idioma.Valor("btnExcluirAvaliacao"));
-        btnProximo.setText(idioma.Valor("btnProxima") + " >");
 
         //Label
         if (partidaDesenvolvimento.getParametrosArquivo() != null) {
@@ -152,16 +144,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         }
 
         //abas
-        painelConfiguracoes.setTitleAt(0, idioma.Valor("abaAssistente"));
-        painelConfiguracoes.setTitleAt(1, idioma.Valor("abaSituacoes"));
-        painelConfiguracoes.setTitleAt(2, idioma.Valor("abaVariaveis"));
-        painelConfiguracoes.setTitleAt(3, idioma.Valor("abaAvaliacoes"));
-
-        //assistente
-        lblApresentacao.setText(idioma.Valor("lblApresentacao"));
-        lblSelecioneAvatar.setText(idioma.Valor("lblSelecioneAvatar"));
-        lblNomeAssistente.setText(idioma.Valor("lblNomeAssistente"));
-        btnAjudaAssistente.setText(idioma.Valor("btnAjuda"));
+        painelConfiguracoes.setTitleAt(0, idioma.Valor("abaSituacoes"));
+        painelConfiguracoes.setTitleAt(1, idioma.Valor("abaVariaveis"));
+        painelConfiguracoes.setTitleAt(2, idioma.Valor("abaAvaliacoes"));
 
         //menus
         menuArquivo.setText(idioma.Valor("mniArquivo"));
@@ -215,7 +200,24 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      * Atualiza a tabela de variáveis da partida
      */
     public final void AtualizaVariaveis() {
-        VariaveisTbModel model = new VariaveisTbModel(partidaDesenvolvimento.getVariaveis());
+
+        //Separa as variáveis auto-definidas das padrões para que as auto definidas sejam exibidas ao fim da tabela
+        ArrayList<Variavel> padroes = new ArrayList<>();
+        ArrayList<Variavel> autodefinidas = new ArrayList<>();
+
+        for (Variavel v : partidaDesenvolvimento.getVariaveis()) {
+            if (v.isAutodefinida()) {
+                autodefinidas.add(v);
+            } else {
+                padroes.add(v);
+            }
+        }
+
+        ArrayList<Variavel> todas = new ArrayList();
+        todas.addAll(padroes);
+        todas.addAll(autodefinidas);
+
+        VariaveisTbModel model = new VariaveisTbModel(todas);
 
         tblVariaveis.setModel(model);
 
@@ -265,21 +267,20 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     /**
      * Atualiza as informações do assiste
      */
-    public final void AtualizaAssistente() {
-        txtNomeAssistente.setText(partidaDesenvolvimento.getAssistente().getNome());
-
-        txtApresentacao.setText(partidaDesenvolvimento.getAssistente().getApresentacao());
-        lblImgAssistente.setSize(100, 100);
-        lblImgAssistente.setText(null);
-
-        ImageIcon imgAssistente = partidaDesenvolvimento.getAssistente().getAvatarAssistente();
-
-        ImageIcon icone = new ImageIcon();
-        icone.setImage(imgAssistente.getImage().getScaledInstance(100, 100, 100));
-
-        lblImgAssistente.setIcon(icone);
-    }
-
+//    public final void AtualizaAssistente() {
+//        txtNomeAssistente.setText(partidaDesenvolvimento.getAssistente().getNome());
+//
+//        txtApresentacao.setText(partidaDesenvolvimento.getAssistente().getApresentacao());
+//        lblImgAssistente.setSize(100, 100);
+//        lblImgAssistente.setText(null);
+//
+//        ImageIcon imgAssistente = partidaDesenvolvimento.getAssistente().getAvatarAssistente();
+//
+//        ImageIcon icone = new ImageIcon();
+//        icone.setImage(imgAssistente.getImage().getScaledInstance(100, 100, 100));
+//
+//        lblImgAssistente.setIcon(icone);
+//    }
     public void NovaSituacao() {
 
         int ordem = partidaDesenvolvimento.getSituacoes().size() + 1;
@@ -385,47 +386,46 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         Situacao situacao = (Situacao) tblSituacoes.getValueAt(index, 0);
 
         JanelaExecucaoPartida jsj = new JanelaExecucaoPartida(2);
-        jsj.CarregarPreviaSituacao(situacao, partidaDesenvolvimento.getAssistente());
+        jsj.CarregarPreviaSituacao(situacao);
         jsj.setVisible(true);
     }
 
-    public boolean VerificaAssistente() {
-        boolean continuar = true;
-        ArrayList<String> mensagens = new ArrayList<>();
-
-        if (txtNomeAssistente.getText().isEmpty()) {
-            continuar = false;
-            mensagens.add(idioma.Valor("msgNomeAssistenteObrigatorio"));
-        }
-
-        if (continuar) {
-            Assistente assist = new Assistente();
-            assist.setNome(txtNomeAssistente.getText());
-            assist.setAvatarAssistente(avatarSelecionado);
-            assist.setApresentacao(txtApresentacao.getText());
-            partidaDesenvolvimento.setAssistente(assist);
-        } else {
-            String mensagemJanela = "<html><center>";
-            for (String mensagem : mensagens) {
-                mensagemJanela += mensagem + "<br>";
-            }
-            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
-        }
-
-        return continuar;
-    }
-
+//    public boolean VerificaAssistente() {
+//        boolean continuar = true;
+//        ArrayList<String> mensagens = new ArrayList<>();
+//
+//        if (txtNomeAssistente.getText().isEmpty()) {
+//            continuar = false;
+//            mensagens.add(idioma.Valor("msgNomeAssistenteObrigatorio"));
+//        }
+//
+//        if (continuar) {
+//            Assistente assist = new Assistente();
+//            assist.setNome(txtNomeAssistente.getText());
+//            assist.setAvatarAssistente(avatarSelecionado);
+//            assist.setApresentacao(txtApresentacao.getText());
+//            partidaDesenvolvimento.setAssistente(assist);
+//        } else {
+//            String mensagemJanela = "<html><center>";
+//            for (String mensagem : mensagens) {
+//                mensagemJanela += mensagem + "<br>";
+//            }
+//            JOptionPane.showMessageDialog(this, mensagemJanela, idioma.Valor("aviso"), JOptionPane.OK_OPTION);
+//        }
+//
+//        return continuar;
+//    }
     public void Salvar() {
         try {
-            boolean assistenteOk = VerificaAssistente();
-            if (assistenteOk) {
-                partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
-                IOPartida iop = new IOPartida();
-                boolean salvou = iop.SalvarDireto(partidaDesenvolvimento);
-                if (salvou) {
-                    partidaSalva = true;
-                }
+            //boolean assistenteOk = VerificaAssistente();
+            //if (assistenteOk) {
+            partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
+            IOPartida iop = new IOPartida();
+            boolean salvou = iop.SalvarDireto(partidaDesenvolvimento);
+            if (salvou) {
+                partidaSalva = true;
             }
+            //}
         } catch (IOException ex) {
             Logger.getLogger(JanelaDesenvolvimentoPartida.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -433,15 +433,15 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     public void SalvarComo() {
         try {
-            boolean assistenteOk = VerificaAssistente();
-            if (assistenteOk) {
-                partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
-                IOPartida iop = new IOPartida();
-                boolean salvou = iop.SalvarComo(partidaDesenvolvimento);
-                if (salvou) {
-                    partidaSalva = true;
-                }
+            //boolean assistenteOk = VerificaAssistente();
+            //if (assistenteOk) {
+            partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
+            IOPartida iop = new IOPartida();
+            boolean salvou = iop.SalvarComo(partidaDesenvolvimento);
+            if (salvou) {
+                partidaSalva = true;
             }
+            //}
         } catch (IOException ex) {
             Logger.getLogger(JanelaDesenvolvimentoPartida.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -449,29 +449,29 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
     public void SalvarJogar() {
         try {
-            boolean assistenteOk = VerificaAssistente();
-            if (assistenteOk) {
-                partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
-                IOPartida iop = new IOPartida();
-                boolean salvou = iop.SalvarDireto(partidaDesenvolvimento);
-                if (salvou) {
-                    partidaSalva = true;
-                    dispose();
-                    Partida partidaExecutar = partidaDesenvolvimento;
-                    if (partidaExecutar != null) {
-                        if (!((idioma.getIdiomaAtual()).equalsIgnoreCase(partidaExecutar.getIdioma()))) {
-                            int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"), idioma.Valor("aviso"),
-                                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcaoSimNao, opcaoSimNao[0]);
-                            if (i == 0) {
-                                idioma.DefineIdioma(partidaExecutar.getIdioma());
-                                CarregaIdioma();
-                            }
+            //boolean assistenteOk = VerificaAssistente();
+            //if (assistenteOk) {
+            partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
+            IOPartida iop = new IOPartida();
+            boolean salvou = iop.SalvarDireto(partidaDesenvolvimento);
+            if (salvou) {
+                partidaSalva = true;
+                dispose();
+                Partida partidaExecutar = partidaDesenvolvimento;
+                if (partidaExecutar != null) {
+                    if (!((idioma.getIdiomaAtual()).equalsIgnoreCase(partidaExecutar.getIdioma()))) {
+                        int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"), idioma.Valor("aviso"),
+                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcaoSimNao, opcaoSimNao[0]);
+                        if (i == 0) {
+                            idioma.DefineIdioma(partidaExecutar.getIdioma());
+                            CarregaIdioma();
                         }
+                    }
 //                        if (partidaExecutar.getSituacaoInicial() != null) {
-                        Partida.setInstancia(partidaExecutar);
-                        ControladoraExecucao ce = new ControladoraExecucao();
-                        ce.ExecutaPartida();
-                        JanelaDesenvolvimentoPartida.setInstancia(null);
+                    Partida.setInstancia(partidaExecutar);
+                    ControladoraExecucao ce = new ControladoraExecucao();
+                    ce.ExecutaPartida();
+                    JanelaDesenvolvimentoPartida.setInstancia(null);
 //                        } else {
 //                            int selecionada = JOptionPane.showOptionDialog(null, idioma.Valor("msgNaoHaSituacaoInicial"),
 //                                    idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
@@ -487,9 +487,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 //                                        idioma.Valor("aviso"), JOptionPane.WARNING_MESSAGE);
 //                            }
 //                        }
-                    }
                 }
             }
+            //}
         } catch (IOException ex) {
             Logger.getLogger(JanelaDesenvolvimentoPartida.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -511,7 +511,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         int index = tblVariaveis.getSelectedRow();
 
         Variavel variavel = (Variavel) tblVariaveis.getValueAt(index, 0);
-        System.out.println("recuperou " + variavel.getNome());
 
         JanelaDesenvolvimentoVariavel jdv = new JanelaDesenvolvimentoVariavel(2, variavel);
         jdv.setVisible(true);
@@ -689,19 +688,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jFrame3 = new javax.swing.JFrame();
         jDialog1 = new javax.swing.JDialog();
         painelConfiguracoes = new javax.swing.JTabbedPane();
-        abaAssistente = new javax.swing.JPanel();
-        lblImgAssistente = new javax.swing.JLabel();
-        btnAjudaAssistente = new javax.swing.JButton();
-        lblNomeAssistente = new javax.swing.JLabel();
-        txtNomeAssistente = new javax.swing.JTextField();
-        lblApresentacao = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        txtApresentacao = new javax.swing.JTextArea();
-        lblSelecioneAvatar = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        lstAvatares = new javax.swing.JList();
-        jLabel1 = new javax.swing.JLabel();
-        btnProximo = new javax.swing.JButton();
         abaSituacoes = new javax.swing.JPanel();
         btnNovaSituacao = new javax.swing.JButton();
         btnEditarSituacao = new javax.swing.JButton();
@@ -789,119 +775,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
-
-        lblImgAssistente.setText("imgAssistente");
-
-        btnAjudaAssistente.setText("btnAjuda");
-
-        lblNomeAssistente.setText("Nome do Assistente:");
-
-        txtNomeAssistente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeAssistenteActionPerformed(evt);
-            }
-        });
-        txtNomeAssistente.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNomeAssistenteKeyPressed(evt);
-            }
-        });
-
-        lblApresentacao.setText("Apresentação:");
-
-        txtApresentacao.setColumns(20);
-        txtApresentacao.setLineWrap(true);
-        txtApresentacao.setRows(5);
-        txtApresentacao.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtApresentacaoKeyPressed(evt);
-            }
-        });
-        jScrollPane4.setViewportView(txtApresentacao);
-
-        lblSelecioneAvatar.setText("Selecione um Avatar:");
-
-        lstAvatares.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        lstAvatares.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstAvataresValueChanged(evt);
-            }
-        });
-        jScrollPane5.setViewportView(lstAvatares);
-
-        jLabel1.setText("msgSemApresentacao");
-
-        btnProximo.setText("btnProximo >");
-        btnProximo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProximoActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout abaAssistenteLayout = new javax.swing.GroupLayout(abaAssistente);
-        abaAssistente.setLayout(abaAssistenteLayout);
-        abaAssistenteLayout.setHorizontalGroup(
-            abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(abaAssistenteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(abaAssistenteLayout.createSequentialGroup()
-                        .addComponent(lblSelecioneAvatar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(abaAssistenteLayout.createSequentialGroup()
-                        .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblNomeAssistente)
-                            .addComponent(lblApresentacao))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(abaAssistenteLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(abaAssistenteLayout.createSequentialGroup()
-                                .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNomeAssistente)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAjudaAssistente))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaAssistenteLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnProximo)))
-                .addContainerGap())
-        );
-        abaAssistenteLayout.setVerticalGroup(
-            abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(abaAssistenteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblImgAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(abaAssistenteLayout.createSequentialGroup()
-                        .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAjudaAssistente)
-                            .addComponent(lblNomeAssistente)
-                            .addComponent(txtNomeAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblApresentacao)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addGroup(abaAssistenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSelecioneAvatar))
-                .addGap(5, 5, 5)
-                .addComponent(btnProximo)
-                .addContainerGap())
-        );
-
-        painelConfiguracoes.addTab("abaAssistente", abaAssistente);
 
         btnNovaSituacao.setText("btnNovaSituacao");
         btnNovaSituacao.addActionListener(new java.awt.event.ActionListener() {
@@ -1240,35 +1113,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNovaSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSituacaoActionPerformed
-        partidaSalva = false;
-        NovaSituacao();
-    }//GEN-LAST:event_btnNovaSituacaoActionPerformed
-
-    private void btnEditarSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSituacaoActionPerformed
-        partidaSalva = false;
-        EditarSituacao();
-    }//GEN-LAST:event_btnEditarSituacaoActionPerformed
-
-    private void btnExcluirSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSituacaoActionPerformed
-        partidaSalva = false;
-        ExcluirSituacao();
-    }//GEN-LAST:event_btnExcluirSituacaoActionPerformed
-
-    private void btnPreviaSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviaSituacaoActionPerformed
-        PreviaSituacao();
-    }//GEN-LAST:event_btnPreviaSituacaoActionPerformed
-
-    private void btnNovaVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaVariavelActionPerformed
-        partidaSalva = false;
-        NovaVariavel();
-    }//GEN-LAST:event_btnNovaVariavelActionPerformed
-
-    private void btnEditarVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarVariavelActionPerformed
-        partidaSalva = false;
-        EditarVariavel();
-    }//GEN-LAST:event_btnEditarVariavelActionPerformed
-
     private void menuItemSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalvarActionPerformed
         Salvar();
     }//GEN-LAST:event_menuItemSalvarActionPerformed
@@ -1304,54 +1148,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    private void btnEditarAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAvaliacaoActionPerformed
-        partidaSalva = false;
-        EditarAvaliacao(2);
-    }//GEN-LAST:event_btnEditarAvaliacaoActionPerformed
-
-    private void btnNovaAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaAvaliacaoActionPerformed
-        partidaSalva = false;
-        EditarAvaliacao(1);
-    }//GEN-LAST:event_btnNovaAvaliacaoActionPerformed
-
-    private void btnExcluirVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirVariavelActionPerformed
-        partidaSalva = false;
-        ExcluirVariavel();
-    }//GEN-LAST:event_btnExcluirVariavelActionPerformed
-
-    private void btnExcluirAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirAvaliacaoActionPerformed
-        partidaSalva = false;
-        ExcluirAvaliacao();
-    }//GEN-LAST:event_btnExcluirAvaliacaoActionPerformed
-
     private void menuItemIdiomaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemIdiomaActionPerformed
         JanelaTrocaIdioma jti = new JanelaTrocaIdioma();
         jti.setVisible(true);
     }//GEN-LAST:event_menuItemIdiomaActionPerformed
-
-    private void txtNomeAssistenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeAssistenteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeAssistenteActionPerformed
-
-    private void lstAvataresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAvataresValueChanged
-        partidaSalva = false;
-        int index = lstAvatares.getSelectedIndex();
-        if (index > -1) {
-            ImageIcon icone = new ImageIcon();
-            icone.setImage(avatares.get(index).getImage().getScaledInstance(100, 100, 100));
-            lblImgAssistente.setText(null);
-            lblImgAssistente.setIcon(icone);
-            avatarSelecionado = avatares.get(index);
-        }
-    }//GEN-LAST:event_lstAvataresValueChanged
-
-    private void txtApresentacaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApresentacaoKeyPressed
-        partidaSalva = false;
-    }//GEN-LAST:event_txtApresentacaoKeyPressed
-
-    private void txtNomeAssistenteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeAssistenteKeyPressed
-        partidaSalva = false;
-    }//GEN-LAST:event_txtNomeAssistenteKeyPressed
 
     private void menuItemSalvarJogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalvarJogarActionPerformed
         SalvarJogar();
@@ -1360,10 +1160,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private void menuItemSalvarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalvarComoActionPerformed
         SalvarComo();
     }//GEN-LAST:event_menuItemSalvarComoActionPerformed
-
-    private void btnProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximoActionPerformed
-        painelConfiguracoes.setSelectedIndex(1);
-    }//GEN-LAST:event_btnProximoActionPerformed
 
     private void mnItemExportarExecutavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemExportarExecutavelActionPerformed
         try {
@@ -1379,35 +1175,84 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnItemExportarExecutavelActionPerformed
 
-    private void tblSituacoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSituacoesMouseClicked
-        
-        if (evt.getClickCount() == 2)
-        {
-            partidaSalva = false;
-            EditarSituacao();
-        }
-        
-    }//GEN-LAST:event_tblSituacoesMouseClicked
+    private void btnExcluirAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirAvaliacaoActionPerformed
+        partidaSalva = false;
+        ExcluirAvaliacao();
+    }//GEN-LAST:event_btnExcluirAvaliacaoActionPerformed
 
-    private void tblVariaveisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVariaveisMouseClicked
-        
-        if (evt.getClickCount() == 2)
-        {
-            partidaSalva = false;
-            EditarVariavel();
-        }
-        
-    }//GEN-LAST:event_tblVariaveisMouseClicked
+    private void btnEditarAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAvaliacaoActionPerformed
+        partidaSalva = false;
+        EditarAvaliacao(2);
+    }//GEN-LAST:event_btnEditarAvaliacaoActionPerformed
+
+    private void btnNovaAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaAvaliacaoActionPerformed
+        partidaSalva = false;
+        EditarAvaliacao(1);
+    }//GEN-LAST:event_btnNovaAvaliacaoActionPerformed
 
     private void tblAvaliacoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAvaliacoesMouseClicked
-        
-        if (evt.getClickCount() == 2)
-        {
+
+        if (evt.getClickCount() == 2) {
             partidaSalva = false;
             EditarAvaliacao(2);
         }
-        
     }//GEN-LAST:event_tblAvaliacoesMouseClicked
+
+    private void btnExcluirVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirVariavelActionPerformed
+        partidaSalva = false;
+        ExcluirVariavel();
+    }//GEN-LAST:event_btnExcluirVariavelActionPerformed
+
+    private void btnEditarVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarVariavelActionPerformed
+        partidaSalva = false;
+        EditarVariavel();
+    }//GEN-LAST:event_btnEditarVariavelActionPerformed
+
+    private void btnNovaVariavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaVariavelActionPerformed
+        partidaSalva = false;
+        NovaVariavel();
+    }//GEN-LAST:event_btnNovaVariavelActionPerformed
+
+    private void tblVariaveisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVariaveisMouseClicked
+
+        int index = tblVariaveis.getSelectedRow();
+
+        Variavel variavel = (Variavel) tblVariaveis.getValueAt(index, 0);
+
+        btnEditarVariavel.setEnabled(!variavel.isAutodefinida());
+
+        if ((evt.getClickCount() == 2) && (!variavel.isAutodefinida())) {
+            partidaSalva = false;
+            EditarVariavel();
+        }
+    }//GEN-LAST:event_tblVariaveisMouseClicked
+
+    private void tblSituacoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSituacoesMouseClicked
+
+        if (evt.getClickCount() == 2) {
+            partidaSalva = false;
+            EditarSituacao();
+        }
+    }//GEN-LAST:event_tblSituacoesMouseClicked
+
+    private void btnPreviaSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviaSituacaoActionPerformed
+        PreviaSituacao();
+    }//GEN-LAST:event_btnPreviaSituacaoActionPerformed
+
+    private void btnExcluirSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSituacaoActionPerformed
+        partidaSalva = false;
+        ExcluirSituacao();
+    }//GEN-LAST:event_btnExcluirSituacaoActionPerformed
+
+    private void btnEditarSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSituacaoActionPerformed
+        partidaSalva = false;
+        EditarSituacao();
+    }//GEN-LAST:event_btnEditarSituacaoActionPerformed
+
+    private void btnNovaSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaSituacaoActionPerformed
+        partidaSalva = false;
+        NovaSituacao();
+    }//GEN-LAST:event_btnNovaSituacaoActionPerformed
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
         if (instancia == null) {
@@ -1422,11 +1267,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel abaAssistente;
     private javax.swing.JPanel abaAvaliacoes;
     private javax.swing.JPanel abaSituacoes;
     private javax.swing.JPanel abaVariaveis;
-    private javax.swing.JButton btnAjudaAssistente;
     private javax.swing.JButton btnAjudaAvaliacoes;
     private javax.swing.JButton btnAjudaSituacoes;
     private javax.swing.JButton btnAjudaVariaveis;
@@ -1440,12 +1283,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JButton btnNovaSituacao;
     private javax.swing.JButton btnNovaVariavel;
     private javax.swing.JButton btnPreviaSituacao;
-    private javax.swing.JButton btnProximo;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JFrame jFrame3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenu2;
@@ -1455,14 +1296,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JLabel lblApresentacao;
-    private javax.swing.JLabel lblImgAssistente;
-    private javax.swing.JLabel lblNomeAssistente;
-    private javax.swing.JLabel lblSelecioneAvatar;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JList lstAvatares;
     private javax.swing.JMenu menuAjuda;
     private javax.swing.JMenu menuArquivo;
     private javax.swing.JMenu menuConfigurar;
@@ -1479,7 +1313,5 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JTable tblAvaliacoes;
     private javax.swing.JTable tblSituacoes;
     private javax.swing.JTable tblVariaveis;
-    private javax.swing.JTextArea txtApresentacao;
-    private javax.swing.JTextField txtNomeAssistente;
     // End of variables declaration//GEN-END:variables
 }

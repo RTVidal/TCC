@@ -17,6 +17,7 @@ public class Variavel implements Serializable{
     private double valorInicial;
     private double valor;
     private boolean oculta;
+    private boolean autodefinida;
 
     public String getNome() {
         return nome;
@@ -48,5 +49,13 @@ public class Variavel implements Serializable{
 
     public void setOculta(boolean oculta) {
         this.oculta = oculta;
-    }    
+    }
+
+    public boolean isAutodefinida() {
+        return autodefinida;
+    }
+
+    public void setAutodefinida(boolean autodefinida) {
+        this.autodefinida = autodefinida;
+    }
 }

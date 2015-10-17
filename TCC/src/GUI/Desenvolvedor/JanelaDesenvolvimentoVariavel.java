@@ -123,6 +123,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
                     acao.setVariavel(variavel);
                     acao.setNumero(0);
                     acao.setOperacao(0);
+                    acao.setOculta(false);
 
                     saida.getAcoes().add(acao);
                 }

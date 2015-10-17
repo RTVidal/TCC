@@ -29,7 +29,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
      * Creates new form JanelaDesenvolvimentoSaida
      */
     private int modo;
-    
+
     private int destinoSelecionado;
 
     private String descricaoSaida;
@@ -72,7 +72,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         txtSituacaoOrigem.setText(situacaoOrigem.getNome());
 
         destinoSelecionado = 0;
-        
+
         if (modo == 1) {
 
             descricaoSaida = "";
@@ -138,7 +138,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
                 txaFalaAssistente.setText(saidaOpcao.getFalaAssistente());
                 txtDescricaoSO.setText(saidaOpcao.getNome());
-                
+
                 descricaoSaida = saidaOpcao.getNome();
 
                 opcaoSaida.setSelectedComponent(pnlSaidaOpcao);
@@ -176,9 +176,9 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             modelDestino.addElement(idioma.Valor("lblNovaSituacao") + ": " + descricaoSaida);
 
         } else {
-            
+
             descricaoSaida = situacaoOrigem.getNome() + " " + jspValorMinimo.getValue() + " - " + jspValorMaximo.getValue();
-            
+
             modelDestino.addElement(idioma.Valor("lblNovaSituacao") + ": " + descricaoSaida);
 
         }
@@ -365,32 +365,30 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         saidaOpcao.setFalaAssistente(txaFalaAssistente.getText());
         saidaOpcao.setNome(txtDescricaoSO.getText());
-        
-        if(cbxSituacaoDestino.getSelectedIndex() > 0)
-        {
+
+        if (cbxSituacaoDestino.getSelectedIndex() > 0) {
             saidaOpcao.setSituacaoDestino(situacaoDestino);
-        } else 
-        {            
+        } else {
             //Cria a nova situação
             Situacao novaSituacao = new Situacao();
             novaSituacao.setFalaAssistente(descricaoSaida);
             novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
             novaSituacao.setNome(descricaoSaida);
             novaSituacao.setSituacaoFinal(false);
-            
+
             Saida saidaNovaSituacao = new Saida();
-            
+
             saidaNovaSituacao.setSituacaoOrigem(novaSituacao);
             saidaNovaSituacao.setTipoSaida(saida.getTipoSaida());
-            
+
             novaSituacao.setSaida(saidaNovaSituacao);
-            
+
             //Adiciona às situações da partida
             partidaDesenvolvimento.getSituacoes().add(novaSituacao);
-            
+
             saidaOpcao.setSituacaoDestino(novaSituacao);
-        }        
-        
+        }
+
         saidaOpcao.setPodeDesistir(chbPodeDesistir.isSelected());
 
         if (modo == 1) {
@@ -398,38 +396,61 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             CriarAcoesSaida(1);
             saida.getSaidasOpcao().add(saidaOpcao);
 
+            //Cria uma variável auto definida pra saída e a ação igualar a 1
+            CriarVariavelSaida();
+
         }
+    }
+
+    public void CriarVariavelSaida() {
+        
+        Variavel variavel = new Variavel();
+
+        variavel.setAutodefinida(true);
+        variavel.setOculta(true);
+        variavel.setNome(saidaOpcao.getNome());
+        variavel.setValorInicial(0);
+
+        partidaDesenvolvimento.getVariaveis().add(variavel);
+
+        Acao acao = new Acao();
+        
+        acao.setNumero(1);
+        acao.setOperacao(5);
+        acao.setVariavel(variavel);
+        acao.setOculta(true);
+
+        saidaOpcao.getAcoes().add(acao);
+
     }
 
     public void SalvarSaidaNumerica() {
 
         saidaNumerica.setFalaAssistente(txaFalaAssistente.getText());
-        
-        if(cbxSituacaoDestino.getSelectedIndex() > 0)
-        {
+
+        if (cbxSituacaoDestino.getSelectedIndex() > 0) {
             saidaNumerica.setSituacaoDestino(situacaoDestino);
-        } else 
-        {            
+        } else {
             //Cria a nova situação
             Situacao novaSituacao = new Situacao();
             novaSituacao.setFalaAssistente(descricaoSaida);
             novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
             novaSituacao.setNome(descricaoSaida);
             novaSituacao.setSituacaoFinal(false);
-            
+
             Saida saidaNovaSituacao = new Saida();
-            
+
             saidaNovaSituacao.setSituacaoOrigem(novaSituacao);
             saidaNovaSituacao.setTipoSaida(saida.getTipoSaida());
-            
+
             novaSituacao.setSaida(saidaNovaSituacao);
-            
+
             //Adiciona às situações da partida
             partidaDesenvolvimento.getSituacoes().add(novaSituacao);
-            
+
             saidaNumerica.setSituacaoDestino(novaSituacao);
-        }        
-        
+        }
+
         saidaNumerica.setPodeDesistir(chbPodeDesistir.isSelected());
 
         Faixa faixa = new Faixa();
@@ -459,6 +480,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
                 acao.setNumero(0);
                 acao.setOperacao(0);
                 acao.setVariavel(variavel);
+                acao.setOculta(false);
 
                 if (tipoSaida == 1) {
 
@@ -803,7 +825,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         if (destinoSelecionado > 0) {
             //Recupera o item na lista e associa a saída
             situacaoDestino = partidaDesenvolvimento.getSituacoes().get(destinoSelecionado - 1);
-        }            
+        }
 
     }//GEN-LAST:event_cbxSituacaoDestinoActionPerformed
 
@@ -835,7 +857,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     }//GEN-LAST:event_txtDescricaoSOFocusLost
 
     private void jspValorMinimoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jspValorMinimoFocusLost
-        
+
     }//GEN-LAST:event_jspValorMinimoFocusLost
 
     private void jspValorMaximoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jspValorMaximoFocusLost
@@ -843,24 +865,23 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     }//GEN-LAST:event_jspValorMaximoFocusLost
 
     private void jspValorMinimoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jspValorMinimoStateChanged
-        
+
         PreencheListaSituacoes();
-        
+
     }//GEN-LAST:event_jspValorMinimoStateChanged
 
     private void jspValorMaximoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jspValorMaximoStateChanged
-        
+
         PreencheListaSituacoes();
-        
+
     }//GEN-LAST:event_jspValorMaximoStateChanged
 
     private void tblAcoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAcoesMouseClicked
-        
-        if(evt.getClickCount() == 2)
-        {
+
+        if (evt.getClickCount() == 2) {
             EditarAcao();
         }
-        
+
     }//GEN-LAST:event_tblAcoesMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

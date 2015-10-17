@@ -15,9 +15,9 @@ public class Acao implements Serializable {
     
     private Variavel variavel;
     
-    private boolean valida;
+    private boolean oculta;
     
-    //1. adição, 2. subtração, 3. multiplicação, 4. divisão
+    //1. adição, 2. subtração, 3. multiplicação, 4. divisão, 5. igualar
     private int operacao;
     
     private double numero;
@@ -46,11 +46,11 @@ public class Acao implements Serializable {
         this.numero = numero;
     }
 
-    public boolean isValida() {
-        return valida;
+    public boolean isOculta() {
+        return oculta;
     }
 
-    public void setValida(boolean valida) {
-        this.valida = valida;
+    public void setOculta(boolean oculta) {
+        this.oculta = oculta;
     }
 }

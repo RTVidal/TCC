@@ -85,7 +85,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        assistente = partida.getAssistente();
+        //assistente = partida.getAssistente();
         variaveis = partida.getVariaveis();
 
         //CarregaAssistente();
@@ -236,7 +236,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         }
 
         if (cont > 0) {
-            
+
             //Calcula a altura da tabela de variáveis
             int altura = cont * 16;
 
@@ -458,7 +458,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.setSize(20, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
-            CarregaSituacao(partida.getSituacoes().get(proxima), 2);
+            CarregaSituacao(partida.getSituacoes().get(proxima));
 
         });
         painelBotoes.add(btn);
@@ -691,12 +691,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
                     //Carrega novamente a situação
-                    CarregaSituacao(situacao, 2);
+                    CarregaSituacao(situacao);
                 });
                 painelBotoes.add(btn);
             }
 
-            btn = new JButton(idioma.Valor("btnVamosLa"));
+            btn = new JButton(idioma.Valor("btnContinuar"));
             btn.setLocation(0, 0);
             btn.setSize(20, 30);
             btn.addActionListener((java.awt.event.ActionEvent e) -> {
@@ -704,14 +704,14 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 ExecutarAcoesSaida(saida);
 
                 //Carrega a situação seguinte
-                CarregaSituacao(situacaoDestino, 2);
+                CarregaSituacao(situacaoDestino);
             });
             painelBotoes.add(btn);
 
         } else {
 
             ExecutarAcoesSaida(saida);
-            CarregaSituacao(situacaoDestino, 2);
+            CarregaSituacao(situacaoDestino);
 
         }
     }
@@ -834,32 +834,18 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     }
 
-    public void CarregaSituacao(Situacao situacao, int etapa) {
+    public void CarregaSituacao(Situacao situacao) {
 
         this.situacao = situacao;
 
-        //1. Início, 2. Continuação
-        switch (etapa) {
-
-            case 1:
-
-                CarregaAssistente(false);
-                CarregaFalaAssistente(assistente.getApresentacao(), false);
-                GerarSaidaApresentacao();
-                break;
-
-            case 2:
-
-                if (situacao.getAssistenteP() != null) {
-                    CarregaAssistente(true);
-                } else {
-                    CarregaAssistente(false);
-                }
-
-                CarregaFalaAssistente(situacao.getFalaAssistente(), false);
-                GerarSaidas(situacao);
-                break;
+        if (situacao.getAssistenteP() != null) {
+            CarregaAssistente(true);
+        } else {
+            CarregaAssistente(false);
         }
+
+        CarregaFalaAssistente(situacao.getFalaAssistente(), false);
+        GerarSaidas(situacao);
 
         CarregaVariaveis();
         CarregaImagemFundo(situacao);
@@ -867,10 +853,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     }
 
-    public void CarregarPreviaSituacao(Situacao situacao, Assistente assistente) {
+    public void CarregarPreviaSituacao(Situacao situacao) {
 
-        this.assistente = assistente;
-        CarregaSituacao(situacao, 2);
+        CarregaSituacao(situacao);
 
     }
 

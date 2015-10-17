@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class Partida implements Serializable {
 
     private ParametrosArquivo parametrosArquivo;
-    private Assistente assistente;
     private ArrayList<Situacao> situacoes;
     private ArrayList<Variavel> variaveis;
     private ArrayList<Avaliacao> avaliacoes;
@@ -26,14 +25,6 @@ public class Partida implements Serializable {
         situacoes = new ArrayList<>();
         variaveis = new ArrayList<>();
         avaliacoes = new ArrayList<>();
-    }
-
-    public Assistente getAssistente() {
-        return assistente;
-    }
-
-    public void setAssistente(Assistente assistente) {
-        this.assistente = assistente;
     }
 
     public ArrayList<Situacao> getSituacoes() {

@@ -22,6 +22,7 @@ public class VariaveisTbModel extends AbstractTableModel{
     private static final int COL_NOME = 1;
     private static final int COL_VALOR = 2;
     private static final int COL_OCULTA = 3;
+    private static final int COL_TIPO = 4;
 
     private final ArrayList<Variavel> variaveis;
 
@@ -39,7 +40,7 @@ public class VariaveisTbModel extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -53,6 +54,9 @@ public class VariaveisTbModel extends AbstractTableModel{
         }
         if (column == COL_OCULTA) {
             return idioma.Valor("lblOculta");
+        }
+        if (column == COL_TIPO) {
+            return idioma.Valor("lblTipo");
         }
         return ""; //Nunca deve ocorrer
     }
@@ -75,6 +79,14 @@ public class VariaveisTbModel extends AbstractTableModel{
                 return "✓";
             } else {
                 return "";
+            }
+        }
+        if (column == COL_TIPO) {
+            if(variaveis.get(rowIndex).isAutodefinida())
+            {
+                return idioma.Valor("lblAutoDefinida");
+            } else {
+                return idioma.Valor("lblPadrao");
             }
         }
         return "";

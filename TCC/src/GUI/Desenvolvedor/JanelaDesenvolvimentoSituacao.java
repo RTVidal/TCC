@@ -86,7 +86,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             this.situacao = situacao;
             saida = situacao.getSaida();
             CarregarSituacao();
+            
         } else {
+            
+            assistentePers = new Assistente(); 
 
             //Por default seleciona o lado do assistente como direito
             rbtDireito.setSelected(true);
@@ -103,7 +106,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         CarregarComboTipoSaida();
         AtualizaTabelaSaidas();
 
-        HabilitarDesabilitarAssistenteP();
     }
 
     public final void CarregaIdioma() {
@@ -129,6 +131,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
      * Carrega os avatares do assistente
      */
     public final void CarregaAvatares() {
+        
         int itemSelecionado = 0;
         imgAvatar.setText(idioma.Valor("lblSelecioneUmAvatar"));
         DefaultListModel itens = new DefaultListModel<>();
@@ -138,13 +141,25 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         File file = new File("./Avatares");
         File arquivos[] = file.listFiles();
 
+        String avatarSituacaoAnterior = "";
+        
         for (int i = 0; i < arquivos.length; i++) {
+                        
+            if (ordem > 1)
+            {
+                Situacao situacaoAnterior = partidaDesenvolvimento.getSituacoes().get(ordem - 2);
+                avatarSituacaoAnterior = situacaoAnterior.getAssistenteP().getAvatarAssistente().getDescription();
+            }
 
             ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
             avatar.setDescription(arquivos[i].getAbsolutePath());
             avatares.add(avatar);
             if (situacao.getAssistenteP() != null) {
                 if (situacao.getAssistenteP().getAvatarAssistente().getDescription().equals(avatar.getDescription())) {
+                    itemSelecionado = i;
+                }
+            } else {
+                if (avatarSituacaoAnterior.equals(avatar.getDescription())) {
                     itemSelecionado = i;
                 }
             }
@@ -182,28 +197,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         rbtEsquerdo.setSelected(situacao.getLadoGeracao() == 1);
         rbtDireito.setSelected(situacao.getLadoGeracao() == 2);
 
-        if (situacao.getAssistenteP() != null) {
-            chbAssistenteP.setSelected(true);
-            HabilitarDesabilitarAssistenteP();
-        }
-
         AtualizaTabelaSaidas();
 
     }
 
-    /**
-     * Desabilita e habilita os campos do assistente personalizado
-     */
-    public final void HabilitarDesabilitarAssistenteP() {
-        boolean habilitar = chbAssistenteP.isSelected();
-        lstAvatares.setEnabled(habilitar);
-        imgAvatar.setEnabled(habilitar);
-        if (habilitar) {
-            assistentePers = new Assistente();
-        } else {
-            assistentePers = null;
-        }
-    }
 
     public final void AtualizaTabelaSaidas() {
 
@@ -317,13 +314,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 situacao.setFundoSituacao(null);
             }
 
-            //Caso o assistente seja personalizado, o salva
-            if (chbAssistenteP.isSelected()) {
-                assistentePers.setAvatarAssistente(avatarSelecionado);
-                situacao.setAssistenteP(assistentePers);
-            } else {
-                situacao.setAssistenteP(null);
-            }
+            assistentePers.setAvatarAssistente(avatarSelecionado);
+            situacao.setAssistenteP(assistentePers);
 
             //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
             if (acao == 1) {
@@ -628,7 +620,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         lstAvatares = new javax.swing.JList();
         imgAvatar = new javax.swing.JLabel();
-        chbAssistenteP = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
         lblSaidasDessaSituacao = new javax.swing.JLabel();
         lblGerarNoLado = new javax.swing.JLabel();
         rbtDireito = new javax.swing.JRadioButton();
@@ -751,34 +743,35 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         imgAvatar.setText("imgAvatar");
 
+        jLabel2.setText("lblAassistente");
+
         javax.swing.GroupLayout pnlAssistentePLayout = new javax.swing.GroupLayout(pnlAssistenteP);
         pnlAssistenteP.setLayout(pnlAssistentePLayout);
         pnlAssistentePLayout.setHorizontalGroup(
             pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAssistentePLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(imgAvatar)
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addGroup(pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlAssistentePLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(imgAvatar))
+                    .addComponent(jLabel2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlAssistentePLayout.setVerticalGroup(
             pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAssistentePLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(imgAvatar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlAssistentePLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 13, Short.MAX_VALUE))
+                .addComponent(jLabel2)
+                .addGroup(pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlAssistentePLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(imgAvatar))
+                    .addGroup(pnlAssistentePLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
-
-        chbAssistenteP.setText("lblAssistentePersonalizado");
-        chbAssistenteP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chbAssistentePActionPerformed(evt);
-            }
-        });
 
         lblSaidasDessaSituacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblSaidasDessaSituacao.setText("lblSaidasDessaSituacao");
@@ -825,9 +818,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(btnSelecionarImagem)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(lblResolucaoIdeal, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+                                                .addComponent(lblResolucaoIdeal, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE))
                                             .addComponent(txtNomeSituacao)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                                             .addComponent(txtArquivo)
                                             .addComponent(jspOrdem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
@@ -852,25 +845,19 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(chbAssistenteP)
-                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(lblTipoSaida)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(cbxTipoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btnNovaSaida))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(btnEditarSaida)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btnExcluirSaida)))
-                                        .addGap(15, 15, 15))))
+                                        .addComponent(lblTipoSaida)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbxTipoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnNovaSaida))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(btnEditarSaida)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnExcluirSaida)))
+                                .addGap(15, 15, 15))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnConfirmar))
@@ -945,9 +932,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(btnExcluirSaida)
                                     .addComponent(btnEditarSaida))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(chbAssistenteP)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(32, 32, 32)
                                 .addComponent(pnlAssistenteP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnConfirmar)
@@ -1049,10 +1034,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
     }//GEN-LAST:event_rbtDireitoActionPerformed
 
-    private void chbAssistentePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbAssistentePActionPerformed
-        HabilitarDesabilitarAssistenteP();
-    }//GEN-LAST:event_chbAssistentePActionPerformed
-
     private void rbtEsquerdoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtEsquerdoActionPerformed
 
         SelecionarLadoAssistenteP(1);
@@ -1082,10 +1063,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JButton btnSelecionarImagem;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cbxTipoSaida;
-    private javax.swing.JCheckBox chbAssistenteP;
     private javax.swing.JCheckBox chbSituacaoFinal;
     private javax.swing.JLabel imgAvatar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
