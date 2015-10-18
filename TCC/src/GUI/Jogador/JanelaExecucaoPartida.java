@@ -252,7 +252,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             painelPrincipal.remove(imgBalao);
         }
 
-        imagemBalao = new ImageIcon(getClass().getResource("/Recursos/balao.gif"));
+        if (situacao.getLadoGeracao() == 1) {
+            imagemBalao = new ImageIcon(getClass().getResource("/Recursos/balaoEsquerda.png"));
+        } else {
+            imagemBalao = new ImageIcon(getClass().getResource("/Recursos/balaoDireita.png"));
+        }
+//        imagemBalao = new ImageIcon(getClass().getResource("/Recursos/balao.gif"));
 
         imgBalao = new PainelImagem(imagemBalao.getImage());
 

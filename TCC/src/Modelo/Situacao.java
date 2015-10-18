@@ -5,6 +5,9 @@
  */
 package Modelo;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 
@@ -12,19 +15,20 @@ import javax.swing.ImageIcon;
  *
  * @author Rafael
  */
-public class Situacao implements Serializable{
+public class Situacao implements Serializable {
 
     private boolean situacaoFinal;
     private ImageIcon fundoSituacao;
-    
+
     private ImageIcon imagemPersonagem;
-    
+    private boolean rotacionarPersonagem;
+
     //1. Esquerdo, 2. Direito
     private int ladoGeracao;
-    
+
     private String falaAssistente;
     private String nome;
-    
+
     private Saida saida;
 
     public Situacao() {
@@ -72,7 +76,11 @@ public class Situacao implements Serializable{
     }
 
     public ImageIcon getImagemPersonagem() {
-        return imagemPersonagem;
+        if (rotacionarPersonagem) {
+            return rotacaoDeImagem();
+        } else {
+            return imagemPersonagem;
+        }
     }
 
     public void setImagemPersonagem(ImageIcon imagemPersonagem) {
@@ -86,4 +94,37 @@ public class Situacao implements Serializable{
     public void setLadoGeracao(int ladoGeracao) {
         this.ladoGeracao = ladoGeracao;
     }
+
+    public boolean isRotacionarPersonagem() {
+        return rotacionarPersonagem;
+    }
+    
+    public void setRotacionarPersonagem(boolean rotacionarPersonagem) {
+        this.rotacionarPersonagem = rotacionarPersonagem;
+    }
+
+    private ImageIcon rotacaoDeImagem() {
+        BufferedImage img = converterParaBufferedImage(imagemPersonagem.getImage());
+        int w = img.getWidth();
+        int h = img.getHeight();
+        BufferedImage dimg = new BufferedImage(w, h, img.getType());
+        Graphics2D g = dimg.createGraphics();
+        g.drawImage(img, 0, 0, w, h, w, 0, 0, h, null);
+        g.dispose();
+        ImageIcon imagemRotacionada = new ImageIcon();
+        imagemRotacionada.setDescription(imagemPersonagem.getDescription());
+        imagemRotacionada.setImage(dimg);
+        return imagemRotacionada;
+    }
+
+    private BufferedImage converterParaBufferedImage(Image image) {
+        BufferedImage newImage = new BufferedImage(
+                image.getWidth(null), image.getHeight(null),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = newImage.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        return newImage;
+    }
+
 }

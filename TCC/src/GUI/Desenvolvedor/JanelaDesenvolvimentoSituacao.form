@@ -69,10 +69,10 @@
                                           <Group type="102" attributes="0">
                                               <Component id="btnSelecionarImagem" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="lblResolucaoIdeal" pref="262" max="32767" attributes="0"/>
+                                              <Component id="lblResolucaoIdeal" pref="260" max="32767" attributes="0"/>
                                           </Group>
                                           <Component id="txtNomeSituacao" max="32767" attributes="0"/>
-                                          <Component id="jScrollPane1" pref="415" max="32767" attributes="0"/>
+                                          <Component id="jScrollPane1" pref="413" max="32767" attributes="0"/>
                                           <Component id="txtArquivo" alignment="0" max="32767" attributes="0"/>
                                           <Group type="102" attributes="0">
                                               <Component id="chbSituacaoFinal" min="-2" max="-2" attributes="0"/>
@@ -88,15 +88,14 @@
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
-                                      <Component id="rbtEsquerdo" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="rbtDireito" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
+                              <Component id="rbtEsquerdo" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="rbtDireito" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -218,7 +217,7 @@
                               <Component id="pnlAssistenteP" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="20" max="32767" attributes="0"/>
                       <Component id="btnConfirmar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -263,7 +262,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblDescricaoDaSituacao">
@@ -410,7 +409,10 @@
                       <Group type="102" attributes="0">
                           <Component id="jScrollPane3" min="-2" pref="276" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="imgAvatar" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="imgAvatar" max="32767" attributes="0"/>
+                              <Component id="botaoRotacionar" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -426,6 +428,8 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                           <Component id="imgAvatar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="botaoRotacionar" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
@@ -472,6 +476,16 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="lblPersonagemDaSituacao"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="botaoRotacionar">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Recursos/iconeRotacionar.png"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoRotacionarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -48,9 +48,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private final int ordem;
     private int novaOrdem;
 
-    private ImageIcon personagemSituacao;
-    private ImageIcon avatarSelecionado;
-
     //private static JanelaDesenvolvimentoSituacao instancia;
     JanelaDesenvolvimentoPartida jdp;
 
@@ -81,16 +78,12 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txaFalaAssistente.setWrapStyleWord(true);
 
 //        jspOrdem.setValue(ordem);
-
         if (acao == 2) {
             this.situacao = situacao;
             saida = situacao.getSaida();
             CarregarSituacao();
 
         } else {
-
-            personagemSituacao = new ImageIcon();
-
             //Por default seleciona o lado do assistente como direito
             rbtDireito.setSelected(true);
 
@@ -156,6 +149,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             if (situacao.getImagemPersonagem() != null) {
                 if (situacao.getImagemPersonagem().getDescription().equals(avatar.getDescription())) {
                     itemSelecionado = i;
+
                 }
             } else {
                 if (avatarSituacaoAnterior.equals(avatar.getDescription())) {
@@ -184,7 +178,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }
 
     public final void CarregarSituacao() {
-
         txtNomeSituacao.setText(situacao.getNome());
         txaFalaAssistente.setText(situacao.getFalaAssistente());
         if (situacao.getFundoSituacao() != null) {
@@ -192,9 +185,13 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         }
         chbSituacaoFinal.setSelected(situacao.isSituacaoFinal());
 
-        personagemSituacao = situacao.getImagemPersonagem();
         rbtEsquerdo.setSelected(situacao.getLadoGeracao() == 1);
         rbtDireito.setSelected(situacao.getLadoGeracao() == 2);
+
+        botaoRotacionar.setSelected(situacao.isRotacionarPersonagem());
+        ImageIcon icone = new ImageIcon();
+        icone.setImage(situacao.getImagemPersonagem().getImage().getScaledInstance(100, 100, 100));
+        imgAvatar.setIcon(icone);
 
         AtualizaTabelaSaidas();
 
@@ -284,7 +281,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                     for (int i : itensRemover) {
                         partidaDesenvolvimento.getAvaliacoes().remove(i);
                     }
-                    
+
                     partidaDesenvolvimento.getVariaveis().remove(saidaO.getVariavelSaida());
 
                     saida.getsaidasOpcao().remove(saidaO);
@@ -324,14 +321,10 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             }
 
 //            novaOrdem = (int) jspOrdem.getValue();
-
             //Caso não tenha fundo, torna o fundo vazio
             if (txtArquivo.getText().isEmpty()) {
                 situacao.setFundoSituacao(null);
             }
-
-            personagemSituacao = avatarSelecionado;
-            situacao.setImagemPersonagem(personagemSituacao);
 
             //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
             if (acao == 1) {
@@ -569,13 +562,15 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }
 
     public void SelecionarAvatar() {
+        botaoRotacionar.setSelected(false);
+        situacao.setRotacionarPersonagem(false);
         int index = lstAvatares.getSelectedIndex();
         if (index > -1) {
-            ImageIcon icone = new ImageIcon();
-            icone.setImage(avatares.get(index).getImage().getScaledInstance(100, 100, 100));
             imgAvatar.setText(null);
+            situacao.setImagemPersonagem(avatares.get(index));
+            ImageIcon icone = new ImageIcon();
+            icone.setImage(situacao.getImagemPersonagem().getImage().getScaledInstance(100, 100, 100));
             imgAvatar.setIcon(icone);
-            avatarSelecionado = avatares.get(index);
         }
     }
 
@@ -636,6 +631,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         lstAvatares = new javax.swing.JList();
         imgAvatar = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        botaoRotacionar = new javax.swing.JToggleButton();
         lblSaidasDessaSituacao = new javax.swing.JLabel();
         lblGerarNoLado = new javax.swing.JLabel();
         rbtDireito = new javax.swing.JRadioButton();
@@ -666,7 +662,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         btnAjuda.setText("btnAjuda");
 
-        jLabel6.setText("<html>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|");
+        jLabel6.setText("<html>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|");
 
         lblDescricaoDaSituacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDescricaoDaSituacao.setText("lblDescricaoDaSituacao");
@@ -756,6 +752,13 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         jLabel2.setText("lblPersonagemDaSituacao");
 
+        botaoRotacionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/iconeRotacionar.png"))); // NOI18N
+        botaoRotacionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoRotacionarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlAssistentePLayout = new javax.swing.GroupLayout(pnlAssistenteP);
         pnlAssistenteP.setLayout(pnlAssistentePLayout);
         pnlAssistentePLayout.setHorizontalGroup(
@@ -766,7 +769,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                     .addGroup(pnlAssistentePLayout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(imgAvatar))
+                        .addGroup(pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(imgAvatar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botaoRotacionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -777,7 +782,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 .addGroup(pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlAssistentePLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(imgAvatar))
+                        .addComponent(imgAvatar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botaoRotacionar))
                     .addGroup(pnlAssistentePLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -831,9 +838,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(btnSelecionarImagem)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(lblResolucaoIdeal, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE))
+                                                .addComponent(lblResolucaoIdeal, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
                                             .addComponent(txtNomeSituacao)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
                                             .addComponent(txtArquivo)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(chbSituacaoFinal)
@@ -843,13 +850,13 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                 .addComponent(lblGerarNoLado)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnCancelar)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(169, 169, 169)
-                                        .addComponent(rbtEsquerdo)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(rbtDireito)))
+                                .addGap(169, 169, 169)
+                                .addComponent(rbtEsquerdo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbtDireito)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnCancelar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -939,7 +946,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                     .addComponent(btnEditarSaida))
                                 .addGap(32, 32, 32)
                                 .addComponent(pnlAssistenteP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(btnConfirmar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -1049,14 +1056,20 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }//GEN-LAST:event_lstAvataresValueChanged
 
     private void tblSaidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSaidasMouseClicked
-
         if (evt.getClickCount() == 2) {
             EditarSaida();
         }
-
     }//GEN-LAST:event_tblSaidasMouseClicked
 
+    private void botaoRotacionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRotacionarActionPerformed
+        situacao.setRotacionarPersonagem(botaoRotacionar.isSelected());
+        ImageIcon icone = new ImageIcon();
+        icone.setImage(situacao.getImagemPersonagem().getImage().getScaledInstance(100, 100, 100));
+        imgAvatar.setIcon(icone);
+    }//GEN-LAST:event_botaoRotacionarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton botaoRotacionar;
     private javax.swing.JButton btnAjuda;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
