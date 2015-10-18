@@ -19,10 +19,11 @@ public class SituacoesTbModel extends AbstractTableModel {
     private final ControladoraIdioma idioma;
 
     private static final int COL_SITUACAO = 0;
-    private static final int COL_ORDEM = 1;
-    private static final int COL_NOME = 2;
-    private static final int COL_TIPOSAIDA = 3;
-    private static final int COL_SITUACAOFINAL = 4;
+    private static final int COL_SUBIR = 1;
+    private static final int COL_DESCER = 2;
+    private static final int COL_NOME = 3;
+    private static final int COL_TIPOSAIDA = 4;
+    private static final int COL_DETALHE = 5;
 
     private final ArrayList<Situacao> situacoes;
 
@@ -40,7 +41,7 @@ public class SituacoesTbModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -52,8 +53,8 @@ public class SituacoesTbModel extends AbstractTableModel {
         if (column == COL_TIPOSAIDA) {
             return idioma.Valor("lblTipoSaida");
         }
-        if (column == COL_SITUACAOFINAL) {
-            return idioma.Valor("lblSituacaoFinal");
+        if (column == COL_DETALHE) {
+            return idioma.Valor("lblDetalhe");
         }
         return ""; //Nunca deve ocorrer
     }
@@ -64,9 +65,19 @@ public class SituacoesTbModel extends AbstractTableModel {
         if (column == COL_SITUACAO) {
             return situacoes.get(rowIndex);
         }
-        if (column == COL_ORDEM)
-        {
-            return rowIndex + 1;
+        if (column == COL_SUBIR) {
+            if (rowIndex == 0) {
+                return "";
+            } else {
+                return " ▲";
+            }
+        }
+        if (column == COL_DESCER) {
+            if (rowIndex == situacoes.size()-1) {
+                return "";
+            } else {
+                return " ▼";
+            }
         }
         if (column == COL_NOME) {
             return situacoes.get(rowIndex).getNome();
@@ -80,10 +91,14 @@ public class SituacoesTbModel extends AbstractTableModel {
                     return idioma.Valor("lblNumerica");
             }
         }
-        if (column == COL_SITUACAOFINAL) {
+        if (column == COL_DETALHE) {
             if(situacoes.get(rowIndex).isSituacaoFinal())
             {
-                return "✓";
+                return idioma.Valor("lblSituacaoFinal");
+            }
+            if(rowIndex == 0)
+            {
+                return idioma.Valor("lblSituacaoInicial");
             }
             return "-";
         }

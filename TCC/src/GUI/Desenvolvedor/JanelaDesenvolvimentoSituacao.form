@@ -54,12 +54,15 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="lblDescricaoDaSituacao" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="lblNome" min="-2" max="-2" attributes="0"/>
                                           <Component id="lblFalaAssistente" min="-2" max="-2" attributes="0"/>
                                           <Component id="lblImgFundo" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -71,35 +74,30 @@
                                           <Component id="txtNomeSituacao" max="32767" attributes="0"/>
                                           <Component id="jScrollPane1" pref="415" max="32767" attributes="0"/>
                                           <Component id="txtArquivo" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jspOrdem" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Component id="chbSituacaoFinal" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblDescricaoDaSituacao" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="lblGerarNoLado" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="chbSituacaoFinal" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblGerarNoLado" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
                                       <Component id="rbtEsquerdo" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="rbtDireito" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -115,10 +113,10 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Component id="pnlAssistenteP" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
@@ -150,9 +148,10 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jLabel6" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="btnAjuda" min="-2" max="-2" attributes="0"/>
@@ -190,21 +189,15 @@
                                   <Component id="btnSelecionarImagem" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblResolucaoIdeal" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jspOrdem" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Component id="chbSituacaoFinal" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                              <Component id="lblGerarNoLado" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="rbtEsquerdo" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="rbtDireito" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblGerarNoLado" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                              <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="jScrollPane4" min="-2" pref="160" max="-2" attributes="0"/>
@@ -223,15 +216,14 @@
                               </Group>
                               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="pnlAssistenteP" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnConfirmar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnConfirmar" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jLabel6" min="-2" pref="506" max="-2" attributes="0"/>
+                      <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -271,7 +263,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|&lt;br&gt;|"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblDescricaoDaSituacao">
@@ -407,18 +399,6 @@
         <Property name="text" type="java.lang.String" value="lblSituacaoFinal"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JSpinner" name="jspOrdem">
-      <Properties>
-        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="1" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="lblOrdem"/>
-      </Properties>
-    </Component>
     <Container class="javax.swing.JPanel" name="pnlAssistenteP">
 
       <Layout>
@@ -490,7 +470,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="lblAassistente"/>
+            <Property name="text" type="java.lang.String" value="lblPersonagemDaSituacao"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -505,7 +485,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblGerarNoLado">
       <Properties>
-        <Property name="text" type="java.lang.String" value="lblGerarNoLado"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;p align=&apos;center&apos;&gt;lblGerarNoLado"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="rbtDireito">

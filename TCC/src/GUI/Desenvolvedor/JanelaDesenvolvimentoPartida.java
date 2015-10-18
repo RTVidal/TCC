@@ -136,9 +136,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         tblSituacoes.getColumnModel().getColumn(0).setMaxWidth(0);
         tblSituacoes.getColumnModel().getColumn(0).setPreferredWidth(0);
 
-        tblSituacoes.getColumnModel().getColumn(1).setMinWidth(30);
-        tblSituacoes.getColumnModel().getColumn(1).setMaxWidth(30);
-        tblSituacoes.getColumnModel().getColumn(1).setPreferredWidth(30);
+        tblSituacoes.getColumnModel().getColumn(1).setMinWidth(20);
+        tblSituacoes.getColumnModel().getColumn(1).setMaxWidth(20);
+        tblSituacoes.getColumnModel().getColumn(1).setPreferredWidth(20);
+        
+        tblSituacoes.getColumnModel().getColumn(2).setMinWidth(20);
+        tblSituacoes.getColumnModel().getColumn(2).setMaxWidth(20);
+        tblSituacoes.getColumnModel().getColumn(2).setPreferredWidth(20);
 
         //Habilitar o botão de editar e excluir apenas quando houverem registros na lista
         btnEditarSituacao.setEnabled(!partidaDesenvolvimento.getSituacoes().isEmpty());
@@ -343,6 +347,33 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         }
     }
 
+    public void AlterarOrdemSituacao(Situacao s, int posicao) {
+        
+        boolean adicionou = false;
+        ArrayList<Situacao> situacoes = new ArrayList<>();
+
+        //Remove a situação atual da lista
+        partidaDesenvolvimento.getSituacoes().remove(s);
+        int qtdSituacoes = partidaDesenvolvimento.getSituacoes().size() - 1;
+
+        //Cria uma nova lista, adicionando a situação na posição desejada
+        for (int i = 0; i <= qtdSituacoes; i++) {
+            if (i == posicao) {
+                situacoes.add(s);
+                adicionou = true;
+            }
+            situacoes.add(partidaDesenvolvimento.getSituacoes().get(i));
+        }
+
+        //Caso não tenha adicionado a situação na lista, apenas adiciona na ultima posição
+        if (!adicionou) {
+            situacoes.add(s);
+        }
+
+        //Atualiza a lista
+        partidaDesenvolvimento.setSituacoes(situacoes);
+    }
+    
     public void PreviaSituacao() {
         //Recuperar o item selecionado
         int index = tblSituacoes.getSelectedRow();
@@ -722,21 +753,20 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         tblSituacoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1"
             }
         ));
+        tblSituacoes.setColumnSelectionAllowed(true);
         tblSituacoes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblSituacoesMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblSituacoes);
+        tblSituacoes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         btnAjudaSituacoes.setText("btnAjuda");
 
@@ -1145,11 +1175,27 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     }//GEN-LAST:event_tblVariaveisMouseClicked
 
     private void tblSituacoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSituacoesMouseClicked
-
         if (evt.getClickCount() == 2) {
             partidaSalva = false;
             EditarSituacao();
         }
+        int coluna = tblSituacoes.getSelectedColumn();
+        int index = tblSituacoes.getSelectedRow();
+        if (coluna == 1) {
+            if (index != 0) {
+                Situacao s = (Situacao) tblSituacoes.getValueAt(index, 0);
+                AlterarOrdemSituacao(s, index - 1);
+                AtualizaSituacoes();
+            }
+        }
+        if (coluna == 2) {
+            if (index != (partidaDesenvolvimento.getSituacoes().size()-1)) {
+                Situacao s = (Situacao) tblSituacoes.getValueAt(index, 0);
+                AlterarOrdemSituacao(s, index + 1);
+                AtualizaSituacoes();
+            }
+        }
+        
     }//GEN-LAST:event_tblSituacoesMouseClicked
 
     private void btnPreviaSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviaSituacaoActionPerformed

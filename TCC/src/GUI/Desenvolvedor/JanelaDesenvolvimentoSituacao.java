@@ -82,7 +82,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txaFalaAssistente.setDocument(new LimiteCaracteres(750));
         txaFalaAssistente.setWrapStyleWord(true);
 
-        jspOrdem.setValue(ordem);
+//        jspOrdem.setValue(ordem);
 
         if (acao == 2) {
             this.situacao = situacao;
@@ -325,7 +325,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 situacao.setLadoGeracao(2);
             }
 
-            novaOrdem = (int) jspOrdem.getValue();
+//            novaOrdem = (int) jspOrdem.getValue();
 
             //Caso não tenha fundo, torna o fundo vazio
             if (txtArquivo.getText().isEmpty()) {
@@ -633,8 +633,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         btnExcluirSaida = new javax.swing.JButton();
         lblResolucaoIdeal = new javax.swing.JLabel();
         chbSituacaoFinal = new javax.swing.JCheckBox();
-        jspOrdem = new javax.swing.JSpinner();
-        jLabel1 = new javax.swing.JLabel();
         pnlAssistenteP = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         lstAvatares = new javax.swing.JList();
@@ -670,7 +668,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         btnAjuda.setText("btnAjuda");
 
-        jLabel6.setText("<html>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|");
+        jLabel6.setText("<html>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|");
 
         lblDescricaoDaSituacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDescricaoDaSituacao.setText("lblDescricaoDaSituacao");
@@ -744,10 +742,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         chbSituacaoFinal.setText("lblSituacaoFinal");
 
-        jspOrdem.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
-
-        jLabel1.setText("lblOrdem");
-
         lstAvatares.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -762,7 +756,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         imgAvatar.setText("imgAvatar");
 
-        jLabel2.setText("lblAassistente");
+        jLabel2.setText("lblPersonagemDaSituacao");
 
         javax.swing.GroupLayout pnlAssistentePLayout = new javax.swing.GroupLayout(pnlAssistenteP);
         pnlAssistenteP.setLayout(pnlAssistentePLayout);
@@ -795,7 +789,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         lblSaidasDessaSituacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblSaidasDessaSituacao.setText("lblSaidasDessaSituacao");
 
-        lblGerarNoLado.setText("lblGerarNoLado");
+        lblGerarNoLado.setText("<html><p align='center'>lblGerarNoLado");
 
         rbtDireito.setText("lblDireito");
         rbtDireito.addActionListener(new java.awt.event.ActionListener() {
@@ -827,11 +821,13 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblDescricaoDaSituacao)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(lblNome)
                                             .addComponent(lblFalaAssistente)
-                                            .addComponent(lblImgFundo)
-                                            .addComponent(jLabel1))
+                                            .addComponent(lblImgFundo))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
@@ -841,45 +837,24 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                             .addComponent(txtNomeSituacao)
                                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                                             .addComponent(txtArquivo)
-                                            .addComponent(jspOrdem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnCancelar)
-                                            .addComponent(lblDescricaoDaSituacao))
-                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(chbSituacaoFinal)
+                                                .addGap(0, 0, Short.MAX_VALUE)))))
                                 .addGap(10, 10, 10))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblGerarNoLado)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(chbSituacaoFinal)
-                                        .addGap(66, 66, 66))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(lblGerarNoLado)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(btnCancelar)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(169, 169, 169)
                                         .addComponent(rbtEsquerdo)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(rbtDireito)
-                                        .addGap(18, 18, 18)))))
+                                        .addComponent(rbtDireito)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(lblTipoSaida)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbxTipoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnNovaSaida))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(btnEditarSaida)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnExcluirSaida)))
-                                .addGap(15, 15, 15))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnConfirmar))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(24, 24, 24)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -889,14 +864,32 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(pnlAssistenteP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(pnlAssistenteP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(lblTipoSaida)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(cbxTipoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnNovaSaida))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(btnEditarSaida)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnExcluirSaida)))
+                                        .addGap(15, 15, 15))
+                                    .addComponent(btnConfirmar, javax.swing.GroupLayout.Alignment.TRAILING))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnAjuda)
@@ -926,19 +919,14 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnSelecionarImagem)
                                     .addComponent(lblResolucaoIdeal))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jspOrdem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1))
-                                .addGap(31, 31, 31)
+                                .addGap(29, 29, 29)
                                 .addComponent(chbSituacaoFinal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(19, 19, 19)
+                                .addComponent(lblGerarNoLado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(rbtEsquerdo)
-                                    .addComponent(rbtDireito)
-                                    .addComponent(lblGerarNoLado))
-                                .addGap(11, 11, 11)
-                                .addComponent(btnCancelar))
+                                    .addComponent(rbtDireito)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -952,13 +940,12 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                     .addComponent(btnExcluirSaida)
                                     .addComponent(btnEditarSaida))
                                 .addGap(32, 32, 32)
-                                .addComponent(pnlAssistenteP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnConfirmar)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(pnlAssistenteP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnConfirmar))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnCancelar)))
                 .addContainerGap())
         );
 
@@ -1083,7 +1070,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JComboBox cbxTipoSaida;
     private javax.swing.JCheckBox chbSituacaoFinal;
     private javax.swing.JLabel imgAvatar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
@@ -1091,7 +1077,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JSpinner jspOrdem;
     private javax.swing.JLabel lblDescricaoDaSituacao;
     private javax.swing.JLabel lblFalaAssistente;
     private javax.swing.JLabel lblGerarNoLado;
