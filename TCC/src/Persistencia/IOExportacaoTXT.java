@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -26,12 +27,6 @@ public class IOExportacaoTXT {
 
     public IOExportacaoTXT() {
         idioma = ControladoraIdioma.getInstancia();
-    }
-
-    public void CriarTXT() {
-
-        Partida partida = Partida.getInstancia();
-
     }
 
     public void SalvarTXT() {
@@ -80,7 +75,8 @@ public class IOExportacaoTXT {
                     gravarArq.printf("-- " + idioma.Valor("lblVariaveisPadroes") + " --%n");
                     
                     for (Variavel v : padroes) {
-                        gravarArq.printf(v.getNome());
+                        gravarArq.printf("%n");
+                        gravarArq.printf(v.getNome() + "%n");
                         gravarArq.printf(idioma.Valor("lblValorInicial") + ": " + v.getValorInicial() + "%n");
                         gravarArq.printf(idioma.Valor("lblValorFinal") + ": " + v.getValor() + "%n");
                     }
@@ -92,7 +88,7 @@ public class IOExportacaoTXT {
                     
                     for (Variavel v : autodefinidas) {
                         gravarArq.printf("%n");
-                        gravarArq.printf(v.getNome());
+                        gravarArq.printf(v.getNome() + "%n");
                         gravarArq.printf(idioma.Valor("lblValorInicial") + ": " + v.getValorInicial() + "%n");
                         gravarArq.printf(idioma.Valor("lblValorFinal") + ": " + v.getValor() + "%n");
                     }
@@ -107,6 +103,10 @@ public class IOExportacaoTXT {
                     for(Caminho c : partida.getCaminhos())
                     {
                         gravarArq.printf("%n");
+                        
+                        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        
+                        gravarArq.printf(idioma.Valor("lblDataHora") + ": " + fmt.format(c.getHora()) + "%n");
                         gravarArq.printf(idioma.Valor("lblSituacao") + ": " + c.getSituacao() + "%n");
                         gravarArq.printf(idioma.Valor("lblEscolha") + ": " + c.getEscolha() + "%n");
                     }

@@ -147,6 +147,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Habilitar o botão de editar e excluir apenas quando houverem registros na lista
         btnEditarSituacao.setEnabled(!partidaDesenvolvimento.getSituacoes().isEmpty());
         btnExcluirSituacao.setEnabled(!partidaDesenvolvimento.getSituacoes().isEmpty());
+        btnPreviaSituacao.setEnabled(!partidaDesenvolvimento.getSituacoes().isEmpty());
 
         if (!partidaDesenvolvimento.getSituacoes().isEmpty()) {
             tblSituacoes.setRowSelectionInterval(0, 0);

@@ -46,7 +46,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private int acao;
 
     private final int ordem;
-    private int novaOrdem;
 
     //private static JanelaDesenvolvimentoSituacao instancia;
     JanelaDesenvolvimentoPartida jdp;
@@ -63,7 +62,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         //setModal(true);
         this.acao = acao;
         this.ordem = ordem;
-        this.novaOrdem = ordem;
 
         idioma = ControladoraIdioma.getInstancia();
         CarregaIdioma();
@@ -77,16 +75,20 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txaFalaAssistente.setDocument(new LimiteCaracteres(750));
         txaFalaAssistente.setWrapStyleWord(true);
 
-//        jspOrdem.setValue(ordem);
         if (acao == 2) {
             this.situacao = situacao;
             saida = situacao.getSaida();
+            
+            setTitle(situacao.getNome());
+            
             CarregarSituacao();
 
         } else {
             //Por default seleciona o lado do assistente como direito
             rbtDireito.setSelected(true);
 
+            setTitle(idioma.Valor("tituloNovaSituacao"));
+            
             this.situacao = new Situacao();
             saida = new Saida();
             saida.setTipoSaida(1);
@@ -331,11 +333,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 partidaDesenvolvimento.getSituacoes().add(situacao);
             }
 
-            //Se tiver mudado a ordem, efetua o tratamento
-            if (ordem != novaOrdem) {
-                AlterarOrdem();
-            }
-
             jdp.AtualizarDados();
 
             if (fecharJanela) {
@@ -405,38 +402,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             }
         }
         return ok;
-    }
-
-    /**
-     * Alterar a ordem da situação na lista de situações da partida
-     */
-    public void AlterarOrdem() {
-        ArrayList<Situacao> situacoes = new ArrayList<>();
-
-        boolean adicionou = false;
-
-        //Remove a situação atual da lista
-        partidaDesenvolvimento.getSituacoes().remove(situacao);
-
-        int qtdSituacoes = partidaDesenvolvimento.getSituacoes().size() - 1;
-
-        //Cria uma nova lista, adicionando a situação na posição desejada
-        for (int i = 0; i <= qtdSituacoes; i++) {
-            if (i + 1 == novaOrdem) {
-                situacoes.add(situacao);
-                adicionou = true;
-            }
-            situacoes.add(partidaDesenvolvimento.getSituacoes().get(i));
-        }
-
-        //Caso não tenha adicionado a situação na lista, apenas adiciona na ultima posição
-        if (!adicionou) {
-            situacoes.add(situacao);
-        }
-
-        //Atualiza a lista
-        partidaDesenvolvimento.setSituacoes(situacoes);
-
     }
 
     /**

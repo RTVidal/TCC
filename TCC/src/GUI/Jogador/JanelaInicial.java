@@ -31,12 +31,14 @@ public class JanelaInicial extends javax.swing.JFrame {
     public JanelaInicial() {
         initComponents();
         setLocationRelativeTo(jdp);
-
+        
+        idioma = ControladoraIdioma.getInstancia();
+        
         boolean primeiraExecucao = false;
         if (ControladoraIdioma.getInstancia().getIdiomaAtual() == null) {
             primeiraExecucao = true;
         }
-        idioma = ControladoraIdioma.getInstancia();
+        
         PreencheComboIdiomas();
         if (primeiraExecucao) {
             idioma.DefineIdioma("Português");
@@ -48,6 +50,8 @@ public class JanelaInicial extends javax.swing.JFrame {
         opcaoSimNao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
         opcaoSimNaoCancelar = new Object[]{idioma.Valor("sim"), idioma.Valor("nao"), idioma.Valor("btnCancelar")};
 
+        setTitle(idioma.Valor("tituloBemVindo"));
+        
         btnAbrirJogo.setText(idioma.Valor("principalBtnAbrirJogo"));
         btnEditarJogo.setText(idioma.Valor("principalBtnEditarJogo"));
         btnNovoJogo.setText(idioma.Valor("principalBtnNovoJogo"));

@@ -5,6 +5,7 @@
  */
 package GUI.Jogador;
 
+import Controle.ControladoraIdioma;
 import GUI.Suporte.CaminhosTbModel;
 import GUI.Suporte.VariaveisResultadoTbModel;
 import Modelo.Partida;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
 public class JanelaResultados extends javax.swing.JFrame {
 
     private final Partida partida;
+    private final ControladoraIdioma idioma;
     
     /**
      * Creates new form JanelaResultados
@@ -33,9 +35,25 @@ public class JanelaResultados extends javax.swing.JFrame {
         setLocationRelativeTo(jep);
         
         partida = Partida.getInstancia();
+        idioma = ControladoraIdioma.getInstancia();
+        
+        setTitle(idioma.Valor("tituloResultados"));
+        
+        CarregarIdioma();
         
         CarregarVariaveis();
         CarregarCaminho();
+    }
+    
+    public final void CarregarIdioma()
+    {
+        //Botões
+        btnExportarTXT.setText(idioma.Valor("btnExportarTXT"));
+        btnFechar.setText(idioma.Valor("btnFechar"));
+        
+        //Abas
+        painelResultados.setTitleAt(0, idioma.Valor("abaVariaveis"));
+        painelResultados.setTitleAt(1, idioma.Valor("abaCaminhos"));
     }
     
     public final void CarregarVariaveis()
@@ -92,15 +110,15 @@ public class JanelaResultados extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        painelResultados = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVariaveis = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCaminhos = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnFechar = new javax.swing.JButton();
+        btnExportarTXT = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -134,7 +152,7 @@ public class JanelaResultados extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("lblVariaveis", jPanel1);
+        painelResultados.addTab("lblVariaveis", jPanel1);
 
         tblCaminhos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,19 +184,19 @@ public class JanelaResultados extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("lblCaminho", jPanel2);
+        painelResultados.addTab("lblCaminho", jPanel2);
 
-        jButton1.setText("lblFechar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnFechar.setText("btnlFechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnFecharActionPerformed(evt);
             }
         });
 
-        jButton2.setText("lblExportarTXT");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnExportarTXT.setText("btnExportarTXT");
+        btnExportarTXT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnExportarTXTActionPerformed(evt);
             }
         });
 
@@ -186,35 +204,35 @@ public class JanelaResultados extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(painelResultados)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnExportarTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(painelResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnFechar)
+                    .addComponent(btnExportarTXT))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
       
         dispose();
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnFecharActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnExportarTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarTXTActionPerformed
         
         try {
             ExportarTXT();
@@ -222,16 +240,16 @@ public class JanelaResultados extends javax.swing.JFrame {
             Logger.getLogger(JanelaResultados.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnExportarTXTActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnExportarTXT;
+    private javax.swing.JButton btnFechar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane painelResultados;
     private javax.swing.JTable tblCaminhos;
     private javax.swing.JTable tblVariaveis;
     // End of variables declaration//GEN-END:variables

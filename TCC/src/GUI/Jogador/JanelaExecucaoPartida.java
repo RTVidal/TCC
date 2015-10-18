@@ -19,7 +19,6 @@ import Modelo.Variavel;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -89,10 +88,15 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        //assistente = partida.getAssistente();
         variaveis = partida.getVariaveis();
 
-        //CarregaAssistente();
+        if (partida.getParametrosArquivo() != null) {
+            String nomeArquivo = partida.getParametrosArquivo().getNomeDoArquivo();
+            setTitle(idioma.Valor(nomeArquivo));
+        } else {
+            setTitle(idioma.Valor("tituloNovoJogo"));
+        }
+        
         CarregarTabelaVariaveis();
         CarregaPainelSaida();
         ResetarVariaveis();
@@ -262,7 +266,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         } else {
             imagemBalao = new ImageIcon(getClass().getResource("/Recursos/balaoDireita.png"));
         }
-//        imagemBalao = new ImageIcon(getClass().getResource("/Recursos/balao.gif"));
 
         imgBalao = new PainelImagem(imagemBalao.getImage());
 
@@ -437,12 +440,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.removeAll();
         painelBotoes.revalidate();
 
-        btn = new JButton(idioma.Valor("btnProxima"));
+        btn = new JButton(idioma.Valor("btnContinuar"));
         btn.setLocation(0, 0);
         btn.setSize(20, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
-            caminho.setEscolha(idioma.Valor("btnProxima"));            
+            caminho.setEscolha(idioma.Valor("btnContinuar"));            
             partida.getCaminhos().add(caminho);
             
             CarregaSituacao(partida.getSituacoes().get(proxima));
@@ -463,6 +466,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
+            partida.getCaminhos().clear();
             dispose();
 
         });
@@ -606,14 +610,20 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.removeAll();
         painelBotoes.revalidate();
 
-        jslSaidaNumerica = new JSlider();
-        lblValorSelecionado = new JLabel();
+        painelBotoes.setBackground(new Color(223, 114, 32, 150));
+        painelBotoes.setOpaque(true);
 
-        //jslSaidaNumerica.setOpaque(false);
-        jslSaidaNumerica.setSize(800, 100);
-        jslSaidaNumerica.setLocation(100, 600);
-        lblValorSelecionado.setLocation(225, 700);
-        lblValorSelecionado.setSize(50, 50);
+        jslSaidaNumerica = new JSlider();
+        
+        lblValorSelecionado = new JLabel();
+        lblValorSelecionado.setFont(new Font("Verdana", Font.BOLD, 16));
+        lblValorSelecionado.setForeground(Color.BLUE);
+
+        jslSaidaNumerica.setOpaque(false);
+        jslSaidaNumerica.setSize(1000, 200);
+        //jslSaidaNumerica.setLocation(100, 600);
+        //lblValorSelecionado.setLocation(225, 700);
+        lblValorSelecionado.setSize(100, 50);
 
         painelBotoes.add(jslSaidaNumerica);
         painelBotoes.add(lblValorSelecionado);
@@ -644,7 +654,11 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         lblValorSelecionado.setText(String.valueOf(jslSaidaNumerica.getValue()));
 
         jslSaidaNumerica.addChangeListener((javax.swing.event.ChangeEvent evt) -> {
+                        
             lblValorSelecionado.setText(String.valueOf(jslSaidaNumerica.getValue()));
+            
+            RecarregarPainel();
+                        
         });
 
         btn = new JButton(idioma.Valor("btnConfirmar"));
@@ -652,6 +666,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.setSize(40, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
             
+            painelBotoes.setOpaque(false);
             TratarSaidaNumerica(saidas);
         });
 
@@ -660,6 +675,13 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         jslSaidaNumerica.repaint();
         lblValorSelecionado.repaint();
 
+    }
+    
+    public void RecarregarPainel()
+    {
+        jslSaidaNumerica.repaint();
+        painelBotoes.repaint();
+        painelPrincipal.repaint();
     }
 
     public void GerarSaidaSituacao(Object saida, Situacao situacaoDestino, int tipoSaida) {
@@ -891,6 +913,11 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelPrincipal = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         painelPrincipal.setPreferredSize(new java.awt.Dimension(1024, 700));
 
@@ -922,6 +949,13 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        
+        partida.getCaminhos().clear();
+        dispose();
+        
+    }//GEN-LAST:event_formWindowClosed
 
     public static void setInstancia(JanelaExecucaoPartida instancia) {
         JanelaExecucaoPartida.instancia = instancia;

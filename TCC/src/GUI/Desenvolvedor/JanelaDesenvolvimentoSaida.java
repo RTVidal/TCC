@@ -444,10 +444,18 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         } else {
             //Cria a nova situação
             Situacao novaSituacao = new Situacao();
+            
+            novaSituacao.setImagemPersonagem(situacao.getImagemPersonagem());
+            
             novaSituacao.setFalaAssistente(descricaoSaida);
             novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
             novaSituacao.setNome(descricaoSaida);
             novaSituacao.setSituacaoFinal(false);
+            
+            if(situacao.getFundoSituacao() != null)
+            {
+                novaSituacao.setFundoSituacao(situacao.getFundoSituacao());
+            }
 
             Saida saidaNovaSituacao = new Saida();
 
