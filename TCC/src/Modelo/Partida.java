@@ -18,6 +18,7 @@ public class Partida implements Serializable {
     private ArrayList<Situacao> situacoes;
     private ArrayList<Variavel> variaveis;
     private ArrayList<Avaliacao> avaliacoes;
+    private ArrayList<Caminho> caminhos;
     private String idioma;
     private static Partida instancia;
 
@@ -25,6 +26,7 @@ public class Partida implements Serializable {
         situacoes = new ArrayList<>();
         variaveis = new ArrayList<>();
         avaliacoes = new ArrayList<>();
+        caminhos = new ArrayList<>();
     }
 
     public ArrayList<Situacao> getSituacoes() {
@@ -76,5 +78,13 @@ public class Partida implements Serializable {
 
     public void setAvaliacoes(ArrayList<Avaliacao> avaliacoes) {
         this.avaliacoes = avaliacoes;
+    }
+
+    public ArrayList<Caminho> getCaminhos() {
+        return caminhos;
+    }
+
+    public void setCaminhos(ArrayList<Caminho> caminhos) {
+        this.caminhos = caminhos;
     }
 }

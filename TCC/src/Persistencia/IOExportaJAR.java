@@ -32,7 +32,7 @@ public class IOExportaJAR {
     public void criarJAR(Partida partida) throws IOException {
         if (new File("geraJar").exists()) { // Verifica se o diretório existe.
             IOPartida iop = new IOPartida();
-            boolean salvou = iop.SalvarParaExportacao(partida);
+            boolean salvou = iop.SalvarJarParaExportacao(partida);
             if (salvou) {
                 ParametrosArquivo pa = iop.selecionadorDeArquivos(3);
                 if (pa.isArquivoSelecionado()) {

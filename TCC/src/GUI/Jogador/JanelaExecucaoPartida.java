@@ -10,6 +10,7 @@ import Controle.ControladoraIdioma;
 import GUI.Suporte.PainelImagem;
 import Modelo.Acao;
 import Modelo.Avaliacao;
+import Modelo.Caminho;
 import Modelo.Partida;
 import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
@@ -18,7 +19,9 @@ import Modelo.Variavel;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -66,6 +69,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     private ArrayList<Avaliacao> avaliacoesRealizar;
 
+    private Caminho caminho;
+    
     private int tipoSaida;
     private final int modo;
 
@@ -158,9 +163,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         if (imgAvatar != null) {
             painelPrincipal.remove(imgAvatar);
         }
-        
+
         personagem = situacao.getImagemPersonagem();
-        
+
         ImageIcon imagemProvisoria = new ImageIcon();
         imagemProvisoria.setImage(personagem.getImage().getScaledInstance(150, 150, 150));
         imagemAvatar = imagemProvisoria;
@@ -420,23 +425,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
                 GerarSaidaProximaSituacao(proxima);
             }
-
         }
-    }
-
-    /**
-     * Gera a saída da apresentação do assistente
-     */
-    public void GerarSaidaApresentacao() {
-
-        btn = new JButton(idioma.Valor("btnContinuar"));
-        btn.setLocation(0, 0);
-        btn.setSize(20, 30);
-        btn.addActionListener((java.awt.event.ActionEvent e) -> {
-            controladora.IniciarJogo();
-        });
-        painelBotoes.add(btn);
-
     }
 
     /**
@@ -453,6 +442,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.setSize(20, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
+            caminho.setEscolha(idioma.Valor("btnProxima"));            
+            partida.getCaminhos().add(caminho);
+            
             CarregaSituacao(partida.getSituacoes().get(proxima));
 
         });
@@ -481,6 +473,22 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.add(btn);
         btn.repaint();
 
+        btn = new JButton(idioma.Valor("btnVerResultados"));
+
+        btn.addActionListener((java.awt.event.ActionEvent e) -> {
+
+            JanelaResultados jr = new JanelaResultados(this);
+            jr.setVisible(true);
+
+        });
+
+        btn.setLocation(0, 0);
+        btn.setSize(20, 30);
+
+        painelBotoes.add(btn);
+        btn.repaint();
+
+        //Gerar o "jogar novamente" apenas se estiver no modo execução
         if (modo == 1) {
 
             btn = new JButton(idioma.Valor("btnJogarNovamente"));
@@ -582,6 +590,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             btn.setSize(20, 30);
             btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
+                caminho.setEscolha(s.getNome());            
+                partida.getCaminhos().add(caminho);
                 CarregarTextoSaida(1, s);
                 RecarregarComponentes();
 
@@ -641,6 +651,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.setLocation(620, 600);
         btn.setSize(40, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
+            
             TratarSaidaNumerica(saidas);
         });
 
@@ -714,6 +725,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     public void TratarSaidaNumerica(ArrayList<SaidaNumerica> saidas) {
         int valorSelecionado = jslSaidaNumerica.getValue();
 
+        caminho.setEscolha(idioma.Valor("lblValorSelecionado") + " " + valorSelecionado);            
+        partida.getCaminhos().add(caminho);
+        
         //Verifica em qual saída o valor selecionado se enquadra
         for (SaidaNumerica s : saidas) {
 
@@ -830,8 +844,14 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }
 
     public void CarregaSituacao(Situacao situacao) {
-
+       
         this.situacao = situacao;
+        
+        //Carrega um novo item de caminho
+        caminho = new Caminho();
+        
+        caminho.setHora(new Date());
+        caminho.setSituacao(situacao.getNome());
 
         CarregaAssistente();
 

@@ -37,7 +37,7 @@ public class IOPartida {
     }
 
     public ParametrosArquivo selecionadorDeArquivos(int parametro) {
-        //Parametro = (1) para ler, (2) para salvar .tcc, (3) para salvar .jar
+        //Parametro = (1) para ler, (2) para salvar .tcc, (3) para salvar .jar, (4) para salvar .txt
 
         ParametrosArquivo pa = new ParametrosArquivo();
         JFileChooser jFileChooser = new JFileChooser();
@@ -69,6 +69,19 @@ public class IOPartida {
                 @Override
                 public String getDescription() {
                     return idioma.Valor("descricaoArquivoJar") + " (*.jar)";
+                }
+            });
+        }
+        if (parametro == 4) {
+            jFileChooser.setFileFilter(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    return file.isDirectory() || file.getAbsolutePath().endsWith(".txt");
+                }
+
+                @Override
+                public String getDescription() {
+                    return idioma.Valor("descricaoArquivoTxt") + " (*.txt)";
                 }
             });
         }
@@ -175,6 +188,7 @@ public class IOPartida {
             objGravar.close();
             arquivoGrav.flush();
             arquivoGrav.close();
+                        
             Partida.setInstancia(partidaSalvar);
             JanelaDesenvolvimentoPartida jdp = JanelaDesenvolvimentoPartida.getInstancia();
             jdp.CarregaIdioma();
@@ -212,7 +226,7 @@ public class IOPartida {
         }
     }
 
-    public boolean SalvarParaExportacao(Partida partidaSalvar) throws FileNotFoundException, IOException {
+    public boolean SalvarJarParaExportacao(Partida partidaSalvar) throws FileNotFoundException, IOException {
         File pasta = new File("geraJar/Arquivos");
         if (!pasta.exists()) {
             pasta.mkdir();
@@ -231,6 +245,18 @@ public class IOPartida {
         arquivoGrav.flush();
         arquivoGrav.close();
         return true;
+    }
+    
+    public boolean SalvarTXTParaExportacao(Partida partida) {
+        
+        try
+        {
+            return true;
+        }catch(Exception e)
+        {
+            return false;
+        }
+        
     }
 
 }
