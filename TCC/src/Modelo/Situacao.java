@@ -17,7 +17,7 @@ public class Situacao implements Serializable{
     private boolean situacaoFinal;
     private ImageIcon fundoSituacao;
     
-    private Assistente assistenteP;
+    private ImageIcon imagemPersonagem;
     
     //1. Esquerdo, 2. Direito
     private int ladoGeracao;
@@ -71,12 +71,12 @@ public class Situacao implements Serializable{
         this.saida = saida;
     }
 
-    public Assistente getAssistenteP() {
-        return assistenteP;
+    public ImageIcon getImagemPersonagem() {
+        return imagemPersonagem;
     }
 
-    public void setAssistenteP(Assistente assistenteP) {
-        this.assistenteP = assistenteP;
+    public void setImagemPersonagem(ImageIcon imagemPersonagem) {
+        this.imagemPersonagem = imagemPersonagem;
     }
 
     public int getLadoGeracao() {

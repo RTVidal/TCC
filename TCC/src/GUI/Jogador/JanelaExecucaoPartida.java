@@ -9,7 +9,6 @@ import Controle.ControladoraExecucao;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.PainelImagem;
 import Modelo.Acao;
-import Modelo.Assistente;
 import Modelo.Avaliacao;
 import Modelo.Partida;
 import Modelo.SaidaNumerica;
@@ -37,7 +36,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     private final ControladoraIdioma idioma;
 
-    private Assistente assistente;
+    private ImageIcon personagem;
 
     private Situacao situacao;
 
@@ -160,10 +159,10 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             painelPrincipal.remove(imgAvatar);
         }
         
-        assistente = situacao.getAssistenteP();
+        personagem = situacao.getImagemPersonagem();
         
         ImageIcon imagemProvisoria = new ImageIcon();
-        imagemProvisoria.setImage(assistente.getAvatarAssistente().getImage().getScaledInstance(150, 150, 150));
+        imagemProvisoria.setImage(personagem.getImage().getScaledInstance(150, 150, 150));
         imagemAvatar = imagemProvisoria;
 
         //Exibe o avatar
@@ -911,12 +910,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         this.controladora = controladora;
     }
 
-    public Assistente getAssistente() {
-        return assistente;
+    public ImageIcon getPersonagem() {
+        return personagem;
     }
 
-    public void setAssistente(Assistente assistente) {
-        this.assistente = assistente;
+    public void setPersonagem(ImageIcon personagem) {
+        this.personagem = personagem;
     }
 
     public ArrayList<Variavel> getVariaveis() {

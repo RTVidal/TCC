@@ -9,7 +9,6 @@ import Controle.ControladoraIdioma;
 import GUI.Suporte.LimiteCaracteres;
 import GUI.Suporte.SaidasNumericasTbModel;
 import GUI.Suporte.SaidasOpcionaisTbModel;
-import Modelo.Assistente;
 import Modelo.Avaliacao;
 import Modelo.Faixa;
 import Modelo.Partida;
@@ -17,7 +16,6 @@ import Modelo.Saida;
 import Modelo.SaidaNumerica;
 import Modelo.SaidaOpcional;
 import Modelo.Situacao;
-import Modelo.Variavel;
 import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
@@ -50,7 +48,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private final int ordem;
     private int novaOrdem;
 
-    private Assistente assistentePers;
+    private ImageIcon personagemSituacao;
     private ImageIcon avatarSelecionado;
 
     //private static JanelaDesenvolvimentoSituacao instancia;
@@ -91,7 +89,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         } else {
 
-            assistentePers = new Assistente();
+            personagemSituacao = new ImageIcon();
 
             //Por default seleciona o lado do assistente como direito
             rbtDireito.setSelected(true);
@@ -149,14 +147,14 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
             if (ordem > 1) {
                 Situacao situacaoAnterior = partidaDesenvolvimento.getSituacoes().get(ordem - 2);
-                avatarSituacaoAnterior = situacaoAnterior.getAssistenteP().getAvatarAssistente().getDescription();
+                avatarSituacaoAnterior = situacaoAnterior.getImagemPersonagem().getDescription();
             }
 
             ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
             avatar.setDescription(arquivos[i].getAbsolutePath());
             avatares.add(avatar);
-            if (situacao.getAssistenteP() != null) {
-                if (situacao.getAssistenteP().getAvatarAssistente().getDescription().equals(avatar.getDescription())) {
+            if (situacao.getImagemPersonagem() != null) {
+                if (situacao.getImagemPersonagem().getDescription().equals(avatar.getDescription())) {
                     itemSelecionado = i;
                 }
             } else {
@@ -194,7 +192,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         }
         chbSituacaoFinal.setSelected(situacao.isSituacaoFinal());
 
-        assistentePers = situacao.getAssistenteP();
+        personagemSituacao = situacao.getImagemPersonagem();
         rbtEsquerdo.setSelected(situacao.getLadoGeracao() == 1);
         rbtDireito.setSelected(situacao.getLadoGeracao() == 2);
 
@@ -332,8 +330,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                 situacao.setFundoSituacao(null);
             }
 
-            assistentePers.setAvatarAssistente(avatarSelecionado);
-            situacao.setAssistenteP(assistentePers);
+            personagemSituacao = avatarSelecionado;
+            situacao.setImagemPersonagem(personagemSituacao);
 
             //Caso a ação seja iserir, adiciona a situação à lista de situações da partida
             if (acao == 1) {

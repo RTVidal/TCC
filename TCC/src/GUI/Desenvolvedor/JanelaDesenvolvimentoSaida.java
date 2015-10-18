@@ -8,7 +8,6 @@ package GUI.Desenvolvedor;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.AcoesTbModel;
 import Modelo.Acao;
-import Modelo.Assistente;
 import Modelo.Faixa;
 import Modelo.Partida;
 import Modelo.Saida;
@@ -375,9 +374,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             //Cria a nova situação
             Situacao novaSituacao = new Situacao();
             
-            Assistente assistente  = new Assistente();
-            assistente.setAvatarAssistente(situacao.getAssistenteP().getAvatarAssistente());
-            novaSituacao.setAssistenteP(assistente);
+            novaSituacao.setImagemPersonagem(situacao.getImagemPersonagem());
             
             novaSituacao.setFalaAssistente(descricaoSaida);
             novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
