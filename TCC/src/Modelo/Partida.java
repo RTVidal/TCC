@@ -7,6 +7,7 @@ package Modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -22,11 +23,16 @@ public class Partida implements Serializable {
     private String idioma;
     private static Partida instancia;
 
+    private ImageIcon imagemDasAvaliacoes;
+    private ImageIcon avatarDasAvaliacoes;
+
     public Partida() {
         situacoes = new ArrayList<>();
         variaveis = new ArrayList<>();
         avaliacoes = new ArrayList<>();
         caminhos = new ArrayList<>();
+        imagemDasAvaliacoes = null;
+        avatarDasAvaliacoes = null;
     }
 
     public ArrayList<Situacao> getSituacoes() {
@@ -87,4 +93,21 @@ public class Partida implements Serializable {
     public void setCaminhos(ArrayList<Caminho> caminhos) {
         this.caminhos = caminhos;
     }
+
+    public ImageIcon getAvatarDasAvaliacoes() {
+        return avatarDasAvaliacoes;
+    }
+
+    public void setAvatarDasAvaliacoes(ImageIcon avatarDasAvaliacoes) {
+        this.avatarDasAvaliacoes = avatarDasAvaliacoes;
+    }
+
+    public ImageIcon getImagemDasAvaliacoes() {
+        return imagemDasAvaliacoes;
+    }
+
+    public void setImagemDasAvaliacoes(ImageIcon imagemDasAvaliacoes) {
+        this.imagemDasAvaliacoes = imagemDasAvaliacoes;
+    }
+
 }

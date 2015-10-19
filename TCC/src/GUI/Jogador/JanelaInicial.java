@@ -9,7 +9,7 @@ import Controle.ControladoraExecucao;
 import Controle.ControladoraIdioma;
 import GUI.Desenvolvedor.JanelaDesenvolvimentoPartida;
 import Modelo.Partida;
-import Persistencia.IOPartida;
+import Persistencia.IOProjetoPartida;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -70,7 +70,7 @@ public class JanelaInicial extends javax.swing.JFrame {
 
     public void ExecutarJogo() {
 
-        IOPartida iop = new IOPartida();
+        IOProjetoPartida iop = new IOProjetoPartida();
         Partida partidaExecutar = iop.LePartida();
 
         if (partidaExecutar != null) {
@@ -105,7 +105,7 @@ public class JanelaInicial extends javax.swing.JFrame {
     }
 
     public void EditarJogo(Partida partidaDesenvolvimento) {
-        IOPartida iop = new IOPartida();
+        IOProjetoPartida iop = new IOProjetoPartida();
         if (partidaDesenvolvimento == null) {
             partidaDesenvolvimento = iop.LePartida();
         }

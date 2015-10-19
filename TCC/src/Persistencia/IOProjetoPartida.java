@@ -26,12 +26,12 @@ import javax.swing.filechooser.FileFilter;
  *
  * @author Rafael
  */
-public class IOPartida {
+public class IOProjetoPartida {
 
     private final ControladoraIdioma idioma;
     private Object[] opcaoSimNaoCancelar;
 
-    public IOPartida() {
+    public IOProjetoPartida() {
         idioma = ControladoraIdioma.getInstancia();
         opcaoSimNaoCancelar = new Object[]{idioma.Valor("sim"), idioma.Valor("nao"), idioma.Valor("btnCancelar")};
     }

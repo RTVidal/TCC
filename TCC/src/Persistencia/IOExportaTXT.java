@@ -21,11 +21,11 @@ import java.util.ArrayList;
  *
  * @author Rafael
  */
-public class IOExportacaoTXT {
+public class IOExportaTXT {
 
     ControladoraIdioma idioma;
 
-    public IOExportacaoTXT() {
+    public IOExportaTXT() {
         idioma = ControladoraIdioma.getInstancia();
     }
 
@@ -34,7 +34,7 @@ public class IOExportacaoTXT {
 
             Partida partida = Partida.getInstancia();
 
-            IOPartida iop = new IOPartida();
+            IOProjetoPartida iop = new IOProjetoPartida();
             ParametrosArquivo pa = iop.selecionadorDeArquivos(4);
 
             if (pa.isArquivoSelecionado()) {

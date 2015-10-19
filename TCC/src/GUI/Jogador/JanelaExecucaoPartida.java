@@ -69,7 +69,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     private ArrayList<Avaliacao> avaliacoesRealizar;
 
     private Caminho caminho;
-    
+
     private int tipoSaida;
     private final int modo;
 
@@ -96,7 +96,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         } else {
             setTitle(idioma.Valor("tituloNovoJogo"));
         }
-        
+
         CarregarTabelaVariaveis();
         CarregaPainelSaida();
         ResetarVariaveis();
@@ -119,7 +119,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         }
     }
 
-    public void CarregaImagemFundo(Situacao situacao) {
+    public void CarregaImagemFundoSituacao(Situacao situacao) {
 
         if (imgFundo != null) {
             painelPrincipal.remove(imgFundo);
@@ -146,6 +146,24 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         imgFundo.repaint();
     }
 
+    public void CarregaImagemFundoAvaliacao() {
+        if (partida.getImagemDasAvaliacoes() != null) {
+            painelPrincipal.remove(imgFundo);
+
+            //Ajusta o tamanho da tela
+            painelPrincipal.setSize(1024, 700);
+            painelPrincipal.setOpaque(false);
+
+            imgFundo = new PainelImagem(partida.getImagemDasAvaliacoes().getImage().getScaledInstance(1024, 700, 1024));
+
+            imgFundo.setOpaque(false);
+
+            //Adiciona a imagem de fundo à tela
+            painelPrincipal.add(imgFundo);
+            imgFundo.repaint();
+        }
+    }
+
     public void CarregaPainelSaida() {
 
         painelBotoes = new JPanel();
@@ -161,40 +179,68 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     /**
      * Carrega assistente
      *
+     * @param ehSituacao
      */
-    public void CarregaAssistente() {
+    public void CarregaAssistente(boolean ehSituacao) {
+        if (ehSituacao) {
+            if (imgAvatar != null) {
+                painelPrincipal.remove(imgAvatar);
+            }
 
-        if (imgAvatar != null) {
-            painelPrincipal.remove(imgAvatar);
-        }
+            personagem = situacao.getImagemPersonagem();
 
-        personagem = situacao.getImagemPersonagem();
+            ImageIcon imagemProvisoria = new ImageIcon();
+            imagemProvisoria.setImage(personagem.getImage().getScaledInstance(150, 150, 150));
+            imagemAvatar = imagemProvisoria;
 
-        ImageIcon imagemProvisoria = new ImageIcon();
-        imagemProvisoria.setImage(personagem.getImage().getScaledInstance(150, 150, 150));
-        imagemAvatar = imagemProvisoria;
+            //Exibe o avatar
+            imgAvatar = new PainelImagem(imagemAvatar.getImage());
 
-        //Exibe o avatar
-        imgAvatar = new PainelImagem(imagemAvatar.getImage());
+            imgAvatar.setOpaque(false);
 
-        imgAvatar.setOpaque(false);
+            //Exibe o avatar do assistente
+            if (situacao.getLadoGeracao() == 1) {
+                //Gera o assistente na esquerdsa
+                imgAvatar.setLocation(60, 550);
 
-        //Exibe o avatar do assistente
-        if (situacao.getLadoGeracao() == 1) {
-            //Gera o assistente na esquerdsa
-            imgAvatar.setLocation(60, 550);
+            } else {
+                //Gera o assistente na direita
+                imgAvatar.setLocation(750, 550);
+            }
 
+            painelPrincipal.add(imgAvatar);
+
+            //O avatar precisa ser adicionado antes da imagem de fundo para ser exibido
+            if (imgFundo != null) {
+                painelPrincipal.remove(imgFundo);
+                painelPrincipal.add(imgFundo);
+            }
         } else {
-            //Gera o assistente na direita
-            imgAvatar.setLocation(750, 550);
-        }
+            if (partida.getAvatarDasAvaliacoes() == null) {
+                painelPrincipal.remove(imgAvatar);
 
-        painelPrincipal.add(imgAvatar);
+                personagem = partida.getAvatarDasAvaliacoes();
 
-        //O avatar precisa ser adicionado antes da imagem de fundo para ser exibido
-        if (imgFundo != null) {
-            painelPrincipal.remove(imgFundo);
-            painelPrincipal.add(imgFundo);
+                ImageIcon imagemProvisoria = new ImageIcon();
+                imagemProvisoria.setImage(personagem.getImage().getScaledInstance(150, 150, 150));
+                imagemAvatar = imagemProvisoria;
+
+                //Exibe o avatar
+                imgAvatar = new PainelImagem(imagemAvatar.getImage());
+
+                imgAvatar.setOpaque(false);
+
+                //Gera o assistente na direita
+                imgAvatar.setLocation(750, 550);
+
+                painelPrincipal.add(imgAvatar);
+
+                //O avatar precisa ser adicionado antes da imagem de fundo para ser exibido
+                if (imgFundo != null) {
+                    painelPrincipal.remove(imgFundo);
+                    painelPrincipal.add(imgFundo);
+                }
+            }
         }
     }
 
@@ -445,9 +491,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         btn.setSize(20, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
-            caminho.setEscolha(idioma.Valor("btnContinuar"));            
+            caminho.setEscolha(idioma.Valor("btnContinuar"));
             partida.getCaminhos().add(caminho);
-            
+
             CarregaSituacao(partida.getSituacoes().get(proxima));
 
         });
@@ -529,7 +575,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         }
 
         if (!avaliacoesRealizar.isEmpty()) {
-
+            CarregaAssistente(false);
+            CarregaImagemFundoAvaliacao();
             GerarSaidaAvaliacao(avaliacoesRealizar.get(0), -1);
 
         } else {
@@ -594,7 +641,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             btn.setSize(20, 30);
             btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
-                caminho.setEscolha(s.getNome());            
+                caminho.setEscolha(s.getNome());
                 partida.getCaminhos().add(caminho);
                 CarregarTextoSaida(1, s);
                 RecarregarComponentes();
@@ -614,7 +661,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.setOpaque(true);
 
         jslSaidaNumerica = new JSlider();
-        
+
         lblValorSelecionado = new JLabel();
         lblValorSelecionado.setFont(new Font("Verdana", Font.BOLD, 16));
         lblValorSelecionado.setForeground(Color.BLUE);
@@ -654,18 +701,18 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         lblValorSelecionado.setText(String.valueOf(jslSaidaNumerica.getValue()));
 
         jslSaidaNumerica.addChangeListener((javax.swing.event.ChangeEvent evt) -> {
-                        
+
             lblValorSelecionado.setText(String.valueOf(jslSaidaNumerica.getValue()));
-            
+
             RecarregarPainel();
-                        
+
         });
 
         btn = new JButton(idioma.Valor("btnConfirmar"));
         btn.setLocation(620, 600);
         btn.setSize(40, 30);
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
-            
+
             painelBotoes.setOpaque(false);
             TratarSaidaNumerica(saidas);
         });
@@ -676,9 +723,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         lblValorSelecionado.repaint();
 
     }
-    
-    public void RecarregarPainel()
-    {
+
+    public void RecarregarPainel() {
         jslSaidaNumerica.repaint();
         painelBotoes.repaint();
         painelPrincipal.repaint();
@@ -747,9 +793,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     public void TratarSaidaNumerica(ArrayList<SaidaNumerica> saidas) {
         int valorSelecionado = jslSaidaNumerica.getValue();
 
-        caminho.setEscolha(idioma.Valor("lblValorSelecionado") + " " + valorSelecionado);            
+        caminho.setEscolha(idioma.Valor("lblValorSelecionado") + " " + valorSelecionado);
         partida.getCaminhos().add(caminho);
-        
+
         //Verifica em qual saída o valor selecionado se enquadra
         for (SaidaNumerica s : saidas) {
 
@@ -866,22 +912,22 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }
 
     public void CarregaSituacao(Situacao situacao) {
-       
+
         this.situacao = situacao;
-        
+
         //Carrega um novo item de caminho
         caminho = new Caminho();
-        
+
         caminho.setHora(new Date());
         caminho.setSituacao(situacao.getNome());
 
-        CarregaAssistente();
+        CarregaAssistente(true);
 
         CarregaFalaAssistente(situacao.getFalaAssistente(), false);
         GerarSaidas(situacao);
 
         CarregaVariaveis();
-        CarregaImagemFundo(situacao);
+        CarregaImagemFundoSituacao(situacao);
         RecarregarComponentes();
 
     }
@@ -913,6 +959,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelPrincipal = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -951,10 +999,10 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        
+
         partida.getCaminhos().clear();
         dispose();
-        
+
     }//GEN-LAST:event_formWindowClosed
 
     public static void setInstancia(JanelaExecucaoPartida instancia) {

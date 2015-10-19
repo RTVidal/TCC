@@ -497,7 +497,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane3" max="32767" attributes="0"/>
@@ -510,6 +510,15 @@
                               <EmptySpace pref="163" max="32767" attributes="0"/>
                               <Component id="btnAjudaAvaliacoes" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="btnFundoAvaliacoes" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="lblArquivoFundo" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="lblArquivoAvatar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btnAvatarAvaliacoes" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -519,7 +528,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" pref="340" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnFundoAvaliacoes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnAvatarAvaliacoes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblArquivoFundo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblArquivoAvatar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jScrollPane3" pref="306" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnExcluirAvaliacao" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -585,6 +601,38 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirAvaliacaoActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnFundoAvaliacoes">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="btnFundoAvaliacoes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFundoAvaliacoesActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnAvatarAvaliacoes">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="btnAvatarAvaliacoes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAvatarAvaliacoesActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblArquivoFundo">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="9" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="lblArquivoFundo"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblArquivoAvatar">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="9" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="lblArquivoAvatar"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

@@ -21,12 +21,18 @@ import Modelo.SaidaOpcional;
 import Modelo.Situacao;
 import Modelo.Variavel;
 import Persistencia.IOExportaJAR;
-import Persistencia.IOPartida;
+import Persistencia.IOProjetoPartida;
+import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 /**
  *
@@ -139,7 +145,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         tblSituacoes.getColumnModel().getColumn(1).setMinWidth(20);
         tblSituacoes.getColumnModel().getColumn(1).setMaxWidth(20);
         tblSituacoes.getColumnModel().getColumn(1).setPreferredWidth(20);
-        
+
         tblSituacoes.getColumnModel().getColumn(2).setMinWidth(20);
         tblSituacoes.getColumnModel().getColumn(2).setMaxWidth(20);
         tblSituacoes.getColumnModel().getColumn(2).setPreferredWidth(20);
@@ -208,6 +214,19 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      * Atualiza a tabela de avaliações
      */
     public final void AtualizaAvaliacoes() {
+
+        if (partidaDesenvolvimento.getAvatarDasAvaliacoes() != null) {
+            lblArquivoAvatar.setText(partidaDesenvolvimento.getAvatarDasAvaliacoes().getDescription());
+        } else {
+            lblArquivoAvatar.setText(idioma.Valor("lblUsandoAssistenteDaUltimaSituacao"));
+        }
+
+        if (partidaDesenvolvimento.getImagemDasAvaliacoes() != null) {
+            lblArquivoFundo.setText(partidaDesenvolvimento.getImagemDasAvaliacoes().getDescription());
+        } else {
+            lblArquivoFundo.setText(idioma.Valor("lblUsandoFundoDaUltimaSituacao"));
+        }
+
         AvaliacoesTbModel model = new AvaliacoesTbModel(partidaDesenvolvimento.getAvaliacoes());
 
         tblAvaliacoes.setModel(model);
@@ -292,9 +311,9 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         for (SaidaOpcional so : saidasO) {
                             if (so.getSituacaoDestino() == situacao) {
                                 itensRemover.add(cont);
-                                
+
                                 ArrayList<Integer> avaliacoesRemover = new ArrayList<>();
-                                
+
                                 //Excluir todas as avaliações envolvendo a variável vinculada à saida
                                 int aux = 0;
                                 for (Avaliacao a : partidaDesenvolvimento.getAvaliacoes()) {
@@ -307,7 +326,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                                 for (int i : avaliacoesRemover) {
                                     partidaDesenvolvimento.getAvaliacoes().remove(i);
                                 }
-                                
+
                                 //Exclui a variavel vinculada à saída
                                 partidaDesenvolvimento.getVariaveis().remove(so.getVariavelSaida());
 
@@ -349,7 +368,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     }
 
     public void AlterarOrdemSituacao(Situacao s, int posicao) {
-        
+
         boolean adicionou = false;
         ArrayList<Situacao> situacoes = new ArrayList<>();
 
@@ -374,7 +393,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Atualiza a lista
         partidaDesenvolvimento.setSituacoes(situacoes);
     }
-    
+
     public void PreviaSituacao() {
         //Recuperar o item selecionado
         int index = tblSituacoes.getSelectedRow();
@@ -390,7 +409,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     public void Salvar() {
         try {
             partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
-            IOPartida iop = new IOPartida();
+            IOProjetoPartida iop = new IOProjetoPartida();
             boolean salvou = iop.SalvarDireto(partidaDesenvolvimento);
             if (salvou) {
                 partidaSalva = true;
@@ -404,7 +423,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         try {
 
             partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
-            IOPartida iop = new IOPartida();
+            IOProjetoPartida iop = new IOProjetoPartida();
             boolean salvou = iop.SalvarComo(partidaDesenvolvimento);
             if (salvou) {
                 partidaSalva = true;
@@ -417,7 +436,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     public void SalvarJogar() {
         try {
             partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
-            IOPartida iop = new IOPartida();
+            IOProjetoPartida iop = new IOProjetoPartida();
             boolean salvou = iop.SalvarDireto(partidaDesenvolvimento);
             if (salvou) {
                 partidaSalva = true;
@@ -658,6 +677,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnNovaAvaliacao = new javax.swing.JButton();
         btnEditarAvaliacao = new javax.swing.JButton();
         btnExcluirAvaliacao = new javax.swing.JButton();
+        btnFundoAvaliacoes = new javax.swing.JButton();
+        btnAvatarAvaliacoes = new javax.swing.JButton();
+        lblArquivoFundo = new javax.swing.JLabel();
+        lblArquivoAvatar = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuArquivo = new javax.swing.JMenu();
@@ -924,6 +947,26 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             }
         });
 
+        btnFundoAvaliacoes.setText("btnFundoAvaliacoes");
+        btnFundoAvaliacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFundoAvaliacoesActionPerformed(evt);
+            }
+        });
+
+        btnAvatarAvaliacoes.setText("btnAvatarAvaliacoes");
+        btnAvatarAvaliacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvatarAvaliacoesActionPerformed(evt);
+            }
+        });
+
+        lblArquivoFundo.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        lblArquivoFundo.setText("lblArquivoFundo");
+
+        lblArquivoAvatar.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        lblArquivoAvatar.setText("lblArquivoAvatar");
+
         javax.swing.GroupLayout abaAvaliacoesLayout = new javax.swing.GroupLayout(abaAvaliacoes);
         abaAvaliacoes.setLayout(abaAvaliacoesLayout);
         abaAvaliacoesLayout.setHorizontalGroup(
@@ -939,14 +982,28 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExcluirAvaliacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
-                        .addComponent(btnAjudaAvaliacoes)))
+                        .addComponent(btnAjudaAvaliacoes))
+                    .addGroup(abaAvaliacoesLayout.createSequentialGroup()
+                        .addComponent(btnFundoAvaliacoes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblArquivoFundo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblArquivoAvatar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAvatarAvaliacoes)))
                 .addContainerGap())
         );
         abaAvaliacoesLayout.setVerticalGroup(
             abaAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaAvaliacoesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                .addGroup(abaAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnFundoAvaliacoes)
+                    .addComponent(btnAvatarAvaliacoes)
+                    .addComponent(lblArquivoFundo)
+                    .addComponent(lblArquivoAvatar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(abaAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluirAvaliacao)
@@ -1190,13 +1247,13 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             }
         }
         if (coluna == 2) {
-            if (index != (partidaDesenvolvimento.getSituacoes().size()-1)) {
+            if (index != (partidaDesenvolvimento.getSituacoes().size() - 1)) {
                 Situacao s = (Situacao) tblSituacoes.getValueAt(index, 0);
                 AlterarOrdemSituacao(s, index + 1);
                 AtualizaSituacoes();
             }
         }
-        
+
     }//GEN-LAST:event_tblSituacoesMouseClicked
 
     private void btnPreviaSituacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviaSituacaoActionPerformed
@@ -1218,6 +1275,43 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         NovaSituacao();
     }//GEN-LAST:event_btnNovaSituacaoActionPerformed
 
+    private void btnAvatarAvaliacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvatarAvaliacoesActionPerformed
+        JanelaSelecionaAvatar jsa = new JanelaSelecionaAvatar();
+        jsa.setVisible(true);
+    }//GEN-LAST:event_btnAvatarAvaliacoesActionPerformed
+
+    private void btnFundoAvaliacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFundoAvaliacoesActionPerformed
+        JFileChooser fileChooser = new javax.swing.JFileChooser();
+        fileChooser.setDialogTitle(idioma.Valor("lblSelImagem"));
+        fileChooser.setFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                return file.isDirectory() || file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".png") || file.getAbsolutePath().endsWith(".bmp") || file.getAbsolutePath().endsWith(".gif");
+            }
+
+            @Override
+            public String getDescription() {
+                return idioma.Valor("descricaoArquivosImagem") + " (*.bmp, *.gif, *.jpg, *.png)";
+            }
+        });
+
+        int returnVal = fileChooser.showDialog(this, idioma.Valor("btnSelecionar"));
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try {
+                Image image = ImageIO.read(file);
+                ImageIcon imagec = new ImageIcon();
+                imagec.setImage(image);
+                imagec.setDescription(file.getName());
+                partidaDesenvolvimento.setImagemDasAvaliacoes(imagec);
+                AtualizaAvaliacoes();
+            } catch (Exception ex) {
+                System.out.println("problem accessing file" + file.getAbsolutePath());
+            }
+        }
+
+    }//GEN-LAST:event_btnFundoAvaliacoesActionPerformed
+
     public static JanelaDesenvolvimentoPartida getInstancia() {
         if (instancia == null) {
             instancia = new JanelaDesenvolvimentoPartida();
@@ -1237,12 +1331,14 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JButton btnAjudaAvaliacoes;
     private javax.swing.JButton btnAjudaSituacoes;
     private javax.swing.JButton btnAjudaVariaveis;
+    private javax.swing.JButton btnAvatarAvaliacoes;
     private javax.swing.JButton btnEditarAvaliacao;
     private javax.swing.JButton btnEditarSituacao;
     private javax.swing.JButton btnEditarVariavel;
     private javax.swing.JButton btnExcluirAvaliacao;
     private javax.swing.JButton btnExcluirSituacao;
     private javax.swing.JButton btnExcluirVariavel;
+    private javax.swing.JButton btnFundoAvaliacoes;
     private javax.swing.JButton btnNovaAvaliacao;
     private javax.swing.JButton btnNovaSituacao;
     private javax.swing.JButton btnNovaVariavel;
@@ -1260,6 +1356,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblArquivoAvatar;
+    private javax.swing.JLabel lblArquivoFundo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JMenu menuAjuda;
     private javax.swing.JMenu menuArquivo;

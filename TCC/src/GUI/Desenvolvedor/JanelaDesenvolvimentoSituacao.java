@@ -25,6 +25,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 /**
  *
@@ -78,9 +79,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         if (acao == 2) {
             this.situacao = situacao;
             saida = situacao.getSaida();
-            
+
             setTitle(situacao.getNome());
-            
+
             CarregarSituacao();
 
         } else {
@@ -88,7 +89,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             rbtDireito.setSelected(true);
 
             setTitle(idioma.Valor("tituloNovaSituacao"));
-            
+
             this.situacao = new Situacao();
             saida = new Saida();
             saida.setTipoSaida(1);
@@ -146,7 +147,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             }
 
             ImageIcon avatar = new ImageIcon(arquivos[i].getAbsolutePath());
-            avatar.setDescription(arquivos[i].getAbsolutePath());
+            avatar.setDescription(arquivos[i].getName());
             avatares.add(avatar);
             if (situacao.getImagemPersonagem() != null) {
                 if (situacao.getImagemPersonagem().getDescription().equals(avatar.getDescription())) {
@@ -931,7 +932,16 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         fileChooser = new javax.swing.JFileChooser();
 
         fileChooser.setDialogTitle(idioma.Valor("lblSelImagem"));
-        fileChooser.setFileFilter(new MyCustomFilter());
+        fileChooser.setFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                return file.isDirectory() || file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".png") || file.getAbsolutePath().endsWith(".bmp") || file.getAbsolutePath().endsWith(".gif");
+            }
+            @Override
+            public String getDescription() {
+                return idioma.Valor("descricaoArquivosImagem") + " (*.bmp, *.gif, *.jpg, *.png)";
+            }
+        });
 
         int returnVal = fileChooser.showDialog(this, idioma.Valor("btnSelecionar"));
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -1071,25 +1081,4 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JTextField txtArquivo;
     private javax.swing.JTextField txtNomeSituacao;
     // End of variables declaration//GEN-END:variables
-}
-
-/**
- * Classe responsável pela insersão do arquivo
- *
- * @author Rafael
- */
-class MyCustomFilter extends javax.swing.filechooser.FileFilter {
-
-    @Override
-    public boolean accept(File file) {
-        // Allow only directories, or files with ".txt" extension
-        return file.isDirectory() || file.getAbsolutePath().endsWith(".jpg");
-    }
-
-    @Override
-    public String getDescription() {
-        // This description will be displayed in the dialog,
-        // hard-coded = ugly, should be done via I18N
-        return "Image (*.jpg)";
-    }
 }
