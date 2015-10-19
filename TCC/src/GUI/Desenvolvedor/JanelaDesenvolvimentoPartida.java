@@ -90,6 +90,8 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         btnNovaAvaliacao.setText(idioma.Valor("btnNovaAvaliacao"));
         btnEditarAvaliacao.setText(idioma.Valor("btnEditarAvaliacao"));
         btnExcluirAvaliacao.setText(idioma.Valor("btnExcluirAvaliacao"));
+        btnFundoAvaliacoes.setText(idioma.Valor("btnFundoAvaliacoes"));
+        btnAvatarAvaliacoes.setText(idioma.Valor("btnAvatarAvaliacoes"));
 
         //Label
         if (partidaDesenvolvimento.getParametrosArquivo() != null) {
@@ -120,6 +122,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         menuItemProjetosExemploJogar.setText(idioma.Valor("mniProjetosExemploJogar"));
         menuItemSobre.setText(idioma.Valor("mniSobre"));
         menuItemSalvarJogar.setText(idioma.Valor("mniSalvarJogar"));
+        mnItemExportarExecutavel.setText(idioma.Valor("mniExportarExecutavel"));
     }
 
     public final void AtualizarDados() {
@@ -441,21 +444,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             if (salvou) {
                 partidaSalva = true;
                 dispose();
-                Partida partidaExecutar = partidaDesenvolvimento;
-                if (partidaExecutar != null) {
-                    if (!((idioma.getIdiomaAtual()).equalsIgnoreCase(partidaExecutar.getIdioma()))) {
-                        int i = JOptionPane.showOptionDialog(null, idioma.Valor("mensagemTrocaIdioma"), idioma.Valor("aviso"),
-                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcaoSimNao, opcaoSimNao[0]);
-                        if (i == 0) {
-                            idioma.DefineIdioma(partidaExecutar.getIdioma());
-                            CarregaIdioma();
-                        }
-                    }
-                    Partida.setInstancia(partidaExecutar);
-                    ControladoraExecucao ce = new ControladoraExecucao();
-                    ce.ExecutaPartida();
-                    JanelaDesenvolvimentoPartida.setInstancia(null);
-                }
+                Partida.setInstancia(partidaDesenvolvimento);
+                ControladoraExecucao ce = new ControladoraExecucao();
+                ce.ExecutaPartida();
+                JanelaDesenvolvimentoPartida.setInstancia(null);
             }
         } catch (IOException ex) {
             Logger.getLogger(JanelaDesenvolvimentoPartida.class.getName()).log(Level.SEVERE, null, ex);
@@ -808,7 +800,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         .addComponent(btnEditarSituacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExcluirSituacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
                         .addComponent(btnPreviaSituacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAjudaSituacoes)))
@@ -879,7 +871,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             .addGroup(abaVariaveisLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(abaVariaveisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
                     .addGroup(abaVariaveisLayout.createSequentialGroup()
                         .addComponent(btnNovaVariavel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -981,7 +973,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                         .addComponent(btnEditarAvaliacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExcluirAvaliacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 319, Short.MAX_VALUE)
                         .addComponent(btnAjudaAvaliacoes))
                     .addGroup(abaAvaliacoesLayout.createSequentialGroup()
                         .addComponent(btnFundoAvaliacoes)
@@ -1099,10 +1091,10 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(painelConfiguracoes))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(painelConfiguracoes)
+                    .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

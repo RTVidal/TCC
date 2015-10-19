@@ -76,7 +76,8 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         btnCancelar.setText(idioma.Valor("btnCancelar"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
         lblTitulo.setText(idioma.Valor("tituloDesenvAvaliacao"));
-        this.setTitle(idioma.Valor("tituloDesenvAvaliacao"));
+        
+        setTitle(idioma.Valor("tituloDesenvAvaliacao"));
     }
 
     /**
@@ -260,6 +261,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         btnConfirmar.setText("btnConfirmar");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {

@@ -50,7 +50,7 @@ public class JanelaInicial extends javax.swing.JFrame {
         opcaoSimNao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
         opcaoSimNaoCancelar = new Object[]{idioma.Valor("sim"), idioma.Valor("nao"), idioma.Valor("btnCancelar")};
 
-        setTitle(idioma.Valor("tituloBemVindo"));
+        setTitle(idioma.Valor("bordaInicial"));
         
         btnAbrirJogo.setText(idioma.Valor("principalBtnAbrirJogo"));
         btnEditarJogo.setText(idioma.Valor("principalBtnEditarJogo"));
@@ -91,13 +91,13 @@ public class JanelaInicial extends javax.swing.JFrame {
                 ControladoraExecucao ce = new ControladoraExecucao();
                 ce.ExecutaPartida();
             } else {
-                int selecionada = JOptionPane.showOptionDialog(null, idioma.Valor("msgNaoHaSituacaoInicial"),
+                int selecionada = JOptionPane.showOptionDialog(null, idioma.Valor("msgNaoHaSituacoes"),
                         idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                         null, opcaoSimNao, opcaoSimNao[0]);
                 if (selecionada == 0) {
                     EditarJogo(partidaExecutar);
                 } else {
-                    JOptionPane.showMessageDialog(null, idioma.Valor("msgNaoExecutarSemInicial"),
+                    JOptionPane.showMessageDialog(null, idioma.Valor("msgNaoExecutarSemSituacoes"),
                                     idioma.Valor("aviso"), JOptionPane.WARNING_MESSAGE);
                 }
             }

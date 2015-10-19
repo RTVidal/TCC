@@ -100,6 +100,10 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         CarregarTabelaVariaveis();
         CarregaPainelSaida();
         ResetarVariaveis();
+        
+        if (modo != 1) {
+            setUndecorated(false);
+        }
 
     }
 

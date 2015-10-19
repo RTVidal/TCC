@@ -28,6 +28,7 @@ public class JanelaTexto extends javax.swing.JDialog {
         idioma = ControladoraIdioma.getInstancia();
         txaAjuda.setText(idioma.Valor(textoAjuda));
         btnOk.setText(idioma.Valor("btnOk"));
+        setTitle(idioma.Valor("btnAjuda"));
     }
 
     /**

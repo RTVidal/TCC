@@ -68,6 +68,8 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
         btnCancelar.setText(idioma.Valor("btnCancelar"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
         lblTitulo.setText(idioma.Valor("tituloDesenvVariavel"));
+        
+        setTitle(idioma.Valor("tituloDesenvVariavel"));
     }
 
     public final void CarregarVariavel() {
@@ -166,6 +168,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
         lblTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         lblNome.setText("lblNome");
 

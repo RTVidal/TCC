@@ -53,6 +53,8 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
         btnCancelar.setText(idioma.Valor("btnCancelar"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
         lblTitulo.setText(idioma.Valor("tituloDesenvAcao"));
+        
+        setTitle(idioma.Valor("tituloDesenvAcao"));
     }
 
     public final void CarregarAcao() {
@@ -144,6 +146,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
         jspValor = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTitulo.setText("lblTitulo");

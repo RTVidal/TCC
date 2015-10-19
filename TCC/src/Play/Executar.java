@@ -40,7 +40,7 @@ public class Executar extends Thread {
                     ControladoraExecucao ce = new ControladoraExecucao();
                     ce.ExecutaPartida();
                 } else {
-                    JOptionPane.showMessageDialog(null, idioma.Valor("msgNaoExecutarSemInicial"),
+                    JOptionPane.showMessageDialog(null, idioma.Valor("msgNaoExecutarSemSituacoes"),
                             idioma.Valor("aviso"), JOptionPane.WARNING_MESSAGE);
                 }
             } catch (Exception e) {

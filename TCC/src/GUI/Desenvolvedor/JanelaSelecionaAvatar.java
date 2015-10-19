@@ -44,8 +44,8 @@ public class JanelaSelecionaAvatar extends javax.swing.JDialog {
     public final void CarregaIdioma() {
         btnCancelar.setText(idioma.Valor("btnCancelar"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
-        lblPersonagemDasAvaliacoes.setText(idioma.Valor("lblPersonagemDasAvaliacoes"));
-        setTitle(idioma.Valor("tituloSelecioneAvatarAvaliacoes"));
+        lblPersonagemAvaliacoes.setText(idioma.Valor("lblPersonagemAvaliacoes"));
+        setTitle(idioma.Valor("bordaSelecioneAvatar"));
     }
 
     /**
@@ -102,7 +102,7 @@ public class JanelaSelecionaAvatar extends javax.swing.JDialog {
         jScrollPane3 = new javax.swing.JScrollPane();
         lstAvatares = new javax.swing.JList();
         imgAvatar = new javax.swing.JLabel();
-        lblPersonagemDasAvaliacoes = new javax.swing.JLabel();
+        lblPersonagemAvaliacoes = new javax.swing.JLabel();
         btnConfirmar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -123,7 +123,7 @@ public class JanelaSelecionaAvatar extends javax.swing.JDialog {
 
         imgAvatar.setText("imgAvatar");
 
-        lblPersonagemDasAvaliacoes.setText("lblPersonagemDasAvaliacoes");
+        lblPersonagemAvaliacoes.setText("lblPersonagemAvaliacoes");
 
         javax.swing.GroupLayout pnlAssistentePLayout = new javax.swing.GroupLayout(pnlAssistenteP);
         pnlAssistenteP.setLayout(pnlAssistentePLayout);
@@ -136,13 +136,13 @@ public class JanelaSelecionaAvatar extends javax.swing.JDialog {
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(imgAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblPersonagemDasAvaliacoes))
+                    .addComponent(lblPersonagemAvaliacoes))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlAssistentePLayout.setVerticalGroup(
             pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAssistentePLayout.createSequentialGroup()
-                .addComponent(lblPersonagemDasAvaliacoes)
+                .addComponent(lblPersonagemAvaliacoes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(imgAvatar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
@@ -214,7 +214,7 @@ public class JanelaSelecionaAvatar extends javax.swing.JDialog {
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JLabel imgAvatar;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel lblPersonagemDasAvaliacoes;
+    private javax.swing.JLabel lblPersonagemAvaliacoes;
     private javax.swing.JList lstAvatares;
     private javax.swing.JPanel pnlAssistenteP;
     // End of variables declaration//GEN-END:variables

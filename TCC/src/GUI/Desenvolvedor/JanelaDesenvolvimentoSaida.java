@@ -109,7 +109,6 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
      * Carrega os recursos da janela de acordo com o idioma selecionado
      */
     public final void CarregaIdioma() {
-        lblTitulo.setText(idioma.Valor("tituloDesenvSaida"));
         msgSalvarSaidaHabAcoes.setText(idioma.Valor("msgSalvarSaidaHabAcoes"));
         lblDescricao.setText(idioma.Valor("lblDescricao"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
@@ -124,6 +123,9 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         opcaoSaida.setTitleAt(0, idioma.Valor("tabSaidaOpcoes"));
         opcaoSaida.setTitleAt(1, idioma.Valor("tabSaidaNumerica"));
+        
+        lblTitulo.setText(idioma.Valor("tituloDesenvSaida"));
+        setTitle(idioma.Valor("bordaDesenvSaida"));
     }
 
     /**
@@ -555,6 +557,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         lblDescricao.setText("lblDescricao");
 

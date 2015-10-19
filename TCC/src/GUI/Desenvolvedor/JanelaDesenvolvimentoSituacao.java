@@ -105,7 +105,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }
 
     public final void CarregaIdioma() {
-        lblTitulo.setText(idioma.Valor("tituloDesenvolvimentoSituacao"));
         btnCancelar.setText(idioma.Valor("btnCancelar"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
         btnAjuda.setText(idioma.Valor("btnAjuda"));
@@ -121,6 +120,13 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         lblImgFundo.setText(idioma.Valor("lblImgFundo"));
         lblTipoSaida.setText(idioma.Valor("lblTipoSaida"));
         lblResolucaoIdeal.setText(idioma.Valor("lblResolucaoIdeal"));
+        lblTitulo.setText(idioma.Valor("tituloDesenvolvimentoSituacao"));
+        rbtDireito.setText(idioma.Valor("lblDireito"));
+        rbtEsquerdo.setText(idioma.Valor("lblEsquerdo"));
+        lblGerarNoLado.setText(idioma.Valor("lblGerarNoLado"));
+        lblPersonagemDaSituacao.setText(idioma.Valor("lblPersonagemDaSituacao"));
+        
+        setTitle(idioma.Valor("tituloDesenvolvimentoSituacao"));
     }
 
     /**
@@ -596,7 +602,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         lstAvatares = new javax.swing.JList();
         imgAvatar = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblPersonagemDaSituacao = new javax.swing.JLabel();
         botaoRotacionar = new javax.swing.JToggleButton();
         lblSaidasDessaSituacao = new javax.swing.JLabel();
         lblGerarNoLado = new javax.swing.JLabel();
@@ -716,7 +722,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         imgAvatar.setText("imgAvatar");
 
-        jLabel2.setText("lblPersonagemDaSituacao");
+        lblPersonagemDaSituacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblPersonagemDaSituacao.setText("lblPersonagemDaSituacao");
 
         botaoRotacionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/iconeRotacionar.png"))); // NOI18N
         botaoRotacionar.addActionListener(new java.awt.event.ActionListener() {
@@ -738,13 +745,13 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                         .addGroup(pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(imgAvatar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(botaoRotacionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jLabel2))
+                    .addComponent(lblPersonagemDaSituacao))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlAssistentePLayout.setVerticalGroup(
             pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAssistentePLayout.createSequentialGroup()
-                .addComponent(jLabel2)
+                .addComponent(lblPersonagemDaSituacao)
                 .addGroup(pnlAssistentePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlAssistentePLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
@@ -816,13 +823,13 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
                                 .addComponent(lblGerarNoLado)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(169, 169, 169)
-                                .addComponent(rbtEsquerdo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbtDireito)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCancelar)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(169, 169, 169)
+                                        .addComponent(rbtEsquerdo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rbtDireito))
+                                    .addComponent(btnCancelar))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1056,7 +1063,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JComboBox cbxTipoSaida;
     private javax.swing.JCheckBox chbSituacaoFinal;
     private javax.swing.JLabel imgAvatar;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1068,6 +1074,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     private javax.swing.JLabel lblGerarNoLado;
     private javax.swing.JLabel lblImgFundo;
     private javax.swing.JLabel lblNome;
+    private javax.swing.JLabel lblPersonagemDaSituacao;
     private javax.swing.JLabel lblResolucaoIdeal;
     private javax.swing.JLabel lblSaidasDessaSituacao;
     private javax.swing.JLabel lblTipoSaida;
