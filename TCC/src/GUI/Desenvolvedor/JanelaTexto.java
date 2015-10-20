@@ -6,6 +6,7 @@
 package GUI.Desenvolvedor;
 
 import Controle.ControladoraIdioma;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,15 +19,19 @@ public class JanelaTexto extends javax.swing.JDialog {
     /**
      * Creates new form JanelaAjuda
      *
-     * @param textoAjuda
+     * @param texto
      */
-    public JanelaTexto(String textoAjuda) {
+    public JanelaTexto(ArrayList<String> texto) {
         initComponents();
-        setLocationRelativeTo(null);
         setModal(true);
 
         idioma = ControladoraIdioma.getInstancia();
-        txaAjuda.setText(idioma.Valor(textoAjuda));
+        for (int i = 0; i < texto.size(); i++) {
+            if (i == 0) {
+                txaAjuda.setText(texto.get(i));
+            } else {
+            txaAjuda.setText(txaAjuda.getText() + "\n" + texto.get(i));}
+        }
         btnOk.setText(idioma.Valor("btnOk"));
         setTitle(idioma.Valor("btnAjuda"));
     }
@@ -45,11 +50,14 @@ public class JanelaTexto extends javax.swing.JDialog {
         btnOk = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         txaAjuda.setEditable(false);
-        txaAjuda.setColumns(20);
+        txaAjuda.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         txaAjuda.setLineWrap(true);
-        txaAjuda.setRows(5);
+        txaAjuda.setWrapStyleWord(true);
+        txaAjuda.setMaximumSize(new java.awt.Dimension(598, 398));
+        txaAjuda.setMinimumSize(new java.awt.Dimension(598, 398));
         jScrollPane1.setViewportView(txaAjuda);
 
         btnOk.setText("btnOk");
@@ -63,23 +71,23 @@ public class JanelaTexto extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnOk)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnOk)))
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(btnOk)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();

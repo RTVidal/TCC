@@ -5,6 +5,7 @@
  */
 package GUI.Desenvolvedor;
 
+import Controle.ControladoraAjuda;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.LimiteCaracteres;
 import GUI.Suporte.SaidasNumericasTbModel;
@@ -633,6 +634,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         lblTitulo.setText("lblTitulo");
 
         btnAjuda.setText("btnAjuda");
+        btnAjuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAjudaActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("<html>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|<br>|");
 
@@ -648,6 +654,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         txaFalaAssistente.setColumns(20);
         txaFalaAssistente.setLineWrap(true);
         txaFalaAssistente.setRows(5);
+        txaFalaAssistente.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txaFalaAssistente);
 
         txtArquivo.setEnabled(false);
@@ -1049,6 +1056,11 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         icone.setImage(situacao.getImagemPersonagem().getImage().getScaledInstance(100, 100, 100));
         imgAvatar.setIcon(icone);
     }//GEN-LAST:event_botaoRotacionarActionPerformed
+
+    private void btnAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjudaActionPerformed
+        ControladoraAjuda caj = new ControladoraAjuda();
+        caj.ExibirAjuda(this, "DesenvolvimentoSituacao");
+    }//GEN-LAST:event_btnAjudaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton botaoRotacionar;

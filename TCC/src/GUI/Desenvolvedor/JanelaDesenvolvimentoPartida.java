@@ -5,6 +5,7 @@
  */
 package GUI.Desenvolvedor;
 
+import Controle.ControladoraAjuda;
 import Controle.ControladoraExecucao;
 import Controle.ControladoraIdioma;
 import GUI.Jogador.JanelaExecucaoPartida;
@@ -785,6 +786,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         tblSituacoes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         btnAjudaSituacoes.setText("btnAjuda");
+        btnAjudaSituacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAjudaSituacoesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout abaSituacoesLayout = new javax.swing.GroupLayout(abaSituacoes);
         abaSituacoes.setLayout(abaSituacoesLayout);
@@ -810,7 +816,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             abaSituacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(abaSituacoesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(abaSituacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovaSituacao)
@@ -863,6 +869,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         });
 
         btnAjudaVariaveis.setText("btnAjuda");
+        btnAjudaVariaveis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAjudaVariaveisActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout abaVariaveisLayout = new javax.swing.GroupLayout(abaVariaveis);
         abaVariaveis.setLayout(abaVariaveisLayout);
@@ -886,7 +897,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
             abaVariaveisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(abaVariaveisLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(abaVariaveisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovaVariavel)
@@ -917,6 +928,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         jScrollPane3.setViewportView(tblAvaliacoes);
 
         btnAjudaAvaliacoes.setText("btnAjuda");
+        btnAjudaAvaliacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAjudaAvaliacoesActionPerformed(evt);
+            }
+        });
 
         btnNovaAvaliacao.setText("btnNovaAvaliacao");
         btnNovaAvaliacao.addActionListener(new java.awt.event.ActionListener() {
@@ -995,7 +1011,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
                     .addComponent(lblArquivoFundo)
                     .addComponent(lblArquivoAvatar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(abaAvaliacoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluirAvaliacao)
@@ -1067,6 +1083,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         menuItemManualUtilizacao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         menuItemManualUtilizacao.setText("mniManualUtilizacao");
+        menuItemManualUtilizacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemManualUtilizacaoActionPerformed(evt);
+            }
+        });
         menuAjuda.add(menuItemManualUtilizacao);
 
         menuItemProjetosExemploEditar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -1079,6 +1100,11 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         menuItemSobre.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         menuItemSobre.setText("mniSobre");
+        menuItemSobre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemSobreActionPerformed(evt);
+            }
+        });
         menuAjuda.add(menuItemSobre);
 
         jMenuBar1.add(menuAjuda);
@@ -1099,7 +1125,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(lblTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(painelConfiguracoes)
@@ -1303,6 +1329,31 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnFundoAvaliacoesActionPerformed
+
+    private void menuItemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSobreActionPerformed
+        ControladoraAjuda caj = new ControladoraAjuda();
+        caj.ExibirAjuda(this, "Sobre");
+    }//GEN-LAST:event_menuItemSobreActionPerformed
+
+    private void menuItemManualUtilizacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemManualUtilizacaoActionPerformed
+        ControladoraAjuda caj = new ControladoraAjuda();
+        caj.ManualUtilizacao(this);
+    }//GEN-LAST:event_menuItemManualUtilizacaoActionPerformed
+
+    private void btnAjudaSituacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjudaSituacoesActionPerformed
+        ControladoraAjuda caj = new ControladoraAjuda();
+        caj.ExibirAjuda(this, "DesenvolvimentoPartidaAbaSituacoes");
+    }//GEN-LAST:event_btnAjudaSituacoesActionPerformed
+
+    private void btnAjudaVariaveisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjudaVariaveisActionPerformed
+        ControladoraAjuda caj = new ControladoraAjuda();
+        caj.ExibirAjuda(this, "DesenvolvimentoPartidaAbaVariaveis");
+    }//GEN-LAST:event_btnAjudaVariaveisActionPerformed
+
+    private void btnAjudaAvaliacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjudaAvaliacoesActionPerformed
+        ControladoraAjuda caj = new ControladoraAjuda();
+        caj.ExibirAjuda(this, "DesenvolvimentoPartidaAbaAvaliacoes");
+    }//GEN-LAST:event_btnAjudaAvaliacoesActionPerformed
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
         if (instancia == null) {

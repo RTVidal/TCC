@@ -5,6 +5,7 @@
  */
 package GUI.Desenvolvedor;
 
+import Controle.ControladoraAjuda;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.LimiteCaracteres;
 import Modelo.Acao;
@@ -191,6 +192,11 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
         });
 
         btnAjuda.setText("btnAjuda");
+        btnAjuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAjudaActionPerformed(evt);
+            }
+        });
 
         jspValorInicial.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
 
@@ -260,6 +266,11 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjudaActionPerformed
+        ControladoraAjuda caj = new ControladoraAjuda();
+        caj.ExibirAjuda(this, "DesenvolvimentoVariavel");
+    }//GEN-LAST:event_btnAjudaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAjuda;

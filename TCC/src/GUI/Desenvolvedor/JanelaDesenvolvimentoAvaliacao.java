@@ -5,6 +5,7 @@
  */
 package GUI.Desenvolvedor;
 
+import Controle.ControladoraAjuda;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.LimiteCaracteres;
 import Modelo.Avaliacao;
@@ -302,7 +303,9 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         jspValorFinal.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
 
         txaTextoAvaliacao.setColumns(20);
+        txaTextoAvaliacao.setLineWrap(true);
         txaTextoAvaliacao.setRows(5);
+        txaTextoAvaliacao.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txaTextoAvaliacao);
 
         rbtPadrao.setText("lblPadrao");
@@ -428,7 +431,8 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxVariavelActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        ControladoraAjuda caj = new ControladoraAjuda();
+        caj.ExibirAjuda(this, "DesenvolvimentoAvaliacao");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void rbtPadraoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtPadraoActionPerformed

@@ -5,6 +5,7 @@
  */
 package GUI.Desenvolvedor;
 
+import Controle.ControladoraAjuda;
 import Controle.ControladoraIdioma;
 import Modelo.Acao;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
         btnCancelar.setText(idioma.Valor("btnCancelar"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
         lblTitulo.setText(idioma.Valor("tituloDesenvAcao"));
-        
+
         setTitle(idioma.Valor("tituloDesenvAcao"));
     }
 
@@ -244,7 +245,8 @@ public class JanelaDesenvolvimentoAcao extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjudaActionPerformed
-
+        ControladoraAjuda caj = new ControladoraAjuda();
+        caj.ExibirAjuda(this, "DesenvolvimentoAcao");
     }//GEN-LAST:event_btnAjudaActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed

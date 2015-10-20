@@ -5,6 +5,7 @@
  */
 package GUI.Desenvolvedor;
 
+import Controle.ControladoraAjuda;
 import Controle.ControladoraIdioma;
 import GUI.Suporte.AcoesTbModel;
 import Modelo.Acao;
@@ -689,6 +690,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         txaFalaAssistente.setColumns(20);
         txaFalaAssistente.setLineWrap(true);
         txaFalaAssistente.setRows(5);
+        txaFalaAssistente.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txaFalaAssistente);
 
         lblFalaAssistente.setText("Fala assistente:");
@@ -719,6 +721,11 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         });
 
         btnAjuda.setText("btnAjuda");
+        btnAjuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAjudaActionPerformed(evt);
+            }
+        });
 
         msgSalvarSaidaHabAcoes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         msgSalvarSaidaHabAcoes.setForeground(new java.awt.Color(255, 0, 0));
@@ -905,6 +912,11 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_tblAcoesMouseClicked
+
+    private void btnAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjudaActionPerformed
+        ControladoraAjuda caj = new ControladoraAjuda();
+        caj.ExibirAjuda(this, "DesenvolvimentoSaida");
+    }//GEN-LAST:event_btnAjudaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAjuda;
