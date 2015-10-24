@@ -101,9 +101,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         CarregaPainelSaida();
         ResetarVariaveis();
         
-        if (modo != 1) {
-            setUndecorated(false);
-        }
+//        if (modo != 1) {
+//            setUndecorated(false);
+//        }
 
     }
 
@@ -963,7 +963,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelPrincipal = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {

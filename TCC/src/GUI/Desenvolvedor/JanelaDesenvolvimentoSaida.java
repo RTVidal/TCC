@@ -220,11 +220,22 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         msgSalvarSaidaHabAcoes.setVisible(modo == 1);
         btnSalvarSaidaAcoes.setVisible(modo == 1);
 
+        ArrayList<Acao> acoesExibir = new ArrayList<>();
+                
         AcoesTbModel model;
 
         if (saida.getTipoSaida() == 1) {
-            model = new AcoesTbModel(saidaOpcao.getAcoes());
-            btnEditarAcao.setEnabled(!saidaOpcao.getAcoes().isEmpty());
+            
+            for(Acao a : saidaOpcao.getAcoes())
+            {
+                if(!a.getVariavel().isAutodefinida())
+                {
+                    acoesExibir.add(a);
+                }
+            }
+            
+            model = new AcoesTbModel(acoesExibir);
+            btnEditarAcao.setEnabled(!acoesExibir.isEmpty());
 
             tblAcoes.setModel(model);
 
@@ -233,8 +244,17 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             }
 
         } else {
-            model = new AcoesTbModel(saidaNumerica.getAcoes());
-            btnEditarAcao.setEnabled(!saidaNumerica.getAcoes().isEmpty());
+            
+            for(Acao a : saidaNumerica.getAcoes())
+            {
+                if(!a.getVariavel().isAutodefinida())
+                {
+                    acoesExibir.add(a);
+                }
+            }
+            
+            model = new AcoesTbModel(acoesExibir);
+            btnEditarAcao.setEnabled(!acoesExibir.isEmpty());
 
             tblAcoes.setModel(model);
 

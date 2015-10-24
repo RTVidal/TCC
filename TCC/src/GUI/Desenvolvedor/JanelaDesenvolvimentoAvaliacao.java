@@ -26,6 +26,8 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
     private final Partida partidaDesenvolvimento;
     private final int modo;
     private Variavel variavel;
+    private ArrayList<Variavel> variaveisPadrao;
+    private ArrayList<Variavel> variaveisAutoDefinidas;
     private final ControladoraIdioma idioma;
 
     private int tipoVariavel;
@@ -77,7 +79,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         btnCancelar.setText(idioma.Valor("btnCancelar"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
         lblTitulo.setText(idioma.Valor("tituloDesenvAvaliacao"));
-        
+
         setTitle(idioma.Valor("tituloDesenvAvaliacao"));
     }
 
@@ -95,32 +97,45 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
      * Carrega o combo de variáveis
      */
     public final void CarregarVariaveis() {
-        int index = 0;
+        int indexP = 0;
+        int indexAD = 0;
         int itemSelecionado = 0;
 
         DefaultComboBoxModel model = new DefaultComboBoxModel();
+
+        variaveisPadrao = new ArrayList<>();
+        variaveisAutoDefinidas = new ArrayList<>();
 
         for (Variavel v : partidaDesenvolvimento.getVariaveis()) {
 
             switch (tipoVariavel) {
                 case 1: //Padrão
                     if (!v.isAutodefinida()) {
-                        model.addElement(v.getNome());
+                        variaveisPadrao.add(v);
+                        model.addElement(v.getNome());                       
+
+                        if (v == avaliacao.getVariavel()) {
+                            itemSelecionado = indexP;
+                        }
+                        
+                        indexP++;                        
                     }
                     break;
 
                 case 2: //Autodefinida
                     if (v.isAutodefinida()) {
+                        
+                        variaveisAutoDefinidas.add(v);
                         model.addElement(v.getNome());
+                        
+                        if (v == avaliacao.getVariavel()) {
+                            itemSelecionado = indexP;
+                        }
+                        
+                        indexAD++;
                     }
                     break;
-
             }
-
-            if (v == avaliacao.getVariavel()) {
-                itemSelecionado = index;
-            }
-            index++;
         }
 
         //Caso não haja nenhuma variável do tipo selecionado, seleciona o outro tipo
@@ -136,7 +151,8 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
             cbxVariavel.setModel(model);
             cbxVariavel.setSelectedIndex(itemSelecionado);
-            variavel = partidaDesenvolvimento.getVariaveis().get(itemSelecionado);
+
+            SelecionarVariavel(itemSelecionado);
 
         }
 
@@ -148,17 +164,15 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
         if (ok) {
             avaliacao.setDescricao(txtDescricao.getText());
-            
-            if(tipoVariavel == 1)
-            {
+
+            if (tipoVariavel == 1) {
                 avaliacao.setValorInicial((double) jspValorInicial.getValue());
                 avaliacao.setValorFinal((double) jspValorFinal.getValue());
-            }else
-            {
+            } else {
                 avaliacao.setValorInicial(1);
                 avaliacao.setValorFinal(1);
-            }            
-            
+            }
+
             avaliacao.setVariavel(variavel);
             avaliacao.setTexto(txaTextoAvaliacao.getText());
 
@@ -174,7 +188,8 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
     /**
      * Validação dos dados
-     * @return 
+     *
+     * @return
      */
     public boolean ValidarDados() {
         boolean ok = true;
@@ -231,6 +246,14 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         if (tipoVariavel == 2) {
             jspValorInicial.setValue(1);
             jspValorFinal.setValue(1);
+        }
+    }
+
+    public void SelecionarVariavel(int index) {
+        if (rbtPadrao.isSelected()) {
+            variavel = variaveisPadrao.get(index);
+        } else {
+            variavel = variaveisAutoDefinidas.get(index);
         }
     }
 
@@ -426,7 +449,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
         int index = cbxVariavel.getSelectedIndex();
 
-        variavel = partidaDesenvolvimento.getVariaveis().get(index);
+        SelecionarVariavel(index);
 
     }//GEN-LAST:event_cbxVariavelActionPerformed
 
