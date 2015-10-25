@@ -32,8 +32,9 @@ import javax.swing.filechooser.FileFilter;
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
+public class JanelaDesenvolvimentoSituacao extends javax.swing.JDialog {
 
+    private Object[] opcaoSimNao;
     private JFileChooser fileChooser;
     private final Situacao situacao;
     private final Partida partidaDesenvolvimento;
@@ -64,7 +65,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     public JanelaDesenvolvimentoSituacao(int acao, Situacao situacao, int ordem) {
         carregando = true;
         initComponents();
-        //setModal(true);
+        setModal(true);
         this.acao = acao;
         this.ordem = ordem;
 
@@ -109,6 +110,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }
 
     public final void CarregaIdioma() {
+        opcaoSimNao = new Object[]{idioma.Valor("sim"), idioma.Valor("nao")};
+        
         btnCancelar.setText(idioma.Valor("btnCancelar"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
         btnAjuda.setText(idioma.Valor("btnAjuda"));
@@ -143,7 +146,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         avatares = new ArrayList<>();
 
         //Recupera a quantidade de avatares disponiveis
-        File file = new File("./Avatares");
+        File file = new File("Arquivos/Avatares");
         File arquivos[] = file.listFiles();
 
         String avatarSituacaoAnterior = "";
@@ -257,9 +260,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
      */
     public void ExcluirSaida() {
         boolean continuar = false;
-
-        String mensagem = idioma.Valor("msgExclusaoAvaliacao");
-        int opcao = JOptionPane.showConfirmDialog(null, mensagem, idioma.Valor("aviso"), JOptionPane.YES_NO_OPTION);
+        int opcao = JOptionPane.showOptionDialog(null, idioma.Valor("msgExclusaoSaida"), idioma.Valor("aviso"),
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcaoSimNao, opcaoSimNao[0]);
 
         if (opcao == 0) {
 
@@ -657,6 +659,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         lblImgFundo.setText("lblImgFundo");
 
         txaFalaAssistente.setColumns(20);
+        txaFalaAssistente.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         txaFalaAssistente.setLineWrap(true);
         txaFalaAssistente.setRows(5);
         txaFalaAssistente.setWrapStyleWord(true);

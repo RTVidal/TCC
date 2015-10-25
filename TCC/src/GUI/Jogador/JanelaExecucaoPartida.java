@@ -72,14 +72,12 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
     private int tipoSaida;
     private final int modo;
-
     private final Partida partida;
     //private final Partida partidaOriginal;
 
     public JanelaExecucaoPartida(int modo) {
         initComponents();
         idioma = ControladoraIdioma.getInstancia();
-
         this.modo = modo;
         setLayout(new FlowLayout());
 
@@ -100,7 +98,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         CarregarTabelaVariaveis();
         CarregaPainelSaida();
         ResetarVariaveis();
-        
+
         if (modo == 1) {
             dispose();
             setUndecorated(true);
@@ -222,7 +220,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 painelPrincipal.add(imgFundo);
             }
         } else {
-            if (partida.getAvatarDasAvaliacoes() == null) {
+            if (partida.getAvatarDasAvaliacoes() != null) {
                 painelPrincipal.remove(imgAvatar);
 
                 personagem = partida.getAvatarDasAvaliacoes();
@@ -581,8 +579,6 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         }
 
         if (!avaliacoesRealizar.isEmpty()) {
-            CarregaAssistente(false);
-            CarregaImagemFundoAvaliacao();
             GerarSaidaAvaliacao(avaliacoesRealizar.get(0), -1);
 
         } else {
@@ -597,6 +593,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         //Caso ainda não tenha carregado avaliação, apenas cria o botão para direcionar para a primeira avaliação
         if (index > -1) {
             CarregaFalaAssistente(avaliacao.getTexto(), false);
+
+            CarregaImagemFundoAvaliacao();
+            CarregaAssistente(false);
         }
 
         //Caso seja a ultima avaliação, gera saída diferenciada
@@ -970,6 +969,9 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
         });
 
         painelPrincipal.setPreferredSize(new java.awt.Dimension(1024, 700));
@@ -1006,6 +1008,10 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         partida.getCaminhos().clear();
     }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+    }//GEN-LAST:event_formWindowClosing
 
     public static void setInstancia(JanelaExecucaoPartida instancia) {
         JanelaExecucaoPartida.instancia = instancia;

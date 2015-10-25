@@ -71,7 +71,7 @@ public class JanelaInicial extends javax.swing.JFrame {
     public void ExecutarJogo() {
 
         IOProjetoPartida iop = new IOProjetoPartida();
-        Partida partidaExecutar = iop.LePartida();
+        Partida partidaExecutar = iop.LePartida(null);
 
         if (partidaExecutar != null) {
 
@@ -107,7 +107,7 @@ public class JanelaInicial extends javax.swing.JFrame {
     public void EditarJogo(Partida partidaDesenvolvimento) {
         IOProjetoPartida iop = new IOProjetoPartida();
         if (partidaDesenvolvimento == null) {
-            partidaDesenvolvimento = iop.LePartida();
+            partidaDesenvolvimento = iop.LePartida(null);
         }
         if (partidaDesenvolvimento != null) {
             if (!(((String) cbxIdiomas.getSelectedItem()).equalsIgnoreCase(partidaDesenvolvimento.getIdioma()))) {

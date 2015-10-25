@@ -59,7 +59,7 @@ public class JanelaSelecionaAvatar extends javax.swing.JDialog {
         avatares = new ArrayList<>();
 
         //Recupera a quantidade de avatares disponiveis
-        File file = new File("./Avatares");
+        File file = new File("Arquivos/Avatares");
         File arquivos[] = file.listFiles();
 
         for (int i = 0; i < arquivos.length; i++) {

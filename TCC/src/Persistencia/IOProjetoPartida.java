@@ -188,7 +188,7 @@ public class IOProjetoPartida {
             objGravar.close();
             arquivoGrav.flush();
             arquivoGrav.close();
-                        
+
             Partida.setInstancia(partidaSalvar);
             JanelaDesenvolvimentoPartida jdp = JanelaDesenvolvimentoPartida.getInstancia();
             jdp.CarregaIdioma();
@@ -199,8 +199,13 @@ public class IOProjetoPartida {
         }
     }
 
-    public Partida LePartida() {
-        ParametrosArquivo pa = selecionadorDeArquivos(1);
+    public Partida LePartida(ParametrosArquivo paJaDefinido) {
+        ParametrosArquivo pa;
+        if (paJaDefinido == null) {
+            pa = selecionadorDeArquivos(1);
+        } else {
+            pa = paJaDefinido;
+        }
         Partida partida;
         try {
             if (pa.isArquivoSelecionado()) {
@@ -246,17 +251,15 @@ public class IOProjetoPartida {
         arquivoGrav.close();
         return true;
     }
-    
+
     public boolean SalvarTXTParaExportacao(Partida partida) {
-        
-        try
-        {
+
+        try {
             return true;
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             return false;
         }
-        
+
     }
 
 }

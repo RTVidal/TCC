@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
+public class JanelaDesenvolvimentoVariavel extends javax.swing.JDialog {
 
     private final Partida partidaDesenvolvimento;
 
@@ -38,7 +38,7 @@ public class JanelaDesenvolvimentoVariavel extends javax.swing.JFrame {
      */
     public JanelaDesenvolvimentoVariavel(int modo, Variavel variavel) {
         initComponents();
-
+        setModal(true);
         partidaDesenvolvimento = Partida.getInstancia();
 
         janelaDesenvolvimento = JanelaDesenvolvimentoPartida.getInstancia();

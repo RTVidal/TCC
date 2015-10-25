@@ -186,6 +186,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="mniProjetosExemploEditar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemProjetosExemploEditarActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemProjetosExemploJogar">
               <Properties>
@@ -194,6 +197,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="mniProjetosExemploJogar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemProjetosExemploJogarActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemSobre">
               <Properties>

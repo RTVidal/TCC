@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author Rafael
  */
-public class JanelaResultados extends javax.swing.JFrame {
+public class JanelaResultados extends javax.swing.JDialog {
 
     private final Partida partida;
     private final ControladoraIdioma idioma;
@@ -31,6 +31,7 @@ public class JanelaResultados extends javax.swing.JFrame {
      */
     public JanelaResultados(JanelaExecucaoPartida jep) {
         initComponents();
+        setModal(true);
         
         setLocationRelativeTo(jep);
         

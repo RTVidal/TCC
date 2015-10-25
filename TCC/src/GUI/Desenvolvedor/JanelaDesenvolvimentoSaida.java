@@ -49,7 +49,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     private final ControladoraIdioma idioma;
 
     private final JanelaDesenvolvimentoSituacao janelaDevSituacao;
-    
+
     private Situacao situacao;
 
     public JanelaDesenvolvimentoSaida(JanelaDesenvolvimentoSituacao jds, int modo, Situacao situacao, Object saidaSelecionada) {
@@ -124,7 +124,10 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         opcaoSaida.setTitleAt(0, idioma.Valor("tabSaidaOpcoes"));
         opcaoSaida.setTitleAt(1, idioma.Valor("tabSaidaNumerica"));
-        
+
+        lblValorMaximo.setText(idioma.Valor("lblValorMaximo"));
+        lblValorMinimo.setText(idioma.Valor("lblValorMinimo"));
+
         lblTitulo.setText(idioma.Valor("tituloDesenvSaida"));
         setTitle(idioma.Valor("bordaDesenvSaida"));
     }
@@ -221,38 +224,34 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         btnSalvarSaidaAcoes.setVisible(modo == 1);
 
         ArrayList<Acao> acoesExibir = new ArrayList<>();
-                
+
         AcoesTbModel model;
 
         if (saida.getTipoSaida() == 1) {
-            
-            for(Acao a : saidaOpcao.getAcoes())
-            {
-                if(!a.getVariavel().isAutodefinida())
-                {
+
+            for (Acao a : saidaOpcao.getAcoes()) {
+                if (!a.getVariavel().isAutodefinida()) {
                     acoesExibir.add(a);
                 }
             }
-            
+
             model = new AcoesTbModel(acoesExibir);
             btnEditarAcao.setEnabled(!acoesExibir.isEmpty());
 
             tblAcoes.setModel(model);
 
-            if (!saidaOpcao.getAcoes().isEmpty()) {
+            if (!acoesExibir.isEmpty()) {
                 tblAcoes.setRowSelectionInterval(0, 0);
             }
 
         } else {
-            
-            for(Acao a : saidaNumerica.getAcoes())
-            {
-                if(!a.getVariavel().isAutodefinida())
-                {
+
+            for (Acao a : saidaNumerica.getAcoes()) {
+                if (!a.getVariavel().isAutodefinida()) {
                     acoesExibir.add(a);
                 }
             }
-            
+
             model = new AcoesTbModel(acoesExibir);
             btnEditarAcao.setEnabled(!acoesExibir.isEmpty());
 
@@ -304,6 +303,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             } else {
                 modo = 2;
                 AtualizarAcoes();
+                PreencheListaSituacoes();
             }
 
         }
@@ -396,16 +396,15 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         } else {
             //Cria a nova situação
             Situacao novaSituacao = new Situacao();
-            
+
             novaSituacao.setImagemPersonagem(situacao.getImagemPersonagem());
-            
+
             novaSituacao.setFalaAssistente(descricaoSaida);
             novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
             novaSituacao.setNome(descricaoSaida);
             novaSituacao.setSituacaoFinal(false);
-            
-            if(situacao.getFundoSituacao() != null)
-            {
+
+            if (situacao.getFundoSituacao() != null) {
                 novaSituacao.setFundoSituacao(situacao.getFundoSituacao());
             }
 
@@ -436,7 +435,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     }
 
     public void CriarVariavelSaida() {
-        
+
         Variavel variavel = new Variavel();
 
         variavel.setAutodefinida(true);
@@ -448,7 +447,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         partidaDesenvolvimento.getVariaveis().add(variavel);
 
         Acao acao = new Acao();
-        
+
         acao.setNumero(1);
         acao.setOperacao(5);
         acao.setVariavel(variavel);
@@ -467,16 +466,15 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         } else {
             //Cria a nova situação
             Situacao novaSituacao = new Situacao();
-            
+
             novaSituacao.setImagemPersonagem(situacao.getImagemPersonagem());
-            
+
             novaSituacao.setFalaAssistente(descricaoSaida);
             novaSituacao.setLadoGeracao(situacaoOrigem.getLadoGeracao());
             novaSituacao.setNome(descricaoSaida);
             novaSituacao.setSituacaoFinal(false);
-            
-            if(situacao.getFundoSituacao() != null)
-            {
+
+            if (situacao.getFundoSituacao() != null) {
                 novaSituacao.setFundoSituacao(situacao.getFundoSituacao());
             }
 
@@ -554,10 +552,10 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         lblDescricao = new javax.swing.JLabel();
         txtDescricaoSO = new javax.swing.JTextField();
         pnlSaidaNumerica = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        lblValorMinimo = new javax.swing.JLabel();
         jspValorMinimo = new javax.swing.JSpinner();
         jspValorMaximo = new javax.swing.JSpinner();
-        jLabel11 = new javax.swing.JLabel();
+        lblValorMaximo = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
         cbxSituacaoDestino = new javax.swing.JComboBox();
@@ -621,7 +619,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
 
         opcaoSaida.addTab("Opção", pnlSaidaOpcao);
 
-        jLabel10.setText("lblValorMinimo");
+        lblValorMinimo.setText("lblValorMinimo");
 
         jspValorMinimo.setModel(new javax.swing.SpinnerNumberModel());
         jspValorMinimo.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -647,7 +645,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             }
         });
 
-        jLabel11.setText("lblValorMaximo");
+        lblValorMaximo.setText("lblValorMaximo");
 
         javax.swing.GroupLayout pnlSaidaNumericaLayout = new javax.swing.GroupLayout(pnlSaidaNumerica);
         pnlSaidaNumerica.setLayout(pnlSaidaNumericaLayout);
@@ -656,8 +654,8 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11))
+                    .addComponent(lblValorMinimo)
+                    .addComponent(lblValorMaximo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jspValorMaximo)
@@ -669,11 +667,11 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
             .addGroup(pnlSaidaNumericaLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
+                    .addComponent(lblValorMinimo)
                     .addComponent(jspValorMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlSaidaNumericaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
+                    .addComponent(lblValorMaximo)
                     .addComponent(jspValorMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
@@ -708,6 +706,7 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
         lblSituacaoOrigem.setText("Situação Origem:");
 
         txaFalaAssistente.setColumns(20);
+        txaFalaAssistente.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         txaFalaAssistente.setLineWrap(true);
         txaFalaAssistente.setRows(5);
         txaFalaAssistente.setWrapStyleWord(true);
@@ -946,8 +945,6 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     private javax.swing.JButton btnSalvarSaidaAcoes;
     private javax.swing.JComboBox cbxSituacaoDestino;
     private javax.swing.JCheckBox chbPodeDesistir;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -958,6 +955,8 @@ public final class JanelaDesenvolvimentoSaida extends javax.swing.JDialog {
     private javax.swing.JLabel lblSituacaoDestino;
     private javax.swing.JLabel lblSituacaoOrigem;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblValorMaximo;
+    private javax.swing.JLabel lblValorMinimo;
     private javax.swing.JLabel msgSalvarSaidaHabAcoes;
     private javax.swing.JTabbedPane opcaoSaida;
     private javax.swing.JPanel pnlSaidaNumerica;

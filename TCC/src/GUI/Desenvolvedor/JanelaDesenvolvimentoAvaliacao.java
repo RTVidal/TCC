@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  *
  * @author Rafael
  */
-public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
+public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JDialog {
 
     private final JanelaDesenvolvimentoPartida janelaDevPartida;
     private final Avaliacao avaliacao;
@@ -40,6 +40,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
      */
     public JanelaDesenvolvimentoAvaliacao(int modo, Avaliacao avaliacao) {
         initComponents();
+        setModal(true);
 
         janelaDevPartida = JanelaDesenvolvimentoPartida.getInstancia();
         partidaDesenvolvimento = Partida.getInstancia();
@@ -79,7 +80,10 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         btnCancelar.setText(idioma.Valor("btnCancelar"));
         btnConfirmar.setText(idioma.Valor("btnConfirmar"));
         lblTitulo.setText(idioma.Valor("tituloDesenvAvaliacao"));
-
+        btnAjuda.setText(idioma.Valor("btnAjuda"));
+        rbtAutoDefinida.setText(idioma.Valor("lblAutoDefinida"));
+        rbtPadrao.setText(idioma.Valor("lblPadrao"));
+        
         setTitle(idioma.Valor("tituloDesenvAvaliacao"));
     }
 
@@ -112,26 +116,26 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
                 case 1: //Padrão
                     if (!v.isAutodefinida()) {
                         variaveisPadrao.add(v);
-                        model.addElement(v.getNome());                       
+                        model.addElement(v.getNome());
 
                         if (v == avaliacao.getVariavel()) {
                             itemSelecionado = indexP;
                         }
-                        
-                        indexP++;                        
+
+                        indexP++;
                     }
                     break;
 
                 case 2: //Autodefinida
                     if (v.isAutodefinida()) {
-                        
+
                         variaveisAutoDefinidas.add(v);
                         model.addElement(v.getNome());
-                        
+
                         if (v == avaliacao.getVariavel()) {
                             itemSelecionado = indexP;
                         }
-                        
+
                         indexAD++;
                     }
                     break;
@@ -282,7 +286,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         txaTextoAvaliacao = new javax.swing.JTextArea();
         rbtPadrao = new javax.swing.JRadioButton();
         rbtAutoDefinida = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
+        btnAjuda = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -326,6 +330,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
         jspValorFinal.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
 
         txaTextoAvaliacao.setColumns(20);
+        txaTextoAvaliacao.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         txaTextoAvaliacao.setLineWrap(true);
         txaTextoAvaliacao.setRows(5);
         txaTextoAvaliacao.setWrapStyleWord(true);
@@ -345,10 +350,10 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("btnAjuda");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAjuda.setText("btnAjuda");
+        btnAjuda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAjudaActionPerformed(evt);
             }
         });
 
@@ -358,42 +363,37 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnConfirmar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblValorInicial)
+                            .addComponent(lblTxtAvaliacao)
+                            .addComponent(lblDescricao)
+                            .addComponent(lblVariavel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(rbtPadrao)
+                                .addGap(18, 18, 18)
+                                .addComponent(rbtAutoDefinida))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jspValorInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                                .addComponent(lblValorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jspValorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtDescricao)
+                            .addComponent(cbxVariavel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitulo)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCancelar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnConfirmar))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblValorInicial)
-                                    .addComponent(lblTxtAvaliacao)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblVariavel)
-                                        .addComponent(lblDescricao)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(rbtPadrao)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rbtAutoDefinida))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jButton1)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(jspValorInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(lblValorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jspValorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(txtDescricao)
-                                            .addComponent(cbxVariavel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE))))))
-                        .addGap(0, 70, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAjuda)))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -401,12 +401,12 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTitulo)
-                    .addComponent(jButton1))
+                    .addComponent(btnAjuda))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescricao)
                     .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbtPadrao)
                     .addComponent(rbtAutoDefinida)
@@ -423,7 +423,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTxtAvaliacao)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnConfirmar))
@@ -453,10 +453,10 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cbxVariavelActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjudaActionPerformed
         ControladoraAjuda caj = new ControladoraAjuda();
         caj.ExibirAjuda(this, "DesenvolvimentoAvaliacao");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAjudaActionPerformed
 
     private void rbtPadraoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtPadraoActionPerformed
 
@@ -475,10 +475,10 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JFrame {
     }//GEN-LAST:event_rbtAutoDefinidaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAjuda;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JComboBox cbxVariavel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jspValorFinal;
     private javax.swing.JSpinner jspValorInicial;

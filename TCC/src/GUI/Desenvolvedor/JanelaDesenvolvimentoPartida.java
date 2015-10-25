@@ -15,6 +15,7 @@ import GUI.Suporte.SituacoesTbModel;
 import GUI.Suporte.VariaveisTbModel;
 import Modelo.Acao;
 import Modelo.Avaliacao;
+import Modelo.ParametrosArquivo;
 import Modelo.Partida;
 import Modelo.Saida;
 import Modelo.SaidaNumerica;
@@ -66,7 +67,7 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         partidaDesenvolvimento.setIdioma(idioma.getIdiomaAtual());
         partidaSalva = true;
-
+        VerificaExemplo();
     }
 
     /**
@@ -130,6 +131,14 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         AtualizaSituacoes();
         AtualizaVariaveis();
         AtualizaAvaliacoes();
+    }
+
+    public void VerificaExemplo() {
+        File arquivoExemplo = new File("Arquivos/Exemplo/exemplo.tcc");
+        if (!arquivoExemplo.exists()) {
+            menuItemProjetosExemploEditar.setEnabled(false);
+            menuItemProjetosExemploJogar.setEnabled(false);
+        }
     }
 
     /**
@@ -219,18 +228,6 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
      */
     public final void AtualizaAvaliacoes() {
 
-        if (partidaDesenvolvimento.getAvatarDasAvaliacoes() != null) {
-            lblArquivoAvatar.setText(partidaDesenvolvimento.getAvatarDasAvaliacoes().getDescription());
-        } else {
-            lblArquivoAvatar.setText(idioma.Valor("lblUsandoAssistenteDaUltimaSituacao"));
-        }
-
-        if (partidaDesenvolvimento.getImagemDasAvaliacoes() != null) {
-            lblArquivoFundo.setText(partidaDesenvolvimento.getImagemDasAvaliacoes().getDescription());
-        } else {
-            lblArquivoFundo.setText(idioma.Valor("lblUsandoFundoDaUltimaSituacao"));
-        }
-
         AvaliacoesTbModel model = new AvaliacoesTbModel(partidaDesenvolvimento.getAvaliacoes());
 
         tblAvaliacoes.setModel(model);
@@ -243,14 +240,42 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         //Habilitar o botão de editar e excluir apenas quando houverem registros na lista
         btnEditarAvaliacao.setEnabled(!partidaDesenvolvimento.getAvaliacoes().isEmpty());
         btnExcluirAvaliacao.setEnabled(!partidaDesenvolvimento.getAvaliacoes().isEmpty());
+        btnAvatarAvaliacoes.setEnabled(!partidaDesenvolvimento.getAvaliacoes().isEmpty());
+        btnFundoAvaliacoes.setEnabled(!partidaDesenvolvimento.getAvaliacoes().isEmpty());
 
         //Habilitar o botão de nova avaliação apenas se houverem variáveis criadas
-        btnNovaAvaliacao.setEnabled(!partidaDesenvolvimento.getVariaveis().isEmpty());
-        btnNovaAvaliacao.setToolTipText(idioma.Valor("msgNaoHaVariaveis"));
+        if (partidaDesenvolvimento.getVariaveis().isEmpty()) {
+            btnNovaAvaliacao.setEnabled(false);
+            btnNovaAvaliacao.setToolTipText(idioma.Valor("msgNaoHaVariaveis"));
+        } else {
+            btnNovaAvaliacao.setEnabled(true);
+            btnNovaAvaliacao.setToolTipText(null);
+        }
 
         //Selecionar o primeiro item
         if (!partidaDesenvolvimento.getAvaliacoes().isEmpty()) {
             tblAvaliacoes.setRowSelectionInterval(0, 0);
+        }
+
+        //Mensagens sobre assistente e fundo personalizado
+        if (partidaDesenvolvimento.getAvatarDasAvaliacoes() != null) {
+            lblArquivoAvatar.setText(partidaDesenvolvimento.getAvatarDasAvaliacoes().getDescription());
+        } else {
+            if (btnAvatarAvaliacoes.isEnabled()) {
+                lblArquivoAvatar.setText(idioma.Valor("lblUsandoAssistenteDaUltimaSituacao"));
+            } else {
+                lblArquivoAvatar.setText(idioma.Valor("lblNaoHaAvaliacoes"));
+            }
+        }
+
+        if (partidaDesenvolvimento.getImagemDasAvaliacoes() != null) {
+            lblArquivoFundo.setText(partidaDesenvolvimento.getImagemDasAvaliacoes().getDescription());
+        } else {
+            if (btnFundoAvaliacoes.isEnabled()) {
+                lblArquivoFundo.setText(idioma.Valor("lblUsandoFundoDaUltimaSituacao"));
+            } else {
+                lblArquivoFundo.setText(idioma.Valor("lblNaoHaAvaliacoes"));
+            }
         }
     }
 
@@ -1092,10 +1117,20 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
 
         menuItemProjetosExemploEditar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         menuItemProjetosExemploEditar.setText("mniProjetosExemploEditar");
+        menuItemProjetosExemploEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemProjetosExemploEditarActionPerformed(evt);
+            }
+        });
         menuAjuda.add(menuItemProjetosExemploEditar);
 
         menuItemProjetosExemploJogar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         menuItemProjetosExemploJogar.setText("mniProjetosExemploJogar");
+        menuItemProjetosExemploJogar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemProjetosExemploJogarActionPerformed(evt);
+            }
+        });
         menuAjuda.add(menuItemProjetosExemploJogar);
 
         menuItemSobre.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -1354,6 +1389,98 @@ public class JanelaDesenvolvimentoPartida extends javax.swing.JFrame {
         ControladoraAjuda caj = new ControladoraAjuda();
         caj.ExibirAjuda(this, "DesenvolvimentoPartidaAbaAvaliacoes");
     }//GEN-LAST:event_btnAjudaAvaliacoesActionPerformed
+
+    private void menuItemProjetosExemploEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemProjetosExemploEditarActionPerformed
+        if (!partidaSalva) {
+            int selecionado = JOptionPane.showOptionDialog(null, idioma.Valor("msgDesejaSalvar"),
+                    idioma.Valor("aviso"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, opcaoSimNaoCancelar, opcaoSimNaoCancelar[0]);
+            switch (selecionado) {
+                case 0: //Salvar
+                    Salvar();
+                    dispose();
+                    JanelaDesenvolvimentoPartida.setInstancia(null);
+                    ParametrosArquivo pa = new ParametrosArquivo();
+                    pa.setArquivoSelecionado(true);
+                    pa.setNomeDoArquivo("Exemplo");
+                    pa.setPatchDoArquivo("Arquivos/Exemplo/exemplo.tcc");
+                    IOProjetoPartida iop = new IOProjetoPartida();
+                    Partida.setInstancia(iop.LePartida(pa));
+                    JanelaDesenvolvimentoPartida jdp = JanelaDesenvolvimentoPartida.getInstancia();
+                    jdp.setVisible(true);
+                    break;
+                case 1: //Não salvar
+                    dispose();
+                    JanelaDesenvolvimentoPartida.setInstancia(null);
+                    ParametrosArquivo pa2 = new ParametrosArquivo();
+                    pa2.setArquivoSelecionado(true);
+                    pa2.setNomeDoArquivo("Exemplo");
+                    pa2.setPatchDoArquivo("Arquivos/Exemplo/exemplo.tcc");
+                    IOProjetoPartida iop2 = new IOProjetoPartida();
+                    Partida.setInstancia(iop2.LePartida(pa2));
+                    JanelaDesenvolvimentoPartida jdp2 = JanelaDesenvolvimentoPartida.getInstancia();
+                    jdp2.setVisible(true);
+                    break;
+            }
+        } else {
+            dispose();
+            JanelaDesenvolvimentoPartida.setInstancia(null);
+            ParametrosArquivo pa = new ParametrosArquivo();
+            pa.setArquivoSelecionado(true);
+            pa.setNomeDoArquivo("Exemplo");
+            pa.setPatchDoArquivo("Arquivos/Exemplo/exemplo.tcc");
+            IOProjetoPartida iop = new IOProjetoPartida();
+            Partida.setInstancia(iop.LePartida(pa));
+            JanelaDesenvolvimentoPartida jdp = JanelaDesenvolvimentoPartida.getInstancia();
+            jdp.setVisible(true);
+        }
+    }//GEN-LAST:event_menuItemProjetosExemploEditarActionPerformed
+
+    private void menuItemProjetosExemploJogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemProjetosExemploJogarActionPerformed
+        if (!partidaSalva) {
+            int selecionado = JOptionPane.showOptionDialog(null, idioma.Valor("msgDesejaSalvar"),
+                    idioma.Valor("aviso"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, opcaoSimNaoCancelar, opcaoSimNaoCancelar[0]);
+            switch (selecionado) {
+                case 0: //Salvar
+                    Salvar();
+                    dispose();
+                    ParametrosArquivo pa = new ParametrosArquivo();
+                    pa.setArquivoSelecionado(true);
+                    pa.setNomeDoArquivo("Exemplo");
+                    pa.setPatchDoArquivo("Arquivos/Exemplo/exemplo.tcc");
+                    IOProjetoPartida iop = new IOProjetoPartida();
+                    Partida.setInstancia(iop.LePartida(pa));
+                    ControladoraExecucao ce = new ControladoraExecucao();
+                    ce.ExecutaPartida();
+                    JanelaDesenvolvimentoPartida.setInstancia(null);
+                    break;
+                case 1: //Não salvar
+                    dispose();
+                    ParametrosArquivo pa2 = new ParametrosArquivo();
+                    pa2.setArquivoSelecionado(true);
+                    pa2.setNomeDoArquivo("Exemplo");
+                    pa2.setPatchDoArquivo("Arquivos/Exemplo/exemplo.tcc");
+                    IOProjetoPartida iop2 = new IOProjetoPartida();
+                    Partida.setInstancia(iop2.LePartida(pa2));
+                    ControladoraExecucao ce2 = new ControladoraExecucao();
+                    ce2.ExecutaPartida();
+                    JanelaDesenvolvimentoPartida.setInstancia(null);
+                    break;
+            }
+        } else {
+            dispose();
+            ParametrosArquivo pa = new ParametrosArquivo();
+            pa.setArquivoSelecionado(true);
+            pa.setNomeDoArquivo("Exemplo");
+            pa.setPatchDoArquivo("Arquivos/Exemplo/exemplo.tcc");
+            IOProjetoPartida iop = new IOProjetoPartida();
+            Partida.setInstancia(iop.LePartida(pa));
+            ControladoraExecucao ce = new ControladoraExecucao();
+            ce.ExecutaPartida();
+            JanelaDesenvolvimentoPartida.setInstancia(null);
+        }
+    }//GEN-LAST:event_menuItemProjetosExemploJogarActionPerformed
 
     public static JanelaDesenvolvimentoPartida getInstancia() {
         if (instancia == null) {

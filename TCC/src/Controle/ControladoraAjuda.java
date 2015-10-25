@@ -28,7 +28,7 @@ public class ControladoraAjuda {
     public void ExibirAjuda(Component source, String arquivoAjuda) {
         try {
             String idiomaAtual = idioma.getIdiomaAtual();
-            File arquivo = new File("Ajuda/" + idiomaAtual + "/" + arquivoAjuda + ".txt");
+            File arquivo = new File("Arquivos/Ajuda/" + idiomaAtual + "/" + arquivoAjuda + ".txt");
             FileReader fileReader = new FileReader(arquivo);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             ArrayList<String> conteudoArquivo = new ArrayList<>();
@@ -55,7 +55,7 @@ public class ControladoraAjuda {
             String idiomaAtual = idioma.getIdiomaAtual();
             ArrayList<String> conteudoDosArquivos = new ArrayList<>();
 
-            File file = new File("Ajuda/" + idiomaAtual);
+            File file = new File("Arquivos/Ajuda/" + idiomaAtual);
             File arquivos[] = file.listFiles();
 
             for (File arquivoAjuda : arquivos) {
