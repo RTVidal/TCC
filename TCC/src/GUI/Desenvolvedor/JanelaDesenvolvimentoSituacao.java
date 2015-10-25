@@ -52,6 +52,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     //private static JanelaDesenvolvimentoSituacao instancia;
     JanelaDesenvolvimentoPartida jdp;
 
+    private boolean carregando;
+
     /**
      * Creates new form JanelaNovaSituacao
      *
@@ -60,6 +62,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
      * @param ordem
      */
     public JanelaDesenvolvimentoSituacao(int acao, Situacao situacao, int ordem) {
+        carregando = true;
         initComponents();
         //setModal(true);
         this.acao = acao;
@@ -84,7 +87,8 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             setTitle(situacao.getNome());
 
             CarregarSituacao();
-
+            CarregaAvatares();
+            carregando = false;
         } else {
             //Por default seleciona o lado do assistente como direito
             rbtDireito.setSelected(true);
@@ -95,10 +99,9 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             saida = new Saida();
             saida.setTipoSaida(1);
             this.situacao.setSaida(saida);
-
+            carregando = false;
+            CarregaAvatares();
         }
-
-        CarregaAvatares();
 
         CarregarComboTipoSaida();
         AtualizaTabelaSaidas();
@@ -126,7 +129,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         rbtEsquerdo.setText(idioma.Valor("lblEsquerdo"));
         lblGerarNoLado.setText(idioma.Valor("lblGerarNoLado"));
         lblPersonagemDaSituacao.setText(idioma.Valor("lblPersonagemDaSituacao"));
-        
+
         setTitle(idioma.Valor("tituloDesenvolvimentoSituacao"));
     }
 
@@ -136,7 +139,6 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     public final void CarregaAvatares() {
 
         int itemSelecionado = 0;
-        imgAvatar.setText(idioma.Valor("lblSelecioneUmAvatar"));
         DefaultListModel itens = new DefaultListModel<>();
         avatares = new ArrayList<>();
 
@@ -199,6 +201,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
         rbtDireito.setSelected(situacao.getLadoGeracao() == 2);
 
         botaoRotacionar.setSelected(situacao.isRotacionarPersonagem());
+        imgAvatar.setText(null);
         ImageIcon icone = new ImageIcon();
         icone.setImage(situacao.getImagemPersonagem().getImage().getScaledInstance(100, 100, 100));
         imgAvatar.setIcon(icone);
@@ -376,12 +379,12 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
 
         if (txtNomeSituacao.getText().isEmpty()) {
             ok = false;
-            mensagem = "msgNomeSituacaoObrigatorio";
+            mensagem = idioma.Valor("msgNomeSituacaoObrigatorio");
             mensagens.add(mensagem);
         }
         if (txaFalaAssistente.getText().isEmpty()) {
             ok = false;
-            mensagem = "msgFalaAssistenteObrigatoria";
+            mensagem = idioma.Valor("msgFalaAssistenteObrigatoria");
             mensagens.add(mensagem);
         }
 
@@ -535,15 +538,17 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
     }
 
     public void SelecionarAvatar() {
-        botaoRotacionar.setSelected(false);
-        situacao.setRotacionarPersonagem(false);
-        int index = lstAvatares.getSelectedIndex();
-        if (index > -1) {
-            imgAvatar.setText(null);
-            situacao.setImagemPersonagem(avatares.get(index));
-            ImageIcon icone = new ImageIcon();
-            icone.setImage(situacao.getImagemPersonagem().getImage().getScaledInstance(100, 100, 100));
-            imgAvatar.setIcon(icone);
+        if (!carregando) {
+            botaoRotacionar.setSelected(false);
+            situacao.setRotacionarPersonagem(false);
+            int index = lstAvatares.getSelectedIndex();
+            if (index > -1) {
+                imgAvatar.setText(null);
+                situacao.setImagemPersonagem(avatares.get(index));
+                ImageIcon icone = new ImageIcon();
+                icone.setImage(situacao.getImagemPersonagem().getImage().getScaledInstance(100, 100, 100));
+                imgAvatar.setIcon(icone);
+            }
         }
     }
 
@@ -951,6 +956,7 @@ public class JanelaDesenvolvimentoSituacao extends javax.swing.JFrame {
             public boolean accept(File file) {
                 return file.isDirectory() || file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".png") || file.getAbsolutePath().endsWith(".bmp") || file.getAbsolutePath().endsWith(".gif");
             }
+
             @Override
             public String getDescription() {
                 return idioma.Valor("descricaoArquivosImagem") + " (*.bmp, *.gif, *.jpg, *.png)";

@@ -101,9 +101,11 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         CarregaPainelSaida();
         ResetarVariaveis();
         
-//        if (modo != 1) {
-//            setUndecorated(false);
-//        }
+        if (modo == 1) {
+            dispose();
+            setUndecorated(true);
+            setVisible(true);
+        }
 
     }
 
@@ -1002,10 +1004,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-
         partida.getCaminhos().clear();
-        dispose();
-
     }//GEN-LAST:event_formWindowClosed
 
     public static void setInstancia(JanelaExecucaoPartida instancia) {

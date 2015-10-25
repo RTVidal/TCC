@@ -54,11 +54,12 @@ public class ControladoraAjuda {
         try {
             String idiomaAtual = idioma.getIdiomaAtual();
             ArrayList<String> conteudoDosArquivos = new ArrayList<>();
-            ArrayList<String> arquivosDeAjuda = new ArrayList<>();
-            
-            for (String arquivoAjuda : arquivosDeAjuda) {
-                File arquivo = new File("Ajuda/" + idiomaAtual + "/" + arquivoAjuda + ".txt");
-                FileReader fileReader = new FileReader(arquivo);
+
+            File file = new File("Ajuda/" + idiomaAtual);
+            File arquivos[] = file.listFiles();
+
+            for (File arquivoAjuda : arquivos) {
+                FileReader fileReader = new FileReader(arquivoAjuda);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
 
                 String linha = "";
@@ -67,18 +68,18 @@ public class ControladoraAjuda {
                 }
                 fileReader.close();
                 bufferedReader.close();
-                
+
                 conteudoDosArquivos.add("");
                 conteudoDosArquivos.add("");
             }
-            
+
             conteudoDosArquivos.add("");
             conteudoDosArquivos.add("");
             conteudoDosArquivos.add(idioma.Valor("mensagemManualParte1"));
             conteudoDosArquivos.add("");
             conteudoDosArquivos.add(idioma.Valor("mensagemManualParte2"));
             conteudoDosArquivos.add("");
-            
+
             JanelaTexto jt = new JanelaTexto(conteudoDosArquivos);
             jt.setLocationRelativeTo(source);
             jt.setVisible(true);
