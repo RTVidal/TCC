@@ -1,18 +1,18 @@
---- Janela AÁ„o ---
+Ôªø--- Janela A√ß√£o ---
 
-Campo "Vari·vel": Exibe a vari·vel que sofrer· a aÁ„o.
+Campo "Vari√°vel": Exibe a vari√°vel que sofrer√° a a√ß√£o.
 
-Campo "AÁ„o": Exibe a lista com as operaÁıes possÌvel para a aÁ„o*
+Campo "A√ß√£o": Exibe a lista com as opera√ß√µes poss√≠vel para a a√ß√£o*
 
-Campo "Valor": Exibe o valor com que a aÁ„o ser· aplicada na vari·vel.
+Campo "Valor": Exibe o valor com que a a√ß√£o ser√° aplicada na vari√°vel.
 
-Bot„o "Cancelar": Descarta os dados n„o salvos e fecha a janela.
+Bot√£o "Cancelar": Descarta os dados n√£o salvos e fecha a janela.
 
-Bot„o "Confirmar": Salva as alteraÁıes e fecha a janela.
+Bot√£o "Confirmar": Salva as altera√ß√µes e fecha a janela.
 
-* As aÁıes possÌveis s„o:
-	Somar: Somar o valor da vari·vel ao valor da aÁ„o
-	Subtrair: Subtrair o valor da vari·vel ao valor da aÁ„o.
-	Multiplicar: Multiplicar o valor a vari·vel pelo valor da alÁ„o
-	Dividir: Dividir o valor da vari·vel pelo da aÁ„o
-	Igualar: Igualar o valor da vari·vel pelo da aÁ„o
+* As a√ß√µes poss√≠veis s√£o:
+	Somar: Somar o valor da vari√°vel ao valor da a√ß√£o
+	Subtrair: Subtrair o valor da vari√°vel ao valor da a√ß√£o.
+	Multiplicar: Multiplicar o valor a vari√°vel pelo valor da al√ß√£o
+	Dividir: Dividir o valor da vari√°vel pelo da a√ß√£o
+	Igualar: Igualar o valor da vari√°vel pelo da a√ß√£o

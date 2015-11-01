@@ -1,7 +1,7 @@
---- Aba Vari·veis ---
+Ôªø--- Aba Vari√°veis ---
 
-Para criar uma nova vari·vel basta acionar o bot„o "Nova Vari·vel".
+Para criar uma nova vari√°vel basta acionar o bot√£o "Nova Vari√°vel".
 
-Para editar ou excluir uma vari·vel*, basta selecionar um registro na lista e acionar, respectivamente, o bot„o "Editar Vari·vel" ou "Excluir Vari·vel".
+Para editar ou excluir uma vari√°vel*, basta selecionar um registro na lista e acionar, respectivamente, o bot√£o "Editar Vari√°vel" ou "Excluir Vari√°vel".
 
-*SÛ È possÌvel excluir e editar vari·veis do tipo Padr„o.
+*S√≥ √© poss√≠vel excluir e editar vari√°veis do tipo Padr√£o.

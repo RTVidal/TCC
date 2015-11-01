@@ -1,7 +1,7 @@
---- Aba Avaliações ---
+ï»¿--- Aba AvaliaÃ§Ãµes ---
 
-Para criar uma nova Avaliação basta acionar o botão "Nova Avaliação"
+Para criar uma nova AvaliaÃ§Ã£o basta acionar o botÃ£o "Nova AvaliaÃ§Ã£o"
 
-Para editar ou excluir basta selecionar um registro na lista e selecionar, respectivamente, o botão "Editar Avaliação" ou "Excluir Avaliação"
+Para editar ou excluir basta selecionar um registro na lista e selecionar, respectivamente, o botÃ£o "Editar AvaliaÃ§Ã£o" ou "Excluir AvaliaÃ§Ã£o"
 
-Por padrão, as avaliações são exibidas ao final da partida com o mesmo assistente e imagem de fundo da última situação exibida. É possível alterar estes elementos na tela a partir das opções "Editar fundo das avaliações" e "Editar personagem das avaliações". 
+Por padrÃ£o, as avaliaÃ§Ãµes sÃ£o exibidas ao final da partida com o mesmo assistente e imagem de fundo da Ãºltima situaÃ§Ã£o exibida. Ã‰ possÃ­vel alterar estes elementos na tela a partir das opÃ§Ãµes "Editar fundo das avaliaÃ§Ãµes" e "Editar personagem das avaliaÃ§Ãµes". 

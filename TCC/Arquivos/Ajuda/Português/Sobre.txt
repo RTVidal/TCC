@@ -1,6 +1,6 @@
---- Sobre ---
+Ôªø--- Sobre ---
 
-Ferramenta desenvolvida como requisito parcial para aprovaÁ„o na disciplina de Trabalho de Conclus„o de Conclus„o de Curso 2 no curso de Bacharelado em Sistemas de InformaÁ„o.
+Ferramenta desenvolvida como requisito parcial para aprova√ß√£o na disciplina de Trabalho de Conclus√£o de Conclus√£o de Curso 2 no curso de Bacharelado em Sistemas de Informa√ß√£o.
 
 Autores:
 	Bruno Tokarski de Carvalho
@@ -9,7 +9,7 @@ Autores:
 Professor Orientador:
 	Alexandre Reis Graeml
 
-Departamento AcadÍmico de Inform·tica - DAINF
-Univesidade TecnolÛgica Federal do Paran· - UTFPR
+Departamento Acad√™mico de Inform√°tica - DAINF
+Univesidade Tecnol√≥gica Federal do Paran√° - UTFPR
 
 Curitiba - 2015

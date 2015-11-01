@@ -1,23 +1,23 @@
---- Janela Situação ---
+ï»¿--- Janela SituaÃ§Ã£o ---
 
-Campo "Nome": Preenchimento obrigatório. Utilizado apenas para controle interno do desenvolvedor, não sendo exibido ao jogador durante a partida.
+Campo "Nome": Preenchimento obrigatÃ³rio. Utilizado apenas para controle interno do desenvolvedor, nÃ£o sendo exibido ao jogador durante a partida.
 
-Campo "Fala do Assistente": Preenchimento obrigatório. Fala do assistente para o jogador durante a exibição da situação na partida.
+Campo "Fala do Assistente": Preenchimento obrigatÃ³rio. Fala do assistente para o jogador durante a exibiÃ§Ã£o da situaÃ§Ã£o na partida.
 
-Campo "Imagem de fundo": Opcional. Imagem a ser exibida ao fundo da situação. Para adicionar a imagem basta acionar o botão "Selecionar Imagem" e efetuar upload da imagem desejada.
+Campo "Imagem de fundo": Opcional. Imagem a ser exibida ao fundo da situaÃ§Ã£o. Para adicionar a imagem basta acionar o botÃ£o "Selecionar Imagem" e efetuar upload da imagem desejada.
 
-Opção "Situação final": Não gerar botão redirecionando para a situação seguinte caso não hajam saídas cadastradas.
+OpÃ§Ã£o "SituaÃ§Ã£o final": NÃ£o gerar botÃ£o redirecionando para a situaÃ§Ã£o seguinte caso nÃ£o hajam saÃ­das cadastradas.
 
-É possível escolher o lado em que a figura do avatar é exibida durante a partida optando entre as opções "Esquerdo" e "Direito".
+Ã‰ possÃ­vel escolher o lado em que a figura do avatar Ã© exibida durante a partida optando entre as opÃ§Ãµes "Esquerdo" e "Direito".
 
-Botão "Nova Saída": Criar uma nova saída do tipo selecionado.
+BotÃ£o "Nova SaÃ­da": Criar uma nova saÃ­da do tipo selecionado.
 
-Botão "Editar Saída": Editar a saída selecionada na lista de saídas.
+BotÃ£o "Editar SaÃ­da": Editar a saÃ­da selecionada na lista de saÃ­das.
 
-Botão "Excluir Saída": Excluir a saída selecionada na lista de saídas.
+BotÃ£o "Excluir SaÃ­da": Excluir a saÃ­da selecionada na lista de saÃ­das.
 
-É possível escolher o avatar do assistente no seletor no cando direito superior da janela. Também é possível rotacionar o avatar através do botão abaixo do mesmo.
+Ã‰ possÃ­vel escolher o avatar do assistente no seletor no cando direito superior da janela. TambÃ©m Ã© possÃ­vel rotacionar o avatar atravÃ©s do botÃ£o abaixo do mesmo.
 
-Botão "Cancelar": Suspender a criação/edição da situação. Atenção! Todos os dados não salvos até então serão perdidos.
+BotÃ£o "Cancelar": Suspender a criaÃ§Ã£o/ediÃ§Ã£o da situaÃ§Ã£o. AtenÃ§Ã£o! Todos os dados nÃ£o salvos atÃ© entÃ£o serÃ£o perdidos.
 
-Botão "Confirmar": Salva as alterações e fecha a janela.
+BotÃ£o "Confirmar": Salva as alteraÃ§Ãµes e fecha a janela.

@@ -1,22 +1,22 @@
---- Janela Saída ---
+ï»¿--- Janela SaÃ­da ---
 
-Saída Opção
-	Campo "Descrição": Descrição da saída opção. Além de ser utilizado para controle interno, o 	valor deste campo é exibido para o jogador através do botão gerado para a saída durante a 	exibição da situação à qual pertence.
+SaÃ­da OpÃ§Ã£o
+	Campo "DescriÃ§Ã£o": DescriÃ§Ã£o da saÃ­da opÃ§Ã£o. AlÃ©m de ser utilizado para controle interno, o 	valor deste campo Ã© exibido para o jogador atravÃ©s do botÃ£o gerado para a saÃ­da durante a 	exibiÃ§Ã£o da situaÃ§Ã£o Ã  qual pertence.
 
-Saída Numérica
-	Seletor "Valor Inicial": Valor início da sequência que define a saída.
-	Seletor "Valor Final": Valor final da sequência que define a saída.
+SaÃ­da NumÃ©rica
+	Seletor "Valor Inicial": Valor inÃ­cio da sequÃªncia que define a saÃ­da.
+	Seletor "Valor Final": Valor final da sequÃªncia que define a saÃ­da.
 
-Campo "Situação de Origem": Situação a qual a saída pertece e na qual a mesma será exibida.
+Campo "SituaÃ§Ã£o de Origem": SituaÃ§Ã£o a qual a saÃ­da pertece e na qual a mesma serÃ¡ exibida.
 
-Campo "Situação de Destino": Situação para a qual a saída redirecionará o jogador.
+Campo "SituaÃ§Ã£o de Destino": SituaÃ§Ã£o para a qual a saÃ­da redirecionarÃ¡ o jogador.
 
-Opção "Pode Desistir": Caso selecionada, permitir com que o jogador retorne a tela da situação origem e considere optar por outra saída. Obs. Não tem eficácia caso a saída não possua fala para o assistente.
+OpÃ§Ã£o "Pode Desistir": Caso selecionada, permitir com que o jogador retorne a tela da situaÃ§Ã£o origem e considere optar por outra saÃ­da. Obs. NÃ£o tem eficÃ¡cia caso a saÃ­da nÃ£o possua fala para o assistente.
 
-Campo "Fala do Assistente": Texto exibido pelo assistente quando a saída é escolhida pelo jogador. Caso este campo esteja em branco, o jogador é apenas redirecionado para a situação de destino.
+Campo "Fala do Assistente": Texto exibido pelo assistente quando a saÃ­da Ã© escolhida pelo jogador. Caso este campo esteja em branco, o jogador Ã© apenas redirecionado para a situaÃ§Ã£o de destino.
 
-Tabela Ações: Lista as ações da saída para cada uma das variáveis do tipo Padrão do jogo. Para editar uma ação basta selecionar um item na lista e acionar o botão "Editar Ação". A saída precisa estar salva para que as ações sejam habilitadas.
+Tabela AÃ§Ãµes: Lista as aÃ§Ãµes da saÃ­da para cada uma das variÃ¡veis do tipo PadrÃ£o do jogo. Para editar uma aÃ§Ã£o basta selecionar um item na lista e acionar o botÃ£o "Editar AÃ§Ã£o". A saÃ­da precisa estar salva para que as aÃ§Ãµes sejam habilitadas.
 
-Botão "Cancelar": Descarta as alterações não salvas e fecha a janela.
+BotÃ£o "Cancelar": Descarta as alteraÃ§Ãµes nÃ£o salvas e fecha a janela.
 
-Botão "Confirmar": Salva as alterações e fecha a janela.
+BotÃ£o "Confirmar": Salva as alteraÃ§Ãµes e fecha a janela.

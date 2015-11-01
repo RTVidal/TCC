@@ -1,11 +1,11 @@
---- Janela Vari·vel ---
+Ôªø--- Janela Vari√°vel ---
 
-Campo "Nome da Vari·vel": ObrigatÛrio. DescriÁ„o da vari·vel. Utilizado para controle interno e pode, ou n„o, ser exibido ao jogador.
+Campo "Nome da Vari√°vel": Obrigat√≥rio. Descri√ß√£o da vari√°vel. Utilizado para controle interno e pode, ou n√£o, ser exibido ao jogador.
 
-Campo "Valor Inicial": Valor com que a vari·vel comeÁa ao iniciar o jogo.
+Campo "Valor Inicial": Valor com que a vari√°vel come√ßa ao iniciar o jogo.
 
-OpÁ„o "Vari·vel Oculta": Caso selecionada, a vari·vel (nome e valor atual) n„o È exibida ao jogador durante a partida.
+Op√ß√£o "Vari√°vel Oculta": Caso selecionada, a vari√°vel (nome e valor atual) n√£o √© exibida ao jogador durante a partida.
 
-Bot„o Cancelar: Descartar as alteraÁıes e fechar a janela.
+Bot√£o Cancelar: Descartar as altera√ß√µes e fechar a janela.
 
-Bot„o Confirmar: Salvar as alteraÁıes e fechar a janela.
+Bot√£o Confirmar: Salvar as altera√ß√µes e fechar a janela.

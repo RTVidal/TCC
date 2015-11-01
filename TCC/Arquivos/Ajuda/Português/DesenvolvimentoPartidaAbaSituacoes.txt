@@ -1,9 +1,9 @@
---- Situações ---
+ï»¿--- SituaÃ§Ãµes ---
 
-Para criar uma situação basta acionar o botão "Nova Situação"
+Para criar uma situaÃ§Ã£o basta acionar o botÃ£o "Nova SituaÃ§Ã£o"
 
-Para editar ou excluir basta selecionar um registro da lista e acionar, respectivamente, os botões "Editar Situação" ou "Excluir Situação".
+Para editar ou excluir basta selecionar um registro da lista e acionar, respectivamente, os botÃµes "Editar SituaÃ§Ã£o" ou "Excluir SituaÃ§Ã£o".
 
-A ordem das situações pode ser alterada através das setas no início de cada linha da tabela.
+A ordem das situaÃ§Ãµes pode ser alterada atravÃ©s das setas no inÃ­cio de cada linha da tabela.
 
-É possível visualizar uma prévia da situação selecionada acionando o botão "Prévia". Através deste botão também é possível testar o fluxo do jogo.
+Ã‰ possÃ­vel visualizar uma prÃ©via da situaÃ§Ã£o selecionada acionando o botÃ£o "PrÃ©via". AtravÃ©s deste botÃ£o tambÃ©m Ã© possÃ­vel testar o fluxo do jogo.
