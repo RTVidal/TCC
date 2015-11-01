@@ -1,0 +1,15 @@
+--- Sobre ---
+
+Ferramenta desenvolvida como requisito parcial para aprovação na disciplina de Trabalho de Conclusão de Conclusão de Curso 2 no curso de Bacharelado em Sistemas de Informação.
+
+Autores:
+	Bruno Tokarski de Carvalho
+	Rafael Torres Vidal da Costa
+
+Professor Orientador:
+	Alexandre Reis Graeml
+
+Departamento Acadêmico de Informática - DAINF
+Univesidade Tecnológica Federal do Paraná - UTFPR
+
+Curitiba - 2015
