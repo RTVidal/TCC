@@ -1,0 +1,7 @@
+--- Aba Variáveis ---
+
+Para criar uma nova variável basta acionar o botão "Nova Variável".
+
+Para editar ou excluir uma variável*, basta selecionar um registro na lista e acionar, respectivamente, o botão "Editar Variável" ou "Excluir Variável".
+
+*Só é possível excluir e editar variáveis do tipo Padrão.

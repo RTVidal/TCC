@@ -1,0 +1,22 @@
+--- Janela Saída ---
+
+Saída Opção
+	Campo "Descrição": Descrição da saída opção. Além de ser utilizado para controle interno, o 	valor deste campo é exibido para o jogador através do botão gerado para a saída durante a 	exibição da situação à qual pertence.
+
+Saída Numérica
+	Seletor "Valor Inicial": Valor início da sequência que define a saída.
+	Seletor "Valor Final": Valor final da sequência que define a saída.
+
+Campo "Situação de Origem": Situação a qual a saída pertece e na qual a mesma será exibida.
+
+Campo "Situação de Destino": Situação para a qual a saída redirecionará o jogador.
+
+Opção "Pode Desistir": Caso selecionada, permitir com que o jogador retorne a tela da situação origem e considere optar por outra saída. Obs. Não tem eficácia caso a saída não possua fala para o assistente.
+
+Campo "Fala do Assistente": Texto exibido pelo assistente quando a saída é escolhida pelo jogador. Caso este campo esteja em branco, o jogador é apenas redirecionado para a situação de destino.
+
+Tabela Ações: Lista as ações da saída para cada uma das variáveis do tipo Padrão do jogo. Para editar uma ação basta selecionar um item na lista e acionar o botão "Editar Ação". A saída precisa estar salva para que as ações sejam habilitadas.
+
+Botão "Cancelar": Descarta as alterações não salvas e fecha a janela.
+
+Botão "Confirmar": Salva as alterações e fecha a janela.

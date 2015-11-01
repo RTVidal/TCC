@@ -1,0 +1,23 @@
+--- Janela Avaliação ---
+
+Campo "Descrição": Obrigatório. Campo utilizado para controle do desenvolvedor. Não é exibido ao jogador.
+
+Campo Variável
+	Opção "Padrão": Listar variável do tipo "Padrão"*
+	Opção "Auto definida": Listar variáveis do tipo "Auto Definida"**
+	Lista de variáveis: Lista contendo as variáveis do tipo selecionado acima. 
+
+A avaliação será realizada a partir do valor da variável selecionada lista, desde que o valor se enquadre em uma determinada sequência. A sequência é definida a partir dos seletores abaixo.
+
+Seletor "Valor inicial": Valor de início da sequência da avaliação.
+
+Seletor "Valor final": Valor de fim da sequência da avaliação.
+
+Campo "Texto da Avaliação": Texto que será exibido ao jogador durante a exibição da avaliação.
+
+Botão "Cancelar": Descartar as alterações e fechar a janela.
+
+Botão "Confirmar": Salvar as alterações e fechar a janela.
+
+* Variáveis padrão são variáveis criadas pelo desenvolvedor.
+** Variáveis auto-definidas são criadas pelo sistema durante a criação de uma "Saída Opção". Seu valor padrão é 0. Valor este alterado para 1 caso o jogador opte por sua "Saída Opção" correspondente em algum momento da partida.

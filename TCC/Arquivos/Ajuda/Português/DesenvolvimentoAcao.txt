@@ -1,0 +1,18 @@
+--- Janela Ação ---
+
+Campo "Variável": Exibe a variável que sofrerá a ação.
+
+Campo "Ação": Exibe a lista com as operações possível para a ação*
+
+Campo "Valor": Exibe o valor com que a ação será aplicada na variável.
+
+Botão "Cancelar": Descarta os dados não salvos e fecha a janela.
+
+Botão "Confirmar": Salva as alterações e fecha a janela.
+
+* As ações possíveis são:
+	Somar: Somar o valor da variável ao valor da ação
+	Subtrair: Subtrair o valor da variável ao valor da ação.
+	Multiplicar: Multiplicar o valor a variável pelo valor da alção
+	Dividir: Dividir o valor da variável pelo da ação
+	Igualar: Igualar o valor da variável pelo da ação
