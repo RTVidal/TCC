@@ -209,7 +209,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
             } else {
                 //Gera o assistente na direita
-                imgAvatar.setLocation(750, 550);
+                imgAvatar.setLocation(850, 550);
             }
 
             painelPrincipal.add(imgAvatar);
@@ -235,7 +235,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
                 imgAvatar.setOpaque(false);
 
                 //Gera o assistente na direita
-                imgAvatar.setLocation(750, 550);
+                imgAvatar.setLocation(850, 550);
 
                 painelPrincipal.add(imgAvatar);
 
@@ -335,11 +335,11 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         int caracteres = texto.length();
 
-        int altura = (caracteres / 50) * 25;
+        int altura = (caracteres / 45) * 25;
 
         int largura = 700; //Largura máxima
 
-        if (altura < 16) {
+        if (altura < 22) {
             altura = 22;
             largura = caracteres * 10;
         }
@@ -393,17 +393,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         int xBalao;
 
-        //Se a largura for menor do que o máximo (600), posicionar o balão acima do avatar
-        if (largura < 700) {
-
-            //Gerar o final do balão sempre rente a 3/4 do tamanho do avatar
-            xBalao = (imgAvatar.getX() + (3 * (imgAvatar.getWidth() / 4))) - imgBalao.getWidth();
-
-        } else {
-
-            xBalao = (xAvatar - imgBalao.getWidth()) - 30;
-
-        }
+        //Gerar o final do balão sempre rente a 3/4 do tamanho do avatar
+        xBalao = (imgAvatar.getX() + (3 * (imgAvatar.getWidth() / 4))) - imgBalao.getWidth();
 
         imgBalao.setLocation(xBalao, yBalao);
         imgBalao.setLayout(null);
@@ -1010,7 +1001,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
     }//GEN-LAST:event_formWindowClosing
 
     public static void setInstancia(JanelaExecucaoPartida instancia) {

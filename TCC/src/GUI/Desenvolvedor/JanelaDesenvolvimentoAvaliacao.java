@@ -59,6 +59,15 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JDialog {
         this.modo = modo;
 
         if (modo == 2) {
+            
+            if (avaliacao.getVariavel().isAutodefinida())
+            {
+                tipoVariavel = 2;
+            } else 
+            {
+                tipoVariavel = 1;
+            }
+            SelecionarTipoVariavel();
             CarregarAvaliacao();
         } else {
             tipoVariavel = 1;
@@ -109,7 +118,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JDialog {
 
         variaveisPadrao = new ArrayList<>();
         variaveisAutoDefinidas = new ArrayList<>();
-
+        
         for (Variavel v : partidaDesenvolvimento.getVariaveis()) {
 
             switch (tipoVariavel) {
@@ -133,7 +142,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JDialog {
                         model.addElement(v.getNome());
 
                         if (v == avaliacao.getVariavel()) {
-                            itemSelecionado = indexP;
+                            itemSelecionado = indexAD;
                         }
 
                         indexAD++;
@@ -238,7 +247,7 @@ public class JanelaDesenvolvimentoAvaliacao extends javax.swing.JDialog {
         return ok;
     }
 
-    public void SelecionarTipoVariavel() {
+    public final void SelecionarTipoVariavel() {
         rbtPadrao.setSelected(tipoVariavel == 1);
         rbtAutoDefinida.setSelected(tipoVariavel == 2);
 
