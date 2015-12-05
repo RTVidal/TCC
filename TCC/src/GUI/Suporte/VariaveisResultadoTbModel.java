@@ -23,6 +23,7 @@ public class VariaveisResultadoTbModel extends AbstractTableModel{
     private static final int COL_VALORINICIAL = 2;
     private static final int COL_VALORFINAL = 3;
     private static final int COL_TIPO = 4;
+    private static final int COL_DETALHE = 5;
 
     private final ArrayList<Variavel> variaveis;
 
@@ -40,7 +41,7 @@ public class VariaveisResultadoTbModel extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -57,6 +58,12 @@ public class VariaveisResultadoTbModel extends AbstractTableModel{
         }
         if (column == COL_TIPO) {
             return idioma.Valor("lblTipo");
+        }
+        if (column == COL_TIPO) {
+            return idioma.Valor("lblTipo");
+        }
+        if (column == COL_DETALHE) {
+            return idioma.Valor("lblDetalhe");
         }
         return ""; //Nunca deve ocorrer
     }
@@ -83,6 +90,12 @@ public class VariaveisResultadoTbModel extends AbstractTableModel{
             } else {
                 return idioma.Valor("lblPadrao");
             }
+        }
+        if (column == COL_DETALHE) {
+            if ((variaveis.get(rowIndex).isAutodefinida()) && (variaveis.get(rowIndex).getValor() == 1))
+            {
+                return idioma.Valor("msgRespostaJogador");
+            }            
         }
         return "";
 

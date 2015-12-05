@@ -173,7 +173,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes = new JPanel();
 
         painelBotoes.setOpaque(false);
-        painelBotoes.setSize(500, 100);
+        painelBotoes.setSize(700, 150);
         painelBotoes.setLocation(100, 600);
 
         painelPrincipal.add(painelBotoes);
@@ -483,7 +483,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         btn = new JButton(idioma.Valor("btnContinuar"));
         btn.setLocation(0, 0);
-        btn.setSize(20, 30);
+        btn.setFont(new Font("Verdana", Font.CENTER_BASELINE, 12));
         btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
             caminho.setEscolha(idioma.Valor("btnContinuar"));
@@ -513,7 +513,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         });
 
         btn.setLocation(0, 0);
-        btn.setSize(20, 30);
+        btn.setFont(new Font("Verdana", Font.CENTER_BASELINE, 12));
 
         painelBotoes.add(btn);
         btn.repaint();
@@ -528,7 +528,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         });
 
         btn.setLocation(0, 0);
-        btn.setSize(20, 30);
+        btn.setFont(new Font("Verdana", Font.CENTER_BASELINE, 12));
 
         painelBotoes.add(btn);
         btn.repaint();
@@ -546,7 +546,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             });
 
             btn.setLocation(0, 0);
-            btn.setSize(20, 30);
+            btn.setFont(new Font("Verdana", Font.CENTER_BASELINE, 12));
 
             painelBotoes.add(btn);
             btn.repaint();
@@ -610,7 +610,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
             });
 
             btn.setLocation(0, 0);
-            btn.setSize(20, 30);
+            btn.setFont(new Font("Verdana", Font.CENTER_BASELINE, 12));
 
             painelBotoes.add(btn);
             btn.repaint();
@@ -633,8 +633,8 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
         for (SaidaOpcional s : saidas) {
             btn = new JButton(s.getNome());
+            btn.setFont(new Font("Verdana", Font.CENTER_BASELINE, 11));
             btn.setLocation(0, 0);
-            btn.setSize(20, 30);
             btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
                 caminho.setEscolha(s.getNome());
@@ -653,16 +653,18 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
         painelBotoes.removeAll();
         painelBotoes.revalidate();
 
-        painelBotoes.setBackground(new Color(223, 114, 32, 150));
-        painelBotoes.setOpaque(true);
+        //painelBotoes.setBackground(new Color(223, 114, 32, 150));
+        //painelBotoes.setOpaque(true);
 
         jslSaidaNumerica = new JSlider();
 
         lblValorSelecionado = new JLabel();
         lblValorSelecionado.setFont(new Font("Verdana", Font.BOLD, 16));
         lblValorSelecionado.setForeground(Color.BLUE);
+        lblValorSelecionado.setBackground(new Color(223, 114, 32, 150));
+        lblValorSelecionado.setOpaque(true);
 
-        jslSaidaNumerica.setOpaque(false);
+        jslSaidaNumerica.setOpaque(true);
         jslSaidaNumerica.setSize(1000, 200);
         //jslSaidaNumerica.setLocation(100, 600);
         //lblValorSelecionado.setLocation(225, 700);
@@ -757,7 +759,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
                 btn = new JButton(idioma.Valor("btnPrecisoPensarMelhor"));
                 btn.setLocation(0, 0);
-                btn.setSize(20, 30);
+                btn.setFont(new Font("Verdana", Font.CENTER_BASELINE, 12));
                 btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
                     //Carrega novamente a situação
@@ -768,7 +770,7 @@ public final class JanelaExecucaoPartida extends javax.swing.JFrame {
 
             btn = new JButton(idioma.Valor("btnContinuar"));
             btn.setLocation(0, 0);
-            btn.setSize(20, 30);
+            btn.setFont(new Font("Verdana", Font.CENTER_BASELINE, 12));
             btn.addActionListener((java.awt.event.ActionEvent e) -> {
 
                 ExecutarAcoesSaida(saida);
